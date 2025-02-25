@@ -34,6 +34,10 @@ const WorkExperience = ({ nextStep, prevStep }) => {
           <input type="checkbox" className="w-full p-2 border rounded-md" placeholder="Enter Ending date" />
           <label className="block text-gray-700">I currently working here </label>
         </div>
+        <div className="mb-4">
+          <label className="block text-gray-700">Summary</label>
+          <textarea type="text" className="w-full p-2 border rounded-md" placeholder="Enter your job discription" rows={4} />
+        </div>
         <div className="flex justify-between">
           <button type="button" onClick={prevStep} className="bg-gray-500 text-white px-4 py-2 rounded-md hover:bg-gray-600">
             Previous
