@@ -4,7 +4,7 @@ import footerbg from '../assets/footerBg.png'
 const Footer = () => {
   return (
     <>
-      <footer style={{ backgroundImage: `url(${footerbg})` }}className="bg-no-repeat w-full bg-cover bg-top h-[28rem] ">
+      <footer style={{ backgroundImage: `url(${footerbg})` }}className="bg-no-repeat w-full bg-cover bg-top h-[28rem]">
         <div className="pt-44">
           <div className='flex justify-around pb-4'>
             {/* <section>
