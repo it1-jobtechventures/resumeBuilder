@@ -4,7 +4,7 @@ const ReferanceInfo = ({ nextStep, prevStep }) => {
   return (
     <>
       <div className="p-6">
-        <h2 className="text-2xl font-bold mb-4">Step 6: References</h2>
+        <h2 className="text-2xl font-bold mb-4">References</h2>
         <form>
           <div className="mb-4">
             <label className="block text-gray-700">Reference Name</label>
@@ -22,7 +22,7 @@ const ReferanceInfo = ({ nextStep, prevStep }) => {
             <button type="button" onClick={prevStep} className="bg-gray-500 text-white px-4 py-2 rounded-md hover:bg-gray-600">
               Previous
             </button>
-            <button type="button" onClick={nextStep} className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600">
+            <button type="button" onClick={nextStep} className="bg-[linear-gradient(90deg,_hsla(133,_68%,_60%,_1)_0%,_hsla(205,_97%,_42%,_1)_100%)] cursor-pointer text-white px-4 py-2 rounded-md hover:bg-[linear-gradient(90deg,_hsla(205,_97%,_42%,_1)_0%,_hsla(133,_68%,_60%,_1)_100%)]">
               Next
             </button>
           </div>

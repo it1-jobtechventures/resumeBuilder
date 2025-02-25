@@ -3,8 +3,8 @@ import React from 'react'
 const GeneralInfo = ({nextStep}) => {
   return (
     <>
-      <div className="w-full max-w-lg mx-auto p-6 bg-white shadow-lg rounded-lg">
-        <h2 className="text-2xl font-bold mb-4">Step 1: Basic Information</h2>
+      <div className="w-full mx-auto p-6 rounded-lg">
+        <h2 className="text-2xl font-bold mb-4">Basic Information</h2>
         <form>
           <div className="mb-4">
             <label className="block text-gray-700">Full Name</label>
@@ -32,7 +32,7 @@ const GeneralInfo = ({nextStep}) => {
             </select>
           </div>
           <div className="flex justify-end">
-            <button type="button" className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600" onClick={nextStep}>
+            <button type="button" onClick={nextStep} className="bg-[linear-gradient(90deg,_hsla(133,_68%,_60%,_1)_0%,_hsla(205,_97%,_42%,_1)_100%)] cursor-pointer text-white px-4 py-2 rounded-md hover:bg-[linear-gradient(90deg,_hsla(205,_97%,_42%,_1)_0%,_hsla(133,_68%,_60%,_1)_100%)]">
               Next
             </button>
           </div>

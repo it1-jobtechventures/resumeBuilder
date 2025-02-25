@@ -5,6 +5,7 @@ import WorkExperience from '../components/WorkExperience'
 import SkillsInfo from '../components/SkillsInfo'
 import AddSection from '../components/AddSection'
 import ReferanceInfo from '../components/ReferanceInfo'
+import { Link } from 'react-router-dom'
 
 const ResumePage = () => {
   const steps = [
@@ -28,8 +29,11 @@ const ResumePage = () => {
   return (
     <div>
       <div className="flex min-h-screen">
-      <div className="w-1/4 bg-gray-100 p-4 border-r">
-        <h2 className="text-xl font-bold mb-4">Resume Steps</h2>
+      <div className="w-56 bg-gray-100 p-4 border-r hidden lg:block">
+      <div className='flex flex-col justify-center items-center mb-10'>
+        <Link to={'/'}><img src='/resumeRingerLogo.png' alt='logo' className='h-20 text-center' /></Link>
+      </div>
+        
         <ul>
           {steps.map((step, index) => (
             <li key={step.id} className={`p-2 cursor-pointer rounded-md ${currentStep === index ? 'bg-blue-500 text-white' : 'hover:bg-gray-200'}`}onClick={() => setCurrentStep(index)}>
