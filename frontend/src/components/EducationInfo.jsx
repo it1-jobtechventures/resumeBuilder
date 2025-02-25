@@ -29,6 +29,10 @@ const EducationInfo = ({ nextStep, prevStep }) => {
           <label className="block text-gray-700">Graduation Date (or expected Graduation Date)</label>
           <input type="date" className="w-full p-2 border rounded-md" placeholder="Enter Staring data" />
         </div>
+        <div className="mb-4">
+          <label className="block text-gray-700">CGPA/Percentage</label>
+          <input type="Number" className="w-full p-2 border rounded-md" placeholder="Enter Your score" />
+        </div>
         {/* <div className="mb-4">
           <label className="block text-gray-700">Ending Date</label>
           <input type="date" className="w-full p-2 border rounded-md" placeholder="Enter Ending date" />
