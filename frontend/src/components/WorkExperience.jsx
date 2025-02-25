@@ -15,8 +15,24 @@ const WorkExperience = ({ nextStep, prevStep }) => {
           <input type="text" className="w-full p-2 border rounded-md" placeholder="Enter company name" />
         </div>
         <div className="mb-4">
+          <label className="block text-gray-700">Location</label>
+          <input type="text" className="w-full p-2 border rounded-md" placeholder="Enter years of Location" />
+        </div>
+        <div className="mb-4">
           <label className="block text-gray-700">Years of Experience</label>
           <input type="text" className="w-full p-2 border rounded-md" placeholder="Enter years of experience" />
+        </div>
+        <div className="mb-4">
+          <label className="block text-gray-700">Starting Date</label>
+          <input type="date" className="w-full p-2 border rounded-md" placeholder="Enter Staring data" />
+        </div>
+        <div className="mb-4">
+          <label className="block text-gray-700">Ending Date</label>
+          <input type="date" className="w-full p-2 border rounded-md" placeholder="Enter Ending date" />
+        </div>
+        <div className="mb-4 ">
+          <input type="checkbox" className="w-full p-2 border rounded-md" placeholder="Enter Ending date" />
+          <label className="block text-gray-700">I currently working here </label>
         </div>
         <div className="flex justify-between">
           <button type="button" onClick={prevStep} className="bg-gray-500 text-white px-4 py-2 rounded-md hover:bg-gray-600">
