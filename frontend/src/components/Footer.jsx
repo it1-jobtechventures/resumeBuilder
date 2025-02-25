@@ -41,7 +41,7 @@ const Footer = () => {
           </div>
           <div className='border-t w-full p-1 text-pink-950'></div>
           <p className='text-center font-bold '>© 2025, Achal Sawant. All rights reserved.</p>
-      </div>
+        </div>
       </footer>
     </>
   )

@@ -19,16 +19,10 @@ const WorkExperience = ({ nextStep, prevStep }) => {
           <input type="text" className="w-full p-2 border rounded-md" placeholder="Enter years of experience" />
         </div>
         <div className="flex justify-between">
-          <button 
-            type="button" 
-            onClick={prevStep} 
-            className="bg-gray-500 text-white px-4 py-2 rounded-md hover:bg-gray-600">
+          <button type="button" onClick={prevStep} className="bg-gray-500 text-white px-4 py-2 rounded-md hover:bg-gray-600">
             Previous
           </button>
-          <button 
-            type="button" 
-            onClick={nextStep} 
-            className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600">
+          <button type="button" onClick={nextStep} className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600">
             Next
           </button>
         </div>

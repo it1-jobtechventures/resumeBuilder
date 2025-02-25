@@ -27,30 +27,17 @@ const ResumePage = () => {
   }; 
   return (
     <div>
-        {/* <GeneralInfo/>
-        <AdditionalInfo/>
-        <WorkExperience/>
-        <SkillsInfo/>
-        <AddSection/>
-        <ReferanceInfo/> */}
-            <div className="flex min-h-screen">
-      {/* Sidebar */}
+      <div className="flex min-h-screen">
       <div className="w-1/4 bg-gray-100 p-4 border-r">
         <h2 className="text-xl font-bold mb-4">Resume Steps</h2>
         <ul>
           {steps.map((step, index) => (
-            <li 
-              key={step.id} 
-              className={`p-2 cursor-pointer rounded-md ${currentStep === index ? 'bg-blue-500 text-white' : 'hover:bg-gray-200'}`}
-              onClick={() => setCurrentStep(index)}
-            >
+            <li key={step.id} className={`p-2 cursor-pointer rounded-md ${currentStep === index ? 'bg-blue-500 text-white' : 'hover:bg-gray-200'}`}onClick={() => setCurrentStep(index)}>
               {step.title}
             </li>
           ))}
         </ul>
       </div>
-      
-      {/* Main Content */}
       <div className="w-3/4 p-6">
         <StepComponent nextStep={nextStep} prevStep={prevStep} />
       </div>

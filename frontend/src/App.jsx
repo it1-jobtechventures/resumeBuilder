@@ -4,7 +4,6 @@ import HomePage from './pages/HomePage'
 import Login from './components/Login'
 import ResumePage from './pages/ResumePAge'
 
-
 function App() {
  
   return (
