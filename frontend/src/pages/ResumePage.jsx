@@ -44,7 +44,7 @@ const ResumePage = () => {
           ))}
         </ul>
       </div>
-      <div className="w-3/4 p-6">
+      <div className="lg:w-3/4 w-full ">
         <StepComponent nextStep={nextStep} prevStep={prevStep} />
       </div>
     </div>
