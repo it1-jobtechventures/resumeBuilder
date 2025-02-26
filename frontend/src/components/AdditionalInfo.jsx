@@ -7,10 +7,6 @@ const AdditionalInfo = ({ nextStep, prevStep }) => {
         <h2 className="text-2xl font-bold mb-4">Additional Information</h2>
         <form>
           <div className="mb-4">
-            <label className="block text-gray-700">Address</label>
-            <input type="text" className="w-full p-2 border rounded-md" placeholder="Enter your address" />
-          </div>
-          <div className="mb-4">
             <label className="block text-gray-700">LinkedIn Profile</label>
             <input type="url" className="w-full p-2 border rounded-md" placeholder="Enter LinkedIn profile URL" />
           </div>
