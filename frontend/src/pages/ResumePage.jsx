@@ -6,12 +6,15 @@ import SkillsInfo from '../components/SkillsInfo'
 import AddSection from '../components/AddSection'
 import ReferanceInfo from '../components/ReferanceInfo'
 import { Link } from 'react-router-dom'
+import EducationInfo from '../components/EducationInfo'
+// import EducationImdo from '../components/EducationInfo'
 
 const ResumePage = () => {
   const steps = [
     { id: 1, title: 'General Information', component: GeneralInfo },
-    { id: 2, title: 'Additional Information', component: AdditionalInfo },
-    { id: 3, title: 'Work Experience', component: WorkExperience },
+    // { id: 2, title: 'Additional Information', component: AdditionalInfo },
+    { id: 2, title: 'Work Experience', component: WorkExperience },
+    { id: 3, title: 'Education', component:  EducationInfo},
     { id: 4, title: 'Skills', component: SkillsInfo },
     { id: 5, title: 'Additional Section', component: AddSection },
     { id: 6, title: 'References', component: ReferanceInfo }
@@ -29,14 +32,13 @@ const ResumePage = () => {
   return (
     <div>
       <div className="flex min-h-screen">
-      <div className="w-56 bg-gray-100 p-4 border-r hidden lg:block">
+      <div className="w-56  p-4 border-r hidden lg:block">
       <div className='flex flex-col justify-center items-center mb-10'>
         <Link to={'/'}><img src='/resumeRingerLogo.png' alt='logo' className='h-20 text-center' /></Link>
       </div>
-        
         <ul>
           {steps.map((step, index) => (
-            <li key={step.id} className={`p-2 cursor-pointer rounded-md ${currentStep === index ? 'bg-blue-500 text-white' : 'hover:bg-gray-200'}`}onClick={() => setCurrentStep(index)}>
+            <li key={step.id} className={`p-2 mt-2 font-bold cursor-pointer rounded-md ${currentStep === index ? 'bg-[linear-gradient(90deg,_hsla(133,_68%,_60%,_1)_0%,_hsla(205,_97%,_42%,_1)_100%)] text-white' : 'hover:bg-gray-200'}`}onClick={() => setCurrentStep(index)}>
               {step.title}
             </li>
           ))}
