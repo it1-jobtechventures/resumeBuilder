@@ -4,7 +4,7 @@ const GeneralInfo = ({nextStep}) => {
   return (
     <>
     <div className='flex justify-center items-center min-h-screen p-4'>
-    <div className="w-full  rounded-lg ">
+      <div className="w-full  rounded-lg ">
         <h2 className="text-2xl p-3 text-white text-center font-bold mb-1 bg-[linear-gradient(90deg,_hsla(133,_68%,_60%,_1)_0%,_hsla(205,_97%,_42%,_1)_100%)]">Basic Information</h2>
         <div className='flex  justify-center'>
         <form className='p-6  '>
@@ -28,7 +28,7 @@ const GeneralInfo = ({nextStep}) => {
               <input type="tel" className="w-full p-2 border rounded-md" placeholder="Enter your phone number" required/>
             </div>
           </div>
-          <div className='flex gap-2 lg:flex-row flex-col'>
+          <div className=''>
             <div className="mb-4">
               <label className="block text-[#4b164c] font-bold">City</label>
               <input type="text" className="w-full p-2 border rounded-md" placeholder="Enter your City" />
