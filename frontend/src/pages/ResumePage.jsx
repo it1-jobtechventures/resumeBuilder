@@ -1,22 +1,19 @@
 import React, { useState } from 'react'
 import GeneralInfo from '../components/GeneralInfo'
-import AdditionalInfo from '../components/AdditionalInfo'
 import WorkExperience from '../components/WorkExperience'
 import SkillsInfo from '../components/SkillsInfo'
-import AddSection from '../components/AddSection'
+import ExtraSection from '../components/ExtraSection'
 import ReferanceInfo from '../components/ReferanceInfo'
 import { Link } from 'react-router-dom'
 import EducationInfo from '../components/EducationInfo'
-// import EducationImdo from '../components/EducationInfo'
 
 const ResumePage = () => {
   const steps = [
     { id: 1, title: 'General Information', component: GeneralInfo },
-    // { id: 2, title: 'Additional Information', component: AdditionalInfo },
     { id: 2, title: 'Work Experience', component: WorkExperience },
     { id: 3, title: 'Education', component:  EducationInfo},
     { id: 4, title: 'Skills', component: SkillsInfo },
-    { id: 5, title: 'Additional Section', component: AddSection },
+    { id: 5, title: 'Additional Section', component: ExtraSection },
     { id: 6, title: 'References', component: ReferanceInfo }
   ]; 
   const [currentStep, setCurrentStep] = useState(0);
@@ -29,6 +26,7 @@ const ResumePage = () => {
   const prevStep = () => {
     if (currentStep > 0) setCurrentStep(currentStep - 1);
   }; 
+
   return (
     <div>
       <div className="flex min-h-screen">
