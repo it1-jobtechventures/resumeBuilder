@@ -82,9 +82,9 @@ const EducationInfo = ({ nextStep, prevStep }) => {
   };
 
   return (
-    <div className="p-6">
-      <h2 className="text-2xl font-bold mb-4">Education</h2>
-      <form>
+    <div >
+      <h2 className="text-2xl text-white h-10 text-center font-bold mb-4 bg-[linear-gradient(90deg,_hsla(133,_68%,_60%,_1)_0%,_hsla(205,_97%,_42%,_1)_100%)]">Education</h2>
+      <form className="p-6">
         {educationList.map((education, index) => (
           <div key={index} className="border p-4 rounded-md mb-6">
             <h3 className="text-lg font-semibold mb-2">Education {index + 1}</h3>

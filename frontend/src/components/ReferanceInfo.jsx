@@ -3,9 +3,9 @@ import React from 'react'
 const ReferanceInfo = ({ nextStep, prevStep }) => {
   return (
     <>
-      <div className="p-6">
-        <h2 className="text-2xl font-bold mb-4">References</h2>
-        <form>
+      <div >
+        <h2 className="text-2xl text-white h-10 text-center font-bold mb-4 bg-[linear-gradient(90deg,_hsla(133,_68%,_60%,_1)_0%,_hsla(205,_97%,_42%,_1)_100%)]">References</h2>
+        <form className="p-6">
           <div className="mb-4">
             <label className="block text-gray-700">Reference Name</label>
             <input type="text" className="w-full p-2 border rounded-md" placeholder="Enter reference name" />
