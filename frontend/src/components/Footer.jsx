@@ -4,9 +4,9 @@ import footerbg from '../assets/footerBg.png'
 const Footer = () => {
   return (
     <>
-      <footer style={{ backgroundImage: `url(${footerbg})` }}className="bg-no-repeat w-full bg-cover bg-top h-[28rem]">
-        <div className="pt-44">
-          <div className='flex justify-around pb-4'>
+      <footer style={{ backgroundImage: `url(${footerbg})` }}className="bg-no-repeat w-full bg-cover bg-top md:h-[34rem] pb-5">
+        <div className="md:pt-44 pt-80">
+          <div className='grid md:grid-cols-3 pb-4 md:p-10 gap-5 text-center'>
             {/* <section>
               <img src='/resumeRingerLogo.png'  alt='logo' className='h-10'/>
             </section> */}
