@@ -18,14 +18,24 @@ const GeneralInfo = ({nextStep}) => {
               <input type="text" className="w-full p-2 border rounded-md" placeholder="Sharma" required/>
             </div>
           </div>
-          <div className='flex gap-2 flex-col lg:flex-row'>
+          <div>
             <div className="mb-4">
               <label className="block text-[#4b164c] font-bold">Email<span className='text-red-700 pl-0.5'>*</span></label>
               <input type="email" className="w-full p-2 border rounded-md" placeholder="rohit@gmail.com" required/>
             </div>
             <div className="mb-4">
+              <label className="block text-[#4b164c] font-bold">DOB</label>
+              <input type="date" className="w-full p-2 border rounded-md" placeholder="Enter your DOB" />
+            </div>
+          </div>
+          <div className='flex gap-2 flex-col lg:flex-row'>
+            <div className="mb-4">
               <label className="block text-[#4b164c] font-bold">Phone Number<span className='text-red-700 pl-0.5'>*</span></label>
               <input type="tel" className="w-full p-2 border rounded-md" placeholder="Enter your phone number" required/>
+            </div>
+            <div className="mb-4">
+              <label className="block text-[#4b164c] font-bold">Phone Number</label>
+              <input type="tel" className="w-full p-2 border rounded-md" placeholder="Enter your optional phone number" />
             </div>
           </div>
           <div className=''>
@@ -43,6 +53,14 @@ const GeneralInfo = ({nextStep}) => {
                 <input type="Number" className="w-full p-2 border rounded-md" placeholder="Enter your Pincode" />
               </div>
             </div>
+          </div>
+          <div className="mb-4">
+            <label className="block text-[#4b164c] font-bold">Address</label>
+            <textarea type="text" className="w-full p-2 border rounded-md" placeholder="Enter your full address" rows={4} />
+          </div>
+          <div className="mb-4">
+            <label className="block text-[#4b164c] font-bold">Total Experience</label>
+            <input type="number" className="w-full p-2 border rounded-md" placeholder="Enter your Total Experience"  />
           </div>
           <div className='flex gap-2 lg:flex-row flex-col'>
             <div className="mb-4">
