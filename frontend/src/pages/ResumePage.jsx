@@ -6,6 +6,7 @@ import ExtraSection from '../components/ExtraSection'
 import ReferanceInfo from '../components/ReferanceInfo'
 import { Link } from 'react-router-dom'
 import EducationInfo from '../components/EducationInfo'
+import InternshipInfo from '../components/InternshipInfo'
 
 const ResumePage = () => {
   const steps = [
@@ -13,8 +14,9 @@ const ResumePage = () => {
     { id: 2, title: 'Work Experience', component: WorkExperience },
     { id: 3, title: 'Education', component:  EducationInfo},
     { id: 4, title: 'Skills', component: SkillsInfo },
-    { id: 5, title: 'Additional Section', component: ExtraSection },
-    { id: 6, title: 'References', component: ReferanceInfo }
+    { id: 5, title: 'Internships', component:InternshipInfo},
+    { id: 6, title: 'Additional Section', component: ExtraSection },
+    { id: 7, title: 'References', component: ReferanceInfo }
   ]; 
   const [currentStep, setCurrentStep] = useState(0);
   const StepComponent = steps[currentStep].component;
