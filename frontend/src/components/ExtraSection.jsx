@@ -43,6 +43,7 @@ import AccomplishmentSection from './AccomplishmentSection';
 import AdditionalInfoSection from './AdditionalInfoSection';
 import VolunteeringSection from './VolunteeringSection';
 import SoftwareSection from './SoftwareSection';
+import SocialMediaSection from './SocialMediaSection';
 
 const ExtraSection = ({ nextStep, prevStep }) => {
   const [selectedSections, setSelectedSections] = useState([]);
@@ -53,6 +54,7 @@ const ExtraSection = ({ nextStep, prevStep }) => {
     "Hobbies",
     "Languages",
     "Accomplishments",
+    "Social Media",
     "Additional Information",
     "Software",
     "Volunteering",
@@ -83,6 +85,7 @@ const ExtraSection = ({ nextStep, prevStep }) => {
       {selectedSections.includes("Hobbies") && <HobbiesSection />}
       {selectedSections.includes("Languages") && <LanguagesSection />}
       {selectedSections.includes("Accomplishments") && <AccomplishmentSection />}
+      {selectedSections.includes("Social Media") && <SocialMediaSection/>}
       {selectedSections.includes("Additional Information") && <AdditionalInfoSection />}
       {selectedSections.includes("Software") && <SoftwareSection />}
       {selectedSections.includes("Volunteering") && <VolunteeringSection />}
