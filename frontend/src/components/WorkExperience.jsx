@@ -60,8 +60,10 @@ const WorkExperience = ({ nextStep, prevStep }) => {
     {
       company: '',
       location: '',
+      industry: '',
+      totalCompanyExperience: '',
       roles: [
-        { title: '', startDate: '', endDate: '', currentlyWorking: false, description: '' }
+        { title: '', startDate: '', endDate: '', currentlyWorking: false, description: '',ctc: '', noticePeriod: '',teamSize: '',jobType: 'Permanent',jobMode: 'WFH'}
       ]
     }
   ]);
@@ -98,7 +100,12 @@ const WorkExperience = ({ nextStep, prevStep }) => {
       startDate: '',
       endDate: '',
       currentlyWorking: false,
-      description: ''
+      description: '',
+      ctc: '', 
+      noticePeriod: '',
+      teamSize: '',
+      jobType: 'Permanent',
+      jobMode: 'WFH'
     });
     setWorkExperience(updatedExperience);
   };
@@ -110,7 +117,9 @@ const WorkExperience = ({ nextStep, prevStep }) => {
       {
         company: '',
         location: '',
-        roles: [{ title: '', startDate: '', endDate: '', currentlyWorking: false, description: '' }]
+        industry: '',
+        totalCompanyExperience: '',
+        roles: [{ title: '', startDate: '', endDate: '', currentlyWorking: false, description: '' ,ctc: '', noticePeriod: '',teamSize: '',jobType: 'Permanent',jobMode: 'WFH'}]
       }
     ]);
   };
@@ -131,12 +140,47 @@ const WorkExperience = ({ nextStep, prevStep }) => {
                 <label className="block text-gray-700">Location</label>
                 <input type="text" name="location" value={company.location} onChange={(e) => handleCompanyChange(companyIndex, e)} className="w-full p-2 border rounded-md" placeholder="Enter company location"/>
               </div>
+              <div className="mb-4">
+                <label className="block text-gray-700">Company Industry</label>
+                <input type="text" name="industry" value={company.industry} onChange={(e) => handleCompanyChange(companyIndex, e)} className="w-full p-2 border rounded-md" placeholder="Enter company Industry"/>
+              </div>
+              <div className="mb-4">
+                <label className="block text-gray-700">Company Experience</label>
+                <input type="Number" name="totalCompanyExperience" value={company.totalCompanyExperience} onChange={(e) => handleCompanyChange(companyIndex, e)} className="w-full p-2 border rounded-md" placeholder="total Company Experience In Year"/>
+              </div>
               {company.roles.map((role, roleIndex) => (
                 <div key={roleIndex} className="border-l-4 border-blue-500 p-4 mb-4">
                   <h4 className="text-md font-semibold mb-2">Position {roleIndex + 1}</h4>
                   <div className="mb-4">
                     <label className="block text-gray-700">Job Title</label>
                     <input type="text" name="title" value={role.title} onChange={(e) => handleRoleChange(companyIndex, roleIndex, e)} className="w-full p-2 border rounded-md" placeholder="Enter your job title"/>
+                  </div>
+                  <div className="mb-4">
+                    <label className="block text-gray-700">CTC</label>
+                    <input type="number" name="ctc" value={role.ctc} onChange={(e) => handleRoleChange(companyIndex, roleIndex, e)} className="w-full p-2 border rounded-md" placeholder="Enter your Cuurent ctc in lpa"/>
+                  </div>
+                  <div className="mb-4">
+                    <label className="block text-gray-700">Notice period</label>
+                    <input type="text" name="noticePeriod" value={role.noticePeriod} onChange={(e) => handleRoleChange(companyIndex, roleIndex, e)} className="w-full p-2 border rounded-md" placeholder="Enter your notice period"/>
+                  </div>
+                  <div className="mb-4">
+                    <label className="block text-gray-700">Team size</label>
+                    <input type="number" name="teamSize" value={role.teamSize} onChange={(e) => handleRoleChange(companyIndex, roleIndex, e)} className="w-full p-2 border rounded-md" placeholder="Enter your job title"/>
+                  </div>
+                  <div className="mb-4">
+                    <label className="block text-gray-700">Job Type</label>
+                    <select name="jobType" value={role.jobType} onChange={(e) => handleRoleChange(companyIndex, e)} className="w-full p-2 border rounded-md mb-2">
+                      <option value="Permanent">Permanent</option>
+                      <option value="Contract">Contract</option>
+                    </select>
+                  </div>
+                  <div className="mb-4">
+                    <label className="block text-gray-700">Job Mode</label>
+                    <select name="jobMode" value={role.jobMode} onChange={(e) => handleRoleChange(companyIndex, e)} className="w-full p-2 border rounded-md mb-2">
+                      <option value="WFH">Work From Home</option>
+                      <option value="WFO">Work From Office</option>
+                      <option value="Hybrid">Hybrid</option>
+                    </select>
                   </div>
                   <div className="flex gap-4">
                     <div className="mb-4 w-1/2">
@@ -181,4 +225,3 @@ const WorkExperience = ({ nextStep, prevStep }) => {
 };
 
 export default WorkExperience;
-
