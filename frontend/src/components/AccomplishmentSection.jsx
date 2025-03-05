@@ -1,7 +1,16 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 const AccomplishmentsSection = () => {
-  const [accomplishments, setAccomplishments] = useState(['']);
+  const [accomplishments, setAccomplishments] = useState(() => {
+    // Retrieve from local storage or initialize with a single empty entry
+    const savedAccomplishments = localStorage.getItem('accomplishments');
+    return savedAccomplishments ? JSON.parse(savedAccomplishments) : [''];
+  });
+
+  // Save to local storage whenever accomplishments change
+  useEffect(() => {
+    localStorage.setItem('accomplishments', JSON.stringify(accomplishments));
+  }, [accomplishments]);
 
   const handleAccomplishmentChange = (index, value) => {
     const updatedAccomplishments = [...accomplishments];
@@ -31,7 +40,7 @@ const AccomplishmentsSection = () => {
           )}
         </div>
       ))}
-      <button type="button" onClick={addAccomplishment} className="mt-2 bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600">
+      <button type="button"onClick={addAccomplishment} className="mt-2 bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600">
         + Add Another Accomplishment
       </button>
     </div>
