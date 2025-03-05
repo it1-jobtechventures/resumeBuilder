@@ -1,7 +1,16 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react';
 
 const CertificationSection = ({ nextStep, prevStep }) => {
-    const [certifications, setCertifications] = useState([""]);
+  const [certifications, setCertifications] = useState(() => {
+    // Retrieve from local storage or initialize with a single empty field
+    const savedCertifications = localStorage.getItem('certifications');
+    return savedCertifications ? JSON.parse(savedCertifications) : [""];
+  });
+
+  // Save to local storage whenever certifications change
+  useEffect(() => {
+    localStorage.setItem('certifications', JSON.stringify(certifications));
+  }, [certifications]);
 
   const handleAddCertification = () => {
     setCertifications([...certifications, ""]);
@@ -17,8 +26,8 @@ const CertificationSection = ({ nextStep, prevStep }) => {
     updatedCertifications[index] = value;
     setCertifications(updatedCertifications);
   };
+
   return (
-    <>
     <div className="p-6">
       <h2 className="text-2xl font-bold mb-4">Certifications</h2>
       <form>
@@ -26,7 +35,7 @@ const CertificationSection = ({ nextStep, prevStep }) => {
           <div key={index} className="mb-4 flex items-center">
             <input type="text" className="w-full p-2 border rounded-md" placeholder="Enter certification" value={certification} onChange={(e) => handleChange(index, e.target.value)}/>
             {certifications.length > 1 && (
-              <button type="button" onClick={() => handleRemoveCertification(index)} className="ml-2 text-red-500 hover:text-red-700">
+              <button  type="button"  onClick={() => handleRemoveCertification(index)}  className="ml-2 text-red-500 hover:text-red-700">
                 ✖
               </button>
             )}
@@ -36,8 +45,8 @@ const CertificationSection = ({ nextStep, prevStep }) => {
           + Add Certification
         </button>
       </form>
-    </div></>
-  )
-}
+    </div>
+  );
+};
 
-export default CertificationSection
+export default CertificationSection;
