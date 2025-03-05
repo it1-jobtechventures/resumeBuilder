@@ -1,8 +1,15 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { FaStar } from 'react-icons/fa';
 
 const SoftwareSection = () => {
-  const [softwareList, setSoftwareList] = useState([{ name: '', rating: 0 }]);
+  const [softwareList, setSoftwareList] = useState(() => {
+    const savedSoftware = localStorage.getItem('softwareInfo');
+    return savedSoftware ? JSON.parse(savedSoftware):[{ name: '', rating: 0 }];
+  });
+
+  useEffect(() => {
+    localStorage.setItem('softwareInfo' , JSON.stringify(softwareList))
+  },[softwareList])
 
   const handleSoftwareChange = (index, value) => {
     const updatedSoftware = [...softwareList];
