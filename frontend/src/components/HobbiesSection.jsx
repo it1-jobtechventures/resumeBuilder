@@ -1,7 +1,16 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react';
 
 const HobbiesSection = () => {
-  const [interests, setInterests] = useState(['']);
+  const [interests, setInterests] = useState(() => {
+    // Retrieve from local storage or initialize with a single empty field
+    const savedInterests = localStorage.getItem('interests');
+    return savedInterests ? JSON.parse(savedInterests) : [''];
+  });
+
+  // Save to local storage whenever interests change
+  useEffect(() => {
+    localStorage.setItem('interests', JSON.stringify(interests));
+  }, [interests]);
 
   const handleInterestChange = (index, value) => {
     const updatedInterests = [...interests];
@@ -17,9 +26,9 @@ const HobbiesSection = () => {
     const updatedInterests = interests.filter((_, i) => i !== index);
     setInterests(updatedInterests);
   };
+
   return (
-    <>
-      <div className="p-6">
+    <div className="p-6">
       <h2 className="text-2xl font-bold mb-4">Interests & Hobbies</h2>
       {interests.map((interest, index) => (
         <div key={index} className="mb-4 flex items-center">
@@ -35,8 +44,7 @@ const HobbiesSection = () => {
         + Add Another Interest/Hobby
       </button>
     </div>
-  </>
-  )
-}
+  );
+};
 
-export default HobbiesSection
+export default HobbiesSection;
