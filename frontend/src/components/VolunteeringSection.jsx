@@ -1,7 +1,14 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 const VolunteeringSection = () => {
-  const [volunteering, setVolunteering] = useState(['']);
+  const [volunteering, setVolunteering] = useState(() => {
+    const savedVolunteering = localStorage.getItem('volunteering');
+    return savedVolunteering ? JSON.parse(savedVolunteering) : [''];
+  });
+
+  useEffect(() => {
+    localStorage.setItem('volunteering', JSON.stringify(volunteering));
+  }, [volunteering]);
 
   const handleVolunteeringChange = (index, value) => {
     const updatedVolunteering = [...volunteering];
