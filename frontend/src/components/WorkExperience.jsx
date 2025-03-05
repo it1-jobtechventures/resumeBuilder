@@ -1,72 +1,24 @@
-// import React from 'react'
-
-// const WorkExperience = ({ nextStep, prevStep }) => {
-//   return (
-//     <>
-//     <div className="p-6">
-//       <h2 className="text-2xl font-bold mb-4">Work Experience</h2>
-//       <form>
-//         <div className="mb-4">
-//           <label className="block text-gray-700">Job Title</label>
-//           <input type="text" className="w-full p-2 border rounded-md" placeholder="Enter your job title" />
-//         </div>
-//         <div className="mb-4">
-//           <label className="block text-gray-700">Company Name</label>
-//           <input type="text" className="w-full p-2 border rounded-md" placeholder="Enter company name" />
-//         </div>
-//         <div className="mb-4">
-//           <label className="block text-gray-700">Location</label>
-//           <input type="text" className="w-full p-2 border rounded-md" placeholder="Enter years of Location" />
-//         </div>
-//         <div className="mb-4">
-//           <label className="block text-gray-700">Years of Experience</label>
-//           <input type="text" className="w-full p-2 border rounded-md" placeholder="Enter years of experience" />
-//         </div>
-//         <div className="mb-4">
-//           <label className="block text-gray-700">Starting Date</label>
-//           <input type="date" className="w-full p-2 border rounded-md" placeholder="Enter Staring data" />
-//         </div>
-//         <div className="mb-4">
-//           <label className="block text-gray-700">Ending Date</label>
-//           <input type="date" className="w-full p-2 border rounded-md" placeholder="Enter Ending date" />
-//         </div>
-//         <div className="mb-4 ">
-//           <input type="checkbox" className="w-full p-2 border rounded-md" placeholder="Enter Ending date" />
-//           <label className="block text-gray-700">I currently working here </label>
-//         </div>
-//         <div className="mb-4">
-//           <label className="block text-gray-700">Summary</label>
-//           <textarea type="text" className="w-full p-2 border rounded-md" placeholder="Enter your job discription" rows={4} />
-//         </div>
-//         <div className="flex justify-between">
-//           <button type="button" onClick={prevStep} className="bg-gray-500 text-white px-4 py-2 rounded-md hover:bg-gray-600">
-//             Previous
-//           </button>
-//           <button type="button" onClick={nextStep} className="bg-[linear-gradient(90deg,_hsla(133,_68%,_60%,_1)_0%,_hsla(205,_97%,_42%,_1)_100%)] cursor-pointer text-white px-4 py-2 rounded-md hover:bg-[linear-gradient(90deg,_hsla(205,_97%,_42%,_1)_0%,_hsla(133,_68%,_60%,_1)_100%)]">
-//             Next
-//           </button>
-//         </div>
-//       </form>
-//     </div>
-//     </>
-//   )
-// }
-
-// export default WorkExperience
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 
 const WorkExperience = ({ nextStep, prevStep }) => {
-  const [workExperience, setWorkExperience] = useState([
-    {
-      company: '',
-      location: '',
-      industry: '',
-      totalCompanyExperience: '',
-      roles: [
-        { title: '', startDate: '', endDate: '', currentlyWorking: false, description: '',ctc: '', noticePeriod: '',teamSize: '',jobType: 'Permanent',jobMode: 'WFH'}
-      ]
-    }
-  ]);
+  const [workExperience, setWorkExperience] = useState(() => {
+    const savedData = localStorage.getItem('workExperience');
+    return savedData ? JSON.parse(savedData):[
+      {
+        company: '',
+        location: '',
+        industry: '',
+        totalCompanyExperience: '',
+        roles: [
+          { title: '', startDate: '', endDate: '', currentlyWorking: false, description: '',ctc: '', noticePeriod: '',teamSize: '',jobType: 'Permanent',jobMode: 'WFH'}
+        ]
+      }
+    ]
+  });
+
+  useEffect(() => {
+    localStorage.setItem('workExperience' ,JSON.stringify(workExperience))
+  },[workExperience])
 
   // Handle input changes
   const handleCompanyChange = (index, event) => {
@@ -124,10 +76,21 @@ const WorkExperience = ({ nextStep, prevStep }) => {
     ]);
   };
 
+  const removeCompany = (index) => {
+    const updatedExperience = workExperience.filter((_, i) => i !== index);
+    setWorkExperience(updatedExperience);
+  };
+
+  const removeRole = (companyIndex, roleIndex) => {
+    const updatedExperience = [...workExperience];
+    updatedExperience[companyIndex].roles.splice(roleIndex, 1);
+    setWorkExperience(updatedExperience);
+  };
+
   return (
     <>
-      <div className="">
-        <h2 className="text-2xl font-bold text-center h-10 mb-4 bg-[linear-gradient(90deg,_hsla(133,_68%,_60%,_1)_0%,_hsla(205,_97%,_42%,_1)_100%)] text-white">Work Experience</h2>
+      <div className="p-6 bg-white shadow-lg rounded-lg">
+        <h2 className="text-2xl font-bold text-center bg-gradient-to-r from-green-500 to-blue-500 text-white p-3 rounded-md mb-4">Work Experience</h2>
         <form className='p-6'>
           {workExperience.map((company, companyIndex) => (
             <div key={companyIndex} className="border p-4 rounded-md mb-6">
@@ -148,6 +111,9 @@ const WorkExperience = ({ nextStep, prevStep }) => {
                 <label className="block text-gray-700">Company Experience</label>
                 <input type="Number" name="totalCompanyExperience" value={company.totalCompanyExperience} onChange={(e) => handleCompanyChange(companyIndex, e)} className="w-full p-2 border rounded-md" placeholder="total Company Experience In Year"/>
               </div>
+              <button type="button" onClick={() => removeCompany(companyIndex )} className="text-blue-600 hover:text-blue-800 text-sm">
+                - remove company
+              </button>
               {company.roles.map((role, roleIndex) => (
                 <div key={roleIndex} className="border-l-4 border-blue-500 p-4 mb-4">
                   <h4 className="text-md font-semibold mb-2">Position {roleIndex + 1}</h4>
@@ -202,6 +168,9 @@ const WorkExperience = ({ nextStep, prevStep }) => {
                   </div>
                   <button type="button" onClick={() => addNewRole(companyIndex)} className="text-blue-600 hover:text-blue-800 text-sm">
                     + Add Another Designation in this Company
+                  </button>
+                  <button type="button" onClick={() => removeRole(companyIndex ,roleIndex)} className="text-blue-600 hover:text-blue-800 text-sm">
+                    - remove role
                   </button>
                 </div>
               ))}
