@@ -1,8 +1,17 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 const LanguagesSection = () => {
-  const [languages, setLanguages] = useState([{ language: '', level: '' }]);
-  
+  const [languages, setLanguages] = useState(() => {
+    // Retrieve from local storage or initialize with a single empty entry
+    const savedLanguages = localStorage.getItem('languages');
+    return savedLanguages ? JSON.parse(savedLanguages) : [{ language: '', level: '' }];
+  });
+
+  // Save to local storage whenever languages change
+  useEffect(() => {
+    localStorage.setItem('languages', JSON.stringify(languages));
+  }, [languages]);
+
   const handleChange = (index, field, value) => {
     const updatedLanguages = [...languages];
     updatedLanguages[index][field] = value;
@@ -38,12 +47,13 @@ const LanguagesSection = () => {
               <option value="Fluent">Fluent</option>
               <option value="Native">Native</option>
             </select>
-            <button type="button" onClick={() => removeLanguage(index)} className="bg-red-500 text-white px-2 py-1 rounded-md hover:bg-red-600">
-              Remove
-            </button>
+            {languages.length > 1 && (
+              <button type="button" onClick={() => removeLanguage(index)} className="bg-red-500 text-white px-2 py-1 rounded-md hover:bg-red-600">
+                Remove
+              </button>
+            )}
           </div>
         ))}
-
         <button type="button" onClick={addLanguage} className="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600">
           Add Another Language
         </button>
