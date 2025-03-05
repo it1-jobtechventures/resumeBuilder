@@ -1,8 +1,10 @@
-import React, { useState } from 'react'
+import React, { useState , useEffect } from 'react'
 
 const InternshipInfo = ({ nextStep, prevStep }) => {
-  const [intershipExperience , setInternshipExperience] = useState([
-    {
+  const [internshipExperience , setInternshipExperience] = useState(() => {
+    const savedData = localStorage.getItem('internshipExperience')
+    return savedData ? JSON.parse(savedData) : 
+    [{
       company:'',
       location:'',
       title:'' , 
@@ -15,17 +17,22 @@ const InternshipInfo = ({ nextStep, prevStep }) => {
       internshipType: 'Permanent', 
       internshipMode: 'WFH'
     }
-  ])
+  
+  ]})
+  
+  useEffect(() => {
+    localStorage.setItem('internshipExperience', JSON.stringify(internshipExperience));
+  }, [internshipExperience]);
 
   //handle input change 
   const handleCompanyChange = (index , event) => {
-    const updatedInternship = [...intershipExperience]
+    const updatedInternship = [...internshipExperience]
     updatedInternship[index][event.target.name]= event.target.value;
     setInternshipExperience(updatedInternship)
   }
 
   const toggleCurrentlyWorking = (internshipIndex) => {
-    const updatedInternship = [...intershipExperience]
+    const updatedInternship = [...internshipExperience]
     updatedInternship[internshipIndex].currentlyWorking =
       !updatedInternship[internshipIndex].currentlyWorking;
     if (updatedInternship[internshipIndex].currentlyWorking) {
@@ -36,7 +43,7 @@ const InternshipInfo = ({ nextStep, prevStep }) => {
 
   const addNewInternship = () => {
     setInternshipExperience([
-      ...intershipExperience,
+      ...internshipExperience,
       {
         company:'',
         location:'',
@@ -54,18 +61,20 @@ const InternshipInfo = ({ nextStep, prevStep }) => {
   }
   return (
     <>
-      <div>
-        <h2 className="text-2xl font-bold text-center h-10 mb-4 bg-[linear-gradient(90deg,_hsla(133,_68%,_60%,_1)_0%,_hsla(205,_97%,_42%,_1)_100%)] text-white">Internship Experience</h2>
+      <div className="p-4 md:p-6 max-w-3xl mx-auto">
+        <h2 className="text-xl md:text-2xl font-bold text-center h-10 mb-4 bg-gradient-to-r from-green-500 to-blue-500 text-white">Internship Experience</h2>
         <form>
           {
-            intershipExperience.map((internhip , internshipIndex) => (
-              <div key={internshipIndex} className="border p-4 rounded-md mb-6">
+            internshipExperience.map((internhip , internshipIndex) => (
+              <div key={internshipIndex} className="border p-4 rounded-lg mb-6 shadow-md bg-white">
                 <h3 className="text-lg font-semibold mb-2">Internship {internshipIndex + 1}</h3>
-                <div className="mb-4">
-                  <label className="block text-[#4b164c]">Company Name</label>
-                  <input type='text' name='company' value={internhip.company} onChange={(e) => handleCompanyChange(internhip , e)} className="w-full p-2 border rounded-md"/>
-                </div>
-                <div className="mb-4">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-[#4b164c]">Company Name</label>
+                    <input type='text' name='company' value={internhip.company} onChange={(e) => handleCompanyChange(internshipIndex , e)} className="w-full p-2 border rounded-md"/>
+
+                  </div>
+                  <div className="mb-4">
                   <label className="block text-[#4b164c]">Company Location</label>
                   <input type='text' name='location' value={internhip.location} onChange={(e) => handleCompanyChange(internshipIndex , e)} className="w-full p-2 border rounded-md"/>
                 </div>
@@ -107,7 +116,8 @@ const InternshipInfo = ({ nextStep, prevStep }) => {
                 </div>
                 <div className="mb-4">
                     <label className="block text-gray-700">Internship Type</label>
-                    <select name="internshipType" value={internhip.internshipType} onChange={(e) => handleCompanyChange(companyIndex, e)} className="w-full p-2 border rounded-md mb-2">
+                    <select name="internshipType" value={internhip.internshipType} onChange={(e) => handleCompanyChange(internshipIndex, e)} className="w-full p-2 border rounded-md mb-2">
+                    {/* <select name="internshipType" value={internhip.internshipType} onChange={(e) => handleCompanyChange(companyIndex, e)} className="w-full p-2 border rounded-md mb-2"> */}
                       <option value="Permanent">Permanent</option>
                       <option value="Contract">Contract</option>
                     </select>
@@ -116,6 +126,10 @@ const InternshipInfo = ({ nextStep, prevStep }) => {
                   <label className="block text-[#4b164c]">Company Name</label>
                   <input type='text' name='company' value={internhip.company} onChange={(e) => handleCompanyChage(internshipIndex , e)} className="w-full p-2 border rounded-md"/>
                 </div>
+                  
+                  {/* <input type='text' name='company' value={internhip.company} onChange={(e) => handleCompanyChange(internhip , e)} className="w-full p-2 border rounded-md"/> */}
+                </div>
+
               </div>
             ))
           }
