@@ -135,14 +135,14 @@ const WorkExperience = ({ nextStep, prevStep }) => {
                   </div>
                   <div className="mb-4">
                     <label className="block text-gray-700">Job Type</label>
-                    <select name="jobType" value={role.jobType} onChange={(e) => handleRoleChange(companyIndex, e)} className="w-full p-2 border rounded-md mb-2">
+                    <select name="jobType" value={role.jobType} onChange={(e) => handleRoleChange(companyIndex,roleIndex, e)} className="w-full p-2 border rounded-md mb-2">
                       <option value="Permanent">Permanent</option>
                       <option value="Contract">Contract</option>
                     </select>
                   </div>
                   <div className="mb-4">
                     <label className="block text-gray-700">Job Mode</label>
-                    <select name="jobMode" value={role.jobMode} onChange={(e) => handleRoleChange(companyIndex, e)} className="w-full p-2 border rounded-md mb-2">
+                    <select name="jobMode" value={role.jobMode} onChange={(e) => handleRoleChange(companyIndex,roleIndex, e)} className="w-full p-2 border rounded-md mb-2">
                       <option value="WFH">Work From Home</option>
                       <option value="WFO">Work From Office</option>
                       <option value="Hybrid">Hybrid</option>
