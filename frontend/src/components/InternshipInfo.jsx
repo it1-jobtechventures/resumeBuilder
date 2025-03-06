@@ -59,6 +59,11 @@ const InternshipInfo = ({ nextStep, prevStep }) => {
       }
     ])
   }
+
+  const removeInternship = (index) => {
+    const updatedInternship = internshipExperience.filter((_, i) => i !==index);
+    setInternshipExperience(updatedInternship)
+  }
   return (
     <>
       <div className="p-4 md:p-6 max-w-3xl mx-auto">
@@ -72,64 +77,58 @@ const InternshipInfo = ({ nextStep, prevStep }) => {
                   <div>
                     <label className="block text-[#4b164c]">Company Name</label>
                     <input type='text' name='company' value={internhip.company} onChange={(e) => handleCompanyChange(internshipIndex , e)} className="w-full p-2 border rounded-md"/>
-
                   </div>
                   <div className="mb-4">
                   <label className="block text-[#4b164c]">Company Location</label>
                   <input type='text' name='location' value={internhip.location} onChange={(e) => handleCompanyChange(internshipIndex , e)} className="w-full p-2 border rounded-md"/>
-                </div>
-                <div className="mb-4">
-                  <label className="block text-[#4b164c]">Internship Title</label>
-                  <input type='text' name='title' value={internhip.title} onChange={(e) => handleCompanyChange(internshipIndex , e)} className="w-full p-2 border rounded-md"/>
-                </div>
-                <div className="mb-4">
-                  <label className="block text-[#4b164c]">Starting Date</label>
-                  <input type='date' name='startDate' value={internhip.startDate} onChange={(e) => handleCompanyChange(internshipIndex , e)} className="w-full p-2 border rounded-md"/>
-                </div>
-                <div className="mb-4">
-                  <label className="block text-[#4b164c]">Ending Date</label>
-                  <input type='date' name='endDate' value={internhip.endDate} onChange={(e) => handleCompanyChange(internshipIndex , e)} className="w-full p-2 border rounded-md"/>
-                </div>
-                <div className="mb-4">
-                  <input type='checkbox' checked={internhip.currentlyWorking} name='currentlyworking' value={internhip.currentlyWorking} onChange={(e) => toggleCurrentlyWorking(internshipIndex , e)} className="w-full p-2 border rounded-md"/>
-                  <label className="block text-[#4b164c]">I currently work here</label>
-                </div>
-                <div className="mb-4">
-                  <label className="block text-[#4b164c]">Description</label>
-                  <textarea type='text' name='description' value={internhip.description} onChange={(e) => handleCompanyChange(internshipIndex , e)} className="w-full p-2 border rounded-md"/>
-                </div>
-                <div className="mb-4">
-                  <label className="block text-[#4b164c]">Stipend</label>
-                  <input type='number' name='stipend' value={internhip.stipend} onChange={(e) => handleCompanyChange(internshipIndex , e)} className="w-full p-2 border rounded-md"/>
-                </div>
-                <div className="mb-4">
-                  <label className="block text-[#4b164c]">Notice Period</label>
-                  <input type='text' name='noticePeriod' value={internhip.noticePeriod} onChange={(e) => handleCompanyChange(internshipIndex , e)} className="w-full p-2 border rounded-md"/>
-                </div>
-                <div className="mb-4">
+                  </div>
+                  <div className="mb-4">
+                    <label className="block text-[#4b164c]">Internship Title</label>
+                    <input type='text' name='title' value={internhip.title} onChange={(e) => handleCompanyChange(internshipIndex , e)} className="w-full p-2 border rounded-md"/>
+                  </div>
+                  <div className="mb-4">
+                    <label className="block text-[#4b164c]">Starting Date</label>
+                    <input type='date' name='startDate' value={internhip.startDate} onChange={(e) => handleCompanyChange(internshipIndex , e)} className="w-full p-2 border rounded-md"/>
+                  </div>
+                  <div className="mb-4">
+                    <label className="block text-[#4b164c]">Ending Date</label>
+                    <input type='date' name='endDate' value={internhip.endDate} disabled={internhip.currentlyWorking} onChange={(e) => handleCompanyChange(internshipIndex , e)} className="w-full p-2 border rounded-md"/>
+                  </div>
+                  <div className="mb-4">
+                    <input type='checkbox' checked={internhip.currentlyWorking} name='currentlyworking' value={internhip.currentlyWorking} onChange={(e) => toggleCurrentlyWorking(internshipIndex , e)} className="w-full p-2 border rounded-md"/>
+                    <label className="block text-[#4b164c]">I currently work here</label>
+                  </div>
+                  <div className="mb-4">
+                    <label className="block text-[#4b164c]">Description</label>
+                    <textarea type='text' name='description' value={internhip.description} onChange={(e) => handleCompanyChange(internshipIndex , e)} className="w-full p-2 border rounded-md"/>
+                  </div>
+                  <div className="mb-4">
+                    <label className="block text-[#4b164c]">Stipend</label>
+                    <input type='number' name='stipend' value={internhip.stipend} onChange={(e) => handleCompanyChange(internshipIndex , e)} className="w-full p-2 border rounded-md"/>
+                  </div>
+                  <div className="mb-4">
+                    <label className="block text-[#4b164c]">Notice Period</label>
+                    <input type='text' name='noticePeriod' value={internhip.noticePeriod} onChange={(e) => handleCompanyChange(internshipIndex , e)} className="w-full p-2 border rounded-md"/>
+                  </div>
+                  <div className="mb-4">
                     <label className="block text-gray-700">Internship Mode</label>
-                    <select name="inernshipMode" value={internhip.internshipMode} onChange={(e) => handleCompanyChange(internshipIndex, e)} className="w-full p-2 border rounded-md mb-2">
+                    <select name="internshipMode" value={internhip.internshipMode} onChange={(e) => handleCompanyChange(internshipIndex, e)} className="w-full p-2 border rounded-md mb-2">
                       <option value="WFH">Work From Home</option>
                       <option value="WFO">Work From Office</option>
                       <option value="Hybrid">Hybrid</option>
                     </select>
-                </div>
-                <div className="mb-4">
+                  </div>
+                  <div className="mb-4">
                     <label className="block text-gray-700">Internship Type</label>
                     <select name="internshipType" value={internhip.internshipType} onChange={(e) => handleCompanyChange(internshipIndex, e)} className="w-full p-2 border rounded-md mb-2">
-                    {/* <select name="internshipType" value={internhip.internshipType} onChange={(e) => handleCompanyChange(companyIndex, e)} className="w-full p-2 border rounded-md mb-2"> */}
                       <option value="Permanent">Permanent</option>
                       <option value="Contract">Contract</option>
                     </select>
                   </div>
-                <div className="mb-4">
-                  <label className="block text-[#4b164c]">Company Name</label>
-                  <input type='text' name='company' value={internhip.company} onChange={(e) => handleCompanyChage(internshipIndex , e)} className="w-full p-2 border rounded-md"/>
+                  <button onClick={() => removeInternship(internshipIndex)}>
+                    remove internship
+                  </button>
                 </div>
-                  
-                  {/* <input type='text' name='company' value={internhip.company} onChange={(e) => handleCompanyChange(internhip , e)} className="w-full p-2 border rounded-md"/> */}
-                </div>
-
               </div>
             ))
           }
