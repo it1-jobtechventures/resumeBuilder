@@ -17,8 +17,9 @@ export const FormProvider = ({ children }) => {
       interests:JSON.parse(localStorage.getItem('interests')) || [],
       languages:JSON.parse(localStorage.getItem('languages')) || [],
       accomplishments:JSON.parse(localStorage.getItem('accomplishments')) || [],
-      socialLinks:JSON.parse(localStorage.getItem('socialLinks')) || {},
+      socialLinks:JSON.parse(localStorage.getItem('socialLinks')) || [],
       volunteering:JSON.parse(localStorage.getItem('volunteering')) || [],
+      softwareInfo:JSON.parse(localStorage.getItem('softwareInfo')) || []
     };
   });
 
