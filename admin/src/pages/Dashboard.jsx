@@ -1,9 +1,17 @@
-import React from 'react'
+import React from 'react';
+import TemplateUpload from '../components/TemplateUpload';
+
 
 const Dashboard = () => {
   return (
-    <div>Dashboard</div>
-  )
-}
+    <>
+      <main className="pt-16 flex">
+        <div className="flex-1">
+          <TemplateUpload/>
+        </div>
+      </main>
+    </>
+  );
+};
 
-export default Dashboard
+export default Dashboard;
