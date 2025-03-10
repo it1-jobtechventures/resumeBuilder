@@ -1,35 +1,61 @@
 import React, { useState } from 'react'
+import axios from 'axios'
 
 const TemplateUpload = () => {
-  const [htmlContent, setHtmlContent] = useState('');
-  const [cssContent, setCssContent] = useState('');
+  const [name, setName] = useState("");
+  const [htmlFile, setHtmlFile] = useState(null);
+  const [cssFile, setCssFile] = useState(null);
+  const [jsFile, setJsFile] = useState(null);
+  const [previewImage, setPreviewImage] = useState(null);
+  const [loading, setLoading] = useState(false);
 
-  const handleFileUpload = (event, type) => {
-    const file = event.target.files[0];
-    if (!file) return;
+  const onsubmitFormHandle = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+  
+    const formData = new FormData();
+    formData.append("name", name);
+    if (htmlFile) formData.append("htmlFile", htmlFile);
+    if (cssFile) formData.append("cssFile", cssFile);
+    if (jsFile) formData.append("jsFile", jsFile);
+    if (previewImage) formData.append("previewImage", previewImage);
 
-    const reader = new FileReader();
-    reader.onload = (e) => {
-      if (type === 'html') {
-        setHtmlContent(e.target.result);
-      } else if (type === 'css') {
-        setCssContent(e.target.result);
+    try {
+      const res = await axios.post('http://localhost:5000/api/template/upload', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data', // Make sure the correct content type is set for file uploads
+        }
+      });
+      if (res.data) {
+        console.log("Template uploaded successfully");
+        setName('')
+        setHtmlFile('')
+        setCssFile('')
+      } else {
+        console.log('Error uploading template');
       }
-    };
-    reader.readAsText(file);
+    } catch (error) {
+      console.error("Error uploading template:", error.message);
+    } finally {
+      setLoading(false);
+    }
   };
+  
 
   return (
     <>
-      <div className="pt-20">
-        <h2 className="text-2xl font-bold mb-4">Upload Template</h2>
-        <input type="file" accept=".html" onChange={(e) => handleFileUpload(e, 'html')} className="block mb-2" />
-        <input type="file" accept=".css" onChange={(e) => handleFileUpload(e, 'css')} className="block mb-2" />
-        <div className="border p-4 mt-4">
-          <h3 className="text-lg font-semibold mb-2">Preview</h3>
-          <div className="border p-4" dangerouslySetInnerHTML={{ __html: htmlContent }} />
-          <style>{cssContent}</style>
-        </div>
+      <div className="p-5 bg-white shadow-md rounded-lg pt-20">
+      <h2 className="text-xl font-semibold mb-4">Upload New Template</h2>
+      <form onSubmit={onsubmitFormHandle} className="space-y-4">
+        <input type="text" placeholder="Template Name" value={name} onChange={(e) => setName(e.target.value)} className="border p-2 w-full" required />
+        <input type="file" accept=".html" onChange={(e) => setHtmlFile(e.target.files[0])} className="border p-2 w-full" required />
+        <input type="file" accept=".css" onChange={(e) => setCssFile(e.target.files[0])} className="border p-2 w-full" required />
+        <input type="file" accept=".js" onChange={(e) => setJsFile(e.target.files[0])} className="border p-2 w-full" />
+        <input type="file" accept="image/*" onChange={(e) => setPreviewImage(e.target.files[0])} className="border p-2 w-full"  />
+        <button type="submit" className="bg-blue-600 text-white px-4 py-2 rounded" disabled={loading}>
+          {loading ? "Uploading..." : "Upload Template"}
+        </button>
+      </form>
       </div>
     </>
   )
