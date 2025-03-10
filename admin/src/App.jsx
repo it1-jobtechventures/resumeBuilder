@@ -6,6 +6,7 @@ import Navbar from './components/Navbar'
 import TemplateUpload from './components/TemplateUpload'
 
 function App() {
+  const backend_url = 'http://localhost:5000/api'
 
   return (
     <>
@@ -14,8 +15,8 @@ function App() {
         <Sidebar/>
         <div className="flex-1 p-6">
           <Routes>
-            <Route path='/' element={<Dashboard/>}/>
-            <Route path='/templateUpload' element={<TemplateUpload/>}/>
+            <Route path='/' element={<Dashboard backend_url={backend_url}/>}/>
+            <Route path='/template' element={<TemplateUpload backend_url={backend_url}/>}/>
           </Routes>
         </div>
       </div>
