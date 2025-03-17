@@ -12,6 +12,9 @@ const Sidebar = () => {
                 <Link to="/template" className="hover:bg-gray-700 p-2 rounded">
                     Template
                 </Link>
+                <Link to="/all-template" className="hover:bg-gray-700 p-2 rounded">
+                    All template
+                </Link>
             </nav>
         </div>
     </>
