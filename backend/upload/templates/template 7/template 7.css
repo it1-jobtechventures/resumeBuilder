@@ -1,0 +1,104 @@
+/* Reset some default styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    color: #333;
+    padding: 20px;
+  }
+  
+  /* A4 Page Size */
+  @page {
+    size: A4;
+    margin: 20mm; /* Set the margins for printing */
+  }
+  
+  /* Resume Container */
+  .resume-container {
+    width: 100%;
+    max-width: 210mm; /* Set the max width to A4 width */
+    height: 297mm; /* Set the height to A4 height */
+    margin: 0 auto;
+    background-color: #fff;
+    padding: 20mm;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Header Section */
+  .header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+  
+  .profile-image {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    margin-right: 20px;
+  }
+  
+  .name-title h1 {
+    font-size: 2.5em;
+    margin-bottom: 5px;
+  }
+  
+  .name-title p {
+    font-size: 1.2em;
+    color: #555;
+  }
+  
+  /* Main Content */
+  .content {
+    display: flex;
+    justify-content: space-between;
+    height: 100%;
+  }
+  
+  .left-column, .right-column {
+    width: 48%; /* Adjust to create space between columns */
+    padding: 15px;
+  }
+  
+  .left-column {
+    background-color: #e0f7fa; /* Light blue color */
+    border-radius: 10px;
+  }
+  
+  .left-column h2, .right-column h2 {
+    margin-bottom: 10px;
+    font-size: 1.5em;
+    color: #00796b;
+  }
+  
+  .left-column ul {
+    list-style-type: none;
+    margin-top: 10px;
+  }
+  
+  .left-column li {
+    margin-bottom: 5px;
+  }
+  
+  section {
+    margin-bottom: 20px;
+  }
+  
+  .right-column {
+    padding-left: 30px;
+  }
+  
+  .right-column p {
+    margin-bottom: 10px;
+  }
+  
+  .right-column p strong {
+    color: #00796b;
+  }
+  
