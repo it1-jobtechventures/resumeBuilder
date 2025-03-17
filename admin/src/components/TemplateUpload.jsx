@@ -23,7 +23,7 @@ const TemplateUpload = () => {
     try {
       const res = await axios.post('http://localhost:5000/api/template/upload', formData, {
         headers: {
-          'Content-Type': 'multipart/form-data', // Make sure the correct content type is set for file uploads
+          'Content-Type': 'multipart/form-data', 
         }
       });
       if (res.data) {
@@ -48,9 +48,9 @@ const TemplateUpload = () => {
       <h2 className="text-xl font-semibold mb-4">Upload New Template</h2>
       <form onSubmit={onsubmitFormHandle} className="space-y-4">
         <input type="text" placeholder="Template Name" value={name} onChange={(e) => setName(e.target.value)} className="border p-2 w-full" required />
-        <input type="file" accept=".html" onChange={(e) => setHtmlFile(e.target.files[0])} className="border p-2 w-full" required />
-        <input type="file" accept=".css" onChange={(e) => setCssFile(e.target.files[0])} className="border p-2 w-full" required />
-        <input type="file" accept=".js" onChange={(e) => setJsFile(e.target.files[0])} className="border p-2 w-full" />
+        <input type="file" accept=".html" onChange={(e) => setHtmlFile(e.target.files[0])} className="border p-2 w-full" placeholder='html' />
+        <input type="file" accept=".css" onChange={(e) => setCssFile(e.target.files[0])} className="border p-2 w-full"  placeholder='css'/>
+        <input type="file" accept=".js" onChange={(e) => setJsFile(e.target.files[0])} className="border p-2 w-full" placeholder='js'/>
         <input type="file" accept="image/*" onChange={(e) => setPreviewImage(e.target.files[0])} className="border p-2 w-full"  />
         <button type="submit" className="bg-blue-600 text-white px-4 py-2 rounded" disabled={loading}>
           {loading ? "Uploading..." : "Upload Template"}
