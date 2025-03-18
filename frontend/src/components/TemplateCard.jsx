@@ -1,16 +1,19 @@
-import React from 'react'
+import React from 'react';
+import { useNavigate } from 'react-router-dom';
 
-const TemplateCard = ({ template, onSelect }) => {
+const TemplateCard = ({ template }) => {
+  const navigate = useNavigate();
+
+  const handleClick = () => {
+    navigate('/resume-review', { state: { templateId: template._id } });
+  };
+
   return (
-    <>
-      <main>
-        <div className="border p-4 rounded-md cursor-pointer" onClick={() => onSelect(template)}>
-          <img src={template.previewImage} alt={template.name} className="w-full h-48 object-cover rounded-md" />
-          <h3 className="text-lg font-semibold mt-2">{template.name}</h3>
-        </div>
-      </main>
-    </>
-  )
-}
+    <div className="template-card" onClick={handleClick}>
+      <img src={template.previewImage} alt={template.name} />
+      <h3>{template.name}</h3>
+    </div>
+  );
+};
 
-export default TemplateCard
+export default TemplateCard;
