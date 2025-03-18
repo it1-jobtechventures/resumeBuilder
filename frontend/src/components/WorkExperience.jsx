@@ -1,4 +1,5 @@
 import React, { useState,useEffect } from 'react';
+import { toast } from 'react-toastify';
 
 const WorkExperience = ({ nextStep, prevStep }) => {
   const [workExperience, setWorkExperience] = useState(() => {
@@ -75,6 +76,61 @@ const WorkExperience = ({ nextStep, prevStep }) => {
       }
     ]);
   };
+
+
+  const validateFields = () => {
+    for (const company of workExperience) {
+      if (company.company.trim()) {
+        if (!company.location.trim()) {
+          toast.error('Location is required when adding a company name.');
+          return false;
+        }
+        if (!company.totalCompanyExperience) {
+          toast.error('Company Experience is required when adding a company name.');
+          return false;
+        }
+        for (const role of company.roles) {
+          if (!role.title.trim()) {
+            toast.error('Job Title is required when adding a company name.');
+            return false;
+          }
+          if (role.ctc && role.ctc < 0) {
+            toast.error('CTC cannot be negative.');
+            return false;
+          }
+          if (!role.startDate) {
+            toast.error('Start Date is required when adding a company name.');
+            return false;
+          }
+          if (!role.currentlyWorking && !role.endDate) {
+            toast.error('End Date is required when adding a company name.');
+            return false;
+          }
+          const today = new Date().toISOString().split('T')[0];
+          if (role.startDate > today) {
+            toast.error('Start Date cannot be in the future.');
+            return false;
+          }
+          if (role.endDate && role.endDate > today) {
+            toast.error('End Date cannot be in the future.');
+            return false;
+          }
+          if (role.endDate && role.startDate > role.endDate) {
+            toast.error('Start Date cannot be after End Date.');
+            return false;
+          }
+        }
+      }
+    }
+    return true;
+  };
+
+  const handleNext = () => {
+    if (validateFields()) {
+      nextStep();
+    }
+  };
+
 
   const removeCompany = (index) => {
     const updatedExperience = workExperience.filter((_, i) => i !== index);
@@ -183,7 +239,7 @@ const WorkExperience = ({ nextStep, prevStep }) => {
             <button type="button" onClick={prevStep} className="bg-gray-500 text-white px-4 py-2 rounded-md hover:bg-gray-600">
               Previous
             </button>
-            <button type="button" onClick={nextStep} className="bg-[linear-gradient(90deg,_hsla(133,_68%,_60%,_1)_0%,_hsla(205,_97%,_42%,_1)_100%)] cursor-pointer text-white px-4 py-2 rounded-md hover:bg-[linear-gradient(90deg,_hsla(205,_97%,_42%,_1)_0%,_hsla(133,_68%,_60%,_1)_100%)]">
+            <button type="button" onClick={handleNext} className="bg-[linear-gradient(90deg,_hsla(133,_68%,_60%,_1)_0%,_hsla(205,_97%,_42%,_1)_100%)] cursor-pointer text-white px-4 py-2 rounded-md hover:bg-[linear-gradient(90deg,_hsla(205,_97%,_42%,_1)_0%,_hsla(133,_68%,_60%,_1)_100%)]">
               Next
             </button>
           </div>
