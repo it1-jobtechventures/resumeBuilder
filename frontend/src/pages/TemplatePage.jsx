@@ -1,23 +1,30 @@
-import React, { useState } from 'react'
-import TemplateSelection from '../components/TemplateSelection';
+import React, { useEffect, useState } from 'react';
+import axios from 'axios'
+import TemplateSelection from '../components/TemplateSelection'
 
 const TemplatePage = () => {
-  const [selectedTemplate, setSelectedTemplate] = useState(null);
+  const [templates, setTemplates] = useState([]);
 
-  const handleTemplateSelect = (template) => {
-    setSelectedTemplate(template); 
-    console.log("Selected Template:", template);
-  };
+  useEffect(() => {
+    const fetchTemplates = async () => {
+      try {
+        const response = await axios.get('http://localhost:5000/api/template/allTemplate');
+        console.log(response.data)
+        setTemplates(response.data);
+      } catch (error) {
+        console.error('Error fetching templates:', error);
+      }
+    };
+
+    fetchTemplates();
+  }, []);
+
   return (
-    <>
-      <main>
-        <div>
-          <h1 className="text-2xl font-bold text-center mb-6">Choose Your Resume Template</h1>
-          <TemplateSelection onSelectTemplate={handleTemplateSelect} />
-        </div>
-      </main>
-    </>
-  )
-}
+    <div>
+      <h1>Choose a Template</h1>
+      <TemplateSelection templates={templates} />
+    </div>
+  );
+};
 
-export default TemplatePage
+export default TemplatePage;
