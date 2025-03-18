@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
+import { toast } from "react-toastify";
 
 const EducationInfo = ({ nextStep, prevStep }) => {
+
   const [educationList, setEducationList] = useState(() => {
     const savedEducation = localStorage.getItem("education");
     return savedEducation ? JSON.parse(savedEducation) :[
@@ -12,12 +14,6 @@ const EducationInfo = ({ nextStep, prevStep }) => {
     localStorage.setItem("education" , JSON.stringify(educationList))
   },[educationList])
 
-  // const handleEducationChange = (index, event) => {
-  //   const { name, value } = event.target;
-  //   const updatedEducationList = [...educationList];
-  //   updatedEducationList[index][name] = value;
-  //   setEducationList(updatedEducationList);
-  // };
   const handleEducationChange = (index, event) => {
     const { name, value } = event.target;
     const updatedEducationList = [...educationList];
@@ -38,6 +34,31 @@ const EducationInfo = ({ nextStep, prevStep }) => {
   const removeEducation = (index) => {
     if (educationList.length > 1) {
       setEducationList(educationList.filter((_, i) => i !== index));
+    }
+  };
+
+  const validateEducation = () => {
+    for (const edu of educationList) {
+      if (edu.school.trim() !== "") {
+        if (
+          !edu.location.trim() ||
+          !edu.degree ||
+          !edu.field.trim() ||
+          !edu.graduationDate ||
+          !edu.educationMode ||
+          !edu.cgpa.trim()
+        ) {
+          toast.error("Please fill all fields if School Name is entered.");
+          return false;
+        }
+      }
+    }
+    return true;
+  };
+
+  const handleNext = () => {
+    if (validateEducation()) {
+      nextStep();
     }
   };
 
@@ -112,7 +133,7 @@ const EducationInfo = ({ nextStep, prevStep }) => {
           <button type="button" onClick={prevStep} className="bg-gray-500 text-white px-4 py-2 rounded-md hover:bg-gray-600">
             Previous
           </button>
-          <button type="button" onClick={nextStep} className="bg-[linear-gradient(90deg,_hsla(133,_68%,_60%,_1)_0%,_hsla(205,_97%,_42%,_1)_100%)] cursor-pointer text-white px-4 py-2 rounded-md hover:bg-[linear-gradient(90deg,_hsla(205,_97%,_42%,_1)_0%,_hsla(133,_68%,_60%,_1)_100%)]">
+          <button type="button" onClick={handleNext} className="bg-[linear-gradient(90deg,_hsla(133,_68%,_60%,_1)_0%,_hsla(205,_97%,_42%,_1)_100%)] cursor-pointer text-white px-4 py-2 rounded-md hover:bg-[linear-gradient(90deg,_hsla(205,_97%,_42%,_1)_0%,_hsla(133,_68%,_60%,_1)_100%)]">
             Next
           </button>
         </div>
