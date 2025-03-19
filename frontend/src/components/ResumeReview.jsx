@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { useResume } from '../context/FormContext';
-import html2pdf from 'html2pdf.js';
 import { saveAs } from 'file-saver';
 import html2canvas from 'html2canvas';
+import jsPDF from 'jspdf';
+
 
 const ResumeReview = () => {
   const location = useLocation();
@@ -32,24 +33,49 @@ const ResumeReview = () => {
   };
   
   const replacePlaceholders = (html, data) => {
-    return html.replace(/{{(.*?)}}/g, (match, key) => {
-      const value = getValueByPath(data, key.trim());
-      return value !== undefined ? value : match;
-    });
-  };
+    return html
+      .replace(/{{#(.*?)}}([\s\S]*?){{\/\1}}/g, (match, key, content) => {
+        let value = getValueByPath(data, key.trim());
   
+        if (Array.isArray(value)) {
+          return value
+            .map(item => {
+              // Handle array of strings (e.g., certifications)
+              if (typeof item === "string") {
+                return content.replace(/{{\.}}/g, item);
+              }
+              // Handle array of objects (like workExperience)
+              return content.replace(/{{(.*?)}}/g, (m, k) => item[k.trim()] || "");
+            })
+            .join("");
+        }
+  
+        return ""; // If the value is not an array, return empty
+      })
+      .replace(/{{(.*?)}}/g, (match, key) => {
+        let value = getValueByPath(data, key.trim());
+        return value !== undefined ? value : match;
+      });
+  };
 
-  const handleDownloadPDF = () => {
-    const element = document.getElementById('resume-content');
-    const opt = {
-      margin: 0.5,
-      filename: 'My_Resume.pdf',
-      image: { type: 'jpeg', quality: 0.98 },
-      html2canvas: { scale: 2 },
-      jsPDF: { unit: 'in', format: 'a4', orientation: 'portrait' }
-    };
-
-    html2pdf().from(element).set(opt).save();
+  const handleDownloadPDF = async () => {
+    const element = document.getElementById('resume-content'); // Resume content
+  
+    // Convert HTML to canvas (screenshot-like rendering)
+    const canvas = await html2canvas(element, { scale: 2 });
+    const imgData = canvas.toDataURL('image/png'); // Convert canvas to image
+  
+    const pdf = new jsPDF({
+      orientation: 'portrait',
+      unit: 'mm',
+      format: 'a4',
+    });
+  
+    // Add the captured image to PDF
+    pdf.addImage(imgData, 'PNG', 10, 10, 190, 0); 
+  
+    // Save the PDF
+    pdf.save('My_Resume.pdf');
   };
 
   // const handleDownloadDOCX = () => {
