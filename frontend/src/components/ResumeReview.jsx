@@ -5,7 +5,6 @@ import { saveAs } from 'file-saver';
 import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
 
-
 const ResumeReview = () => {
   const location = useLocation();
   const { templateId } = location.state || {};
@@ -57,13 +56,14 @@ const ResumeReview = () => {
         return value !== undefined ? value : match;
       });
   };
+  // const handleDownloadDOCX = () => {
+  //   const element = document.getElementById('resume-content').innerHTML;
+  //   const converted = htmlDocx.asBlob(`<!DOCTYPE html><html><body>${element}</body></html>`);
+  //   saveAs(converted, 'My_Resume.docx');
+  // };
 
-  const handleDownloadPDF = async () => {
-    const element = document.getElementById('resume-content'); // Resume content
-  
-    // Convert HTML to canvas (screenshot-like rendering)
-    const canvas = await html2canvas(element, { scale: 2 });
-    const imgData = canvas.toDataURL('image/png'); // Convert canvas to image
+  const handleDownloadPDF = () => {
+    const element = document.getElementById('resume-content'); // Get resume content
   
     const pdf = new jsPDF({
       orientation: 'portrait',
@@ -71,19 +71,17 @@ const ResumeReview = () => {
       format: 'a4',
     });
   
-    // Add the captured image to PDF
-    pdf.addImage(imgData, 'PNG', 10, 10, 190, 0); 
-  
-    // Save the PDF
-    pdf.save('My_Resume.pdf');
+    pdf.html(element, {
+      callback: function (pdf) {
+        pdf.save('My_Resume.pdf');
+      },
+      x: 10,
+      y: 10,
+      width: 190, // Ensures it fits well on an A4 page
+      windowWidth: element.scrollWidth, // Helps in proper rendering
+    });
   };
-
-  // const handleDownloadDOCX = () => {
-  //   const element = document.getElementById('resume-content').innerHTML;
-  //   const converted = htmlDocx.asBlob(`<!DOCTYPE html><html><body>${element}</body></html>`);
-  //   saveAs(converted, 'My_Resume.docx');
-  // };
-
+  
   const handleDownloadPNG = () => {
     const element = document.getElementById('resume-content');
   
@@ -93,6 +91,7 @@ const ResumeReview = () => {
       });
     });
   };
+
   
   if (!templateId) return <h2>No template selected!</h2>;
   if (!templateData) return <h2>Loading template...</h2>;
@@ -106,7 +105,6 @@ const ResumeReview = () => {
       <style>{templateData.cssContent}</style>
       <button onClick={handleDownloadPDF}>Download as PDF</button>
       <button onClick={handleDownloadPNG}>Download as PNG</button>
-      {/* <button onClick={handleDownloadDOCX}>Download as DOCX</button> */}
     </div>
   );
 };
