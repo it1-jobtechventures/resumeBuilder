@@ -1,7 +1,13 @@
 import React, { useEffect, useState } from 'react'
 import { toast } from 'react-toastify';
+import axios from 'axios'
 
 const GeneralInfo = ({nextStep}) => {
+  const [countries, setCountries] = useState([]);
+  const [cities, setCities] = useState([]);
+  const [selectedCountry, setSelectedCountry] = useState('');
+  const [selectedCity, setSelectedCity] = useState('');
+
   const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',
@@ -9,7 +15,7 @@ const GeneralInfo = ({nextStep}) => {
     dob: '',
     phone1: '',
     phone2: '',
-    city: '',
+    city:'' ,
     country: '',
     pincode: '',
     address: '',
@@ -22,15 +28,10 @@ const GeneralInfo = ({nextStep}) => {
     const storedData = JSON.parse(localStorage.getItem('generalInfo'));
     if (storedData) {
       setFormData(storedData);
+      setSelectedCountry(storedData.country || '');
+      setSelectedCity(storedData.city || '');
     }
   },[])
-
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    const updatedData = { ...formData, [name]: value };
-    setFormData(updatedData);
-    localStorage.setItem('generalInfo', JSON.stringify(updatedData));
-  };
 
   const validateForm = () => {
     let isValid = true;
@@ -89,6 +90,56 @@ const GeneralInfo = ({nextStep}) => {
     }
   };
 
+  const fetchCountries = async () => {
+    try {
+      const res = await axios.get('https://countriesnow.space/api/v0.1/countries');
+      setCountries(res.data.data.map(item => item.country));
+    } catch (error) {
+      console.error('Error fetching countries:', error);
+      toast.error('Failed to load countries');
+    }
+  };
+
+
+  const handleCountryChange = async (e) => {
+    const country = e.target.value;
+    setSelectedCountry(country);
+    setFormData(prev => ({ ...prev, country }));
+
+    if (country) {
+      try {
+        const res = await axios.post('https://countriesnow.space/api/v0.1/countries/cities', { country });
+        setCities(res.data.data);
+      } catch (error) {
+        console.error('Error fetching cities:', error);
+        toast.error('Failed to load cities');
+      }
+    }
+  };
+
+  const handleCityChange = (e) => {
+    setSelectedCity(e.target.value);
+    setFormData(prev => ({ ...prev, city: e.target.value }));
+  };
+
+  // const handleChange = (e) => {
+  //   const { name, value } = e.target;
+  //   const updatedData = { ...formData, [name]: value };
+  //   setFormData(updatedData);
+  //   localStorage.setItem('generalInfo', JSON.stringify(updatedData));
+  // };
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    const updatedData = { ...formData, [name]: value };
+    setFormData(updatedData);
+    localStorage.setItem('generalInfo', JSON.stringify(updatedData));
+  };
+
+  useEffect(() => {
+    fetchCountries()
+  },[])
+
   return (
     <>
     <div className='flex justify-center items-center min-h-screen p-4 bg-gray-100'>
@@ -134,7 +185,13 @@ const GeneralInfo = ({nextStep}) => {
             <div className='grid grid-cols-1 md:grid-cols-2 gap-4'>
               <div className="mb-4">  
                 <label className="block text-[#4b164c] font-bold">Country<span className='text-red-700 pl-0.5'>*</span></label>
-                <input type="text"name="country" value={formData.country} onChange={handleChange} className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400 focus:outline-none" placeholder="Enter your Country" required/>
+                {/* <input type="text"name="country" value={formData.country} onChange={handleChange} className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400 focus:outline-none" placeholder="Enter your Country" required/> */}
+                <select value={selectedCountry} onChange={handleCountryChange} className='w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400 focus:outline-none'>
+                  <option value="">Select Country</option>
+                  {countries.map((country, index) => (
+                    <option key={index} value={country}>{country}</option>
+                ))}
+                </select>
               </div>
               <div className="mb-4">
                 <label className="block text-[#4b164c] font-bold">Pincode</label>
@@ -143,9 +200,15 @@ const GeneralInfo = ({nextStep}) => {
             </div>
           </div>
           <div className="">
-              <label className="block text-[#4b164c] font-bold">City</label>
-              <input type="text" name="city" value={formData.city} onChange={handleChange} className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400 focus:outline-none" placeholder="Enter your City" />
-            </div>
+            <label className="block text-[#4b164c] font-bold">City</label>
+            {/* <input type="text" name="city" value={formData.city} onChange={handleChange} className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400 focus:outline-none" placeholder="Enter your City" /> */}
+            <select value={selectedCity} onChange={handleCityChange} className="w-full p-3 border border-gray-300 rounded-lg">
+              <option value="">Select City</option>
+              {cities.map((city, index) => (
+                <option key={index} value={city}>{city}</option>
+              ))}
+            </select>
+          </div>
           <div className="mb-4">
             <label className="block text-[#4b164c] font-bold">Total Experience</label>
             <input type="number" name="experience" value={formData.experience} onChange={handleChange} className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400 focus:outline-none" placeholder="Enter your Total Experience"  />
