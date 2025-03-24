@@ -1,0 +1,49 @@
+<!DOCTYPE html> 
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <link href="temp.css" rel="stylesheet">
+    <title>Simple template</title>
+</head>
+<body>
+    <main>
+        <header>
+            <div>
+                <h2>{{generalInfo.firstName}} {{generalInfo.lastName}}</h2>
+                <p>{{designation}}</p>
+            </div>
+            <div>
+                <img src="" alt="profile">
+            </div>
+        </header>
+        <hr/>
+        <div id="content">
+            <div id="main-left">
+                <div id="contact">
+                    <h3>CONTACT</h3>
+                    <p><i class="fa-solid fa-phone"></i> - {{generalInfo.phone1}}</p>
+                    <p><i class="fa-solid fa-house"></i> - {{generalInfo.address}}</p>
+                    <p><i class="fa-solid fa-envelope"></i> - {{generalInfo.email}}</p>
+                    <p><i class="fa-brands fa-linkedin-in"></i> - {{linkedin}}</p>
+                    <p><i class="fa-solid fa-globe"></i> - {{portfolio}}</p>
+                </div>
+                <hr/>
+                <div>
+                    <h3>EDUCATION</h3>
+                    {{#education}}
+                    <h3>{{degree}} in {{field}}</h3>
+                    <p>{{education.school}}, {{location}} - Graduated: {{graduationDate}}</p>
+                    {{/education}}
+                </div>
+            </div>
+            <hr/>
+            <div id="main-right">
+
+            </div>
+        </div>
+        <hr/>
+    </main>
+</body>
+</html>
