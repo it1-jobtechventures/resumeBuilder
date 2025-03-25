@@ -29,6 +29,7 @@ const ProfilePage = () => {
             console.log("hello");
             const { data } = await axios.post(backendUrl + '/api/auth/logout');
             data.success && setIsLoggedIn(false);
+            localStorage.removeItem("isLoggedIn");
             toast.success("Successfully logout")
             navigate('/')
         } catch (error) {
