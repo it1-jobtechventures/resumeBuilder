@@ -9,7 +9,6 @@ const TemplatePage = () => {
     const fetchTemplates = async () => {
       try {
         const response = await axios.get('http://localhost:5000/api/template/allTemplate');
-        console.log(response.data)
         setTemplates(response.data);
       } catch (error) {
         console.error('Error fetching templates:', error);
