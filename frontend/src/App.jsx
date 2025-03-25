@@ -8,6 +8,7 @@ import ResumeReview from './components/ResumeReview'
 import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css';
 import ResetPassword from './pages/ResetPassword'
+import ProfilePage from './pages/ProfilePage'
 
 function App() {
  
@@ -21,6 +22,7 @@ function App() {
         <Route path='/createResume' element={<ResumePage/>}/>
         <Route path='/templates' element={<TemplatePage/>}/>
         <Route path='/resume-review' element={<ResumeReview/>}/>
+        <Route path='/profile' element={<ProfilePage/>}/>
       </Routes>
     </>
   )
