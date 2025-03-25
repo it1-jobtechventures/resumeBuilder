@@ -180,3 +180,16 @@ export const resetPassword = async (req, res) => {
         return res.json({ success: false, message: error.message });
     }
 }
+
+export const getUserProfile = async (req, res) => {
+    try {
+        const userId = req.user.id; // Now correctly accessing `id` from `req.user`
+        const user = await userModel.findById(userId).select("-password"); // Exclude password
+        if (!user) {
+            return res.status(404).json({ success: false, message: "User not found" });
+        }
+        return res.json({ success: true, user });
+    } catch (error) {
+        return res.status(500).json({ success: false, message: error.message });
+    }
+};
