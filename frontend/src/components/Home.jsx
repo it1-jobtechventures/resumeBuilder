@@ -16,7 +16,7 @@ const Home = () => {
           </section>
           <section className='  flex justify-left items-center gap-5'>
             <Link to={'createResume'}><button className='cursor-pointer font-bold rounded-2xl bg-[#54df71] text-white p-2 text-center h-14 hover:border hover:border-[#54df71] hover:text-[#54df71] hover:bg-transparent'>Create Your Resume</button></Link>
-            <button className='cursor-pointer font-bold rounded-2xl bg-[#037cd5] text-white p-2 text-center  h-14 hover:border hover:border-[#037cd5] hover:text-[#037cd5] hover:bg-transparent'>Import Your Resume</button>  
+            {/* <button className='cursor-pointer font-bold rounded-2xl bg-[#037cd5] text-white p-2 text-center  h-14 hover:border hover:border-[#037cd5] hover:text-[#037cd5] hover:bg-transparent'>Import Your Resume</button>   */}
           </section>
         </section>
         <section className='md:w-[50%] h-full flex justify-center items-center'>
