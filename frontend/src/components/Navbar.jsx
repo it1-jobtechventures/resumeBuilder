@@ -23,30 +23,18 @@
 // export default Navbar
 
 // // bg-[linear-gradient(to_right_bottom,_#56021f,_#7f374e,_#a66781,_#cd98b5,_#f4cce9)]
+
 import React, { useContext } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { AppContext } from '../context/AppContext'
-import toast from "toastify"
+import {toast} from "react-toastify"
 import axios from "axios"
 
 const Navbar = () => {
 
   const navigate = useNavigate();
   const {isLoggedIn, backendUrl, setIsLoggedIn} = useContext(AppContext);
-
-  const logout = async() => {
-    try {
-      
-      axios.defaults.withCredentials = true;
-      console.log("hello");
-      const { data } = await axios.post(backendUrl + '/api/auth/logout');
-      data.success && setIsLoggedIn(false);
-      navigate('/')
-    } catch (error) {
-      toast.error(error.message);
-    }
-  }
-
+  
   return (
     <>
       <nav className='h-24  p-2 shadow-xl fixed w-full flex justify-around items-center z-50 bg-[#f5f5f5]'>
@@ -61,7 +49,9 @@ const Navbar = () => {
           {!isLoggedIn ? (
             <Link to={'/login'}><button className='cursor-pointer font-bold bg-[#037cd5] text-white p-2.5 text-center rounded-4xl h-10 hover:border hover:border-[#037cd5] hover:text-[#037cd5] hover:bg-transparent'>Sign In</button></Link>
           ) : (
-            <button onClick={logout} className='cursor-pointer font-bold bg-[#037cd5] text-white p-2.5 text-center rounded-4xl h-10 hover:border hover:border-[#037cd5] hover:text-[#037cd5] hover:bg-transparent'>Logout</button>
+            <section>
+            <Link to={'/profile'}><img src='/profile.png' alt='profile image' className='w-14 h-14'/></Link>
+          </section>
           )}
         </section>
       </nav>
