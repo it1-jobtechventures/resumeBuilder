@@ -38,17 +38,17 @@ const ProfilePage = () => {
 
   return (
     <>
-        <div className="p-4">
-            <h2 className="text-2xl font-semibold">User Profile</h2>
+        <div className="max-w-3xl mx-auto p-6 bg-white shadow-lg rounded-lg mt-6">
+            <h2 className="text-3xl font-semibold text-gray-800 mb-4">User Profile</h2>
             {user ? (
                 <div className="mt-4">
-                    <p><strong>Name:</strong> {user.name}</p>
-                    <p><strong>Email:</strong> {user.email}</p>
+                    <p className="text-lg"><strong lassName="font-medium text-gray-700">Name:</strong> {user.name}</p>
+                    <p className="text-lg"><strong lassName="font-medium text-gray-700">Email:</strong> {user.email}</p>
                 </div>
             ) : (
-                <p>Loading user profile...</p>
+                <p ame="text-gray-500">Loading user profile...</p>
             )}
-            <button onClick={logout}>Logout</button>
+            <button onClick={logout}  className="bg-red-500 text-white py-2 px-4 rounded-md hover:bg-red-600 transition duration-200">Logout</button>
         </div>
     </>
   )
