@@ -147,12 +147,20 @@
                       <textarea type='text' name='description' value={internhip.description} onChange={(e) => handleCompanyChange(internshipIndex , e)} className="w-full p-2 border rounded-md"/>
                     </div>
                     <div className="mb-4">
-                      <label className="block text-[#4b164c]">Stipend</label>
-                      <input type='number' name='stipend' value={internhip.stipend} onChange={(e) => handleCompanyChange(internshipIndex , e)} className="w-full p-2 border rounded-md"/>
+                      <label className="block text-[#4b164c]">Stipend(in LPA)</label>
+                      <input type='number' min={0} name='stipend' value={internhip.stipend} onChange={(e) => handleCompanyChange(internshipIndex , e)} className="w-full p-2 border rounded-md"/>
                     </div>
                     <div className="mb-4">
                       <label className="block text-[#4b164c]">Notice Period</label>
-                      <input type='text' name='noticePeriod' value={internhip.noticePeriod} onChange={(e) => handleCompanyChange(internshipIndex , e)} className="w-full p-2 border rounded-md"/>
+                      {/* <input type='text' name='noticePeriod' value={internhip.noticePeriod} onChange={(e) => handleCompanyChange(internshipIndex , e)} className="w-full p-2 border rounded-md"/> */}
+                      <select name="noticePeriod" value={internhip.noticePeriod} onChange={(e) => handleCompanyChange(internshipIndex , e)} className="w-full p-2 border rounded-md">
+                        <option disabled>Choose your notice period</option>
+                        <option value='ImmediatelyJoin'>Immediately Join</option>
+                        <option value='LessThan15Days'>Less than 15 days</option>
+                        <option value='OneMonth'>1 month</option>
+                        <option value='ThreeMonth'>3 Months</option>
+                        <option value='MoreThan3Months'>More than 3 months</option>
+                    </select>
                     </div>
                     <div className="mb-4">
                       <label className="block text-gray-700">Internship Mode</label>

@@ -117,7 +117,7 @@ const EducationInfo = ({ nextStep, prevStep }) => {
             </div>
             <div className="mb-4">
               <label className="block text-gray-700">CGPA/Percentage</label>
-              <input type="number" name="cgpa" value={education.cgpa} onChange={(e) => handleEducationChange(index, e)} className="w-full p-2 border rounded-md" placeholder="Enter Your Score"/>
+              <input type="number" min={0} name="cgpa" value={education.cgpa} onChange={(e) => handleEducationChange(index, e)} className="w-full p-2 border rounded-md" placeholder="Enter Your Score"/>
             </div>
             {educationList.length > 1 && (
               <button type="button" onClick={() => removeEducation(index)} className="text-red-600 hover:text-red-800 text-sm">

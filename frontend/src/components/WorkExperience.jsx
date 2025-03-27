@@ -463,7 +463,7 @@ const WorkExperience = ({ nextStep, prevStep }) => {
               </div>
               <div className="mb-4">
                 <label className="block text-gray-700">Company Experience</label>
-                <input type="Number" name="totalCompanyExperience" value={company.totalCompanyExperience} onChange={(e) => handleCompanyChange(companyIndex, e)} className="w-full p-2 border rounded-md" placeholder="total Company Experience In Year"/>
+                <input type="Number" min={0} name="totalCompanyExperience" value={company.totalCompanyExperience} onChange={(e) => handleCompanyChange(companyIndex, e)} className="w-full p-2 border rounded-md" placeholder="total Company Experience In Year"/>
               </div>
               <button type="button" onClick={() => removeCompany(companyIndex )} className="text-blue-600 hover:text-blue-800 text-sm">
                 - remove company
@@ -477,19 +477,27 @@ const WorkExperience = ({ nextStep, prevStep }) => {
                   </div>
                   <div className="mb-4">
                     <label className="block text-gray-700">CTC</label>
-                    <input type="number" name="ctc" value={role.ctc} onChange={(e) => handleRoleChange(companyIndex, roleIndex, e)} className="w-full p-2 border rounded-md" placeholder="Enter your Cuurent ctc in lpa"/>
+                    <input type="number" name="ctc" value={role.ctc} onChange={(e) => handleRoleChange(companyIndex, roleIndex, e)} className="w-full p-2 border rounded-md" placeholder="Enter your current ctc in lpa" min={0}/>
                   </div>
                   <div className="mb-4">
                     <label className="block text-gray-700">Notice period</label>
-                    <input type="text" name="noticePeriod" value={role.noticePeriod} onChange={(e) => handleRoleChange(companyIndex, roleIndex, e)} className="w-full p-2 border rounded-md" placeholder="Enter your notice period"/>
+                    {/* <input type="text" name="noticePeriod" value={role.noticePeriod} onChange={(e) => handleRoleChange(companyIndex, roleIndex, e)} className="w-full p-2 border rounded-md" placeholder="Enter your notice period"/> */}
+                    <select name="noticePeriod" value={role.noticePeriod} onChange={(e) => handleRoleChange(companyIndex, roleIndex, e)} className="w-full p-2 border rounded-md">
+                      <option value='ImmediatelyJoin'>Immediately Join</option>
+                      <option value='LessThan15Days'>Less than 15 days</option>
+                      <option value='OneMonth'>1 month</option>
+                      <option value='ThreeMonth'>3 Months</option>
+                      <option value='MoreThan3Months'>More than 3 months</option>
+                    </select>
                   </div>
                   <div className="mb-4">
                     <label className="block text-gray-700">Team size</label>
-                    <input type="number" name="teamSize" value={role.teamSize} onChange={(e) => handleRoleChange(companyIndex, roleIndex, e)} className="w-full p-2 border rounded-md" placeholder="Enter your job title"/>
+                    <input type="number" min={0} name="teamSize" value={role.teamSize} onChange={(e) => handleRoleChange(companyIndex, roleIndex, e)} className="w-full p-2 border rounded-md" placeholder="Enter your job title"/>
                   </div>
                   <div className="mb-4">
                     <label className="block text-gray-700">Job Type</label>
                     <select name="jobType" value={role.jobType} onChange={(e) => handleRoleChange(companyIndex,roleIndex, e)} className="w-full p-2 border rounded-md mb-2">
+                      <option disabled>Select your job Type</option>
                       <option value="Permanent">Permanent</option>
                       <option value="Contract">Contract</option>
                     </select>
@@ -497,6 +505,7 @@ const WorkExperience = ({ nextStep, prevStep }) => {
                   <div className="mb-4">
                     <label className="block text-gray-700">Job Mode</label>
                     <select name="jobMode" value={role.jobMode} onChange={(e) => handleRoleChange(companyIndex,roleIndex, e)} className="w-full p-2 border rounded-md mb-2">
+                      <option disabled>Select your job Mode</option>
                       <option value="WFH">Work From Home</option>
                       <option value="WFO">Work From Office</option>
                       <option value="Hybrid">Hybrid</option>
