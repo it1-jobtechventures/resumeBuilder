@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react'
 import { toast } from 'react-toastify';
 import axios from 'axios'
+import countryCode from '../assets/countryCode';
 
 const GeneralInfo = ({nextStep}) => {
   const [countries, setCountries] = useState([]);
   const [cities, setCities] = useState([]);
   const [selectedCountry, setSelectedCountry] = useState('');
   const [selectedCity, setSelectedCity] = useState('');
-
   const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',
@@ -172,16 +172,20 @@ const GeneralInfo = ({nextStep}) => {
             <div className="mb-4">
               <label className="block text-[#4b164c] font-bold">Phone Number<span className='text-red-700 pl-0.5'>*</span></label>
               <select name='countryCode1' value={formData.countryCode1} onChange={handleChange}>
-                <option>+91</option>
-                <option>+1</option>
+              <option disabled>Select country Code</option>
+                {countryCode.map(country => (
+                  <option key={country.id}>+{country.tel_country_code}</option>
+                ))}
               </select>
               <input type="tel" name="phone1" value={formData.phone1} onChange={handleChange} className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400 focus:outline-none" placeholder="Enter your phone number" required/>
             </div>
             <div className="">
               <label className="block text-[#4b164c] font-bold">Phone Number</label>
               <select name='countryCode2' value={formData.countryCode2} onChange={handleChange}>
-                <option>+91</option>
-                <option>+1</option>
+                <option disabled>Select country Code</option>
+                {countryCode.map(country => (
+                  <option key={country.id}>+{country.tel_country_code}</option>
+                ))}
               </select>
               <input type="tel" name="phone2" value={formData.phone2} onChange={handleChange} className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400 focus:outline-none" placeholder="Enter your optional phone number" />
             </div>
@@ -208,7 +212,7 @@ const GeneralInfo = ({nextStep}) => {
           </div>
           <div className="mb-4">
                 <label className="block text-[#4b164c] font-bold">Pincode</label>
-                <input type="Number" name="pincode" value={formData.pincode} onChange={handleChange} className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400 focus:outline-none" placeholder="Enter your Pincode" />
+                <input type="Number" name="pincode" min={0}  value={formData.pincode} onChange={handleChange} className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400 focus:outline-none" placeholder="Enter your Pincode" />
               </div>
           <div className="">
             <label className="block text-[#4b164c] font-bold">Address</label>
@@ -216,7 +220,7 @@ const GeneralInfo = ({nextStep}) => {
           </div>
           <div className="mb-4">
             <label className="block text-[#4b164c] font-bold">Total Experience</label>
-            <input type="number" name="experience" value={formData.experience} onChange={handleChange} className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400 focus:outline-none" placeholder="Enter your Total Experience"  />
+            <input type="number" min={0} name="experience" value={formData.experience} onChange={handleChange} className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400 focus:outline-none" placeholder="Enter your Total Experience"  />
           </div>
           <div className='grid grid-cols-1 md:grid-cols-2 gap-4'>
             <div className="mb-4">
