@@ -13,7 +13,9 @@ const GeneralInfo = ({nextStep}) => {
     lastName: '',
     email: '',
     dob: '',
+    countryCode1:'',
     phone1: '',
+    countryCode2:'',
     phone2: '',
     city:'' ,
     country: '',
@@ -72,15 +74,14 @@ const GeneralInfo = ({nextStep}) => {
       toast.error('Pincode must be 5-6 digits');
       isValid = false;
     }
-    
-    if (formData.linkedin && !formData.linkedin.match(/^(https?:\/\/)?(www\.)?linkedin\.com\/.*$/)) {
+    if (formData.linkedin && !formData.linkedin.match(/^(https?:\/\/)?(www\.)?linkedin\.com\/(in|pub|company)\/[A-z0-9_-]+\/?$|^http:\/\/localhost\/[A-z0-9_-]+$/)) {
       toast.error('Invalid LinkedIn URL');
       isValid = false;
     }
-    if (formData.portfolio && !formData.portfolio.match(/^(https?:\/\/).*$/)) {
-      toast.error('Invalid portfolio URL');
-      isValid = false;
-    }
+    if (formData.portfolio && !formData.portfolio.match(/^(https?:\/\/|http:\/\/|www\.)[\w\-]+\.[a-z]{2,6}([\/\w\-]*)*\/?$/)) {
+    toast.error('Invalid portfolio URL');
+    isValid = false;
+  }
     return isValid;
   };
 
@@ -170,20 +171,22 @@ const GeneralInfo = ({nextStep}) => {
           <div className='grid grid-cols-1 md:grid-cols-2 gap-4'>
             <div className="mb-4">
               <label className="block text-[#4b164c] font-bold">Phone Number<span className='text-red-700 pl-0.5'>*</span></label>
+              <select name='countryCode1' value={formData.countryCode1} onChange={handleChange}>
+                <option>+91</option>
+                <option>+1</option>
+              </select>
               <input type="tel" name="phone1" value={formData.phone1} onChange={handleChange} className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400 focus:outline-none" placeholder="Enter your phone number" required/>
             </div>
             <div className="">
               <label className="block text-[#4b164c] font-bold">Phone Number</label>
+              <select name='countryCode2' value={formData.countryCode2} onChange={handleChange}>
+                <option>+91</option>
+                <option>+1</option>
+              </select>
               <input type="tel" name="phone2" value={formData.phone2} onChange={handleChange} className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400 focus:outline-none" placeholder="Enter your optional phone number" />
             </div>
           </div>
-          <div className="">
-            <label className="block text-[#4b164c] font-bold">Address</label>
-            <textarea type="text" name="address" value={formData.address} onChange={handleChange} className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400 focus:outline-none" placeholder="Enter your full address" rows={4} />
-          </div>
-          <div className='grid grid-cols-1 md:grid-cols-2 gap-4'>
-            <div className='grid grid-cols-1 md:grid-cols-2 gap-4'>
-              <div className="mb-4">  
+          <div className="mb-4">  
                 <label className="block text-[#4b164c] font-bold">Country<span className='text-red-700 pl-0.5'>*</span></label>
                 {/* <input type="text"name="country" value={formData.country} onChange={handleChange} className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400 focus:outline-none" placeholder="Enter your Country" required/> */}
                 <select value={selectedCountry} onChange={handleCountryChange} className='w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400 focus:outline-none'>
@@ -193,12 +196,6 @@ const GeneralInfo = ({nextStep}) => {
                 ))}
                 </select>
               </div>
-              <div className="mb-4">
-                <label className="block text-[#4b164c] font-bold">Pincode</label>
-                <input type="Number" name="pincode" value={formData.pincode} onChange={handleChange} className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400 focus:outline-none" placeholder="Enter your Pincode" />
-              </div>
-            </div>
-          </div>
           <div className="">
             <label className="block text-[#4b164c] font-bold">City</label>
             {/* <input type="text" name="city" value={formData.city} onChange={handleChange} className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400 focus:outline-none" placeholder="Enter your City" /> */}
@@ -208,6 +205,14 @@ const GeneralInfo = ({nextStep}) => {
                 <option key={index} value={city}>{city}</option>
               ))}
             </select>
+          </div>
+          <div className="mb-4">
+                <label className="block text-[#4b164c] font-bold">Pincode</label>
+                <input type="Number" name="pincode" value={formData.pincode} onChange={handleChange} className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400 focus:outline-none" placeholder="Enter your Pincode" />
+              </div>
+          <div className="">
+            <label className="block text-[#4b164c] font-bold">Address</label>
+            <textarea type="text" name="address" value={formData.address} onChange={handleChange} className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400 focus:outline-none" placeholder="Enter your full address" rows={4} />
           </div>
           <div className="mb-4">
             <label className="block text-[#4b164c] font-bold">Total Experience</label>
