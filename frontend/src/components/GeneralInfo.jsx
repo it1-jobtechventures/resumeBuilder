@@ -91,45 +91,77 @@ const GeneralInfo = ({nextStep}) => {
     }
   };
 
-  const fetchCountries = async () => {
-    try {
-      const res = await axios.get('https://countriesnow.space/api/v0.1/countries');
-      setCountries(res.data.data.map(item => item.country));
-    } catch (error) {
-      console.error('Error fetching countries:', error);
-      toast.error('Failed to load countries');
-    }
-  };
+  //using api 
+  // const fetchCountries = async () => {
+  //   try {
+  //     const res = await axios.get('https://countriesnow.space/api/v0.1/countries');
+  //     setCountries(res.data.data.map(item => item.country));
+  //   } catch (error) {
+  //     console.error('Error fetching countries:', error);
+  //     toast.error('Failed to load countries');
+  //   }
+  // };
+  // const fetchCountry = () => {
+  //   const countryNames = countryCode.map((country) => country.country_name);
+  //   console.log(countryNames);
+  //   setCountries(countryNames); // Assuming `setCountries` is managing an array
+  // };
+  
+  // useEffect(() => {
+  //   fetchCountry()
+  // },[])
+
+  // const handleCountryChange = async (e) => {
+  //   const country = e.target.value;
+  //   setSelectedCountry(country);
+  //   setFormData(prev => ({ ...prev, country }));
+
+  //   if (country) {
+  //     try {
+  //       const res = await axios.post('https://countriesnow.space/api/v0.1/countries/cities', { country });
+  //       setCities(res.data.data);
+  //     } catch (error) {
+  //       console.error('Error fetching cities:', error);
+  //       toast.error('Failed to load cities');
+  //     }
+  //   }
+  // };
+
+  // const handleCityChange = (e) => {
+  //   setSelectedCity(e.target.value);
+  //   setFormData(prev => ({ ...prev, city: e.target.value }));
+  // };
 
 
+  //using json 
+  useEffect(() => {
+    if (!countryCode || countryCode.length === 0) return;
+    setCountries(countryCode.map((country) => country.country_name));
+  }, [countryCode]); // Added dependency for re-fetching if countryCode changes
+  
   const handleCountryChange = async (e) => {
     const country = e.target.value;
     setSelectedCountry(country);
     setFormData(prev => ({ ...prev, country }));
-
-    if (country) {
-      try {
-        const res = await axios.post('https://countriesnow.space/api/v0.1/countries/cities', { country });
-        setCities(res.data.data);
-      } catch (error) {
-        console.error('Error fetching cities:', error);
-        toast.error('Failed to load cities');
-      }
+  
+    if (!country) return;
+  
+    try {
+      const { data } = await axios.post('https://countriesnow.space/api/v0.1/countries/cities', { country });
+  
+      setCities(data?.data || []);
+      if (!data?.data.length) toast.error('No cities found');
+    } catch (error) {
+      console.error('Error fetching cities:', error);
+      toast.error('Failed to load cities');
     }
   };
-
+  
   const handleCityChange = (e) => {
     setSelectedCity(e.target.value);
     setFormData(prev => ({ ...prev, city: e.target.value }));
   };
-
-  // const handleChange = (e) => {
-  //   const { name, value } = e.target;
-  //   const updatedData = { ...formData, [name]: value };
-  //   setFormData(updatedData);
-  //   localStorage.setItem('generalInfo', JSON.stringify(updatedData));
-  // };
-
+  
   const handleChange = (e) => {
     const { name, value } = e.target;
     const updatedData = { ...formData, [name]: value };
@@ -137,9 +169,9 @@ const GeneralInfo = ({nextStep}) => {
     localStorage.setItem('generalInfo', JSON.stringify(updatedData));
   };
 
-  useEffect(() => {
-    fetchCountries()
-  },[])
+  // useEffect(() => {
+  //   fetchCountries()
+  // },[])
 
   return (
     <>
