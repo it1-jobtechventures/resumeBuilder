@@ -10,7 +10,7 @@ import userModel from './model/userModel.js';
 dotenv.config();
 
 const app = express();
-const allowedOrigins = ['http://localhost:5173']
+const allowedOrigins = ['https://resumebuilder-frontend-asqk.onrender.com']
 
 // Middleware
 app.use(express.json());
