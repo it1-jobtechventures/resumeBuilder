@@ -4,14 +4,14 @@ import { toast } from "react-toastify";
 import { Link, useNavigate } from 'react-router-dom'
 import { AppContext } from "../context/AppContext";
 
-const ProfilePage = () => {
+const ProfilePage = ({url}) => {
     const [user , setUser] = useState(null)
     const navigate = useNavigate();
     const {isLoggedIn, backendUrl, setIsLoggedIn} = useContext(AppContext);
   
     const getUserProfile = async() => {
         try {
-            const res = await axios.get('http://localhost:5000/api/auth/profile' ,{ withCredentials: true,})
+            const res = await axios.get(`${url}/api/auth/profile` ,{ withCredentials: true,})
             setUser(res.data.user)
         } catch (error) {
             toast.error('Profile not fetch')

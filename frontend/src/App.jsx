@@ -11,18 +11,18 @@ import ResetPassword from './pages/ResetPassword'
 import ProfilePage from './pages/ProfilePage'
 
 function App() {
- 
+  const url = import.meta.env.VITE_BACKEND_URL;
   return (
     <>
     <ToastContainer/>
       <Routes>
-        <Route path='/' element={<HomePage/>}/>
-        <Route path='/login' element={<Login/>}/>
-        <Route path='/reset-password' element={<ResetPassword/>} />
-        <Route path='/createResume' element={<ResumePage/>}/>
-        <Route path='/templates' element={<TemplatePage/>}/>
-        <Route path='/resume-review' element={<ResumeReview/>}/>
-        <Route path='/profile' element={<ProfilePage/>}/>
+        <Route path='/' element={<HomePage url={url}/>}/>
+        <Route path='/login' element={<Login url={url}/>}/>
+        <Route path='/reset-password' element={<ResetPassword url={url}/>} />
+        <Route path='/createResume' element={<ResumePage url={url}/>}/>
+        <Route path='/templates' element={<TemplatePage url={url}/>}/>
+        <Route path='/resume-review' element={<ResumeReview url={url}/>}/>
+        <Route path='/profile' element={<ProfilePage url={url}/>}/>
       </Routes>
     </>
   )

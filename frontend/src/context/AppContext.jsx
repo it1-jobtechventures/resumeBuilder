@@ -4,7 +4,7 @@ export const AppContext = createContext();
 
 export const AppContextProvider = (props) => {
 
-    const backendUrl = "http://localhost:5000";
+    const backendUrl = "https://resumebuilder-backend-utic.onrender.com";
     // const [isLoggedIn, setIsLoggedIn] = useState(false);
 
     // Initialize state from localStorage

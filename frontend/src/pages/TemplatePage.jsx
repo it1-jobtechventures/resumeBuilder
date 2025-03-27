@@ -2,13 +2,13 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios'
 import TemplateSelection from '../components/TemplateSelection'
 
-const TemplatePage = () => {
+const TemplatePage = ({url}) => {
   const [templates, setTemplates] = useState([]);
 
   useEffect(() => {
     const fetchTemplates = async () => {
       try {
-        const response = await axios.get('http://localhost:5000/api/template/allTemplate');
+        const response = await axios.get(`${url}/api/template/allTemplate`);
         setTemplates(response.data);
       } catch (error) {
         console.error('Error fetching templates:', error);
@@ -21,7 +21,7 @@ const TemplatePage = () => {
   return (
     <div>
       <h1>Choose a Template</h1>
-      <TemplateSelection templates={templates} />
+      <TemplateSelection templates={templates} url={url} />
     </div>
   );
 };
