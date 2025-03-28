@@ -15,7 +15,7 @@ const ProfilePage = ({url}) => {
             setUser(res.data.user)
         } catch (error) {
             toast.error('Profile not fetch')
-            console.log(error.message)
+            toast.error(error.message)
         }
     }
 
