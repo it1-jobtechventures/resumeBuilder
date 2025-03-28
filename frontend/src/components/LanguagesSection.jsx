@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import language from '../assets/language';
 
 const LanguagesSection = () => {
   const [languages, setLanguages] = useState(() => {
@@ -35,10 +36,9 @@ const LanguagesSection = () => {
           <div key={index} className="mb-4 flex items-center space-x-2">
             <select className="p-2 border rounded-md w-1/2" value={lang.language} onChange={(e) => handleChange(index, 'language', e.target.value)}>
               <option value="">Select Language</option>
-              <option value="English">English</option>
-              <option value="Spanish">Spanish</option>
-              <option value="French">French</option>
-              <option value="German">German</option>
+              {language.map(lan => (
+                <option key={lan.id}>{lan.language}</option>
+              ))}
             </select>
             <select className="p-2 border rounded-md w-1/2" value={lang.level} onChange={(e) => handleChange(index, 'level', e.target.value)}>
               <option value="">Select Proficiency</option>
