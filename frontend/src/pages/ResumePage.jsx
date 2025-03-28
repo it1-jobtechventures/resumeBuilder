@@ -119,12 +119,12 @@ const ResumePage = () => {
 
       {/* Multi-step form */}
       <div className={`p-6 transition-all duration-300 bg-white shadow-lg rounded-md ${showForm ? 'w-full lg:w-3/4' : 'hidden'}`}>
-        {/* Back Button for Mobile
+        {/* Back Button for Mobile */}
         {screenWidth < 1024 && showForm && (
           <button onClick={() => setShowForm(false)} className="flex items-center gap-2 bg-gray-600 text-white p-3 rounded-md mb-4 font-semibold shadow-md hover:bg-gray-700 transition-all duration-200">
             <FaArrowLeft /> Back to Sections
           </button>
-        )} */}
+        )}
         <StepComponent nextStep={() => setCurrentStep(currentStep + 1)} prevStep={() => setCurrentStep(currentStep - 1)} />
       </div>
     </div>
