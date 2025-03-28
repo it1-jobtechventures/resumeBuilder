@@ -383,14 +383,15 @@ const ResumeReview = ({url}) => {
             .join("");
         }
   
-        return ""; // Remove the entire block if the data is empty
+        return ""; // Remove the entire section if empty
       })
       .replace(/{{(.*?)}}/g, (match, key) => {
         let value = getValueByPath(data, key.trim());
         return value !== undefined && value !== "" ? value : ""; // Remove empty placeholders
       })
-      .replace(/<h\d[^>]*>[^<]+<\/h\d>\s*(<ul>\s*<\/ul>|<p>\s*<\/p>|<div>\s*<\/div>)/g, ''); // Remove headings if section is empty
+      .replace(/<h\d[^>]*>[^<]+<\/h\d>\s*(<ul>\s*<\/ul>|<p>\s*<\/p>|<div>\s*<\/div>)/g, ''); // Remove headings if content is empty
   };
+  
   
   const applyStyleToSelectedText = (styleProperty, value) => {
     const selection = window.getSelection();
