@@ -187,12 +187,12 @@ const GeneralInfo = ({nextStep}) => {
   
   // };
   
-  // const handleChange = (e) => {
-  //   const { name, value } = e.target;
-  //   const updatedData = { ...formData, [name]: value };
-  //   setFormData(updatedData);
-  //   localStorage.setItem('generalInfo', JSON.stringify(updatedData));
-  // };
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    const updatedData = { ...formData, [name]: value };
+    setFormData(updatedData);
+    localStorage.setItem('generalInfo', JSON.stringify(updatedData));
+  };
 
   useEffect(() => {
     fetchCountries()
