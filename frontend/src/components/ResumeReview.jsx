@@ -319,12 +319,36 @@ const ResumeReview = ({url}) => {
     return path.split('.').reduce((acc, part) => acc && acc[part], obj);
   };
 
+  // // const replacePlaceholders = (html, data) => {
+  // //   return html
+  // //     .replace(/{{#(.*?)}}([\s\S]*?){{\/\1}}/g, (match, key, content) => {
+  // //       let value = getValueByPath(data, key.trim());
+
+  // //       if (Array.isArray(value)) {
+  // //         return value
+  // //           .map(item => {
+  // //             if (typeof item === "string") {
+  // //               return content.replace(/{{\.}}/g, item);
+  // //             }
+  // //             return content.replace(/{{(.*?)}}/g, (m, k) => item[k.trim()] || "");
+  // //           })
+  // //           .join("");
+  // //       }
+
+  // //       return "";
+  // //     })
+  // //     .replace(/{{(.*?)}}/g, (match, key) => {
+  // //       let value = getValueByPath(data, key.trim());
+  // //       return value !== undefined ? value : match;
+  // //     });
+  // // };
+
   // const replacePlaceholders = (html, data) => {
   //   return html
   //     .replace(/{{#(.*?)}}([\s\S]*?){{\/\1}}/g, (match, key, content) => {
   //       let value = getValueByPath(data, key.trim());
-
-  //       if (Array.isArray(value)) {
+  
+  //       if (Array.isArray(value) && value.length > 0) {
   //         return value
   //           .map(item => {
   //             if (typeof item === "string") {
@@ -334,15 +358,15 @@ const ResumeReview = ({url}) => {
   //           })
   //           .join("");
   //       }
-
-  //       return "";
+  
+  //       return ""; // Remove the entire block if data is empty
   //     })
   //     .replace(/{{(.*?)}}/g, (match, key) => {
   //       let value = getValueByPath(data, key.trim());
-  //       return value !== undefined ? value : match;
-  //     });
+  //       return value !== undefined && value !== "" ? value : ""; // Remove empty placeholders
+  //     })
+  //     .replace(/\s*<[^\/>]+>\s*<\/[^>]+>\s*/g, ''); // Remove empty HTML tags after replacing placeholders
   // };
-
   const replacePlaceholders = (html, data) => {
     return html
       .replace(/{{#(.*?)}}([\s\S]*?){{\/\1}}/g, (match, key, content) => {
@@ -359,13 +383,13 @@ const ResumeReview = ({url}) => {
             .join("");
         }
   
-        return ""; // Remove the entire block if data is empty
+        return ""; // Remove the entire block if the data is empty
       })
       .replace(/{{(.*?)}}/g, (match, key) => {
         let value = getValueByPath(data, key.trim());
         return value !== undefined && value !== "" ? value : ""; // Remove empty placeholders
       })
-      .replace(/\s*<[^\/>]+>\s*<\/[^>]+>\s*/g, ''); // Remove empty HTML tags after replacing placeholders
+      .replace(/<h\d[^>]*>[^<]+<\/h\d>\s*(<ul>\s*<\/ul>|<p>\s*<\/p>|<div>\s*<\/div>)/g, ''); // Remove headings if section is empty
   };
   
   const applyStyleToSelectedText = (styleProperty, value) => {
