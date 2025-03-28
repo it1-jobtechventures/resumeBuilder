@@ -77,10 +77,17 @@ const ResumePage = () => {
     { id: 7, title: 'References', component: ReferanceInfo },
   ];
 
-  const [currentStep, setCurrentStep] = useState(0);
+  // const [currentStep, setCurrentStep] = useState(0);
+  const [currentStep, setCurrentStep] = useState(() => {
+    return Number(localStorage.getItem('currentStep')) || 0;
+  }) ;
   const [showForm, setShowForm] = useState(window.innerWidth >= 1024);
   const [screenWidth, setScreenWidth] = useState(window.innerWidth);
 
+  useEffect(() => {
+    localStorage.setItem('currentStep', currentStep)
+  },[currentStep]);
+  
   const StepComponent = steps[currentStep].component;
 
   useEffect(() => {
