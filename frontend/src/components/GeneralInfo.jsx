@@ -93,99 +93,99 @@ const GeneralInfo = ({nextStep}) => {
     }
   };
 
-  //using api 
-  const fetchCountries = async () => {
-    try {
-      const res = await axios.get('https://countriesnow.space/api/v0.1/countries');
-      setCountries(res.data.data.map(item => item.country));
-    } catch (error) {
-      console.error('Error fetching countries:', error);
-      toast.error('Failed to load countries');
-    }
-  };
-  const fetchCountry = () => {
-    const countryNames = countryCode.map((country) => country.country_name);
-    console.log(countryNames);
-    setCountries(countryNames); // Assuming `setCountries` is managing an array
-  };
+  // //using api 
+  // const fetchCountries = async () => {
+  //   try {
+  //     const res = await axios.get('https://countriesnow.space/api/v0.1/countries');
+  //     setCountries(res.data.data.map(item => item.country));
+  //   } catch (error) {
+  //     console.error('Error fetching countries:', error);
+  //     toast.error('Failed to load countries');
+  //   }
+  // };
+  // const fetchCountry = () => {
+  //   const countryNames = countryCode.map((country) => country.country_name);
+  //   console.log(countryNames);
+  //   setCountries(countryNames); // Assuming `setCountries` is managing an array
+  // };
   
-  useEffect(() => {
-    fetchCountry()
-  },[])
-
-  const handleCountryChange = async (e) => {
-    const country = e.target.value;
-    setSelectedCountry(country);
-    setFormData(prev => ({ ...prev, country }));
-
-    if (country) {
-      try {
-        const res = await axios.post('https://countriesnow.space/api/v0.1/countries/cities', { country });
-        setCities(res.data.data);
-      } catch (error) {
-        console.error('Error fetching cities:', error);
-        toast.error('Failed to load cities');
-      }
-    }
-  };
-
-  const handleCityChange = (e) => {
-    setSelectedCity(e.target.value);
-    setFormData(prev => ({ ...prev, city: e.target.value }));
-  };
-
-
-  // //using json 
   // useEffect(() => {
-  //   if (!countryCode || countryCode.length === 0) return;
-  //   setCountries(countryCode.map((country) => country.country_name));
-  // }, [countryCode]); // Added dependency for re-fetching if countryCode changes
-  
+  //   fetchCountry()
+  // },[])
+
   // const handleCountryChange = async (e) => {
   //   const country = e.target.value;
   //   setSelectedCountry(country);
   //   setFormData(prev => ({ ...prev, country }));
-  
-  //   if (!country) return;
-  
-  //   try {
-  //     const { data } = await axios.post('https://countriesnow.space/api/v0.1/countries/cities', { country });
-  
-  //     setCities(data?.data || []);
-  //     if (!data?.data.length) toast.error('No cities found');
-  //   } catch (error) {
-  //     console.error('Error fetching cities:', error);
-  //     toast.error('Failed to load cities');
-  //   }
-  // };
-  
-  // const handleCityChange = async(e) => {
-  //   const city = e.target.value
-  //   setSelectedCity(city);
-  //   setFormData(prev => ({ ...prev, city}));
 
-  //   if (!selectedCountry || !city) {
-  //     toast.error("Please select a country first.");
-  //     return;
-  //   }
-    
-  //   try {
-  //     const countryCode = selectedCountry.toLowerCase(); // Convert to lowercase for API
-  //     const response = await axios.get(`https://api.zippopotam.us/${countryCode}/${city}`);
-
-  //     if (response.data && response.data.places.length > 0) {
-  //       const fetchedPincode = response.data.places[0]["post code"];
-  //       setPincode(fetchedPincode);
-  //       setFormData(prev => ({ ...prev, pincode: fetchedPincode }));
-  //     } else {
-  //       toast.error("No pincode found for this city.");
+  //   if (country) {
+  //     try {
+  //       const res = await axios.post('https://countriesnow.space/api/v0.1/countries/cities', { country });
+  //       setCities(res.data.data);
+  //     } catch (error) {
+  //       console.error('Error fetching cities:', error);
+  //       toast.error('Failed to load cities');
   //     }
-  //   } catch (error) {
-  //     console.error("Error fetching pincode:", error);
-  //     toast.error("Failed to fetch pincode. Try another city.");
   //   }
-  
   // };
+
+  // const handleCityChange = (e) => {
+  //   setSelectedCity(e.target.value);
+  //   setFormData(prev => ({ ...prev, city: e.target.value }));
+  // };
+
+
+  //using json 
+  useEffect(() => {
+    if (!countryCode || countryCode.length === 0) return;
+    setCountries(countryCode.map((country) => country.country_name));
+  }, [countryCode]); // Added dependency for re-fetching if countryCode changes
+  
+  const handleCountryChange = async (e) => {
+    const country = e.target.value;
+    setSelectedCountry(country);
+    setFormData(prev => ({ ...prev, country }));
+  
+    if (!country) return;
+  
+    try {
+      const { data } = await axios.post('https://countriesnow.space/api/v0.1/countries/cities', { country });
+  
+      setCities(data?.data || []);
+      if (!data?.data.length) toast.error('No cities found');
+    } catch (error) {
+      console.error('Error fetching cities:', error);
+      toast.error('Failed to load cities');
+    }
+  };
+  
+  const handleCityChange = async(e) => {
+    const city = e.target.value
+    setSelectedCity(city);
+    setFormData(prev => ({ ...prev, city}));
+
+    if (!selectedCountry || !city) {
+      toast.error("Please select a country first.");
+      return;
+    }
+    
+    try {
+      const countryCode = selectedCountry.toLowerCase(); // Convert to lowercase for API
+      const response = await axios.get(`https://api.zippopotam.us/${countryCode}/${city}`);
+
+      if (response.data && response.data.places.length > 0) {
+        const fetchedPincode = response.data.places[0]["post code"];
+        setPincode(fetchedPincode);
+        setFormData(prev => ({ ...prev, pincode: fetchedPincode }));
+      } else {
+        toast.error("No pincode found for this city.");
+      }
+    } catch (error) {
+      console.error("Error fetching pincode:", error);
+      toast.error("Failed to fetch pincode. Try another city.");
+    }
+  
+  };
   
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -194,9 +194,9 @@ const GeneralInfo = ({nextStep}) => {
     localStorage.setItem('generalInfo', JSON.stringify(updatedData));
   };
 
-  useEffect(() => {
-    fetchCountries()
-  },[])
+  // useEffect(() => {
+  //   fetchCountries()
+  // },[])
 
   return (
     <>
