@@ -1,4 +1,4 @@
-// // after ui change css
+// // main code
 // import React, { useState, useEffect } from 'react';
 // import { Link } from 'react-router-dom';
 // import GeneralInfo from '../components/GeneralInfo';
@@ -123,10 +123,10 @@ const ResumePage = () => {
     <div className="flex min-h-screen bg-gray-100">
       {/* Hamburger Button for Mobile */}
       <button
-        className="fixed top-4 left-4 z-50 p-3 bg-blue-600 text-white rounded-md lg:hidden"
+        className="fixed top-4 left-4 z-50 p-2 bg-[linear-gradient(90deg,_#54DF71_0%,_#037CD5_100%)] text-white rounded-md lg:hidden"
         onClick={() => setIsSidebarOpen(true)}
       >
-        <FaBars size={24} />
+        <FaBars size={20} />
       </button>
 
       {/* Sidebar (Mobile & Desktop) */}
@@ -163,6 +163,9 @@ const ResumePage = () => {
             </li>
           ))}
         </ul>
+        <section className='pt-5 flex justify-center items-center'>
+          <Link to={'/profile'}><img src='/profile.png' alt='profile image' className='w-14 h-14'/></Link>
+        </section>
       </div>
 
       {/* Overlay for Mobile - Click outside to close sidebar */}
@@ -174,67 +177,13 @@ const ResumePage = () => {
       )}
 
       {/* Main Form Section */}
-      <div className="p-6 bg-white shadow-lg rounded-md flex-1">
+      <div className="p-6 bg-white shadow-lg rounded-md flex-1 pt-17">
         <StepComponent onClick={(e) => e.stopPropagation()}
           nextStep={() => setCurrentStep((prev) => Math.min(prev + 1, steps.length - 1))}
           prevStep={() => setCurrentStep((prev) => Math.max(prev - 1, 0))}
         />
       </div>
     </div>
-//     <div className="flex min-h-screen bg-gray-100">
-
-//   {/* Sidebar (Mobile & Desktop) */}
-//   <div
-//     className={`fixed top-0 left-0 h-full bg-white w-64 p-4 border-r shadow-lg z-50 transition-transform duration-300 transform ${
-//       isSidebarOpen ? 'translate-x-0' : '-translate-x-full'
-//     } lg:relative lg:translate-x-0 lg:w-72`}
-//   >
-//     {/* Close Button (Mobile) */}
-//     <button
-//       className="absolute top-4 right-4 text-gray-600 lg:hidden"
-//       onClick={() => setIsSidebarOpen(false)}
-//     >
-//       <FaTimes size={24} />
-//     </button>
-
-//     <Link to="/">
-//       <img src="/resumeRingerLogo.png" alt="logo" className="h-16 mb-4" />
-//     </Link>
-
-//     <ul className="w-full space-y-2">
-//       {steps.map((step, index) => (
-//         <li
-//           key={step.id}
-//           className={`p-3 text-sm sm:text-lg font-medium text-center cursor-pointer rounded-md transition-all duration-200 shadow-md ${
-//             currentStep === index ? 'bg-[#037CD5] text-white' : 'bg-gray-200 hover:bg-gray-300'
-//           }`}
-//           onClick={() => {
-//             setCurrentStep(index);
-//             setIsSidebarOpen(false); // Close sidebar on selection (Mobile)
-//           }}
-//         >
-//           {step.title}
-//         </li>
-//       ))}
-//     </ul>
-//   </div>
-
-//   {/* Overlay for Mobile - Click outside to close sidebar */}
-//   {isSidebarOpen && (
-//     <div
-//       className="fixed inset-0 bg-opacity-50 z-40 lg:hidden"
-//       onClick={() => setIsSidebarOpen(false)}
-//     ></div>
-//   )}
-
-//   {/* Main Form Section */}
-//   <div className="flex-1 overflow-y-auto p-6 bg-white shadow-lg rounded-md">
-//     <StepComponent
-//       nextStep={() => setCurrentStep((prev) => Math.min(prev + 1, steps.length - 1))}
-//       prevStep={() => setCurrentStep((prev) => Math.max(prev - 1, 0))}
-//     />
-//   </div>
-// </div>
 
   );
 };
