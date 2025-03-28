@@ -5,7 +5,7 @@ const LanguagesSection = () => {
   const [languages, setLanguages] = useState(() => {
     // Retrieve from local storage or initialize with a single empty entry
     const savedLanguages = localStorage.getItem('languages');
-    return savedLanguages ? JSON.parse(savedLanguages) : [{ language: '', level: '' }];
+    return savedLanguages ? JSON.parse(savedLanguages) : [{ language: '',   customLanguage: '', level: '' }];
   });
 
   // Save to local storage whenever languages change
@@ -16,11 +16,16 @@ const LanguagesSection = () => {
   const handleChange = (index, field, value) => {
     const updatedLanguages = [...languages];
     updatedLanguages[index][field] = value;
+
+    //If "Others" is selected, reste the language field
+    if (field === 'language' && value !== 'Others') {
+      updatedLanguages[index].customLanguage = '' ;
+    }
     setLanguages(updatedLanguages);
   };
 
   const addLanguage = () => {
-    setLanguages([...languages, { language: '', level: '' }]);
+    setLanguages([...languages, { language: '', customLanguage: '' , level: '' }]);
   };
 
   const removeLanguage = (index) => {
@@ -37,9 +42,10 @@ const LanguagesSection = () => {
             <select className="p-2 border rounded-md w-1/2" value={lang.language} onChange={(e) => handleChange(index, 'language', e.target.value)}>
               <option value="">Select Language</option>
               {language.map(lan => (
-                <option key={lan.id}>{lan.language}</option>
+                <option key={lan.id} value={lan.language}>{lan.language}</option>
               ))}
             </select>
+            {lang.language === 'Others' && (<input type='text' placeholder='Enter Language' className="p-2 border rounded-md w-1/2" value={lang.customLanguage} onChange={(e) => handleChange(index, 'customLanguage', e.target.value)}/>)}
             <select className="p-2 border rounded-md w-1/2" value={lang.level} onChange={(e) => handleChange(index, 'level', e.target.value)}>
               <option value="">Select Proficiency</option>
               <option value="Beginner">Beginner</option>
