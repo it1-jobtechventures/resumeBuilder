@@ -288,15 +288,23 @@ import { AppContext } from '../context/AppContext';
 
 const ResumeReview = ({url}) => {
   const location = useLocation();
-  const { templateId } = location.state || {};
+  // const { templateId } = location.state || {};
   const [templateData, setTemplateData] = useState(null);
   const { resumeData } = useResume();
   const {isLoggedIn} = useContext(AppContext)
   const navigate = useNavigate()
+  const [templateId, setTemplateId] = useState(location.state?.templateId || localStorage.getItem("selectedTemplateId"));
 
-  const hangleLoginRedirect = () => {
-    navigate('/login' , {state:{from :location.pathname}})
-  }
+
+    //to render the same pageif user login from resume review page 
+    const hangleLoginRedirect = () => {
+      if (templateId) {
+        localStorage.setItem("selectedTemplateId" , templateId)// Store templateId
+      }
+      navigate('/login' , {state:{from :location.pathname}})
+    }
+    
+
   // Customization State
   const [fontSize, setFontSize] = useState(localStorage.getItem('fontSize') || '16px');
   const [fontFamily, setFontFamily] = useState(localStorage.getItem('fontFamily') || 'Arial');
@@ -323,54 +331,7 @@ const ResumeReview = ({url}) => {
     return path.split('.').reduce((acc, part) => acc && acc[part], obj);
   };
 
-  // // const replacePlaceholders = (html, data) => {
-  // //   return html
-  // //     .replace(/{{#(.*?)}}([\s\S]*?){{\/\1}}/g, (match, key, content) => {
-  // //       let value = getValueByPath(data, key.trim());
-
-  // //       if (Array.isArray(value)) {
-  // //         return value
-  // //           .map(item => {
-  // //             if (typeof item === "string") {
-  // //               return content.replace(/{{\.}}/g, item);
-  // //             }
-  // //             return content.replace(/{{(.*?)}}/g, (m, k) => item[k.trim()] || "");
-  // //           })
-  // //           .join("");
-  // //       }
-
-  // //       return "";
-  // //     })
-  // //     .replace(/{{(.*?)}}/g, (match, key) => {
-  // //       let value = getValueByPath(data, key.trim());
-  // //       return value !== undefined ? value : match;
-  // //     });
-  // // };
-
-  // const replacePlaceholders = (html, data) => {
-  //   return html
-  //     .replace(/{{#(.*?)}}([\s\S]*?){{\/\1}}/g, (match, key, content) => {
-  //       let value = getValueByPath(data, key.trim());
-  
-  //       if (Array.isArray(value) && value.length > 0) {
-  //         return value
-  //           .map(item => {
-  //             if (typeof item === "string") {
-  //               return content.replace(/{{\.}}/g, item);
-  //             }
-  //             return content.replace(/{{(.*?)}}/g, (m, k) => item[k.trim()] || "");
-  //           })
-  //           .join("");
-  //       }
-  
-  //       return ""; // Remove the entire block if data is empty
-  //     })
-  //     .replace(/{{(.*?)}}/g, (match, key) => {
-  //       let value = getValueByPath(data, key.trim());
-  //       return value !== undefined && value !== "" ? value : ""; // Remove empty placeholders
-  //     })
-  //     .replace(/\s*<[^\/>]+>\s*<\/[^>]+>\s*/g, ''); // Remove empty HTML tags after replacing placeholders
-  // };
+ 
   const replacePlaceholders = (html, data) => {
     return html
       .replace(/{{#(.*?)}}([\s\S]*?){{\/\1}}/g, (match, key, content) => {
@@ -451,6 +412,13 @@ const ResumeReview = ({url}) => {
     document.getElementById('resume-content').innerHTML = finalHTML;
   };
 
+  useEffect(() => {
+    let storedTemplateId =  localStorage.getItem("selectedTemplateId")
+    if (!templateId && storedTemplateId) {
+      setTemplateId(storedTemplateId);
+    }
+  }, [templateId])
+
   if (!templateId) return <h2>No template selected!</h2>;
   if (!templateData) return <h2>Loading template...</h2>;
 
@@ -510,3 +478,59 @@ const ResumeReview = ({url}) => {
 };
 
 export default ResumeReview;
+
+
+ // // const replacePlaceholders = (html, data) => {
+  // //   return html
+  // //     .replace(/{{#(.*?)}}([\s\S]*?){{\/\1}}/g, (match, key, content) => {
+  // //       let value = getValueByPath(data, key.trim());
+
+  // //       if (Array.isArray(value)) {
+  // //         return value
+  // //           .map(item => {
+  // //             if (typeof item === "string") {
+  // //               return content.replace(/{{\.}}/g, item);
+  // //             }
+  // //             return content.replace(/{{(.*?)}}/g, (m, k) => item[k.trim()] || "");
+  // //           })
+  // //           .join("");
+  // //       }
+
+  // //       return "";
+  // //     })
+  // //     .replace(/{{(.*?)}}/g, (match, key) => {
+  // //       let value = getValueByPath(data, key.trim());
+  // //       return value !== undefined ? value : match;
+  // //     });
+  // // };
+
+  // const replacePlaceholders = (html, data) => {
+  //   return html
+  //     .replace(/{{#(.*?)}}([\s\S]*?){{\/\1}}/g, (match, key, content) => {
+  //       let value = getValueByPath(data, key.trim());
+  
+  //       if (Array.isArray(value) && value.length > 0) {
+  //         return value
+  //           .map(item => {
+  //             if (typeof item === "string") {
+  //               return content.replace(/{{\.}}/g, item);
+  //             }
+  //             return content.replace(/{{(.*?)}}/g, (m, k) => item[k.trim()] || "");
+  //           })
+  //           .join("");
+  //       }
+  
+  //       return ""; // Remove the entire block if data is empty
+  //     })
+  //     .replace(/{{(.*?)}}/g, (match, key) => {
+  //       let value = getValueByPath(data, key.trim());
+  //       return value !== undefined && value !== "" ? value : ""; // Remove empty placeholders
+  //     })
+  //     .replace(/\s*<[^\/>]+>\s*<\/[^>]+>\s*/g, ''); // Remove empty HTML tags after replacing placeholders
+  // };
+
+
+    // //to render the same pageif user login from resume review page 
+  // const hangleLoginRedirect = () => {
+  //   navigate('/login' , {state:{from :location.pathname}})
+  // }
