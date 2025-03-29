@@ -305,6 +305,7 @@ const ResumeReview = ({url}) => {
     }
     
 
+
   // Customization State
   const [fontSize, setFontSize] = useState(localStorage.getItem('fontSize') || '16px');
   const [fontFamily, setFontFamily] = useState(localStorage.getItem('fontFamily') || 'Arial');
@@ -332,32 +333,79 @@ const ResumeReview = ({url}) => {
   };
 
  
-  const replacePlaceholders = (html, data) => {
-    return html
-      .replace(/{{#(.*?)}}([\s\S]*?){{\/\1}}/g, (match, key, content) => {
-        let value = getValueByPath(data, key.trim());
+
   
-        if (Array.isArray(value) && value.length > 0) {
-          return value
-            .map(item => {
-              if (typeof item === "string") {
-                return content.replace(/{{\.}}/g, item);
-              }
-              return content.replace(/{{(.*?)}}/g, (m, k) => item[k.trim()] || "");
-            })
-            .join("");
-        }
-  
-        return ""; // Remove the entire section if empty
+//   const replacePlaceholders = (html, data) => {
+//     return html
+//         .replace(/{{#(\w+)}}([\s\S]*?){{\/\1}}/g, (match, key, content) => {
+//             let value = getValueByPath(data, key.trim());
+
+//             if (Array.isArray(value) && value.length > 0) {
+//                 return value
+//                     .map(item => {
+//                         let updatedContent = content;
+
+//                         // Replace nested placeholders within this section
+//                         updatedContent = updatedContent.replace(/{{#(\w+)}}([\s\S]*?){{\/\1}}/g, (subMatch, subKey, subContent) => {
+//                             let nestedValue = item[subKey.trim()];
+//                             if (Array.isArray(nestedValue) && nestedValue.length > 0) {
+//                                 return nestedValue.map(nestedItem =>
+//                                     subContent.replace(/{{(.*?)}}/g, (m, k) => nestedItem[k.trim()] || "")
+//                                 ).join("");
+//                             }
+//                             return "";
+//                         });
+
+//                         // Replace simple placeholders
+//                         return updatedContent.replace(/{{(.*?)}}/g, (m, k) => item[k.trim()] || "");
+//                     })
+//                     .join(""); 
+//             }
+
+//             return ""; // Remove empty placeholders
+//         })
+//         .replace(/{{(.*?)}}/g, (match, key) => getValueByPath(data, key.trim()) || "");
+// };
+const replacePlaceholders = (html, data) => {
+  return html
+      .replace(/{{#(\w+)}}([\s\S]*?){{\/\1}}/g, (match, key, content) => {
+          let value = getValueByPath(data, key.trim());
+
+          if (Array.isArray(value) && value.length > 0) {
+              return value
+                  .map(item => {
+                      if (typeof item === "string") {
+                          return content.replace(/{{.}}/g, item); // Handle arrays of strings
+                      }
+
+                      let updatedContent = content;
+
+                      // Replace nested placeholders for objects
+                      updatedContent = updatedContent.replace(/{{#(\w+)}}([\s\S]*?){{\/\1}}/g, (subMatch, subKey, subContent) => {
+                          let nestedValue = item[subKey.trim()];
+                          if (Array.isArray(nestedValue) && nestedValue.length > 0) {
+                              return nestedValue.map(nestedItem =>
+                                  subContent.replace(/{{(.*?)}}/g, (m, k) => nestedItem[k.trim()] || "")
+                              ).join("");
+                          }
+                          return "";
+                      });
+
+                      // Replace object placeholders
+                      return updatedContent.replace(/{{(.*?)}}/g, (m, k) => item[k.trim()] || "");
+                  })
+                  .join(""); 
+          }
+
+          return ""; // Remove empty placeholders
       })
-      .replace(/{{(.*?)}}/g, (match, key) => {
-        let value = getValueByPath(data, key.trim());
-        return value !== undefined && value !== "" ? value : ""; // Remove empty placeholders
-      })
-      .replace(/<h\d[^>]*>[^<]+<\/h\d>\s*(<ul>\s*<\/ul>|<p>\s*<\/p>|<div>\s*<\/div>)/g, ''); // Remove headings if content is empty
-  };
-  
-  
+      .replace(/{{(.*?)}}/g, (match, key) => getValueByPath(data, key.trim()) || "");
+};
+
+
+
+
+
   const applyStyleToSelectedText = (styleProperty, value) => {
     const selection = window.getSelection();
     if (!selection.rangeCount) return;
@@ -480,29 +528,30 @@ const ResumeReview = ({url}) => {
 export default ResumeReview;
 
 
- // // const replacePlaceholders = (html, data) => {
-  // //   return html
-  // //     .replace(/{{#(.*?)}}([\s\S]*?){{\/\1}}/g, (match, key, content) => {
-  // //       let value = getValueByPath(data, key.trim());
 
-  // //       if (Array.isArray(value)) {
-  // //         return value
-  // //           .map(item => {
-  // //             if (typeof item === "string") {
-  // //               return content.replace(/{{\.}}/g, item);
-  // //             }
-  // //             return content.replace(/{{(.*?)}}/g, (m, k) => item[k.trim()] || "");
-  // //           })
-  // //           .join("");
-  // //       }
+//  const replacePlaceholders = (html, data) => {
+//     return html
+//       .replace(/{{#(.*?)}}([\s\S]*?){{\/\1}}/g, (match, key, content) => {
+//         let value = getValueByPath(data, key.trim());
 
-  // //       return "";
-  // //     })
-  // //     .replace(/{{(.*?)}}/g, (match, key) => {
-  // //       let value = getValueByPath(data, key.trim());
-  // //       return value !== undefined ? value : match;
-  // //     });
-  // // };
+//         if (Array.isArray(value)) {
+//           return value
+//             .map(item => {
+//               if (typeof item === "string") {
+//                 return content.replace(/{{\.}}/g, item);
+//               }
+//               return content.replace(/{{(.*?)}}/g, (m, k) => item[k.trim()] || "");
+//             })
+//             .join("");
+//         }
+
+//         return "";
+//       })
+//       .replace(/{{(.*?)}}/g, (match, key) => {
+//         let value = getValueByPath(data, key.trim());
+//         return value !== undefined ? value : match;
+//       });
+//   };
 
   // const replacePlaceholders = (html, data) => {
   //   return html
@@ -528,7 +577,6 @@ export default ResumeReview;
   //     })
   //     .replace(/\s*<[^\/>]+>\s*<\/[^>]+>\s*/g, ''); // Remove empty HTML tags after replacing placeholders
   // };
-
 
     // //to render the same pageif user login from resume review page 
   // const hangleLoginRedirect = () => {
