@@ -85,7 +85,7 @@
 // export default ResumePage;
 
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { Link } from 'react-router-dom';
 import { FaBars, FaTimes } from 'react-icons/fa';
 import GeneralInfo from '../components/GeneralInfo';
@@ -95,6 +95,7 @@ import ExtraSection from '../components/ExtraSection';
 import ReferanceInfo from '../components/ReferanceInfo';
 import EducationInfo from '../components/EducationInfo';
 import InternshipInfo from '../components/InternshipInfo';
+import { AppContext } from '../context/AppContext';
 
 const ResumePage = () => {
   const steps = [
@@ -112,7 +113,8 @@ const ResumePage = () => {
   });
 
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-
+  const {isLoggedIn} = useContext(AppContext)
+  
   useEffect(() => {
     localStorage.setItem('currentStep', currentStep);
   }, [currentStep]);
@@ -164,7 +166,13 @@ const ResumePage = () => {
           ))}
         </ul>
         <section className='pt-5 flex justify-center items-center'>
-          <Link to={'/profile'}><img src='/profile.png' alt='profile image' className='w-14 h-14'/></Link>
+          {!isLoggedIn ? (
+            <Link to={'/login'}><button className='cursor-pointer font-bold bg-[#037cd5] text-white p-2.5 text-center rounded-4xl h-10 hover:border hover:border-[#037cd5] hover:text-[#037cd5] hover:bg-transparent'>Sign In</button></Link>
+          ) : (
+            <section>
+            <Link to={'/profile'}><img src='/profile.png' alt='profile image' className='w-14 h-14'/></Link>
+          </section>
+          )}
         </section>
       </div>
 
