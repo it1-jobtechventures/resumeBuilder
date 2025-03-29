@@ -279,7 +279,7 @@
 
 // export default ResumeReview;
 import React, { useContext, useEffect, useState } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useResume } from '../context/FormContext';
 import { saveAs } from 'file-saver';
 import html2canvas from 'html2canvas';
@@ -292,7 +292,11 @@ const ResumeReview = ({url}) => {
   const [templateData, setTemplateData] = useState(null);
   const { resumeData } = useResume();
   const {isLoggedIn} = useContext(AppContext)
+  const navigate = useNavigate()
 
+  const hangleLoginRedirect = () => {
+    navigate('/login' , {state:{from :location.pathname}})
+  }
   // Customization State
   const [fontSize, setFontSize] = useState(localStorage.getItem('fontSize') || '16px');
   const [fontFamily, setFontFamily] = useState(localStorage.getItem('fontFamily') || 'Arial');
@@ -493,7 +497,7 @@ const ResumeReview = ({url}) => {
       <style>{templateData.cssContent}</style>
       {
         !isLoggedIn ? (
-          <p>Login to download <Link to={'/login'}><button>Login</button></Link></p>
+          <p>Login to download <button onClick={hangleLoginRedirect}>Login</button></p>
         ) : (
           <>          
             <button onClick={handleDownloadPDF}>Download as PDF</button>
