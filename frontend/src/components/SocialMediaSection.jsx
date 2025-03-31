@@ -48,6 +48,8 @@ import { RiFacebookBoxFill } from "react-icons/ri";
 import { FaWhatsapp } from "react-icons/fa";
 import { RiTwitterXFill } from "react-icons/ri";
 import { FaPinterest } from "react-icons/fa6";
+import { FaLinkedinIn } from "react-icons/fa";
+import { FaSchool } from "react-icons/fa";
 
 const SocialMediaSection = () => {
   const [socialLinks, setSocialLinks] = useState(() => {
@@ -57,7 +59,9 @@ const SocialMediaSection = () => {
       facebook: '',
       whatsapp: '',
       twitter: '',
-      pinterest: ''
+      pinterest: '',
+      linkedin:'',
+      portfolio:''
     }]
   });
 
@@ -124,6 +128,26 @@ const SocialMediaSection = () => {
             className="outline-none w-full" 
             value={socialLinks.pinterest} 
             onChange={(e) => handleChange('pinterest', e.target.value)}
+          />
+        </div>
+        <div className="flex items-center gap-4 border h-12 p-2">
+          <FaLinkedinIn className="text-2xl" />
+          <input 
+            type="url" 
+            placeholder="Enter your Linkedin profile link" 
+            className="outline-none w-full" 
+            value={socialLinks.linkedin} 
+            onChange={(e) => handleChange('linkedin', e.target.value)}
+          />
+        </div>
+        <div className="flex items-center gap-4 border h-12 p-2">
+          <FaSchool className="text-2xl" />
+          <input 
+            type="url" 
+            placeholder="Enter your portfolio link" 
+            className="outline-none w-full" 
+            value={socialLinks.portfolio} 
+            onChange={(e) => handleChange('portfolio', e.target.value)}
           />
         </div>
       </div>
