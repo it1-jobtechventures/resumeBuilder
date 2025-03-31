@@ -9,7 +9,10 @@ import SoftwareSection from "./SoftwareSection";
 import SocialMediaSection from "./SocialMediaSection";
 
 const ExtraSection = ({ nextStep, prevStep }) => {
-  const [selectedSections, setSelectedSections] = useState([]);
+  const [selectedSections, setSelectedSections] = useState(() => {
+    const savedSections = localStorage.getItem("selectedSections");
+    return savedSections ? JSON.parse(savedSections) : [];
+  });
 
   const sections = [
     "Projects",
@@ -21,6 +24,11 @@ const ExtraSection = ({ nextStep, prevStep }) => {
     "Software",
     "Volunteering",
   ];
+
+  useEffect(() => {
+    // Save the selected sections to localStorage whenever it changes
+    localStorage.setItem("selectedSections", JSON.stringify(selectedSections));
+  }, [selectedSections]);
 
   const toggleSection = (section) => {
     setSelectedSections((prev) =>
@@ -78,4 +86,3 @@ const ExtraSection = ({ nextStep, prevStep }) => {
 };
 
 export default ExtraSection;
-  
