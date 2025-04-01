@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { RxCross2 } from "react-icons/rx";
 
 const VolunteeringSection = () => {
   const [volunteering, setVolunteering] = useState(() => {
@@ -32,13 +33,13 @@ const VolunteeringSection = () => {
         <div key={index} className="mb-4 flex items-center">
           <input type="text" className="w-full p-2 border rounded-md" placeholder="Enter volunteering experience" value={item} onChange={(e) => handleVolunteeringChange(index, e.target.value)}/>
           {volunteering.length > 1 && (
-            <button type="button" onClick={() => removeVolunteering(index)} className="ml-2 bg-red-500 text-white px-3 py-1 rounded-md hover:bg-red-600">
-              X
+            <button type="button" onClick={() => removeVolunteering(index)} className="ml-2 text-red-500 hover:text-red-700 font-extrabold text-3xl">
+              <RxCross2/>
             </button>
           )}
         </div>
       ))}
-      <button type="button" onClick={addVolunteering} className="mt-2 bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600">
+      <button type="button" onClick={addVolunteering} className="mt-2 bg-[linear-gradient(90deg,_hsla(133,_68%,_60%,_1)_0%,_hsla(205,_97%,_42%,_1)_100%)] cursor-pointer text-white px-4 py-2 rounded-md hover:bg-[linear-gradient(90deg,_hsla(205,_97%,_42%,_1)_0%,_hsla(133,_68%,_60%,_1)_100%)]">
         + Add Another Volunteering Experience
       </button>
     </div>

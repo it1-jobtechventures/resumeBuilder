@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import language from '../assets/language';
+import { RxCross2 } from "react-icons/rx";
 
 const LanguagesSection = () => {
   const [languages, setLanguages] = useState(() => {
@@ -54,14 +55,14 @@ const LanguagesSection = () => {
               <option value="Native">Native</option>
             </select>
             {languages.length > 1 && (
-              <button type="button" onClick={() => removeLanguage(index)} className="bg-red-500 text-white px-2 py-1 rounded-md hover:bg-red-600">
-                Remove
+              <button type="button" onClick={() => removeLanguage(index)} className="text-red-500 hover:text-red-700 font-extrabold text-3xl">
+                <RxCross2/>
               </button>
             )}
           </div>
         ))}
-        <button type="button" onClick={addLanguage} className="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600">
-          Add Another Language
+        <button type="button" onClick={addLanguage} className="bg-[linear-gradient(90deg,_hsla(133,_68%,_60%,_1)_0%,_hsla(205,_97%,_42%,_1)_100%)] cursor-pointer text-white px-4 py-2 rounded-md hover:bg-[linear-gradient(90deg,_hsla(205,_97%,_42%,_1)_0%,_hsla(133,_68%,_60%,_1)_100%)]">
+          Add One More Language
         </button>
       </form>
     </div>

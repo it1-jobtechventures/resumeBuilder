@@ -40,7 +40,7 @@ const AccomplishmentsSection = () => {
           )}
         </div>
       ))}
-      <button type="button"onClick={addAccomplishment} className="mt-2 bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600">
+      <button type="button"onClick={addAccomplishment} className="mt-2 bg-[linear-gradient(90deg,_hsla(133,_68%,_60%,_1)_0%,_hsla(205,_97%,_42%,_1)_100%)] cursor-pointer text-white px-4 py-2 rounded-md hover:bg-[linear-gradient(90deg,_hsla(205,_97%,_42%,_1)_0%,_hsla(133,_68%,_60%,_1)_100%)]">
         + Add Another Accomplishment
       </button>
     </div>

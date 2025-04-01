@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { RxCross2 } from "react-icons/rx";
 
 const HobbiesSection = () => {
   const [interests, setInterests] = useState(() => {
@@ -34,13 +35,13 @@ const HobbiesSection = () => {
         <div key={index} className="mb-4 flex items-center">
           <input type="text" className="w-full p-2 border rounded-md" placeholder="Enter an interest or hobby" value={interest} onChange={(e) => handleInterestChange(index, e.target.value)}/>
           {interests.length > 1 && (
-            <button type="button" onClick={() => removeInterest(index)} className="ml-2 bg-red-500 text-white px-3 py-1 rounded-md hover:bg-red-600">
-              X
+            <button type="button" onClick={() => removeInterest(index)} className="ml-2 text-red-500 hover:text-red-700 font-extrabold text-3xl">
+              <RxCross2/>
             </button>
           )}
         </div>
       ))}
-      <button type="button" onClick={addInterest} className="mt-2 bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600">
+      <button type="button" onClick={addInterest} className="mt-2 bg-[linear-gradient(90deg,_hsla(133,_68%,_60%,_1)_0%,_hsla(205,_97%,_42%,_1)_100%)] cursor-pointer text-white px-4 py-2 rounded-md hover:bg-[linear-gradient(90deg,_hsla(205,_97%,_42%,_1)_0%,_hsla(133,_68%,_60%,_1)_100%)]">
         + Add Another Interest/Hobby
       </button>
     </div>

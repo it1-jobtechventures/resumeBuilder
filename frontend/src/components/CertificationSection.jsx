@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { RxCross2 } from "react-icons/rx";
 
 const CertificationSection = ({ nextStep, prevStep }) => {
   const [certifications, setCertifications] = useState(() => {
@@ -35,13 +36,13 @@ const CertificationSection = ({ nextStep, prevStep }) => {
           <div key={index} className="mb-4 flex items-center">
             <input type="text" className="w-full p-2 border rounded-md" placeholder="Enter certification" value={certification} onChange={(e) => handleChange(index, e.target.value)}/>
             {certifications.length > 1 && (
-              <button  type="button"  onClick={() => handleRemoveCertification(index)}  className="ml-2 text-red-500 hover:text-red-700">
-                ✖
+              <button  type="button"  onClick={() => handleRemoveCertification(index)}  className="ml-2 text-red-500 hover:text-red-700 font-extrabold text-3xl">
+                <RxCross2/>
               </button>
             )}
           </div>
         ))}
-        <button type="button" onClick={handleAddCertification} className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600">
+        <button type="button" onClick={handleAddCertification} className="bg-[linear-gradient(90deg,_hsla(133,_68%,_60%,_1)_0%,_hsla(205,_97%,_42%,_1)_100%)] cursor-pointer text-white px-4 py-2 rounded-md hover:bg-[linear-gradient(90deg,_hsla(205,_97%,_42%,_1)_0%,_hsla(133,_68%,_60%,_1)_100%)]">
           + Add Certification
         </button>
       </form>
