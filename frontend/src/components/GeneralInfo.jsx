@@ -83,46 +83,6 @@ const GeneralInfo = ({nextStep}) => {
     }
   };
 
-  // //using api 
-  // const fetchCountries = async () => {
-  //   try {
-  //     const res = await axios.get('https://countriesnow.space/api/v0.1/countries');
-  //     setCountries(res.data.data.map(item => item.country));
-  //   } catch (error) {
-  //     console.error('Error fetching countries:', error);
-  //     toast.error('Failed to load countries');
-  //   }
-  // };
-  // const fetchCountry = () => {
-  //   const countryNames = countryCode.map((country) => country.country_name);
-  //   console.log(countryNames);
-  //   setCountries(countryNames); // Assuming `setCountries` is managing an array
-  // };
-  
-  // useEffect(() => {
-  //   fetchCountry()
-  // },[])
-
-  // const handleCountryChange = async (e) => {
-  //   const country = e.target.value;
-  //   setSelectedCountry(country);
-  //   setFormData(prev => ({ ...prev, country }));
-
-  //   if (country) {
-  //     try {
-  //       const res = await axios.post('https://countriesnow.space/api/v0.1/countries/cities', { country });
-  //       setCities(res.data.data);
-  //     } catch (error) {
-  //       console.error('Error fetching cities:', error);
-  //       toast.error('Failed to load cities');
-  //     }
-  //   }
-  // };
-
-  // const handleCityChange = (e) => {
-  //   setSelectedCity(e.target.value);
-  //   setFormData(prev => ({ ...prev, city: e.target.value }));
-  // };
 
 
   //using json 
@@ -198,21 +158,21 @@ const GeneralInfo = ({nextStep}) => {
           <div className='grid grid-cols-1 md:grid-cols-2 gap-4'>
             <div className="">
               <label className="block text-[#4b164c] font-semibold">First Name<span className='text-red-700 pl-0.5'>*</span></label>
-              <input type="text" value={formData.firstName} name='firstName' onChange={handleChange} className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400 focus:outline-none" placeholder="Rohit" required />
+              <input type="text" style={{ textTransform: 'capitalize' }} value={formData.firstName} name='firstName' onChange={handleChange} className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400 focus:outline-none" placeholder="Rohit" required />
             </div>
             <div className="mb-4">
               <label className="block text-[#4b164c] font-bold">Last Name<span className='text-red-700 pl-0.5'>*</span></label>
-              <input type="text" name="lastName" value={formData.lastName} onChange={handleChange} className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400 focus:outline-none" placeholder="Sharma" required/>
+              <input type="text" style={{ textTransform: 'capitalize' }} name="lastName" value={formData.lastName} onChange={handleChange} className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400 focus:outline-none" placeholder="Sharma" required/>
             </div>
           </div>
           <div className='grid grid-cols-1 md:grid-cols-2 gap-4'>
             <div className="mb-4">
               <label className="block text-[#4b164c] font-bold">Email<span className='text-red-700 pl-0.5'>*</span></label>
-              <input type="email" name="email" value={formData.email} onChange={handleChange} className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400 focus:outline-none" placeholder="rohit@gmail.com" required/>
+              <input type="email"  name="email" value={formData.email} onChange={handleChange} className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400 focus:outline-none" placeholder="rohit@gmail.com" required/>
             </div>
             <div className="mb-4">
               <label className="block text-[#4b164c] font-bold">DOB</label>
-              <input type="date" name="dob" value={formData.dob} onChange={handleChange} className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400 focus:outline-none" placeholder="Enter your DOB" />
+              <input type="date" style={{ textTransform: 'capitalize' }} name="dob" value={formData.dob} onChange={handleChange} className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400 focus:outline-none" placeholder="Enter your DOB" />
             </div>
           </div>
           <div className='grid grid-cols-1 md:grid-cols-2 gap-4'>
@@ -240,7 +200,7 @@ const GeneralInfo = ({nextStep}) => {
           <div className="mb-4">  
                 <label className="block text-[#4b164c] font-bold">Country<span className='text-red-700 pl-0.5'>*</span></label>
                 {/* <input type="text"name="country" value={formData.country} onChange={handleChange} className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400 focus:outline-none" placeholder="Enter your Country" required/> */}
-                <select value={selectedCountry} onChange={handleCountryChange} className='w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400 focus:outline-none'>
+                <select value={selectedCountry} onChange={handleCountryChange} style={{ textTransform: 'capitalize' }} className='w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400 focus:outline-none'>
                   <option value="">Select Country</option>
                   {countries.map((country, index) => (
                     <option key={index} value={country}>{country}</option>
@@ -250,7 +210,7 @@ const GeneralInfo = ({nextStep}) => {
           <div className="">
             <label className="block text-[#4b164c] font-bold">City</label>
             {/* <input type="text" name="city" value={formData.city} onChange={handleChange} className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400 focus:outline-none" placeholder="Enter your City" /> */}
-            <select value={selectedCity} onChange={handleCityChange} className="w-full p-3 border border-gray-300 rounded-lg">
+            <select value={selectedCity} onChange={handleCityChange} style={{ textTransform: 'capitalize' }} className="w-full p-3 border border-gray-300 rounded-lg">
               <option value="">Select City</option>
               {cities.map((city, index) => (
                 <option key={index} value={city}>{city}</option>
@@ -264,7 +224,7 @@ const GeneralInfo = ({nextStep}) => {
               </div>
           <div className="">
             <label className="block text-[#4b164c] font-bold">Address</label>
-            <textarea type="text" name="address" value={formData.address} onChange={handleChange} className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400 focus:outline-none" placeholder="Enter your full address" rows={4} />
+            <textarea type="text" name="address" value={formData.address} style={{ textTransform: 'capitalize' }} onChange={handleChange} className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400 focus:outline-none" placeholder="Enter your full address" rows={4} />
           </div>
           <div className="mb-4">
             <label className="block text-[#4b164c] font-bold">Total Experience</label>
@@ -284,3 +244,44 @@ const GeneralInfo = ({nextStep}) => {
 }
 
 export default GeneralInfo
+
+  // //using api 
+  // const fetchCountries = async () => {
+  //   try {
+  //     const res = await axios.get('https://countriesnow.space/api/v0.1/countries');
+  //     setCountries(res.data.data.map(item => item.country));
+  //   } catch (error) {
+  //     console.error('Error fetching countries:', error);
+  //     toast.error('Failed to load countries');
+  //   }
+  // };
+  // const fetchCountry = () => {
+  //   const countryNames = countryCode.map((country) => country.country_name);
+  //   console.log(countryNames);
+  //   setCountries(countryNames); // Assuming `setCountries` is managing an array
+  // };
+  
+  // useEffect(() => {
+  //   fetchCountry()
+  // },[])
+
+  // const handleCountryChange = async (e) => {
+  //   const country = e.target.value;
+  //   setSelectedCountry(country);
+  //   setFormData(prev => ({ ...prev, country }));
+
+  //   if (country) {
+  //     try {
+  //       const res = await axios.post('https://countriesnow.space/api/v0.1/countries/cities', { country });
+  //       setCities(res.data.data);
+  //     } catch (error) {
+  //       console.error('Error fetching cities:', error);
+  //       toast.error('Failed to load cities');
+  //     }
+  //   }
+  // };
+
+  // const handleCityChange = (e) => {
+  //   setSelectedCity(e.target.value);
+  //   setFormData(prev => ({ ...prev, city: e.target.value }));
+  // };

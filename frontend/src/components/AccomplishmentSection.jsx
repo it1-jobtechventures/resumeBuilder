@@ -32,7 +32,7 @@ const AccomplishmentsSection = () => {
       <h2 className="text-2xl font-bold mb-4">Accomplishments</h2>
       {accomplishments.map((accomplishment, index) => (
         <div key={index} className="mb-4 flex items-center">
-          <input type="text" className="w-full p-2 border rounded-md" placeholder="Enter an accomplishment" value={accomplishment} onChange={(e) => handleAccomplishmentChange(index, e.target.value)}/>
+          <input type="text" className="w-full p-2 border rounded-md" style={{ textTransform: 'capitalize' }} placeholder="Enter an accomplishment" value={accomplishment} onChange={(e) => handleAccomplishmentChange(index, e.target.value)}/>
           {accomplishments.length > 1 && (
             <button type="button" onClick={() => removeAccomplishment(index)} className="ml-2 bg-red-500 text-white px-3 py-1 rounded-md hover:bg-red-600">
               X

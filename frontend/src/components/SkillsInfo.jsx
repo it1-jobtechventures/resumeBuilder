@@ -53,7 +53,7 @@ const SkillsInfo = ({ nextStep, prevStep }) => {
                   )
                 }
               </div>
-              <input type="text" value={skill.name} onChange={(e) => handleSkillChange(index, e)} className="w-full p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400 mb-3" placeholder="Enter a skill (e.g., JavaScript)"/>
+              <input type="text" value={skill.name} style={{ textTransform: 'capitalize' }} onChange={(e) => handleSkillChange(index, e)} className="w-full p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400 mb-3" placeholder="Enter a skill (e.g., JavaScript)"/>
               <label className="block text-gray-700 font-semibold mb-1">Proficiency ({skill.level}%)</label>
               <input type="range" min="0" max="100" value={skill.level} onChange={(e) => handleSkillLevelChange(index, e)} className="w-full accent-green-500 hover:accent-green-600 cursor-pointer"/>
             </div>

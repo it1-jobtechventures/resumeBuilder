@@ -120,15 +120,15 @@
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
                       <label className="block text-[#4b164c]">Company Name</label>
-                      <input type='text' name='company' value={internhip.company} onChange={(e) => handleCompanyChange(internshipIndex , e)} className="w-full p-2 border rounded-md"/>
+                      <input type='text' name='company' style={{ textTransform: 'capitalize' }} value={internhip.company} onChange={(e) => handleCompanyChange(internshipIndex , e)} className="w-full p-2 border rounded-md"/>
                     </div>
                     <div className="mb-4">
                     <label className="block text-[#4b164c]">Company Location</label>
-                    <input type='text' name='location' value={internhip.location} onChange={(e) => handleCompanyChange(internshipIndex , e)} className="w-full p-2 border rounded-md"/>
+                    <input type='text' name='location' style={{ textTransform: 'capitalize' }} value={internhip.location} onChange={(e) => handleCompanyChange(internshipIndex , e)} className="w-full p-2 border rounded-md"/>
                     </div>
                     <div className="mb-4">
                       <label className="block text-[#4b164c]">Internship Title</label>
-                      <input type='text' name='title' value={internhip.title} onChange={(e) => handleCompanyChange(internshipIndex , e)} className="w-full p-2 border rounded-md"/>
+                      <input type='text' name='title' style={{ textTransform: 'capitalize' }} value={internhip.title} onChange={(e) => handleCompanyChange(internshipIndex , e)} className="w-full p-2 border rounded-md"/>
                     </div>
                     <div className="mb-4">
                       <label className="block text-[#4b164c]">Starting Date</label>
@@ -144,7 +144,7 @@
                     </div>
                     <div className="mb-4">
                       <label className="block text-[#4b164c]">Description</label>
-                      <textarea type='text' name='description' value={internhip.description} onChange={(e) => handleCompanyChange(internshipIndex , e)} className="w-full p-2 border rounded-md"/>
+                      <textarea type='text' name='description' style={{ textTransform: 'capitalize' }} value={internhip.description} onChange={(e) => handleCompanyChange(internshipIndex , e)} className="w-full p-2 border rounded-md"/>
                     </div>
                     <div className="mb-4">
                       <label className="block text-[#4b164c]">Stipend(in LPA)</label>
@@ -185,7 +185,7 @@
               ))
             }
             <button type="button" onClick={addNewInternship}>
-              + Add aother internsip
+              + Add One More internsip
             </button>
             <div className="flex justify-between mt-6">
               <button type="button" onClick={prevStep} className="bg-gray-500 text-white px-4 py-2 rounded-md hover:bg-gray-600">

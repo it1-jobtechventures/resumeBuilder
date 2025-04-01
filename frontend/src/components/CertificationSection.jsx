@@ -34,7 +34,7 @@ const CertificationSection = ({ nextStep, prevStep }) => {
       <form>
         {certifications.map((certification, index) => (
           <div key={index} className="mb-4 flex items-center">
-            <input type="text" className="w-full p-2 border rounded-md" placeholder="Enter certification" value={certification} onChange={(e) => handleChange(index, e.target.value)}/>
+            <input type="text" className="w-full p-2 border rounded-md" style={{ textTransform: 'capitalize' }} placeholder="Enter certification" value={certification} onChange={(e) => handleChange(index, e.target.value)}/>
             {certifications.length > 1 && (
               <button  type="button"  onClick={() => handleRemoveCertification(index)}  className="ml-2 text-red-500 hover:text-red-700 font-extrabold text-3xl">
                 <RxCross2/>

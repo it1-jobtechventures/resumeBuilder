@@ -33,7 +33,7 @@ const HobbiesSection = () => {
       <h2 className="text-2xl font-bold mb-4">Interests & Hobbies</h2>
       {interests.map((interest, index) => (
         <div key={index} className="mb-4 flex items-center">
-          <input type="text" className="w-full p-2 border rounded-md" placeholder="Enter an interest or hobby" value={interest} onChange={(e) => handleInterestChange(index, e.target.value)}/>
+          <input type="text" style={{ textTransform: 'capitalize' }} className="w-full p-2 border rounded-md" placeholder="Enter an interest or hobby" value={interest} onChange={(e) => handleInterestChange(index, e.target.value)}/>
           {interests.length > 1 && (
             <button type="button" onClick={() => removeInterest(index)} className="ml-2 text-red-500 hover:text-red-700 font-extrabold text-3xl">
               <RxCross2/>

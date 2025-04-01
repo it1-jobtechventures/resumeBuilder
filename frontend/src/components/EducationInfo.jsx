@@ -72,17 +72,17 @@ const EducationInfo = ({ nextStep, prevStep }) => {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div className="mb-4">
                 <label className="block text-gray-700">School Name</label>
-                <input type="text" name="school" value={education.school} onChange={(e) => handleEducationChange(index, e)} className="w-full p-2 border rounded-md focus:ring-2 focus:ring-blue-400 focus:border-blue-400 transition-all" placeholder="Enter your School Name"/>
+                <input type="text" style={{ textTransform: 'capitalize' }} name="school" value={education.school} onChange={(e) => handleEducationChange(index, e)} className="w-full p-2 border rounded-md focus:ring-2 focus:ring-blue-400 focus:border-blue-400 transition-all" placeholder="Enter your School Name"/>
               </div>
               <div className="mb-4">
                 <label className="block text-gray-700">Location</label>
-                <input type="text" name="location" value={education.location} onChange={(e) => handleEducationChange(index, e)} className="w-full p-2 border rounded-md focus:ring-2 focus:ring-blue-400 focus:border-blue-400 transition-all" placeholder="Enter School Location"/>
+                <input type="text" style={{ textTransform: 'capitalize' }} name="location" value={education.location} onChange={(e) => handleEducationChange(index, e)} className="w-full p-2 border rounded-md focus:ring-2 focus:ring-blue-400 focus:border-blue-400 transition-all" placeholder="Enter School Location"/>
               </div>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
               <div className="mb-4">
                 <label className="block text-gray-700">Degree</label>
-                <select name="degree" value={education.degree} onChange={(e) => handleEducationChange(index, e)} className="w-full p-2 border rounded-md focus:ring-2 focus:ring-blue-400 focus:border-blue-400 transition-all">
+                <select name="degree" style={{ textTransform: 'capitalize' }} value={education.degree} onChange={(e) => handleEducationChange(index, e)} className="w-full p-2 border rounded-md focus:ring-2 focus:ring-blue-400 focus:border-blue-400 transition-all">
                   <option value="">Select Degree</option>
                   <option value="Higher School">Higher School</option>
                   <option value="Bachelor's Degree">Bachelor's Degree</option>
@@ -91,11 +91,11 @@ const EducationInfo = ({ nextStep, prevStep }) => {
               </div>
               <div className="mb-4">
                 <label className="block text-gray-700">Field of Study</label>
-                <input type="text" name="field" value={education.field} onChange={(e) => handleEducationChange(index, e)} className="w-full p-2 border rounded-md focus:ring-2 focus:ring-blue-400 focus:border-blue-400 transition-all" placeholder="E.g. Computer Science"/>
+                <input type="text" name="field" value={education.field} style={{ textTransform: 'capitalize' }}onChange={(e) => handleEducationChange(index, e)} className="w-full p-2 border rounded-md focus:ring-2 focus:ring-blue-400 focus:border-blue-400 transition-all" placeholder="E.g. Computer Science"/>
               </div>
               <div className="mb-4">
                 <label className="block text-gray-700">Graduation Date (or expected Graduation Date)</label>
-                <input type="date" name="graduationDate" value={education.graduationDate} onChange={(e) => handleEducationChange(index, e)} className="w-full p-2 border rounded-md focus:ring-2 focus:ring-blue-400 focus:border-blue-400 transition-all"/>
+                <input type="date" name="graduationDate" value={education.graduationDate} style={{ textTransform: 'capitalize' }} onChange={(e) => handleEducationChange(index, e)} className="w-full p-2 border rounded-md focus:ring-2 focus:ring-blue-400 focus:border-blue-400 transition-all"/>
               </div>
             </div>
             <div className="mt-4">

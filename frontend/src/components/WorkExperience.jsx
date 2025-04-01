@@ -450,15 +450,15 @@ const WorkExperience = ({ nextStep, prevStep }) => {
               <h3 className="text-lg font-semibold mb-2">Company {companyIndex + 1}</h3>
               <div className="mb-4">
                 <label className="block text-gray-700">Company Name</label>
-                <input type="text" name="company" value={company.company} onChange={(e) => handleCompanyChange(companyIndex, e)} className="w-full p-2 border rounded-md" placeholder="Enter company name"/>
+                <input type="text" name="company" style={{ textTransform: 'capitalize' }} value={company.company} onChange={(e) => handleCompanyChange(companyIndex, e)} className="w-full p-2 border rounded-md" placeholder="Enter company name"/>
               </div>
               <div className="mb-4">
                 <label className="block text-gray-700">Location</label>
-                <input type="text" name="location" value={company.location} onChange={(e) => handleCompanyChange(companyIndex, e)} className="w-full p-2 border rounded-md" placeholder="Enter company location"/>
+                <input type="text" name="location" style={{ textTransform: 'capitalize' }} value={company.location} onChange={(e) => handleCompanyChange(companyIndex, e)} className="w-full p-2 border rounded-md" placeholder="Enter company location"/>
               </div>
               <div className="mb-4">
                 <label className="block text-gray-700">Company Industry</label>
-                <Select options={industries} isSearchable getOptionLabel={(e) => e.label}  getOptionValue={(e) => e.value}  placeholder="Select an industry..." value={industries.find((ind) => ind.value === company.industry)} onChange={(selectedOption) => {   handleCompanyChange(companyIndex, { target: { name: "industry", value: selectedOption.value } }); }}/>
+                <Select options={industries} style={{ textTransform: 'capitalize' }} isSearchable getOptionLabel={(e) => e.label}  getOptionValue={(e) => e.value}  placeholder="Select an industry..." value={industries.find((ind) => ind.value === company.industry)} onChange={(selectedOption) => {   handleCompanyChange(companyIndex, { target: { name: "industry", value: selectedOption.value } }); }}/>
                 {/* <input type="text" name="industry" value={company.industry} onChange={(e) => handleCompanyChange(companyIndex, e)} className="w-full p-2 border rounded-md" placeholder="Enter company Industry"/> */}
               </div>
               <div className="mb-4">
@@ -473,16 +473,16 @@ const WorkExperience = ({ nextStep, prevStep }) => {
                   <h4 className="text-md font-semibold mb-2">Position {roleIndex + 1}</h4>
                   <div className="mb-4">
                     <label className="block text-gray-700">Job Title</label>
-                    <input type="text" name="title" value={role.title} onChange={(e) => handleRoleChange(companyIndex, roleIndex, e)} className="w-full p-2 border rounded-md" placeholder="Enter your job title"/>
+                    <input type="text" name="title" style={{ textTransform: 'capitalize' }} value={role.title} onChange={(e) => handleRoleChange(companyIndex, roleIndex, e)} className="w-full p-2 border rounded-md" placeholder="Enter your job title"/>
                   </div>
                   <div className="mb-4">
                     <label className="block text-gray-700">CTC</label>
-                    <input type="number" name="ctc" value={role.ctc} onChange={(e) => handleRoleChange(companyIndex, roleIndex, e)} className="w-full p-2 border rounded-md" placeholder="Enter your current ctc in lpa" min={0}/>
+                    <input type="number" name="ctc" style={{ textTransform: 'capitalize' }} value={role.ctc} onChange={(e) => handleRoleChange(companyIndex, roleIndex, e)} className="w-full p-2 border rounded-md" placeholder="Enter your current ctc in lpa" min={0}/>
                   </div>
                   <div className="mb-4">
                     <label className="block text-gray-700">Notice period</label>
                     {/* <input type="text" name="noticePeriod" value={role.noticePeriod} onChange={(e) => handleRoleChange(companyIndex, roleIndex, e)} className="w-full p-2 border rounded-md" placeholder="Enter your notice period"/> */}
-                    <select name="noticePeriod" value={role.noticePeriod} onChange={(e) => handleRoleChange(companyIndex, roleIndex, e)} className="w-full p-2 border rounded-md">
+                    <select name="noticePeriod" style={{ textTransform: 'capitalize' }} value={role.noticePeriod} onChange={(e) => handleRoleChange(companyIndex, roleIndex, e)} className="w-full p-2 border rounded-md">
                       <option disabled>Choose your notice period</option>
                       <option value='ImmediatelyJoin'>Immediately Join</option>
                       <option value='LessThan15Days'>Less than 15 days</option>
@@ -497,7 +497,7 @@ const WorkExperience = ({ nextStep, prevStep }) => {
                   </div>
                   <div className="mb-4">
                     <label className="block text-gray-700">Job Type</label>
-                    <select name="jobType" value={role.jobType} onChange={(e) => handleRoleChange(companyIndex,roleIndex, e)} className="w-full p-2 border rounded-md mb-2">
+                    <select name="jobType" style={{ textTransform: 'capitalize' }} value={role.jobType} onChange={(e) => handleRoleChange(companyIndex,roleIndex, e)} className="w-full p-2 border rounded-md mb-2">
                       <option disabled>Select your job Type</option>
                       <option value="Permanent">Permanent</option>
                       <option value="Contract">Contract</option>
@@ -505,7 +505,7 @@ const WorkExperience = ({ nextStep, prevStep }) => {
                   </div>
                   <div className="mb-4">
                     <label className="block text-gray-700">Job Mode</label>
-                    <select name="jobMode" value={role.jobMode} onChange={(e) => handleRoleChange(companyIndex,roleIndex, e)} className="w-full p-2 border rounded-md mb-2">
+                    <select name="jobMode" style={{ textTransform: 'capitalize' }} value={role.jobMode} onChange={(e) => handleRoleChange(companyIndex,roleIndex, e)} className="w-full p-2 border rounded-md mb-2">
                       <option disabled>Select your job Mode</option>
                       <option value="WFH">Work From Home</option>
                       <option value="WFO">Work From Office</option>
@@ -528,7 +528,7 @@ const WorkExperience = ({ nextStep, prevStep }) => {
                   </div>
                   <div className="mb-4">
                     <label className="block text-gray-700">Job Description</label>
-                    <textarea name="description" value={role.description} onChange={(e) => handleRoleChange(companyIndex, roleIndex, e)} className="w-full p-2 border rounded-md" placeholder="Describe your responsibilities" rows={3}/>
+                    <textarea name="description" style={{ textTransform: 'capitalize' }} value={role.description} onChange={(e) => handleRoleChange(companyIndex, roleIndex, e)} className="w-full p-2 border rounded-md" placeholder="Describe your responsibilities" rows={3}/>
                   </div>
                   <button type="button" onClick={() => addNewRole(companyIndex)} className="text-blue-600 hover:text-blue-800 text-sm">
                     + Add Another Designation in this Company
