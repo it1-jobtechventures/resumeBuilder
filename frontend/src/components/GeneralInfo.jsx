@@ -178,23 +178,29 @@ const GeneralInfo = ({nextStep}) => {
           <div className='grid grid-cols-1 md:grid-cols-2 gap-4'>
             <div className="mb-4">
               <label className="block text-[#4b164c] font-bold">Phone Number<span className='text-red-700 pl-0.5'>*</span></label>
-              <select name='countryCode1' value={formData.countryCode1} onChange={handleChange}>
+              <div className='flex border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400 focus:outline-none'>
+              <select name='countryCode1' value={formData.countryCode1} onChange={handleChange} className=' w-15'>
               <option disabled>Select country Code</option>
                 {countryCode.map(country => (
                   <option key={country.id}>+{country.tel_country_code}</option>
                 ))}
               </select>
-              <input type="tel" name="phone1" value={formData.phone1} onChange={handleChange} className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400 focus:outline-none" placeholder="Enter your phone number" required/>
+              <input type="tel" name="phone1" value={formData.phone1} onChange={handleChange} className="w-full p-3 border-none focus:outline-none" placeholder="Enter your phone number" required/>
+              </div>
+
             </div>
             <div className="">
               <label className="block text-[#4b164c] font-bold">Phone Number</label>
-              <select name='countryCode2' value={formData.countryCode2} onChange={handleChange}>
+              <div className='flex border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400 focus:outline-none'>
+              <select name='countryCode2' value={formData.countryCode2} onChange={handleChange} className=' w-15'>
                 <option disabled>Select country Code</option>
                 {countryCode.map(country => (
                   <option key={country.id}>+{country.tel_country_code}</option>
                 ))}
               </select>
-              <input type="tel" name="phone2" value={formData.phone2} onChange={handleChange} className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400 focus:outline-none" placeholder="Enter your optional phone number" />
+              <input type="tel" name="phone2" value={formData.phone2} onChange={handleChange} className="w-full p-3 border-none focus:outline-none" placeholder="Enter your optional phone number" />
+              </div>
+
             </div>
           </div>
           <div className="mb-4">  
