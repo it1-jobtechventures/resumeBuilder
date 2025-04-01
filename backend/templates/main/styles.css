@@ -1,0 +1,25 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 20px;
+    padding: 20px;
+    border: 2px solid #000;
+    max-width: 800px;
+    background: #f9f9f9;
+}
+h1, h2, h3 {
+    color: #333;
+    
+}
+.section {
+    margin-bottom: 15px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #ddd;
+}
+.skills span, .languages span, .software span {
+    display: inline-block;
+    background: #007bff;
+    color: white;
+    padding: 3px 8px;
+    margin: 3px;
+    border-radius: 5px;
+}

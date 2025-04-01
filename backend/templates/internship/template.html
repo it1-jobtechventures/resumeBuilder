@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="temp.css" type="text/css" rel="stylesheet">
+    <title>Document</title>
+</head>
+<body>
+    <div class="section">
+        <h2>Internship Experience</h2>
+        {{#internshipExperience}}
+        <div class="internship-entry">
+            <h3>{{company}}</h3>
+            <p><strong>Location:</strong> {{location}}</p>
+            <p><strong>Title:</strong> {{title}}</p>
+            <p><strong>Mode:</strong> {{internshipMode}} | <strong>Type:</strong> {{internshipType}}</p>
+            <p><strong>Stipend:</strong> ₹{{stipend}}</p>
+            <p><strong>Duration:</strong> {{startDate}} - {{endDate}}</p>
+            <p><strong>Description:</strong> {{description}}</p>
+            <p><strong>Currently Working:</strong> {{currentlyWorking}}</p>
+            <p><strong>Notice Period:</strong> {{noticePeriod}}</p>
+        </div>
+        {{/internshipExperience}}
+    </div>
+</body>
+</html>

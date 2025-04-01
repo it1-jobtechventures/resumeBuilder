@@ -133,10 +133,10 @@ const from = location.state?.from || "/"
     };
 
     return (
-        <div className='flex items-center justify-center min-h-screen px-6 sm:px-0 bg-gradient-to-br from-blue-200 to-purple-400'>
+        <div className='flex items-center justify-center min-h-screen px-6 sm:px-0'>
             <img onClick={() => navigate('/')} src="/resumeRingerLogo.png" alt="" className='absolute left-5 sm:left-20 top-5 w-20 sm:w-20 cursor-pointer' />
-            <div className='bg-slate-900 p-10 rounded-lg shadow-lg w-full sm:w-96 text-indigo-300 text-sm'>
-                <h2 className='text-3xl font-semibold text-white text-center mb-3'>{state === 'Sign Up' ? 'Create Account' : 'Login'}</h2>
+            <div className=' p-10 rounded-lg shadow-lg w-full sm:w-96 text-indigo-300 text-sm bg-gray-300'>
+                <h2 className='text-3xl font-semibold text-black text-center mb-3'>{state === 'Sign Up' ? 'Create Account' : 'Login'}</h2>
                 <p className='text-center text-sm mb-6'>{state === 'Sign Up' ? 'Create your account' : 'Login to your account!'}</p>
                 <form onSubmit={onSubmitHandler}>
                     {state === 'Sign Up' && (
@@ -151,7 +151,7 @@ const from = location.state?.from || "/"
                         <input onChange={e => setPassword(e.target.value)} value={password} type='password' placeholder='Password' className='bg-transparent outline-none' required />
                     </div>
                     <p onClick={() => navigate('/reset-password')} className='mb-4 text-indigo-500 cursor-pointer'>Forgot Password ?</p>
-                    <button className='w-full py-2.5 rounded-full bg-gradient-to-r from-indigo-500 to-indigo-900 text-white font-medium cursor-pointer'>{state}</button>
+                    <button className='w-full py-2.5 rounded-full bg-[linear-gradient(90deg,_hsla(133,_68%,_60%,_1)_0%,_hsla(205,_97%,_42%,_1)_100%)]  px-4 hover:bg-[linear-gradient(90deg,_hsla(205,_97%,_42%,_1)_0%,_hsla(133,_68%,_60%,_1)_100%)] text-white font-medium cursor-pointer'>{state}</button>
                 </form>
                 {state === "Sign Up" ? (
                     <p className='text-gray-400 text-center text-xs mt-4'>Already have an account ? {' '}
