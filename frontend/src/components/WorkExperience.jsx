@@ -530,7 +530,7 @@ const WorkExperience = ({ nextStep, prevStep }) => {
                     <label className="block text-gray-700">Job Description</label>
                     <textarea name="description" style={{ textTransform: 'capitalize' }} value={role.description} onChange={(e) => handleRoleChange(companyIndex, roleIndex, e)} className="w-full p-2 border rounded-md" placeholder="Describe your responsibilities" rows={3}/>
                   </div>
-                  <div className='flex justify-between'>
+                  <div className='flex justify-between flex-col gap-5 lg:flex-row'>
                     <button type="button" onClick={() => addNewRole(companyIndex)} className="bg-[linear-gradient(90deg,_hsla(133,_68%,_60%,_1)_0%,_hsla(205,_97%,_42%,_1)_100%)] cursor-pointer text-white px-4 py-2 rounded-md hover:bg-[linear-gradient(90deg,_hsla(205,_97%,_42%,_1)_0%,_hsla(133,_68%,_60%,_1)_100%)]">
                       + Add Another Designation in this Company
                     </button>

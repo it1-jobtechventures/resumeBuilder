@@ -335,36 +335,7 @@ const ResumeReview = ({url}) => {
  
 
   
-//   const replacePlaceholders = (html, data) => {
-//     return html
-//         .replace(/{{#(\w+)}}([\s\S]*?){{\/\1}}/g, (match, key, content) => {
-//             let value = getValueByPath(data, key.trim());
 
-//             if (Array.isArray(value) && value.length > 0) {
-//                 return value
-//                     .map(item => {
-//                         let updatedContent = content;
-
-//                         // Replace nested placeholders within this section
-//                         updatedContent = updatedContent.replace(/{{#(\w+)}}([\s\S]*?){{\/\1}}/g, (subMatch, subKey, subContent) => {
-//                             let nestedValue = item[subKey.trim()];
-//                             if (Array.isArray(nestedValue) && nestedValue.length > 0) {
-//                                 return nestedValue.map(nestedItem =>
-//                                     subContent.replace(/{{(.*?)}}/g, (m, k) => nestedItem[k.trim()] || "")
-//                                 ).join("");
-//                             }
-//                             return "";
-//                         });
-
-//                         // Replace simple placeholders
-//                         return updatedContent.replace(/{{(.*?)}}/g, (m, k) => item[k.trim()] || "");
-//                     })
-//                     .join(""); 
-//             }
-
-//             return ""; // Remove empty placeholders
-//         })
-//         .replace(/{{(.*?)}}/g, (match, key) => getValueByPath(data, key.trim()) || "");
 // };
 const replacePlaceholders = (html, data) => {
   return html
@@ -513,7 +484,7 @@ const replacePlaceholders = (html, data) => {
       <style>{templateData.cssContent}</style>
       {
         !isLoggedIn ? (
-          <p>Login to download <button onClick={hangleLoginRedirect}>Login</button></p>
+          <button  onClick={hangleLoginRedirect} className='bg-[linear-gradient(90deg,_hsla(133,_68%,_60%,_1)_0%,_hsla(205,_97%,_42%,_1)_100%)] cursor-pointer text-white px-4 py-2 rounded-md hover:bg-[linear-gradient(90deg,_hsla(205,_97%,_42%,_1)_0%,_hsla(133,_68%,_60%,_1)_100%)]"'> Login to download </button>
         ) : (
           <>          
             <button onClick={handleDownloadPDF}>Download as PDF</button>
@@ -526,6 +497,44 @@ const replacePlaceholders = (html, data) => {
 };
 
 export default ResumeReview;
+
+//////main
+
+//   const replacePlaceholders = (html, data) => {
+//     return html
+//         .replace(/{{#(\w+)}}([\s\S]*?){{\/\1}}/g, (match, key, content) => {
+//             let value = getValueByPath(data, key.trim());
+
+//             if (Array.isArray(value) && value.length > 0) {
+//                 return value
+//                     .map(item => {
+//                         let updatedContent = content;
+
+//                         // Replace nested placeholders within this section
+//                         updatedContent = updatedContent.replace(/{{#(\w+)}}([\s\S]*?){{\/\1}}/g, (subMatch, subKey, subContent) => {
+//                             let nestedValue = item[subKey.trim()];
+//                             if (Array.isArray(nestedValue) && nestedValue.length > 0) {
+//                                 return nestedValue.map(nestedItem =>
+//                                     subContent.replace(/{{(.*?)}}/g, (m, k) => nestedItem[k.trim()] || "")
+//                                 ).join("");
+//                             }
+//                             return "";
+//                         });
+
+//                         // Replace simple placeholders
+//                         return updatedContent.replace(/{{(.*?)}}/g, (m, k) => item[k.trim()] || "");
+//                     })
+//                     .join(""); 
+//             }
+
+//             return ""; // Remove empty placeholders
+//         })
+//         .replace(/{{(.*?)}}/g, (match, key) => getValueByPath(data, key.trim()) || "");
+
+
+
+
+
 
 
 
