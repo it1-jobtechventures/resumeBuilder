@@ -465,11 +465,11 @@ const WorkExperience = ({ nextStep, prevStep }) => {
                 <label className="block text-gray-700">Company Experience</label>
                 <input type="Number" min={0} name="totalCompanyExperience" value={company.totalCompanyExperience} onChange={(e) => handleCompanyChange(companyIndex, e)} className="w-full p-2 border rounded-md" placeholder="total Company Experience In Year"/>
               </div>
-              <button type="button" onClick={() => removeCompany(companyIndex )} className="text-blue-600 hover:text-blue-800 text-sm">
+              <button type="button" onClick={() => removeCompany(companyIndex )} className="mb-6 bg-[linear-gradient(90deg,_hsla(133,_68%,_60%,_1)_0%,_hsla(205,_97%,_42%,_1)_100%)] cursor-pointer text-white px-4 py-2 rounded-md ">
                 - remove company
               </button>
               {company.roles.map((role, roleIndex) => (
-                <div key={roleIndex} className="border-l-4 border-blue-500 p-4 mb-4">
+                <div key={roleIndex} className="border-l-4 border-blue-500 p-4 mb-4 pt-4">
                   <h4 className="text-md font-semibold mb-2">Position {roleIndex + 1}</h4>
                   <div className="mb-4">
                     <label className="block text-gray-700">Job Title</label>
@@ -530,17 +530,19 @@ const WorkExperience = ({ nextStep, prevStep }) => {
                     <label className="block text-gray-700">Job Description</label>
                     <textarea name="description" style={{ textTransform: 'capitalize' }} value={role.description} onChange={(e) => handleRoleChange(companyIndex, roleIndex, e)} className="w-full p-2 border rounded-md" placeholder="Describe your responsibilities" rows={3}/>
                   </div>
-                  <button type="button" onClick={() => addNewRole(companyIndex)} className="text-blue-600 hover:text-blue-800 text-sm">
-                    + Add Another Designation in this Company
-                  </button>
-                  <button type="button" onClick={() => removeRole(companyIndex ,roleIndex)} className="text-blue-600 hover:text-blue-800 text-sm">
-                    - remove role
-                  </button>
+                  <div className='flex justify-between'>
+                    <button type="button" onClick={() => addNewRole(companyIndex)} className="bg-[linear-gradient(90deg,_hsla(133,_68%,_60%,_1)_0%,_hsla(205,_97%,_42%,_1)_100%)] cursor-pointer text-white px-4 py-2 rounded-md hover:bg-[linear-gradient(90deg,_hsla(205,_97%,_42%,_1)_0%,_hsla(133,_68%,_60%,_1)_100%)]">
+                      + Add Another Designation in this Company
+                    </button>
+                    <button type="button" onClick={() => removeRole(companyIndex ,roleIndex)} className="bg-[linear-gradient(90deg,_hsla(133,_68%,_60%,_1)_0%,_hsla(205,_97%,_42%,_1)_100%)] cursor-pointer text-white px-4 py-2 rounded-md hover:bg-red-600">
+                      - remove role
+                    </button>
+                  </div>
                 </div>
               ))}
             </div>
           ))}
-          <button type="button" onClick={addNewCompany} className="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600 w-full">
+          <button type="button" onClick={addNewCompany} className=" w-full bg-[linear-gradient(90deg,_hsla(133,_68%,_60%,_1)_0%,_hsla(205,_97%,_42%,_1)_100%)] cursor-pointer text-white px-4 py-2 rounded-md hover:bg-[linear-gradient(90deg,_hsla(205,_97%,_42%,_1)_0%,_hsla(133,_68%,_60%,_1)_100%)]">
             + Add Another Company
           </button>
           <div className="flex justify-between mt-6">

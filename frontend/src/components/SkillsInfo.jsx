@@ -58,7 +58,7 @@ const SkillsInfo = ({ nextStep, prevStep }) => {
               <input type="range" min="0" max="100" value={skill.level} onChange={(e) => handleSkillLevelChange(index, e)} className="w-full accent-green-500 hover:accent-green-600 cursor-pointer"/>
             </div>
           ))}
-          <button type="button" onClick={addSkill} className="w-full bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600 transition-all duration-300 mt-2 shadow-md">
+          <button type="button" onClick={addSkill} className="w-full bg-[linear-gradient(90deg,_hsla(133,_68%,_60%,_1)_0%,_hsla(205,_97%,_42%,_1)_100%)] cursor-pointer text-white px-4 py-2 rounded-md hover:bg-[linear-gradient(90deg,_hsla(205,_97%,_42%,_1)_0%,_hsla(133,_68%,_60%,_1)_100%)] transition-all duration-300 mt-2 shadow-md">
             + Add Another Skill
           </button>
           <div className="flex justify-between mt-6">

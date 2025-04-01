@@ -126,7 +126,7 @@ const EducationInfo = ({ nextStep, prevStep }) => {
             )}
           </div>
         ))}
-        <button type="button" onClick={addNewEducation} className="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600 w-full">
+        <button type="button" onClick={addNewEducation} className="bg-[linear-gradient(90deg,_hsla(133,_68%,_60%,_1)_0%,_hsla(205,_97%,_42%,_1)_100%)] cursor-pointer text-white px-4 py-2 rounded-md hover:bg-[linear-gradient(90deg,_hsla(205,_97%,_42%,_1)_0%,_hsla(133,_68%,_60%,_1)_100%)] w-full">
           + Add Another Education
         </button>
         <div className="flex justify-between mt-6">
