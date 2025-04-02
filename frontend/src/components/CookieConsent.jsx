@@ -3,17 +3,17 @@ import { motion } from "framer-motion";
 
 const CookieConsent = ({ onAccept }) => {
     const [isVisible, setIsVisible] = useState(false);
-
+    const [showPopup, setShowPopup] = useState(false);
     useEffect(() => {
         const consent = localStorage.getItem("cookieConsent");
         if (!consent) {
-            setIsVisible(true);
+            setShowPopup(true);
         }
     }, []);
 
     const handleAccept = () => {
         localStorage.setItem("cookieConsent", "true");
-        setIsVisible(false);
+        setShowPopup(false);
         onAccept();
     };
 
