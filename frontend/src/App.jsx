@@ -10,12 +10,20 @@ import 'react-toastify/dist/ReactToastify.css';
 import ResetPassword from './pages/ResetPassword'
 import ProfilePage from './pages/ProfilePage'
 import FeedbackForm from './components/FeedbackForm'
+import CookieConsent from './components/CookieConsent'
+import { useState } from 'react'
 
 function App() {
   const url = import.meta.env.VITE_BACKEND_URL;
+
+  const [cookieAccepted, setCookieAccepted] = useState(
+    localStorage.getItem("cookieConsent") === "true"
+  );
+
   return (
     <>
     <ToastContainer/>
+      {!cookieAccepted && <CookieConsent onAccept={() => setCookieAccepted(true)} />}
       <Routes>
         <Route path='/' element={<HomePage url={url}/>}/>
         <Route path='/login' element={<Login url={url}/>}/>
