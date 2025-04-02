@@ -9,6 +9,7 @@ import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css';
 import ResetPassword from './pages/ResetPassword'
 import ProfilePage from './pages/ProfilePage'
+import FeedbackForm from './components/FeedbackForm'
 
 function App() {
   const url = import.meta.env.VITE_BACKEND_URL;
@@ -23,6 +24,7 @@ function App() {
         <Route path='/templates' element={<TemplatePage url={url}/>}/>
         <Route path='/resume-review' element={<ResumeReview url={url}/>}/>
         <Route path='/profile' element={<ProfilePage url={url}/>}/>
+        <Route path='/feedback' element={<FeedbackForm/>}/>
       </Routes>
     </>
   )
