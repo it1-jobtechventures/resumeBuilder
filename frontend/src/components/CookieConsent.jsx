@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 
 const CookieConsent = ({ onAccept }) => {
-    const [isVisible, setIsVisible] = useState(false);
     const [showPopup, setShowPopup] = useState(false);
     useEffect(() => {
         const consent = localStorage.getItem("token");

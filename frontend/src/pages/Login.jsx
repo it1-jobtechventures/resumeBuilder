@@ -107,11 +107,12 @@ const from = location.state?.from || "/"
     const onSubmitHandler = async (e) => {
         e.preventDefault();
 
-        if (!localStorage.getItem("token")) {
+        const consentGiven = localStorage.getItem("cookieConsent") === "true"; // Check stored consent
+
+        if (!consentGiven) {
             toast.error("Please accept cookies to continue.");
             return;
         }
-
         try {
             axios.defaults.withCredentials = true;
 
@@ -124,7 +125,7 @@ const from = location.state?.from || "/"
                     toast.error(data.message);
                 }
             } else {
-                const { data } = await axios.post(backendUrl + '/api/auth/login', { email, password });
+                const { data } = await axios.post(backendUrl + '/api/auth/login', { email, password ,cookieConsent:consentGiven});
                 if (data.success) {
                     setIsLoggedIn(true);
                     toast.success("Logged in successfully");
