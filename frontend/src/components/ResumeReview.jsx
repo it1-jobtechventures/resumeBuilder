@@ -445,12 +445,13 @@ const replacePlaceholders = (html, data) => {
 
   return (
     <div>
-      <h1>{templateData.name}</h1>
+      <h1 className='text-center text-2xl font-bold' style={{textTransform:'capitalize'}}>{templateData.name}</h1>
       {/* Customization Panel */}
-      <div style={{ display: 'flex', gap: '10px', marginBottom: '20px' }}>
+      <div className='flex flex-col md:flex-row gap-5'>
+      <div style={{ display: 'flex', gap: '10px', marginBottom: '20px' }} className='flex flex-col gap-24 mb-5 bg-[#f4f4f4] 2 w-72'>
         <label>
           Font Size:
-          <select value={fontSize} onChange={(e) => applyStyleToSelectedText('fontSize', e.target.value)}>
+          <select value={fontSize} onChange={(e) => applyStyleToSelectedText('fontSize', e.target.value)} className='p-2 text-sm  pl-1'>
             <option value="12px">12px</option>
             <option value="14px">14px</option>
             <option value="16px">16px</option>
@@ -467,6 +468,9 @@ const replacePlaceholders = (html, data) => {
             <option value="Verdana">Verdana</option>
             <option value="Georgia">Georgia</option>
             <option value="Courier New">Courier New</option>
+            <option value="Tahoma">Tahoma</option>
+            <option value="Helvetica">Helvetica</option>
+            <option value="Comic Sans MS">Comic Sans MS</option>
           </select>
         </label>
         <label>
@@ -477,11 +481,14 @@ const replacePlaceholders = (html, data) => {
           Background Color:
           <input type="color" value={bgColor} onChange={(e) => setBgColor(e.target.value)} />
         </label>
-        <button onClick={resetStyles}>Reset Styles</button>
+        <button onClick={resetStyles} className='bg-green-400 text-black mt-10 w-30 text-center rounded-md p-1'>Reset Styles</button>
       </div>
-      {/* Resume Preview */}
-      <div id="resume-content" contentEditable={true} style={{fontSize: fontSize,fontFamily: fontFamily,color: textColor,backgroundColor: bgColor,padding: '20px',}}dangerouslySetInnerHTML={{ __html: finalHTML }}/>
+            {/* Resume Preview */}
+            <div className='flex-1' id="resume-content" contentEditable={true} style={{fontSize: fontSize,fontFamily: fontFamily,color: textColor,backgroundColor: bgColor,padding: '20px',}}dangerouslySetInnerHTML={{ __html: finalHTML }}/>
       <style>{templateData.cssContent}</style>
+      
+      </div>
+
       {
         !isLoggedIn ? (
           <button  onClick={hangleLoginRedirect} className='bg-[linear-gradient(90deg,_hsla(133,_68%,_60%,_1)_0%,_hsla(205,_97%,_42%,_1)_100%)] cursor-pointer text-white px-4 py-2 rounded-md hover:bg-[linear-gradient(90deg,_hsla(205,_97%,_42%,_1)_0%,_hsla(133,_68%,_60%,_1)_100%)]"'> Login to download </button>
@@ -492,7 +499,7 @@ const replacePlaceholders = (html, data) => {
               <button onClick={handleDownloadPNG} className='bg-[linear-gradient(90deg,_hsla(133,_68%,_60%,_1)_0%,_hsla(205,_97%,_42%,_1)_100%)] text-white p-2 rounded-md'>Download as PNG</button>
             </div>
             <div>
-              <button className='bg-[linear-gradient(90deg,_hsla(133,_68%,_60%,_1)_0%,_hsla(205,_97%,_42%,_1)_100%)] p-2 text-white rounded-md'>Edit Form</button>
+              <Link to={'/createResume'}><button  className='bg-[linear-gradient(90deg,_hsla(133,_68%,_60%,_1)_0%,_hsla(205,_97%,_42%,_1)_100%)] p-2 text-white rounded-md'>Edit Form</button></Link>
             </div>
           </div>
         )
@@ -502,6 +509,9 @@ const replacePlaceholders = (html, data) => {
 };
 
 export default ResumeReview;
+
+
+
 
 //////main
 
