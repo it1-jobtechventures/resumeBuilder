@@ -26,12 +26,12 @@ export const signup = async (req, res) => {
 
         const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: "2d" });
 
-        const cookieConsent = req.body.cookieConsent; // Get cookie consent from frontend
+        const tokens = req.body.token; // Get cookie consent from frontend
 
-        if (!cookieConsent) {
+        if (!tokens) {
             return res.json({ success: false, message: "Cookie consent is required" });
         }
-        
+
         res.cookie("token", token, {
             httpOnly: true,
             secure: process.env.NODE_ENV === "production",
