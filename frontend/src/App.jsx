@@ -17,7 +17,7 @@ function App() {
   const url = import.meta.env.VITE_BACKEND_URL;
 
   const [cookieAccepted, setCookieAccepted] = useState(
-    localStorage.getItem("cookieConsent") === "true"
+    localStorage.getItem("token") === "true"
   );
 
   return (

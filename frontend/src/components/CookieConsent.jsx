@@ -5,14 +5,14 @@ const CookieConsent = ({ onAccept }) => {
     const [isVisible, setIsVisible] = useState(false);
     const [showPopup, setShowPopup] = useState(false);
     useEffect(() => {
-        const consent = localStorage.getItem("cookieConsent");
+        const consent = localStorage.getItem("token");
         if (!consent) {
             setShowPopup(true);
         }
     }, []);
 
     const handleAccept = () => {
-        localStorage.setItem("cookieConsent", "true");
+        localStorage.setItem("token", "true");
         setShowPopup(false);
         onAccept();
     };

@@ -107,11 +107,11 @@ const from = location.state?.from || "/"
     const onSubmitHandler = async (e) => {
         e.preventDefault();
 
-        if (!localStorage.getItem("cookieConsent")) {
+        if (!localStorage.getItem("token")) {
             toast.error("Please accept cookies to continue.");
             return;
         }
-        
+
         try {
             axios.defaults.withCredentials = true;
 
