@@ -69,7 +69,6 @@ const FeedbackForm = () => {
                 <div className="flex justify-center mb-4">
                     <img src="/gif.gif" alt="Animation" className="h-20" />
                 </div>
-                <h2 className="text-2xl font-bold text-center ">Feedback Form</h2>
                 <form onSubmit={handleSubmit} className="space-y-4">
                     <div>
                         <input type='email' name='email' value={formData.email} onChange={handleChange} placeholder='Enter email' className="w-full p-3 border-2 border-[#037cd5] rounded-md focus:outline-none focus:ring-2 focus:ring-[#54df71]"/>
