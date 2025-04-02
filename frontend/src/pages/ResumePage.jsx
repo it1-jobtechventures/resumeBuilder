@@ -174,9 +174,13 @@ const ResumePage = () => {
           </section>
           )}
         </section>
-        <Link to={'/feedback'}><section className='flex flex-col justify-center items-center pt-4 popup'>
-          <img src='/gif.gif' className='h-20'/>
+        <Link to={'/feedback'}>
+          <section className='flex flex-col justify-center items-center pt-4 popup border'>
             <p className='font-bold text-sm'>Beta Review Version</p>
+            <div className='flex justify-between pt-1'>
+              <img src='/gif.gif' className='h-20 w-24'/>
+                <p className='pt-3'><span  className='font-bold text-sm'>Click Here</span> to Report Any Issue Or Suggestions</p>
+            </div>
           </section>
         </Link>
       </div>
