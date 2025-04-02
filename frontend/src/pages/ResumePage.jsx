@@ -174,6 +174,11 @@ const ResumePage = () => {
           </section>
           )}
         </section>
+        <Link to={'/feedback'}><section className='flex flex-col justify-center items-center pt-4 popup'>
+          <img src='/gif.gif' className='h-20'/>
+            <p className='font-bold text-sm'>Beta Review Version</p>
+          </section>
+        </Link>
       </div>
 
       {/* Overlay for Mobile - Click outside to close sidebar */}
