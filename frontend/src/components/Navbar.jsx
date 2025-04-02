@@ -47,7 +47,7 @@ const Navbar = () => {
         <section className='flex gap-5'>
           <Link to={'/createResume'}><button className='hidden md:block cursor-pointer font-bold bg-[#54df71] rounded-xl text-white p-3 text-center  h-12 hover:border hover:border-[#54df71] hover:text-[#54df71] hover:bg-transparent '>Create Your Resume</button></Link>
           {!isLoggedIn ? (
-            <Link to={'/login'}><button className='cursor-pointer font-bold bg-[#037cd5] text-white p-2.5 text-center rounded-4xl h-10 hover:border hover:border-[#037cd5] hover:text-[#037cd5] hover:bg-transparent'>Sign In</button></Link>
+            <Link to={'/login'}><button className='cursor-pointer font-bold bg-[#037cd5] text-white p-3 text-center rounded-xl h-12 hover:border hover:border-[#037cd5] hover:text-[#037cd5] hover:bg-transparent'>Sign In</button></Link>
           ) : (
             <section>
             <Link to={'/profile'}><img src='/profile.png' alt='profile image' className='w-14 h-14'/></Link>
