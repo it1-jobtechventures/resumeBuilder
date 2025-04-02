@@ -63,21 +63,45 @@ const FeedbackForm = () => {
         })
     }
   return (
-    <div>
-        <form onSubmit={handleSubmit}>
-            <input type='email' name='email' value={formData.email} placeholder='enter email' onChange={handleChange}/>
-            <input type='text' name='name' value={formData.name} placeholder='enter name' onChange={handleChange}/>
-            <input type='text' name='location' value={formData.location} placeholder='enter location' onChange={handleChange}/>
-            <input type='tel' name='phoneNo' value={formData.phoneNo} placeholder='Enter phone' onChange={handleChange}/>
-            <input type='file' name='image' value={formData.image}  onChange={handleChange} placeholder='enter image '/>
-            <textarea placeholder='message' name='message' value={formData.message} onChange={handleChange}/>
-            <button type='submit'>Submit</button>
-        </form>
-        <section>
-            <Link to={'/'}>Go to home</Link>
-            <Link to={'/createResume'}>Return to form</Link>
-        </section>
-    </div>
+    <>
+        <div className="min-h-screen flex flex-col items-center justify-center  p-6">
+            <div className="bg-white p-8 rounded-lg shadow-lg max-w-md w-full space-y-6">
+                <div className="flex justify-center mb-4">
+                    <img src="/gif.gif" alt="Animation" className="h-20" />
+                </div>
+                <h2 className="text-2xl font-bold text-center ">Feedback Form</h2>
+                <form onSubmit={handleSubmit} className="space-y-4">
+                    <div>
+                        <input type='email' name='email' value={formData.email} onChange={handleChange} placeholder='Enter email' className="w-full p-3 border-2 border-[#037cd5] rounded-md focus:outline-none focus:ring-2 focus:ring-[#54df71]"/>
+                    </div>
+                    <div>
+                        <input type='text' name='name' value={formData.name} onChange={handleChange} placeholder='Enter name' className="w-full p-3 border-2 border-[#037cd5] rounded-md focus:outline-none focus:ring-2 focus:ring-[#54df71]"/>
+                    </div>
+                    <div>
+                        <input type='text' name='location' value={formData.location} onChange={handleChange} placeholder='Enter location' className="w-full p-3 border-2 border-[#037cd5] rounded-md focus:outline-none focus:ring-2 focus:ring-[#54df71]"/>
+                    </div>
+                    <div>
+                        <input type='tel' name='phoneNo' value={formData.phoneNo} onChange={handleChange} placeholder='Enter phone' className="w-full p-3 border-2 border-[#037cd5] rounded-md focus:outline-none focus:ring-2 focus:ring-[#54df71]"/>
+                    </div>
+                    <div>
+                        <input type='file' name='image' value={formData.image} onChange={handleChange} className="w-full p-3 border-2 border-[#037cd5] rounded-md focus:outline-none focus:ring-2 focus:ring-[#54df71]"/>
+                    </div>
+                    <div>
+                        <textarea name='message' value={formData.message} onChange={handleChange} placeholder='Your message' className="w-full p-3 border-2 border-[#037cd5] rounded-md focus:outline-none focus:ring-2 focus:ring-[#54df71]"/>
+                    </div>
+                    <div className="flex justify-center">
+                        <button type='submit' className="w-full bg-[#037cd5] text-white py-3 rounded-md hover:bg-[#54df71] transition">
+                            Submit
+                        </button>
+                    </div>
+                </form>
+                <section className="mt-6 flex flex-col lg:flex-row gap-3 justify-center space-x-6">
+                    <Link to={'/'} className=" text-center bg-[linear-gradient(90deg,_hsla(133,_68%,_60%,_1)_0%,_hsla(205,_97%,_42%,_1)_100%)] cursor-pointer text-white px-4 py-2 rounded-md hover:bg-[linear-gradient(90deg,_hsla(205,_97%,_42%,_1)_0%,_hsla(133,_68%,_60%,_1)_100%)]">Go to Home</Link>
+                    <Link to={'/createResume'} className=" text-center bg-[linear-gradient(90deg,_hsla(133,_68%,_60%,_1)_0%,_hsla(205,_97%,_42%,_1)_100%)] cursor-pointer text-white px-4 py-2 rounded-md hover:bg-[linear-gradient(90deg,_hsla(205,_97%,_42%,_1)_0%,_hsla(133,_68%,_60%,_1)_100%)]">Return to Form</Link>
+                </section>
+            </div>
+        </div>
+    </>
   )
 }
 
