@@ -41,11 +41,11 @@ const Navbar = () => {
         <section>
           <img src='/resumeRingerLogo.png' alt='logo' className='h-20 '/>
         </section>
-        <section className='hidden lg:block'>
+        {/* <section className='hidden lg:block'>
           <Link to={'/templates'}><p className=' font-semibold'>TEMPLATES</p></Link>
-        </section>
-        <section className='flex gap-3'>
-          <Link to={'/createResume'}><button className='hidden md:block cursor-pointer font-bold bg-[#54df71] text-white p-2.5 text-center rounded-4xl h-10 hover:border hover:border-[#54df71] hover:text-[#54df71] hover:bg-transparent'>Create Your Resume</button></Link>
+        </section> */}
+        <section className='flex gap-5'>
+          <Link to={'/createResume'}><button className='hidden md:block cursor-pointer font-bold bg-[#54df71] rounded-xl text-white p-3 text-center  h-12 hover:border hover:border-[#54df71] hover:text-[#54df71] hover:bg-transparent '>Create Your Resume</button></Link>
           {!isLoggedIn ? (
             <Link to={'/login'}><button className='cursor-pointer font-bold bg-[#037cd5] text-white p-2.5 text-center rounded-4xl h-10 hover:border hover:border-[#037cd5] hover:text-[#037cd5] hover:bg-transparent'>Sign In</button></Link>
           ) : (
