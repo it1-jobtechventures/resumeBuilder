@@ -24,6 +24,8 @@ const GeneralInfo = ({nextStep}) => {
     pincode: '',
     address: '',
     experience: '',
+    summary:'',
+    designation:''
   });
 
   useEffect(() => {
@@ -82,8 +84,6 @@ const GeneralInfo = ({nextStep}) => {
       nextStep();
     }
   };
-
-
 
   //using json 
   useEffect(() => {
@@ -172,9 +172,13 @@ const GeneralInfo = ({nextStep}) => {
             </div>
             <div className="mb-4">
               <label className="block text-[#4b164c] font-bold">DOB</label>
-              <input type="date" style={{ textTransform: 'capitalize' }} name="dob" value={formData.dob} onChange={handleChange} className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400 focus:outline-none" placeholder="Enter your DOB" />
+              <input type="date" style={{ textTransform: 'capitalize' }} name="dob" value={formData.designation} onChange={handleChange} className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400 focus:outline-none" placeholder="Enter your Designation" />
             </div>
           </div>
+          <div className="mb-4">
+              <label className="block text-[#4b164c] font-bold">Designation<span className='text-red-700 pl-0.5'>*</span></label>
+              <input type="text" style={{ textTransform: 'capitalize' }} name="designation" value={formData.lastName} onChange={handleChange} className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400 focus:outline-none" placeholder="Sharma" required/>
+            </div>
           <div className='grid grid-cols-1 md:grid-cols-2 gap-4'>
             <div className="mb-4">
               <label className="block text-[#4b164c] font-bold">Phone Number<span className='text-red-700 pl-0.5'>*</span></label>
@@ -235,6 +239,10 @@ const GeneralInfo = ({nextStep}) => {
           <div className="mb-4">
             <label className="block text-[#4b164c] font-bold">Total Experience</label>
             <input type="number" min={0} name="experience" value={formData.experience} onChange={handleChange} className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400 focus:outline-none" placeholder="Enter your Total Experience"  />
+          </div>
+          <div className="mb-4">
+            <label className="block text-[#4b164c] font-bold">Summary</label>
+            <textarea type="number"  name="summary" rows={4} value={formData.summary} onChange={handleChange} className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400 focus:outline-none" placeholder="Enter Sumary"  />
           </div>
           <div className="flex lg:justify-end ">
             <button type="button" onClick={handleNext} className="w-full  lg:w-auto bg-[linear-gradient(90deg,_hsla(133,_68%,_60%,_1)_0%,_hsla(205,_97%,_42%,_1)_100%)] cursor-pointer text-white px-4 py-2 rounded-md hover:bg-[linear-gradient(90deg,_hsla(205,_97%,_42%,_1)_0%,_hsla(133,_68%,_60%,_1)_100%)]">
