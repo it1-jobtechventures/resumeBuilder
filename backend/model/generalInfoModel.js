@@ -17,8 +17,8 @@ const generalInfoSchema =  mongoose.Schema({
     pincode: { type: String },
     address: { type: String },
     experience: { type: String },
-    linkedin: { type: String },
-    portfolio: { type: String },
+    designation: {type : String},
+    summary : {type : String}
   },
   { timestamps: true }
   );
