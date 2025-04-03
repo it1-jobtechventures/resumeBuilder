@@ -258,6 +258,7 @@ import Select from "react-select";
 import axios from "axios";
 import location from '../assets/locationData';
 import industryData from '../assets/industryData';
+import jobTypeData from '../assets/jobTypeData';
 
 const WorkExperience = ({ nextStep, prevStep }) => {
   const [industries, setIndustries] = useState([]);
@@ -513,8 +514,9 @@ const WorkExperience = ({ nextStep, prevStep }) => {
                     <label className="block text-gray-700">Job Type</label>
                     <select name="jobType" style={{ textTransform: 'capitalize' }} value={role.jobType} onChange={(e) => handleRoleChange(companyIndex,roleIndex, e)} className="w-full p-2 border rounded-md mb-2">
                       <option disabled>Select your job Type</option>
-                      <option value="Permanent">Permanent</option>
-                      <option value="Contract">Contract</option>
+                      {jobTypeData.map((jobType) => (
+                        <option value={jobType.job_type}>{jobType.job_type}</option>
+                      ))}
                     </select>
                   </div>
                   <div className="mb-4">

@@ -79,7 +79,7 @@ const EducationInfo = ({ nextStep, prevStep }) => {
               <div className="mb-4">
                 <label className="block text-gray-700">Location</label>
                 {/* <input type="text" style={{ textTransform: 'capitalize' }} name="location" value={education.location} onChange={(e) => handleEducationChange(index, e)} className="w-full p-2 border rounded-md focus:ring-2 focus:ring-blue-400 focus:border-blue-400 transition-all" placeholder="Enter School Location"/> */}
-                <select>
+                <select style={{ textTransform: 'capitalize' }} name="location" value={education.location} onChange={(e) => handleEducationChange(index, e)} className="w-full p-2 border rounded-md focus:ring-2 focus:ring-blue-400 focus:border-blue-400 transition-all" placeholder="Enter School Location">
                   {location.map((loc) => (
                     <option value={loc.city_name}>{loc.city_name}</option>
                   ))}

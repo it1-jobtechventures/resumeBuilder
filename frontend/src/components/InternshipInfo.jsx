@@ -1,5 +1,6 @@
   import React, { useState , useEffect } from 'react'
   import { toast } from "react-toastify";
+import jobTypeData from '../assets/jobTypeData';
 
   const InternshipInfo = ({ nextStep, prevStep }) => {
 
@@ -172,9 +173,11 @@
                     </div>
                     <div className="mb-4">
                       <label className="block text-gray-700">Internship Type</label>
-                      <select name="internshipType" value={internhip.internshipType} onChange={(e) => handleCompanyChange(internshipIndex, e)} className="w-full p-2 border rounded-md mb-2">
-                        <option value="Permanent">Permanent</option>
-                        <option value="Contract">Contract</option>
+                      <select name="internshipType" value={internhip.internshipType} style={{textTransform:'capitalize'}} onChange={(e) => handleCompanyChange(internshipIndex, e)} className="w-full p-2 border rounded-md mb-2">
+                        <option disabled>Select Internship Type</option>
+                        {jobTypeData.map((internType) => (
+                          <option value={internType.job_type}>{internType.job_type}</option>
+                        ))}
                       </select>
                     </div>
                   </div>
