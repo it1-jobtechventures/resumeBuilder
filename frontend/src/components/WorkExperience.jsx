@@ -457,7 +457,7 @@ const WorkExperience = ({ nextStep, prevStep }) => {
               <div className="mb-4">
                 <label className="block text-gray-700">Location</label>
                 {/* <input type="text" name="location" style={{ textTransform: 'capitalize' }} value={company.location} onChange={(e) => handleCompanyChange(companyIndex, e)} className="w-full p-2 border rounded-md" placeholder="Enter company location"/> */}
-                <select>
+                <select name="location" style={{ textTransform: 'capitalize' }} value={company.location} onChange={(e) => handleCompanyChange(companyIndex, e)} className="w-full p-2 border rounded-md" placeholder="Enter company location">
                   {
                     location.map((city) => (
                       <option value={city.city_name}>{city.city_name}</option>
@@ -469,7 +469,7 @@ const WorkExperience = ({ nextStep, prevStep }) => {
                 <label className="block text-gray-700">Company Industry</label>
                 {/* <Select options={industries} style={{ textTransform: 'capitalize' }} isSearchable getOptionLabel={(e) => e.label}  getOptionValue={(e) => e.value}  placeholder="Select an industry..." value={industries.find((ind) => ind.value === company.industry)} onChange={(selectedOption) => {   handleCompanyChange(companyIndex, { target: { name: "industry", value: selectedOption.value } }); }}/> */}
                  {/* <input type="text" name="industry" value={company.industry} onChange={(e) => handleCompanyChange(companyIndex, e)} className="w-full p-2 border rounded-md" placeholder="Enter company Industry"/> */}
-              <select>
+              <select name="industry" value={company.industry} onChange={(e) => handleCompanyChange(companyIndex, e)} className="w-full p-2 border rounded-md" placeholder="Enter company Industry">
                 {industryData.map((com) => (
                   <option value={com.industry_name}>{com.industry_name}</option>
                 ))}
