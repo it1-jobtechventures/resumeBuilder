@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { toast } from "react-toastify";
+import degreeData from "../assets/degreeData";
+import location from "../assets/locationData";
 
 const EducationInfo = ({ nextStep, prevStep }) => {
 
@@ -76,7 +78,12 @@ const EducationInfo = ({ nextStep, prevStep }) => {
               </div>
               <div className="mb-4">
                 <label className="block text-gray-700">Location</label>
-                <input type="text" style={{ textTransform: 'capitalize' }} name="location" value={education.location} onChange={(e) => handleEducationChange(index, e)} className="w-full p-2 border rounded-md focus:ring-2 focus:ring-blue-400 focus:border-blue-400 transition-all" placeholder="Enter School Location"/>
+                {/* <input type="text" style={{ textTransform: 'capitalize' }} name="location" value={education.location} onChange={(e) => handleEducationChange(index, e)} className="w-full p-2 border rounded-md focus:ring-2 focus:ring-blue-400 focus:border-blue-400 transition-all" placeholder="Enter School Location"/> */}
+                <select>
+                  {location.map((loc) => (
+                    <option value={loc.city_name}>{loc.city_name}</option>
+                  ))}
+                </select>
               </div>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
@@ -84,9 +91,9 @@ const EducationInfo = ({ nextStep, prevStep }) => {
                 <label className="block text-gray-700">Degree</label>
                 <select name="degree" style={{ textTransform: 'capitalize' }} value={education.degree} onChange={(e) => handleEducationChange(index, e)} className="w-full p-2 border rounded-md focus:ring-2 focus:ring-blue-400 focus:border-blue-400 transition-all">
                   <option value="">Select Degree</option>
-                  <option value="Higher School">Higher School</option>
-                  <option value="Bachelor's Degree">Bachelor's Degree</option>
-                  <option value="Master's Degree">Master's Degree</option>
+                  {degreeData.map((degree) => (
+                    <option value={degree.degree}>{degree.degree}</option>
+                  ))}
                 </select>
               </div>
               <div className="mb-4">

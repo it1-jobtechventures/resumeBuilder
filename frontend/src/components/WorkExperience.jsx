@@ -256,6 +256,8 @@ import React, { useState,useEffect } from 'react';
 import { toast } from 'react-toastify';
 import Select from "react-select";
 import axios from "axios";
+import location from '../assets/locationData';
+import industryData from '../assets/industryData';
 
 const WorkExperience = ({ nextStep, prevStep }) => {
   const [industries, setIndustries] = useState([]);
@@ -409,36 +411,36 @@ const WorkExperience = ({ nextStep, prevStep }) => {
     setWorkExperience(updatedExperience);
   };
 
-  useEffect(() => {
-    const fetchIndustries = async () => {
-      let allIndustries = [];
-      let currentPage = 1;
-      // const lastPage = 10000; // Fetch only 5 pages for now to avoid API limits
-      const lastPage = 100; 
-      while (currentPage <= lastPage) {
-        try {
-          const response = await axios.get(
-            `https://api.thecompaniesapi.com/v2/industries?page=${currentPage}`
-          );
-          allIndustries = [...allIndustries, ...response.data.industries];
-          currentPage++;
-        } catch (error) {
-          console.error("Error fetching industries:", error);
-          break;
-        }
-      }
+  // useEffect(() => {
+  //   const fetchIndustries = async () => {
+  //     let allIndustries = [];
+  //     let currentPage = 1;
+  //     // const lastPage = 10000; // Fetch only 5 pages for now to avoid API limits
+  //     const lastPage = 100; 
+  //     while (currentPage <= lastPage) {
+  //       try {
+  //         const response = await axios.get(
+  //           `https://api.thecompaniesapi.com/v2/industries?page=${currentPage}`
+  //         );
+  //         allIndustries = [...allIndustries, ...response.data.industries];
+  //         currentPage++;
+  //       } catch (error) {
+  //         console.error("Error fetching industries:", error);
+  //         break;
+  //       }
+  //     }
 
-      setIndustries(
-        allIndustries.map((industry) => ({
-          label: industry.name, // Display only the name
-          value: industry.name, // Optional, required by react-select
-        }))
-      );
+  //     setIndustries(
+  //       allIndustries.map((industry) => ({
+  //         label: industry.name, // Display only the name
+  //         value: industry.name, // Optional, required by react-select
+  //       }))
+  //     );
      
-    };
+  //   };
 
-    fetchIndustries();
-  }, []);
+  //   fetchIndustries();
+  // }, []);
 
   return (
     <>
@@ -454,12 +456,24 @@ const WorkExperience = ({ nextStep, prevStep }) => {
               </div>
               <div className="mb-4">
                 <label className="block text-gray-700">Location</label>
-                <input type="text" name="location" style={{ textTransform: 'capitalize' }} value={company.location} onChange={(e) => handleCompanyChange(companyIndex, e)} className="w-full p-2 border rounded-md" placeholder="Enter company location"/>
+                {/* <input type="text" name="location" style={{ textTransform: 'capitalize' }} value={company.location} onChange={(e) => handleCompanyChange(companyIndex, e)} className="w-full p-2 border rounded-md" placeholder="Enter company location"/> */}
+                <select>
+                  {
+                    location.map((city) => (
+                      <option value={city.city_name}>{city.city_name}</option>
+                    ))
+                  }
+                </select>
               </div>
               <div className="mb-4">
                 <label className="block text-gray-700">Company Industry</label>
-                <Select options={industries} style={{ textTransform: 'capitalize' }} isSearchable getOptionLabel={(e) => e.label}  getOptionValue={(e) => e.value}  placeholder="Select an industry..." value={industries.find((ind) => ind.value === company.industry)} onChange={(selectedOption) => {   handleCompanyChange(companyIndex, { target: { name: "industry", value: selectedOption.value } }); }}/>
-                {/* <input type="text" name="industry" value={company.industry} onChange={(e) => handleCompanyChange(companyIndex, e)} className="w-full p-2 border rounded-md" placeholder="Enter company Industry"/> */}
+                {/* <Select options={industries} style={{ textTransform: 'capitalize' }} isSearchable getOptionLabel={(e) => e.label}  getOptionValue={(e) => e.value}  placeholder="Select an industry..." value={industries.find((ind) => ind.value === company.industry)} onChange={(selectedOption) => {   handleCompanyChange(companyIndex, { target: { name: "industry", value: selectedOption.value } }); }}/> */}
+                 {/* <input type="text" name="industry" value={company.industry} onChange={(e) => handleCompanyChange(companyIndex, e)} className="w-full p-2 border rounded-md" placeholder="Enter company Industry"/> */}
+              <select>
+                {industryData.map((com) => (
+                  <option value={com.industry_name}>{com.industry_name}</option>
+                ))}
+              </select>
               </div>
               <div className="mb-4">
                 <label className="block text-gray-700">Company Experience</label>
