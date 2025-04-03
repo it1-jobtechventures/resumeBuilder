@@ -64,6 +64,14 @@ const EducationInfo = ({ nextStep, prevStep }) => {
     }
   };
 
+    useEffect(() => {
+      if (educationList.length === 0) {
+        setEducationList([
+          { school: "", location: "", degree: "", field: "", graduationDate: "", cgpa: "" ,educationMode:"" },
+        ]);
+      }
+    }, []);
+
   return (
     <div className="p-6" >
       <h2 className="text-2xl text-white font-bold text-center mb-6 py-3 rounded-md shadow-lg bg-gradient-to-r from-green-400 to-blue-500">Education</h2>

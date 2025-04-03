@@ -4,7 +4,7 @@ import { Trash2 } from "lucide-react";
 const SkillsInfo = ({ nextStep, prevStep }) => {
   const [skills, setSkills] = useState(() => {
     const savedSkills = localStorage.getItem("skills");
-    return savedSkills ? JSON.parse(savedSkills) : [{ name: "", level: 50 }]
+    return savedSkills ? JSON.parse(savedSkills) : [{ name: "", level: ""}]
   });
 
   useEffect(() => {
@@ -27,7 +27,7 @@ const SkillsInfo = ({ nextStep, prevStep }) => {
 
   // Add a new skill entry
   const addSkill = () => {
-    setSkills([...skills, { name: "", level: 50 }]);
+    setSkills([...skills, { name: "", level: ""}]);
   };
 
   // Remove a skill entry
@@ -35,6 +35,14 @@ const SkillsInfo = ({ nextStep, prevStep }) => {
     const updatedSkills = skills.filter((_, i) => i !== index);
     setSkills(updatedSkills);
   };
+
+  useEffect(() => {
+    if(skills.length === 0){
+      setSkills(
+        [{ name: "", level: "" }]
+      )
+    }
+  },[])
 
   return (
     <>

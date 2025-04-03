@@ -26,6 +26,9 @@ import jobTypeData from '../assets/jobTypeData';
       localStorage.setItem('internshipExperience', JSON.stringify(internshipExperience));
     }, [internshipExperience]);
 
+     // Load from localStorage when the component mounts
+  
+ 
     //handle input change 
     const handleCompanyChange = (index , event) => {
       const updatedInternship = [...internshipExperience]
@@ -108,7 +111,30 @@ import jobTypeData from '../assets/jobTypeData';
       nextStep();
     }
   };
-  
+
+  useEffect(() => {
+    if(internshipExperience.length === 0){
+      setInternshipExperience([
+        {
+          company: '',
+          location: '',
+          title: '',
+          startDate: '',
+          endDate: '',
+          currentlyWorking: false,
+          description: '',
+          stipend: '',
+          noticePeriod: '',
+          internshipType: 'Permanent',
+          internshipMode: 'WFH'
+        }
+      ]);
+    }
+
+
+  }, []);
+
+
     return (
       <>
         <div className="p-4 md:p-6 max-w-3xl mx-auto">

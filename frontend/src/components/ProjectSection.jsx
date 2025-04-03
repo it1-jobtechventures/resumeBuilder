@@ -28,6 +28,14 @@ const ProjectSection = () => {
     setProjects(newProjects);
   };
 
+  useEffect(() => {
+    if(projects.length === 0) {
+      setProjects(
+        [{ name: "", deployedLink: "", summary: "", githubLink: "" }]
+      )
+    }
+  },[])
+
   return (
     <>
       <div className="p-6 border rounded-md">

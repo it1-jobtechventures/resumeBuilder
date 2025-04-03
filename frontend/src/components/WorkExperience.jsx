@@ -442,7 +442,22 @@ const WorkExperience = ({ nextStep, prevStep }) => {
 
   //   fetchIndustries();
   // }, []);
-
+  useEffect(() => {
+    if (workExperience.length === 0) {
+      setWorkExperience([
+        {
+          company: '',
+          location: '',
+          industry: '',
+          totalCompanyExperience: '',
+          roles: [
+            { title: '', startDate: '', endDate: '', currentlyWorking: false, description: '', ctc: '', noticePeriod: '', teamSize: '', jobType: 'Permanent', jobMode: 'WFH' }
+          ]
+        }
+      ]);
+    }
+  }, []);
+  
   return (
     <>
       <div className="p-6 bg-white shadow-lg rounded-lg">
