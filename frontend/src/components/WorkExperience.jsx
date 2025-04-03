@@ -259,6 +259,7 @@ import axios from "axios";
 import location from '../assets/locationData';
 import industryData from '../assets/industryData';
 import jobTypeData from '../assets/jobTypeData';
+import DatePicker from 'react-datepicker'; 
 
 const WorkExperience = ({ nextStep, prevStep }) => {
   const [industries, setIndustries] = useState([]);
@@ -297,11 +298,11 @@ const WorkExperience = ({ nextStep, prevStep }) => {
     localStorage.setItem('workExperience', JSON.stringify(updatedExperience));
   };
   
-  const handleRoleChange = (companyIndex, roleIndex, event) => {
-    const updatedExperience = [...workExperience];
-    updatedExperience[companyIndex].roles[roleIndex][event.target.name] = event.target.value;
-    setWorkExperience(updatedExperience);
-  };
+  // const handleRoleChange = (companyIndex, roleIndex, event) => {
+  //   const updatedExperience = [...workExperience];
+  //   updatedExperience[companyIndex].roles[roleIndex][event.target.name] = event.target.value;
+  //   setWorkExperience(updatedExperience);
+  // };
 
   // Toggle "Currently Working Here"
   const toggleCurrentlyWorking = (companyIndex, roleIndex) => {
@@ -412,6 +413,20 @@ const WorkExperience = ({ nextStep, prevStep }) => {
     setWorkExperience(updatedExperience);
   };
 
+  
+  // Update role change handler to handle dates properly
+  const handleRoleChange = (companyIndex, roleIndex, event) => {
+    const updatedExperience = [...workExperience];
+    updatedExperience[companyIndex].roles[roleIndex][event.target.name] = event.target.value;
+    setWorkExperience(updatedExperience);
+  };
+
+  // Handle date change (to update the date format)
+  const handleDateChange = (date, companyIndex, roleIndex, field) => {
+    const updatedExperience = [...workExperience];
+    updatedExperience[companyIndex].roles[roleIndex][field] = date;
+    setWorkExperience(updatedExperience);
+  };
   // useEffect(() => {
   //   const fetchIndustries = async () => {
   //     let allIndustries = [];
@@ -543,7 +558,7 @@ const WorkExperience = ({ nextStep, prevStep }) => {
                       <option value="Hybrid">Hybrid</option>
                     </select>
                   </div>
-                  <div className="flex gap-4">
+                  {/* <div className="flex gap-4">
                     <div className="mb-4 w-1/2">
                       <label className="block text-gray-700">Starting Date</label>
                       <input type="date" name="startDate" value={role.startDate} onChange={(e) => handleRoleChange(companyIndex, roleIndex, e)} className="w-full p-2 border rounded-md"/>
@@ -551,6 +566,29 @@ const WorkExperience = ({ nextStep, prevStep }) => {
                     <div className="mb-4 w-1/2">
                       <label className="block text-gray-700">Ending Date</label>
                       <input type="date" name="endDate" value={role.endDate} disabled={role.currentlyWorking} onChange={(e) => handleRoleChange(companyIndex, roleIndex, e)} className="w-full p-2 border rounded-md"/>
+                    </div>
+                  </div> */}
+                  <div className="flex gap-4">
+                    <div className="mb-4 w-1/2">
+                      <label className="block text-gray-700">Starting Date</label>
+                      <DatePicker
+                        selected={role.startDate ? new Date(role.startDate) : null}
+                        onChange={(date) => handleDateChange(date, companyIndex, roleIndex, 'startDate')}
+                        dateFormat="dd/MM/yyyy"
+                        className="w-full p-2 border rounded-md"
+                        placeholderText="Select start date"
+                      />
+                    </div>
+                    <div className="mb-4 w-1/2">
+                      <label className="block text-gray-700">Ending Date</label>
+                      <DatePicker
+                        selected={role.endDate ? new Date(role.endDate) : null}
+                        onChange={(date) => handleDateChange(date, companyIndex, roleIndex, 'endDate')}
+                        dateFormat="dd/MM/yyyy"
+                        disabled={role.currentlyWorking}
+                        className="w-full p-2 border rounded-md"
+                        placeholderText="Select end date"
+                      />
                     </div>
                   </div>
                   <div className="mb-4 flex items-center gap-2">

@@ -1,6 +1,7 @@
   import React, { useState , useEffect } from 'react'
   import { toast } from "react-toastify";
 import jobTypeData from '../assets/jobTypeData';
+import DatePicker from 'react-datepicker'; 
 
   const InternshipInfo = ({ nextStep, prevStep }) => {
 
@@ -147,26 +148,39 @@ import jobTypeData from '../assets/jobTypeData';
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
                       <label className="block text-[#4b164c]">Company Name</label>
-                      <input type='text' name='company' style={{ textTransform: 'capitalize' }} value={internhip.company} onChange={(e) => handleCompanyChange(internshipIndex , e)} className="w-full p-2 border rounded-md"/>
+                      <input type='text' placeholder='Enter Company name' name='company' style={{ textTransform: 'capitalize' }} value={internhip.company} onChange={(e) => handleCompanyChange(internshipIndex , e)} className="w-full p-2 border rounded-md"/>
                     </div>
                     <div className="mb-4">
                     <label className="block text-[#4b164c]">Company Location</label>
-                    <input type='text' name='location' style={{ textTransform: 'capitalize' }} value={internhip.location} onChange={(e) => handleCompanyChange(internshipIndex , e)} className="w-full p-2 border rounded-md"/>
+                    <input type='text' placeholder='ENter company location' name='location' style={{ textTransform: 'capitalize' }} value={internhip.location} onChange={(e) => handleCompanyChange(internshipIndex , e)} className="w-full p-2 border rounded-md"/>
                     </div>
                     <div className="mb-4">
                       <label className="block text-[#4b164c]">Internship Title</label>
-                      <input type='text' name='title' style={{ textTransform: 'capitalize' }} value={internhip.title} onChange={(e) => handleCompanyChange(internshipIndex , e)} className="w-full p-2 border rounded-md"/>
+                      <input type='text' placeholder='Enter Internship title' name='title' style={{ textTransform: 'capitalize' }} value={internhip.title} onChange={(e) => handleCompanyChange(internshipIndex , e)} className="w-full p-2 border rounded-md"/>
                     </div>
                     <div className="mb-4">
                       <label className="block text-[#4b164c]">Starting Date</label>
-                      <input type='date' name='startDate' value={internhip.startDate} onChange={(e) => handleCompanyChange(internshipIndex , e)} className="w-full p-2 border rounded-md"/>
+                      {/* <input type='date' name='startDate' value={internhip.startDate} onChange={(e) => handleCompanyChange(internshipIndex , e)} className="w-full p-2 border rounded-md"/> */}
+                      <DatePicker placeholderText='Joining Date'
+                    selected={internhip.startDate ? new Date(internhip.startDate) : null}
+                    onChange={(date) => handleCompanyChange(internshipIndex, { target: { name: 'startDate', value: date ? date.toISOString().split("T")[0] : '' } })}
+                    className="w-full p-2 border rounded-md"
+                    dateFormat="yyyy-MM-dd"
+                  />
                     </div>
                     <div className="mb-4">
                       <label className="block text-[#4b164c]">Ending Date</label>
-                      <input type='date' name='endDate' value={internhip.endDate} disabled={internhip.currentlyWorking} onChange={(e) => handleCompanyChange(internshipIndex , e)} className="w-full p-2 border rounded-md"/>
+                      {/* <input type='date' name='endDate' value={internhip.endDate} disabled={internhip.currentlyWorking} onChange={(e) => handleCompanyChange(internshipIndex , e)} className="w-full p-2 border rounded-md"/> */}
+                      <DatePicker placeholderText='Ending Date'
+                    selected={internhip.endDate ? new Date(internhip.endDate) : null}
+                    onChange={(date) => handleCompanyChange(internshipIndex, { target: { name: 'endDate', value: date ? date.toISOString().split("T")[0] : '' } })}
+                    className="w-full p-2 border rounded-md"
+                    dateFormat="yyyy-MM-dd"
+                    disabled={internhip.currentlyWorking}
+                  />
                     </div>
-                    <div className="mb-4">
-                      <input type='checkbox' checked={internhip.currentlyWorking} name='currentlyworking' value={internhip.currentlyWorking} onChange={(e) => toggleCurrentlyWorking(internshipIndex , e)} className="w-full p-2 border rounded-md"/>
+                    <div className="mb-4 flex justify-center items-center gap-1">
+                      <input type='checkbox' checked={internhip.currentlyWorking} name='currentlyworking' value={internhip.currentlyWorking} onChange={(e) => toggleCurrentlyWorking(internshipIndex , e)} className=""/>
                       <label className="block text-[#4b164c]">I currently work here</label>
                     </div>
                     <div className="mb-4">
@@ -175,7 +189,7 @@ import jobTypeData from '../assets/jobTypeData';
                     </div>
                     <div className="mb-4">
                       <label className="block text-[#4b164c]">Stipend(in LPA)</label>
-                      <input type='number' min={0} name='stipend' value={internhip.stipend} onChange={(e) => handleCompanyChange(internshipIndex , e)} className="w-full p-2 border rounded-md"/>
+                      <input type='number' min={0} name='stipend' placeholder='Enter your stipend in lpa' value={internhip.stipend} onChange={(e) => handleCompanyChange(internshipIndex , e)} className="w-full p-2 border rounded-md"/>
                     </div>
                     <div className="mb-4">
                       <label className="block text-[#4b164c]">Notice Period</label>
@@ -192,6 +206,7 @@ import jobTypeData from '../assets/jobTypeData';
                     <div className="mb-4">
                       <label className="block text-gray-700">Internship Mode</label>
                       <select name="internshipMode" value={internhip.internshipMode} onChange={(e) => handleCompanyChange(internshipIndex, e)} className="w-full p-2 border rounded-md mb-2">
+                        <option disabled>Select Internship Mode</option>
                         <option value="WFH">Work From Home</option>
                         <option value="WFO">Work From Office</option>
                         <option value="Hybrid">Hybrid</option>

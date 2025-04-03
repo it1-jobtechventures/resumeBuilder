@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import degreeData from "../assets/degreeData";
 import location from "../assets/locationData";
+import DatePicker from 'react-datepicker'; 
 
 const EducationInfo = ({ nextStep, prevStep }) => {
 
@@ -110,7 +111,14 @@ const EducationInfo = ({ nextStep, prevStep }) => {
               </div>
               <div className="mb-4">
                 <label className="block text-gray-700">Graduation Date (or expected Graduation Date)</label>
-                <input type="date" name="graduationDate" value={education.graduationDate} style={{ textTransform: 'capitalize' }} onChange={(e) => handleEducationChange(index, e)} className="w-full p-2 border rounded-md focus:ring-2 focus:ring-blue-400 focus:border-blue-400 transition-all"/>
+                {/* <input type="date" name="graduationDate" value={education.graduationDate} style={{ textTransform: 'capitalize' }} onChange={(e) => handleEducationChange(index, e)} className="w-full p-2 border rounded-md focus:ring-2 focus:ring-blue-400 focus:border-blue-400 transition-all"/> */}
+                <DatePicker
+                  selected={education.graduationDate ? new Date(education.graduationDate) : null}
+                  onChange={(date) => handleEducationChange(index, { target: { name: 'graduationDate', value: date } })}
+                  dateFormat="yyyy/MM/dd"
+                  className="w-full p-2 border rounded-md focus:ring-2 focus:ring-blue-400 focus:border-blue-400 transition-all"
+                  placeholderText="Select graduation date"
+                />
               </div>
             </div>
             <div className="mt-4">

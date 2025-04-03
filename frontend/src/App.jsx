@@ -10,6 +10,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import ResetPassword from './pages/ResetPassword'
 import ProfilePage from './pages/ProfilePage'
 import FeedbackForm from './components/FeedbackForm'
+import "react-datepicker/dist/react-datepicker.css"; 
 
 function App() {
   const url = import.meta.env.VITE_BACKEND_URL;

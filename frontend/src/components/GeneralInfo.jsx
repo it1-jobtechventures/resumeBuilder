@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { toast } from 'react-toastify';
 import axios from 'axios'
 import countryCode from '../assets/countryCode';
+import DatePicker from 'react-datepicker'; 
 
 const GeneralInfo = ({nextStep}) => {
   const [countries, setCountries] = useState([]);
@@ -172,7 +173,26 @@ const GeneralInfo = ({nextStep}) => {
             </div>
             <div className="mb-4">
               <label className="block text-[#4b164c] font-bold">DOB</label>
-              <input type="date" style={{ textTransform: 'capitalize' }} name="dob" value={formData.dob} onChange={handleChange} className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400 focus:outline-none" placeholder="Enter your DOB" />
+              {/* <input type="date" style={{ textTransform: 'capitalize' }} name="dob" 
+                value={(() => {
+                  // Convert dd/mm/yyyy back to yyyy-mm-dd format for the input field
+                  if (formData.dob) {
+                    const [day, month, year] = formData.dob.split('/');
+                    return `${year}-${month}-${day}`;
+                  }
+                  return ''; // Default if no date is selected
+                })()} 
+              onChange={handleChange} className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400 focus:outline-none" placeholder="Enter your DOB" /> */}
+                            <DatePicker
+                  selected={formData.dob ? new Date(formData.dob.split('/').reverse().join('-')) : null}
+                  onChange={(date) => {
+                    const formattedDate = date ? `${String(date.getDate()).padStart(2, '0')}/${String(date.getMonth() + 1).padStart(2, '0')}/${date.getFullYear()}` : '';
+                    setFormData(prev => ({ ...prev, dob: formattedDate }));
+                  }}
+                  dateFormat="dd/MM/yyyy" // Set the format to dd/mm/yyyy
+                  className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400 focus:outline-none"
+                  placeholderText="Enter your DOB"
+                />
             </div>
           </div>
           <div className="mb-4">
