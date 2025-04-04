@@ -196,11 +196,11 @@ import DatePicker from 'react-datepicker';
                       {/* <input type='text' name='noticePeriod' value={internhip.noticePeriod} onChange={(e) => handleCompanyChange(internshipIndex , e)} className="w-full p-2 border rounded-md"/> */}
                       <select name="noticePeriod" value={internhip.noticePeriod} onChange={(e) => handleCompanyChange(internshipIndex , e)} className="w-full p-2 border rounded-md">
                         <option disabled>Choose your notice period</option>
-                        <option value='ImmediatelyJoin'>Immediately Join</option>
-                        <option value='LessThan15Days'>Less than 15 days</option>
-                        <option value='OneMonth'>1 month</option>
-                        <option value='ThreeMonth'>3 Months</option>
-                        <option value='MoreThan3Months'>More than 3 months</option>
+                        <option value='Immediately Join'>Immediately Join</option>
+                        <option value='Less Than 15 Days'>Less than 15 days</option>
+                        <option value='One Month'>1 month</option>
+                        <option value='3 Months'>3 Months</option>
+                        <option value='More Than 3 Months'>More than 3 months</option>
                     </select>
                     </div>
                     <div className="mb-4">

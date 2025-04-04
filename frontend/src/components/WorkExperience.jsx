@@ -529,11 +529,11 @@ const WorkExperience = ({ nextStep, prevStep }) => {
                     {/* <input type="text" name="noticePeriod" value={role.noticePeriod} onChange={(e) => handleRoleChange(companyIndex, roleIndex, e)} className="w-full p-2 border rounded-md" placeholder="Enter your notice period"/> */}
                     <select name="noticePeriod" style={{ textTransform: 'capitalize' }} value={role.noticePeriod} onChange={(e) => handleRoleChange(companyIndex, roleIndex, e)} className="w-full p-2 border rounded-md">
                       <option disabled>Choose your notice period</option>
-                      <option value='ImmediatelyJoin'>Immediately Join</option>
-                      <option value='LessThan15Days'>Less than 15 days</option>
-                      <option value='OneMonth'>1 month</option>
-                      <option value='ThreeMonth'>3 Months</option>
-                      <option value='MoreThan3Months'>More than 3 months</option>
+                      <option value='Immediately Join'>Immediately Join</option>
+                      <option value='Less Than 15 Days'>Less than 15 days</option>
+                      <option value='1 Month'>1 month</option>
+                      <option value='3 Months'>3 Months</option>
+                      <option value='More Than 3 Months'>More than 3 months</option>
                     </select>
                   </div>
                   <div className="mb-4">
