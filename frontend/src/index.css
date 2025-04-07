@@ -1,7 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Material+Icons');
 @import "tailwindcss";
 
-@keyframes popUp {
+/* @keyframes popUp {
     0% {
       opacity: 0;
       transform: translateY(20px);
@@ -19,4 +19,26 @@
   .popup {
     animation: popUp 2s ease-in-out infinite;
   }
-  
+   */
+
+   @keyframes popUp {
+    0% {
+      opacity: 0;
+      border-width: 0;
+    }
+    50% {
+      opacity: 1;
+      border-width: 2px; /* Adjust this value based on the desired border thickness */
+    }
+    100% {
+      opacity: 1;
+      border-width: 2px; /* Maintain the border thickness */
+    }
+}
+
+.popup {
+  animation: popUp 1s infinite;
+  border: solid transparent; /* Initially transparent border */
+  border-width: 0px; /* Initial border width */
+  border-color: #000; /* You can adjust this color */
+}
