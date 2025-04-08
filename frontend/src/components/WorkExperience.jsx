@@ -473,6 +473,21 @@ const WorkExperience = ({ nextStep, prevStep }) => {
     }
   }, []);
   
+  const industriesOption = () => {
+    // Return the array of options, each with value and label
+    return industryData.map((indus) => ({
+      value: indus.industry_name.toLowerCase().replace(/\s+/g, '-'), // Using lowercase and hyphen for value
+      label: indus.industry_name // The label will be the industry name
+    }));
+  }
+
+
+  const jobTypeOptions = () => {
+    return jobTypeData?.map((job) => ({
+      value: job.job_type,
+      label: job.job_type, // Use `label` instead of `name` for Select options for clarity
+    })) || []; // Handle empty or undefined `jobTypeData` gracefully
+  };
   return (
     <>
       <div className="p-6 bg-white shadow-lg rounded-lg">
@@ -498,13 +513,19 @@ const WorkExperience = ({ nextStep, prevStep }) => {
               </div>
               <div className="mb-4">
                 <label className="block text-gray-700">Company Industry</label>
-                {/* <Select options={industries} style={{ textTransform: 'capitalize' }} isSearchable getOptionLabel={(e) => e.label}  getOptionValue={(e) => e.value}  placeholder="Select an industry..." value={industries.find((ind) => ind.value === company.industry)} onChange={(selectedOption) => {   handleCompanyChange(companyIndex, { target: { name: "industry", value: selectedOption.value } }); }}/> */}
-                 {/* <input type="text" name="industry" value={company.industry} onChange={(e) => handleCompanyChange(companyIndex, e)} className="w-full p-2 border rounded-md" placeholder="Enter company Industry"/> */}
-              <select name="industry" value={company.industry} onChange={(e) => handleCompanyChange(companyIndex, e)} className="w-full p-2 border rounded-md" placeholder="Enter company Industry">
-                {industryData.map((com) => (
-                  <option value={com.industry_name}>{com.industry_name}</option>
-                ))}
-              </select>
+
+              <Select
+  options={industriesOption()} // Pass the options as the result of industriesOption()
+  style={{ textTransform: 'capitalize' }} // Capitalize the first letter of each option label
+  isSearchable
+  placeholder="Select an industry..."
+  value={industriesOption().find((ind) => ind.value === company.industry)} // Find the selected option based on value
+  onChange={(selectedOption) => {
+    handleCompanyChange(companyIndex, {
+      target: { name: 'industry', value: selectedOption.value },
+    });
+  }}
+/>
               </div>
               <div className="mb-4">
                 <label className="block text-gray-700">Company Experience</label>
@@ -542,12 +563,24 @@ const WorkExperience = ({ nextStep, prevStep }) => {
                   </div>
                   <div className="mb-4">
                     <label className="block text-gray-700">Job Type</label>
-                    <select name="jobType" style={{ textTransform: 'capitalize' }} value={role.jobType} onChange={(e) => handleRoleChange(companyIndex,roleIndex, e)} className="w-full p-2 border rounded-md mb-2">
-                      <option disabled>Select your job Type</option>
-                      {jobTypeData.map((jobType) => (
-                        <option value={jobType.job_type}>{jobType.job_type}</option>
-                      ))}
-                    </select>
+                      {/* <select name="jobType" style={{ textTransform: 'capitalize' }} value={role.jobType} onChange={(e) => handleRoleChange(companyIndex,roleIndex, e)} className="w-full p-2 border rounded-md mb-2">
+                        <option disabled>Select your job Type</option>
+                        {jobTypeData.map((jobType) => (
+                          <option value={jobType.job_type}>{jobType.job_type}</option>
+                        ))}
+                      </select> */}
+  <Select
+  options={jobTypeOptions()} // Use jobTypeOptions directly here
+  value={jobTypeOptions().find(option => option.value === role.jobType)} // Find the selected value
+  onChange={(selectedOption) => {
+    handleRoleChange(companyIndex, roleIndex, {
+      target: { name: 'jobType', value: selectedOption?.value }, // Safely access `value`
+    });
+  }}
+  className="w-full p-2 border rounded-md"
+  placeholder="Select your job type"
+  isSearchable // Make the dropdown searchable
+/>
                   </div>
                   <div className="mb-4">
                     <label className="block text-gray-700">Job Mode</label>

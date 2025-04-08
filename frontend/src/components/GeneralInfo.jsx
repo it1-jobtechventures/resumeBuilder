@@ -3,6 +3,7 @@ import { toast } from 'react-toastify';
 import axios from 'axios'
 import countryCode from '../assets/countryCode';
 import DatePicker from 'react-datepicker'; 
+import Select from 'react-select'
 
 const GeneralInfo = ({nextStep}) => {
   const [countries, setCountries] = useState([]);
@@ -38,6 +39,13 @@ const GeneralInfo = ({nextStep}) => {
     }
   },[])
 
+  const PhoneNumberForm = ({ countryCode, formData, handleChange }) => {
+    // Create options array for react-select
+    const countryOptions = countryCode.map(country => ({
+      value: country.tel_country_code,
+      label: `+${country.tel_country_code}`,  // Display the country code with '+' sign
+    }));
+  }
   const validateForm = () => {
     let isValid = true;
     if (!formData.firstName.trim()) {
@@ -209,6 +217,13 @@ const GeneralInfo = ({nextStep}) => {
                   <option key={country.id}>+{country.tel_country_code}</option>
                 ))}
               </select>
+              <Select
+          options={countryOptions}
+          value={countryOptions.find(option => option.value === formData.countryCode1)}
+          onChange={selectedOption => handleChange({ target: { name: 'countryCode1', value: selectedOption.value } })}
+          className="w-15"
+          placeholder="Select Country Code"
+        />
               <input type="tel" name="phone1" value={formData.phone1} onChange={handleChange} className="w-full p-3 border-none focus:outline-none" placeholder="Enter your phone number" required/>
               </div>
 

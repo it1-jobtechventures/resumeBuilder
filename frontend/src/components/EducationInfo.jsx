@@ -3,7 +3,7 @@ import { toast } from "react-toastify";
 import degreeData from "../assets/degreeData";
 import location from "../assets/locationData";
 import DatePicker from 'react-datepicker'; 
-
+import Select from 'react-select'
 const EducationInfo = ({ nextStep, prevStep }) => {
 
   const [educationList, setEducationList] = useState(() => {
@@ -73,6 +73,14 @@ const EducationInfo = ({ nextStep, prevStep }) => {
       }
     }, []);
 
+    const degree = () => {
+      // Use optional chaining to handle cases where degreeData may be undefined or null
+      return degreeData?.map((deg) => ({
+        value: deg.degree,
+        label: deg.degree,
+      })) || []; // Ensure the function returns an empty array if degreeData is empty or undefined
+    };
+    
   return (
     <div className="p-6" >
       <h2 className="text-2xl text-white font-bold text-center mb-6 py-3 rounded-md shadow-lg bg-gradient-to-r from-green-400 to-blue-500">Education</h2>
@@ -98,12 +106,21 @@ const EducationInfo = ({ nextStep, prevStep }) => {
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
               <div className="mb-4">
                 <label className="block text-gray-700">Degree</label>
-                <select name="degree" style={{ textTransform: 'capitalize' }} value={education.degree} onChange={(e) => handleEducationChange(index, e)} className="w-full p-2 border rounded-md focus:ring-2 focus:ring-blue-400 focus:border-blue-400 transition-all">
+                {/* <select name="degree" style={{ textTransform: 'capitalize' }} value={education.degree} onChange={(e) => handleEducationChange(index, e)} className="w-full p-2 border rounded-md focus:ring-2 focus:ring-blue-400 focus:border-blue-400 transition-all">
                   <option value="">Select Degree</option>
                   {degreeData.map((degree) => (
                     <option value={degree.degree}>{degree.degree}</option>
                   ))}
-                </select>
+                </select> */}
+                {/* <Select options={degree()} style={{textTransform:'capitalize'}} isSearchable placeholder='Select Degree' value={degree().find((deg) => deg.value === education.degree)} onChange={(e) => handleEducationChange(index, e)}/> */}
+                <Select
+  options={degree()} // Use degree() to get options
+  style={{ textTransform: 'capitalize' }} // Apply style for text capitalization
+  isSearchable // Make the dropdown searchable
+  placeholder="Select Degree" // Set placeholder
+  value={degree().find((deg) => deg.value === education.degree)} // Find the selected degree
+  onChange={(selectedOption) => handleEducationChange(index, selectedOption)} // Handle change with selectedOption
+/>
               </div>
               <div className="mb-4">
                 <label className="block text-gray-700">Field of Study</label>
