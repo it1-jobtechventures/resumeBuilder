@@ -1,10 +1,38 @@
 import languagesModel from "../model/languageSectionModel.js";
+import resumeModel from "../model/resumeModel.js";
 
-// Create or Update Languages
+// // Create or Update Languages
+// const saveLanguages = async (req, res) => {
+//   try {
+//     const userId = req.user.id;
+//     const { resumeId, languages } = req.body; // languages = [{ language: "", level: "", customLanguage: ""}, {...}]
+
+//     if (!languages || !Array.isArray(languages)) {
+//       return res.status(400).json({ message: "Invalid languages data" });
+//     }
+
+//     // Delete existing languages for the user & resumeId
+//     await languagesModel.deleteMany({ userId, resumeId });
+
+//     // Save new languages
+//     const newLanguages = languages.map((language) => ({
+//       userId,
+//       resumeId,
+//       ...language,
+//     }));
+
+//     const savedLanguages = await languagesModel.insertMany(newLanguages);
+
+//     res.status(201).json({ message: "Languages saved successfully", languages: savedLanguages });
+//   } catch (error) {
+//     res.status(500).json({ error: error.message });
+//   }
+// };
+
 const saveLanguages = async (req, res) => {
   try {
     const userId = req.user.id;
-    const { resumeId, languages } = req.body; // languages = [{ language: "", level: "", customLanguage: ""}, {...}]
+    const { resumeId, languages } = req.body;
 
     if (!languages || !Array.isArray(languages)) {
       return res.status(400).json({ message: "Invalid languages data" });
@@ -21,6 +49,14 @@ const saveLanguages = async (req, res) => {
     }));
 
     const savedLanguages = await languagesModel.insertMany(newLanguages);
+
+    // Collect all saved _id values
+    const languageIds = savedLanguages.map(lang => lang._id);
+
+    // Update resume model
+    await resumeModel.findByIdAndUpdate(resumeId, {
+      $set: { language: languageIds }
+    });
 
     res.status(201).json({ message: "Languages saved successfully", languages: savedLanguages });
   } catch (error) {

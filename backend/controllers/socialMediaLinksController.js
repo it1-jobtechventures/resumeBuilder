@@ -1,11 +1,34 @@
+import resumeModel from "../model/resumeModel.js";
 import socialLinksModel from "../model/socialMediaLinkModel.js";
 
 
 // Create or Update Social Media Links
+// const saveSocialMedia = async (req, res) => {
+//   try {
+//     const userId = req.user.id;
+//     const { resumeId, socialLinks } = req.body; // socialLinks = { instagram, facebook, twitter, etc. }
+
+//     if (!resumeId || !socialLinks) {
+//       return res.status(400).json({ message: "Resume ID and social links are required" });
+//     }
+
+//     // Upsert (update if exists, otherwise create new)
+//     const updatedSocialMedia = await socialLinksModel.findOneAndUpdate(
+//       { userId, resumeId },
+//       { userId, resumeId, ...socialLinks },
+//       { new: true, upsert: true }
+//     );
+
+//     res.status(201).json({ message: "Social media links saved", socialLinks: updatedSocialMedia });
+//   } catch (error) {
+//     res.status(500).json({ error: error.message });
+//   }
+// };
+
 const saveSocialMedia = async (req, res) => {
   try {
     const userId = req.user.id;
-    const { resumeId, socialLinks } = req.body; // socialLinks = { instagram, facebook, twitter, etc. }
+    const { resumeId, socialLinks } = req.body;
 
     if (!resumeId || !socialLinks) {
       return res.status(400).json({ message: "Resume ID and social links are required" });
@@ -17,6 +40,11 @@ const saveSocialMedia = async (req, res) => {
       { userId, resumeId, ...socialLinks },
       { new: true, upsert: true }
     );
+
+    // Save the social media document ID to resume model
+    await resumeModel.findByIdAndUpdate(resumeId, {
+      $set: { socialLink: updatedSocialMedia._id },
+    });
 
     res.status(201).json({ message: "Social media links saved", socialLinks: updatedSocialMedia });
   } catch (error) {
