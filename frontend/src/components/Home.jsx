@@ -12,10 +12,7 @@ const Home = ({url}) => {
     let userId;
     try {
       if (isLoggedIn) {
-        console.log("c")
         const res = await axios.get(`${url}/api/auth/profile` ,{ withCredentials: true,})
-        console.log(res.data)
-        console.log("home",res.data)
         userId = res.data.user?._id
         if (!userId) {
           return res.status(400).json({ success: false, message: "User ID is missing" });
@@ -26,14 +23,11 @@ const Home = ({url}) => {
         }
       }else{
         userId = temporaryUserId
-        console.log("temporaryid from home", userId)
       }
 
       const response = await axios.post('http://localhost:5000/api/resume/create', {userId , isDraft:true})
       // const resumeId = response.data.resumeId;
       const resumeId = response.data._id;
-
-      console.log("resume id from home page" , resumeId)
       localStorage.setItem('activeResumeId' , resumeId)
       naviagte(`/createResume`)
     } catch (error) {
