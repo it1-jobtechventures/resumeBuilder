@@ -3,12 +3,12 @@ import Navbar from '../components/Navbar'
 import Home from '../components/Home'
 import Footer from '../components/Footer'
 
-const HomePage = () => {
+const HomePage = ({url}) => {
   return (
     <>
       <div className='bg-white  h-auto'>
         <Navbar/>
-        <Home/>
+        <Home url={url}/>
         <Footer/>
       </div>
     </>
