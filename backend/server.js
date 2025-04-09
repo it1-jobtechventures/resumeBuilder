@@ -21,6 +21,7 @@ import softwareInfoRouter from './routes/softwareInfoRoutes.js';
 import volunteeringRouter from './routes/volunteeringRoutes.js';
 import referenceRouter from './routes/referenceSectionRoutes.js';
 import resumeMetaRouter from './routes/resumeMetaRoutes.js';
+import resumeRouter from './routes/resumeRoute.js';
 
 dotenv.config();
 
@@ -64,6 +65,7 @@ app.use('/api/softwareInfo', softwareInfoRouter)
 app.use('/api/volunteering' , volunteeringRouter)
 app.use('/api/reference' , referenceRouter)
 app.use('/api/resumeMeta', resumeMetaRouter)
+app.use('/api/resume', resumeRouter)
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
