@@ -15,6 +15,16 @@ export const AppContextProvider = (props) => {
       // Temporary User ID (24-character)
   const [temporaryUserId, setTemporaryUserId] = useState(null);
 
+    // ✅ Add this line for resumeId
+    const [activeResumeId, setActiveResumeId] = useState(localStorage.getItem("activeResumeId") || null);
+
+      // Save to localStorage when resumeId changes
+  useEffect(() => {
+    if (activeResumeId) {
+      localStorage.setItem("activeResumeId", activeResumeId);
+    }
+  }, [activeResumeId]);
+
    // Generate Random 24-character ID
     const generateTempId = () => {
         const chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
@@ -45,7 +55,9 @@ export const AppContextProvider = (props) => {
         backendUrl,
         isLoggedIn, 
         setIsLoggedIn,
-        temporaryUserId
+        temporaryUserId,
+        activeResumeId,
+        setActiveResumeId,
     }
 
     return (
