@@ -42,3 +42,11 @@
   border-width: 0px; /* Initial border width */
   border-color: #000; /* You can adjust this color */
 }
+
+.input {
+  @apply w-full px-4 py-2 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-400;
+}
+
+.btn-primary {
+  @apply bg-blue-500 hover:bg-blue-600 text-white font-semibold px-6 py-2 rounded-md shadow;
+}
