@@ -127,7 +127,7 @@ const EducationInfo = ({ nextStep, prevStep , url }) => {
                 ...education,
               };
               console.log("📤 Sending education data to backend:", payload);
-              const res = await axios.post(`${ur}/api/education/add-education`, {                userId: localStorage.getItem("temporaryUserId"),
+              const res = await axios.post(`${url}/api/education/add-education`, {                userId: localStorage.getItem("temporaryUserId"),
                 resumeId,
                 ...education,});
               console.log("✅ Education saved:", res.data);
