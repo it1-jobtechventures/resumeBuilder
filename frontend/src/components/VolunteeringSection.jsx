@@ -5,7 +5,7 @@ import { toast } from 'react-toastify';
 import axios from 'axios'
 import { RxCross2 } from "react-icons/rx";
 
-const VolunteeringSection = () => {
+const VolunteeringSection = ({url}) => {
   const [volunteering, setVolunteering] = useState(() => {
     const savedVolunteering = localStorage.getItem('volunteering');
     return savedVolunteering ? JSON.parse(savedVolunteering) : [''];
@@ -47,7 +47,7 @@ const resumeId = activeResumeId;
     console.log("📤 Sending data to backend:", { resumeId, ...volunteering });
   
     try {
-      const data = await axios.post('http://localhost:5000/api/volunteering/add-volunteering', {
+      const data = await axios.post(`${url}/api/volunteering/add-volunteering`, {
         userId: localStorage.getItem("temporaryUserId"),
         resumeId,
         volunteerings:volunteering.map((item) => ({ name: item })),

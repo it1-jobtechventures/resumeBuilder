@@ -6,7 +6,7 @@ import {  useResume } from '../context/FormContext';
 import { AppContext } from '../context/AppContext';
 import axios from 'axios'
 
-  const InternshipInfo = ({ nextStep, prevStep }) => {
+  const InternshipInfo = ({ nextStep, prevStep , url}) => {
 
     const [internshipExperience , setInternshipExperience] = useState(() => {
       const savedData = localStorage.getItem('internshipExperience')
@@ -154,7 +154,7 @@ import axios from 'axios'
     console.log("📤 Sending data to backend:", { resumeId, ...internshipExperience });
   
     try {
-      const data = await axios.post('http://localhost:5000/api/internship/add-internship', {
+      const data = await axios.post(`${url}/api/internship/add-internship`, {
         userId: localStorage.getItem("temporaryUserId"),
         resumeId,
         internships: internshipExperience,

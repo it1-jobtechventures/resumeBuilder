@@ -55,7 +55,7 @@ import { FaPinterest } from "react-icons/fa6";
 import { FaLinkedinIn } from "react-icons/fa";
 import { FaSchool } from "react-icons/fa";
 
-const SocialMediaSection = () => {
+const SocialMediaSection = ({url}) => {
   const [socialLinks, setSocialLinks] = useState(() => {
     const savedLinks = localStorage.getItem('socialLinks');
     return savedLinks ? JSON.parse(savedLinks) :[ {
@@ -94,7 +94,7 @@ const resumeId = activeResumeId;
       console.log("📤 Sending data to backend:", { resumeId, socialLinks });
     
       try {
-        const data = await axios.post('http://localhost:5000/api/socialMedia/add-socialLink', {
+        const data = await axios.post(`${url}/api/socialMedia/add-socialLink`, {
           userId: localStorage.getItem("temporaryUserId"),
           resumeId,
           socialLinks,

@@ -25,7 +25,7 @@ const Home = ({url}) => {
         userId = temporaryUserId
       }
 
-      const response = await axios.post('http://localhost:5000/api/resume/create', {userId , isDraft:true})
+      const response = await axios.post(`${url}/api/resume/create`, {userId , isDraft:true})
       // const resumeId = response.data.resumeId;
       const resumeId = response.data._id;
       localStorage.setItem('activeResumeId' , resumeId)

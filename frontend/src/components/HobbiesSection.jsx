@@ -5,7 +5,7 @@ import { toast } from 'react-toastify';
 import axios from 'axios'
 import { RxCross2 } from "react-icons/rx";
 
-const HobbiesSection = () => {
+const HobbiesSection = ({url}) => {
   const [interests, setInterests] = useState(() => {
     // Retrieve from local storage or initialize with a single empty field
     const savedInterests = localStorage.getItem('interests');
@@ -86,7 +86,7 @@ const resumeId = activeResumeId;
     
       try {
         const data = await axios.post(
-          "http://localhost:5000/api/interest/add-interest",
+          `${url}/api/interest/add-interest`,
           {
             userId: localStorage.getItem("temporaryUserId"),
             resumeId,

@@ -8,7 +8,7 @@ import VolunteeringSection from "./VolunteeringSection";
 import SoftwareSection from "./SoftwareSection";
 import SocialMediaSection from "./SocialMediaSection";
 
-const ExtraSection = ({ nextStep, prevStep }) => {
+const ExtraSection = ({ nextStep, prevStep , url}) => {
   const [selectedSections, setSelectedSections] = useState(() => {
     const savedSections = localStorage.getItem("selectedSections");
     return savedSections ? JSON.parse(savedSections) : [];
@@ -61,14 +61,14 @@ const ExtraSection = ({ nextStep, prevStep }) => {
       {selectedSections.length > 0 && (
         <div className="bg-white shadow-lg p-6 rounded-lg mt-6">
           <h3 className="text-lg font-semibold mb-3 text-gray-700">Your Selections</h3>
-          {selectedSections.includes("Projects") && <ProjectSection />}
-          {selectedSections.includes("Certifications") && <CertificationSection />}
-          {selectedSections.includes("Hobbies") && <HobbiesSection />}
-          {selectedSections.includes("Languages") && <LanguagesSection />}
-          {selectedSections.includes("Accomplishments") && <AccomplishmentSection />}
-          {selectedSections.includes("Social Media") && <SocialMediaSection />}
-          {selectedSections.includes("Software") && <SoftwareSection />}
-          {selectedSections.includes("Volunteering") && <VolunteeringSection />}
+          {selectedSections.includes("Projects") && <ProjectSection  url={url}/>}
+          {selectedSections.includes("Certifications") && <CertificationSection  url={url}/>}
+          {selectedSections.includes("Hobbies") && <HobbiesSection  url={url}/>}
+          {selectedSections.includes("Languages") && <LanguagesSection  url={url}/>}
+          {selectedSections.includes("Accomplishments") && <AccomplishmentSection  url={url}/>}
+          {selectedSections.includes("Social Media") && <SocialMediaSection url={url} />}
+          {selectedSections.includes("Software") && <SoftwareSection  url={url}/>}
+          {selectedSections.includes("Volunteering") && <VolunteeringSection  url={url}/>}
         </div>
       )}
 

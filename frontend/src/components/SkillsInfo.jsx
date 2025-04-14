@@ -5,7 +5,7 @@ import {  useResume } from '../context/FormContext';
 import { AppContext } from '../context/AppContext';
 import { toast } from 'react-toastify';
 
-const SkillsInfo = ({ nextStep, prevStep }) => {
+const SkillsInfo = ({ nextStep, prevStep , url }) => {
   const [skills, setSkills] = useState(() => {
     const savedSkills = localStorage.getItem("skills");
     return savedSkills ? JSON.parse(savedSkills) : [{ name: "", level: ""}]
@@ -66,7 +66,7 @@ const SkillsInfo = ({ nextStep, prevStep }) => {
       console.log("📤 Sending data to backend:", { resumeId, ...skills });
     
       try {
-        const data = await axios.post('http://localhost:5000/api/skills/add-skills', {
+        const data = await axios.post(`${url}/api/skills/add-skills`, {
           userId: localStorage.getItem("temporaryUserId"),
           resumeId,
           skills,

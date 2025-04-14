@@ -4,7 +4,7 @@ import { AppContext } from '../context/AppContext';
 import { toast } from 'react-toastify';
 import axios from 'axios'
 
-const AccomplishmentsSection = () => {
+const AccomplishmentsSection = ({url}) => {
   const [accomplishments, setAccomplishments] = useState(() => {
     // Retrieve from local storage or initialize with a single empty entry
     const savedAccomplishments = localStorage.getItem('accomplishments');
@@ -45,7 +45,7 @@ const AccomplishmentsSection = () => {
     console.log("📤 Sending data to backend:", { resumeId, ...accomplishments });
   
     try {
-      const data = await axios.post('http://localhost:5000/api/accomplishment/add-accomplishment', {
+      const data = await axios.post(`${url}/api/accomplishment/add-accomplishment`, {
         userId: localStorage.getItem("temporaryUserId"),
         resumeId,
         accomplishment: accomplishments.map((item) => ({ name: item })),

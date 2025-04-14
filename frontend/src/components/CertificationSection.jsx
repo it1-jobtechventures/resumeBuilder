@@ -98,7 +98,7 @@ import { toast } from 'react-toastify';
 import axios from 'axios';
 import { RxCross2 } from "react-icons/rx";
 
-const CertificationSection = ({ nextStep, prevStep }) => {
+const CertificationSection = ({ nextStep, prevStep , url}) => {
   const [certifications, setCertifications] = useState(() => {
     const savedCertifications = localStorage.getItem('certifications');
     return savedCertifications ? JSON.parse(savedCertifications) : [{ name: "" }];
@@ -136,7 +136,7 @@ const CertificationSection = ({ nextStep, prevStep }) => {
     }
     console.log("📤 Sending data to backend:", { resumeId, certifications });
     try {
-      const data = await axios.post('http://localhost:5000/api/certificate/add-certificate', {
+      const data = await axios.post(`${url}/api/certificate/add-certificate`, {
         userId: localStorage.getItem("temporaryUserId"),
         resumeId,
         certifications, // Send certifications as an array of objects

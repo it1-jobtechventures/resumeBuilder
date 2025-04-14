@@ -6,7 +6,7 @@ import axios from 'axios'
 import { FaStar } from 'react-icons/fa';
 import { RxCross2 } from "react-icons/rx";
 
-const SoftwareSection = () => {
+const SoftwareSection = ({url}) => {
   const [softwareList, setSoftwareList] = useState(() => {
     const savedSoftware = localStorage.getItem('softwareInfo');
     return savedSoftware ? JSON.parse(savedSoftware):[{ name: '', rating: 0 }];
@@ -53,7 +53,7 @@ const resumeId = activeResumeId;
       console.log("📤 Sending data to backend:", { resumeId, ...softwareList });
     
       try {
-        const data = await axios.post('http://localhost:5000/api/softwareInfo/add-software', {
+        const data = await axios.post(`${url}/api/softwareInfo/add-software`, {
           userId: localStorage.getItem("temporaryUserId"),
           resumeId,
           softwareSkills: softwareList,

@@ -7,7 +7,8 @@ import {  useResume } from '../context/FormContext';
 import { AppContext } from '../context/AppContext';
 import { toast } from 'react-toastify';
 import axios from 'axios'
-const GeneralInfo = ({nextStep}) => {
+
+const GeneralInfo = ({nextStep , url}) => {
   const [countries, setCountries] = useState([]);
   const [cities, setCities] = useState([]);
   const [selectedCountry, setSelectedCountry] = useState('');
@@ -198,7 +199,7 @@ console.log('asd',activeResumeId)
     console.log("📤 Sending data to backend:", { resumeId, ...formData });
   
     try {
-      const data = await axios.post('http://localhost:5000/api/generalInfo/add-generalInfo', {
+      const data = await axios.post(`${url}/api/generalInfo/add-generalInfo`, {
         userId: localStorage.getItem("temporaryUserId"),
         resumeId,
         ...formData,

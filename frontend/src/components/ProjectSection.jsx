@@ -4,7 +4,7 @@ import { AppContext } from '../context/AppContext';
 import { toast } from 'react-toastify';
 import axios from 'axios'
 
-const ProjectSection = () => {
+const ProjectSection = ({url}) => {
   const [projects, setProjects] = useState(() => {
     // Retrieve data from local storage or use default
     const savedProjects = localStorage.getItem('projects');
@@ -57,7 +57,7 @@ const resumeId = activeResumeId;
       console.log("📤 Sending data to backend:", { resumeId, ...projects });
     
       try {
-        const data = await axios.post('http://localhost:5000/api/project/add-project', {
+        const data = await axios.post(`${url}/api/project/add-project`, {
           userId: localStorage.getItem("temporaryUserId"),
           resumeId,
           projects,

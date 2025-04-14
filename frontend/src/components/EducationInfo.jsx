@@ -8,7 +8,7 @@ import {  useResume } from '../context/FormContext';
 import { AppContext } from '../context/AppContext';
 import axios from 'axios'
 
-const EducationInfo = ({ nextStep, prevStep }) => {
+const EducationInfo = ({ nextStep, prevStep , url }) => {
 
   const [educationList, setEducationList] = useState(() => {
     const savedEducation = localStorage.getItem("education");
@@ -127,7 +127,7 @@ const EducationInfo = ({ nextStep, prevStep }) => {
                 ...education,
               };
               console.log("📤 Sending education data to backend:", payload);
-              const res = await axios.post('http://localhost:5000/api/education/add-education', {                userId: localStorage.getItem("temporaryUserId"),
+              const res = await axios.post(`${ur}/api/education/add-education`, {                userId: localStorage.getItem("temporaryUserId"),
                 resumeId,
                 ...education,});
               console.log("✅ Education saved:", res.data);

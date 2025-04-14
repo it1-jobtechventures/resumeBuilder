@@ -61,7 +61,7 @@ import { toast } from 'react-toastify';
 import axios from 'axios'
 import { Link, useNavigate } from 'react-router-dom';
 
-const ReferanceInfo = ({ nextStep, prevStep }) => {
+const ReferanceInfo = ({ nextStep, prevStep , url}) => {
   const [reference, setReference] = useState( () => {
     const savedReferenceInfo = localStorage.getItem('reference');
     return savedReferenceInfo ? JSON.parse(savedReferenceInfo) : [{    name: '',
@@ -108,7 +108,7 @@ const resumeId = activeResumeId;
       console.log("📤 Sending data to backend:", { resumeId, ...reference });
     
       try {
-        const data = await axios.post('http://localhost:5000/api/reference/add-reference', {
+        const data = await axios.post(`${url}/api/reference/add-reference`, {
           userId: localStorage.getItem("temporaryUserId"),
           resumeId,
           ...reference,

@@ -263,7 +263,7 @@ import DatePicker from 'react-datepicker';
 import {  useResume } from '../context/FormContext';
 import { AppContext } from '../context/AppContext';
 
-const WorkExperience = ({ nextStep, prevStep }) => {
+const WorkExperience = ({ nextStep, prevStep , url}) => {
   const [industries, setIndustries] = useState([]);
   const { updateResumeData  } = useResume();
   const {activeResumeId} = useContext(AppContext)
@@ -539,7 +539,7 @@ const WorkExperience = ({ nextStep, prevStep }) => {
   
         console.log("📤 Sending work experience to backend:", payload);
   
-        const res = await axios.post("http://localhost:5000/api/workExperience/add-workExperince", 
+        const res = await axios.post(`${url}/api/workExperience/add-workExperince`, 
 {          userId: localStorage.getItem("temporaryUserId"),
           resumeId,
         ...companyData}
