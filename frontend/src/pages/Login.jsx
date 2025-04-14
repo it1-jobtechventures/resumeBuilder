@@ -53,7 +53,7 @@ const Login = () => {
           axios.defaults.withCredentials = true;
       
           if (state === 'Sign Up') {
-            const { data } = await axios.post(`${url}/api/auth/signup`, {
+            const { data } = await axios.post(`${backendUrl}/api/auth/signup`, {
               name, email, password, temporaryUserId
             });
       
@@ -66,7 +66,7 @@ const Login = () => {
             }
       
           } else {
-            const { data } = await axios.post(`${url}/api/auth/login`, {
+            const { data } = await axios.post(`${backendUrl}/api/auth/login`, {
               email, password, temporaryUserId
             });
       
