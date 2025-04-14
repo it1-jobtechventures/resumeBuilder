@@ -65,7 +65,6 @@ export const signup = async (req, res) => {
         if (existingUser) {
             return res.json({ success: false, message: "User already exists" });
         }
-
         const hashedPassword = await bcrypt.hash(password, 12);
         const user = new userModel({ name, email, password: hashedPassword });
         await user.save();
