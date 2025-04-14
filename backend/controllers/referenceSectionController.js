@@ -27,7 +27,8 @@ import resumeModel from "../model/resumeModel.js";
 
 const saveReference = async (req, res) => {
   try {
-    const userId = req.user.id;
+    // const userId = req.user.id;
+    const userId = req.body.userId; // ✅ Fixed
     const { resumeId, name, company, contact } = req.body;
 
     if (!resumeId || !name || !company || !contact) {

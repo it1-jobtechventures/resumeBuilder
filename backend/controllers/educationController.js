@@ -31,7 +31,7 @@ import resumeModel from "../model/resumeModel.js";
 // };
 const saveEducation = async (req, res) => {
   try {
-    const userId = req.user.id;
+    const userId = req.body.userId;
     const { resumeId, ...educationData } = req.body;
 
     let education = await educationModel.findOne({ userId, resumeId, school: educationData.school });

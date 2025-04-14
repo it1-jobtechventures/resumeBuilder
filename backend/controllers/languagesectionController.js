@@ -31,7 +31,8 @@ import resumeModel from "../model/resumeModel.js";
 
 const saveLanguages = async (req, res) => {
   try {
-    const userId = req.user.id;
+    // const userId = req.user.id;
+    const userId = req.body.userId; // ✅ Fixed
     const { resumeId, languages } = req.body;
 
     if (!languages || !Array.isArray(languages)) {

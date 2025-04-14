@@ -27,7 +27,8 @@ import socialLinksModel from "../model/socialMediaLinkModel.js";
 
 const saveSocialMedia = async (req, res) => {
   try {
-    const userId = req.user.id;
+    // const userId = req.user.id;
+    const userId = req.body.userId; // ✅ Fixed
     const { resumeId, socialLinks } = req.body;
 
     if (!resumeId || !socialLinks) {

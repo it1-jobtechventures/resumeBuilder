@@ -34,7 +34,8 @@ import resumeModel from '../model/resumeModel.js';
 
 const saveCertifications = async (req, res) => {
   try {
-    const userId = req.user.id;
+    // const userId = req.user.id;
+    const userId = req.body.userId; // ✅ Fixed
     const { resumeId, certifications } = req.body;
 
     if (!certifications || !Array.isArray(certifications)) {
@@ -66,7 +67,6 @@ const saveCertifications = async (req, res) => {
   }
 };
 
-export default saveCertifications;
 
 
 // Fetch Certifications for a Resume

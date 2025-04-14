@@ -1,6 +1,6 @@
 import resumeModel from "../model/resumeModel.js";
 import volunterringModel from "../model/volunterringModel.js";
-
+import mongoose from "mongoose";
 
 // // Create or Update 
 // const saveVolunteering = async (req, res) => {
@@ -65,7 +65,8 @@ import volunterringModel from "../model/volunterringModel.js";
 
 const saveVolunteering = async (req, res) => {
   try {
-    const userId = req.user.id;
+    // const userId = req.user.id;
+    const userId = req.body.userId; // ✅ Fixed
     const { resumeId, volunteerings } = req.body;
 
     if (!volunteerings || !Array.isArray(volunteerings)) {
@@ -88,7 +89,9 @@ const saveVolunteering = async (req, res) => {
     const volunteeringIds = savedVolunteerings.map((item) => item._id);
 
     // Convert to ObjectIds if they are not already
-    const objectIdArray = volunteeringIds.map(id => mongoose.Types.ObjectId(id));
+    // const objectIdArray = volunteeringIds.map(id => mongoose.Types.ObjectId(id));
+    const objectIdArray = volunteeringIds.map(id => new mongoose.Types.ObjectId(id));
+
 
     // Update resume model with the correct ObjectId array
     await resumeModel.findByIdAndUpdate(resumeId, {

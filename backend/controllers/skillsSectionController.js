@@ -32,7 +32,8 @@ import skillsModel from "../model/skillsSectionModel.js";
 // };
 const saveSkills = async (req, res) => {
   try {
-    const userId = req.user.id;
+    // const userId = req.user.id;
+    const userId = req.body.userId; // ✅ Fixed
     const { resumeId, skills } = req.body; // skills = [{ name: "", level: "" }, {...}]
 
     if (!skills || !Array.isArray(skills)) {

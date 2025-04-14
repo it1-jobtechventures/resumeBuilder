@@ -32,7 +32,8 @@ import resumeModel from "../model/resumeModel.js";
 // };
 const saveInterests = async (req, res) => {
   try {
-    const userId = req.user.id;
+    // const userId = req.user.id;
+    const userId = req.body.userId; // ✅ Fixed
     const { resumeId, interests } = req.body;
 
     if (!interests || !Array.isArray(interests)) {

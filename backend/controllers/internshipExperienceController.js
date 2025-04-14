@@ -32,7 +32,8 @@ import resumeModel from "../model/resumeModel.js";
 
 const saveInternship = async (req, res) => {
   try {
-    const userId = req.user.id;
+    // const userId = req.user.id;
+    const userId = req.body.userId; // ✅ Fixed
     const { resumeId, internships } = req.body;
 
     if (!internships || !Array.isArray(internships)) {

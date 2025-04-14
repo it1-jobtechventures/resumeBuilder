@@ -27,7 +27,8 @@ import softwareInfoModel from "../model/softwareInfoModel.js";
 
 const saveSoftwareInfo = async (req, res) => {
   try {
-    const userId = req.user.id;
+    // const userId = req.user.id;
+    const userId = req.body.userId; // ✅ Fixed
     const { resumeId, softwareSkills } = req.body;
 
     if (!resumeId || !softwareSkills) {
