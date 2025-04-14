@@ -688,18 +688,18 @@ const ResumeReview = ({ url }) => {
   };
   
 
-  const handleDownloadPDF = () => {
-    const element = document.getElementById('resume-content');
-    const pdf = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' });
+  // const handleDownloadPDF = () => {
+  //   const element = document.getElementById('resume-content');
+  //   const pdf = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' });
 
-    pdf.html(element, {
-      callback: (doc) => doc.save('My_Resume.pdf'),
-      x: 0,
-      y: 0,
-      width: 210,
-      windowWidth: element.scrollWidth,
-    });
-  };
+  //   pdf.html(element, {
+  //     callback: (doc) => doc.save('My_Resume.pdf'),
+  //     x: 0,
+  //     y: 0,
+  //     width: 210,
+  //     windowWidth: element.scrollWidth,
+  //   });
+  // };
 
   const handleDownloadPNG = () => {
     const element = document.getElementById('resume-content');
@@ -710,6 +710,31 @@ const ResumeReview = ({ url }) => {
     });
   };
 
+  const handleDownloadPDF = () => {
+    const element = document.getElementById('resume-content');
+    const pdf = new jsPDF({
+      orientation: 'portrait',
+      unit: 'mm',
+      format: 'a4',
+    });
+  
+    pdf.html(element, {
+      callback: function (pdf) {
+        pdf.save('My_Resume.pdf');
+      },
+      x: 0,
+      y: 0,
+      html2canvas: {
+        scale: 2,          // Better quality
+        useCORS: true,     // Allow external images/fonts
+        scrollY: 0         // Prevent vertical scroll issues
+      },
+      margin: [0, 0, 0, 0], // <-- Explicitly remove all margins
+      autoPaging: 'text',   // Handle page breaks better (optional)
+      width: 210,           // A4 width in mm
+      windowWidth: element.scrollWidth
+    });
+  };
   const resetStyles = () => {
     setFontSize('16px');
     setFontFamily('Arial');
