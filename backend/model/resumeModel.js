@@ -19,7 +19,10 @@ const resumeSchema =  mongoose.Schema({
   reference: { type: mongoose.Schema.Types.ObjectId, ref: "reference" },
   accomplishment: { type: mongoose.Schema.Types.ObjectId, ref: "accomplishment" },
   interestsSection: { type: mongoose.Schema.Types.ObjectId, ref: "interestsSection" },
-  volunteering: { type: mongoose.Schema.Types.ObjectId, ref: "volunteering" },
+  volunteering: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Volunteering'
+  }],
 
 
   isDraft: { type: Boolean, default: true },  // True for drafts, false for downloaded resumes

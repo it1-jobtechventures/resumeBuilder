@@ -1,8 +1,9 @@
 import mongoose from "mongoose";
 
 const certificationSchema =  mongoose.Schema(  {
-  userId: { type: mongoose.Schema.Types.ObjectId, ref: "user", required: true }, // Link to User
-  resumeId: { type: mongoose.Schema.Types.ObjectId, ref: "resumeMeta", required: true }, // Link to Resume
+  // userId: { type: mongoose.Schema.Types.ObjectId, ref: "user", required: true }, // Link to User
+  userId:{type:String , required:true},
+  resumeId: { type: mongoose.Schema.Types.ObjectId, ref: "resume", required: true }, // Link to Resume
   name: { type: String, required: true }, // Certification name
   // issuingOrganization: { type: String, required: true }, // Issuing body
   // issueDate: { type: Date, required: true }, // Date issued
