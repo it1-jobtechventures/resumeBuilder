@@ -97,7 +97,7 @@ import EducationInfo from '../components/EducationInfo';
 import InternshipInfo from '../components/InternshipInfo';
 import { AppContext } from '../context/AppContext';
 
-const ResumePage = () => {
+const ResumePage = ({url}) => {
   const steps = [
     { id: 1, title: 'General Information', component: GeneralInfo },
     { id: 2, title: 'Work Experience', component: WorkExperience },
@@ -196,6 +196,7 @@ const ResumePage = () => {
       {/* Main Form Section */}
       <div className="p-6 bg-white shadow-lg rounded-md flex-1 pt-17">
         <StepComponent onClick={(e) => e.stopPropagation()}
+        url={url}
           nextStep={() => setCurrentStep((prev) => Math.min(prev + 1, steps.length - 1))}
           prevStep={() => setCurrentStep((prev) => Math.max(prev - 1, 0))}
         />
