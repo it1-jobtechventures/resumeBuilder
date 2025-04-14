@@ -1,4 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect ,useContext} from 'react';
+import {  useResume } from '../context/FormContext';
+import { AppContext } from '../context/AppContext';
+import { toast } from 'react-toastify';
+import axios from 'axios'
 
 const ProjectSection = () => {
   const [projects, setProjects] = useState(() => {
@@ -6,7 +10,11 @@ const ProjectSection = () => {
     const savedProjects = localStorage.getItem('projects');
     return savedProjects ? JSON.parse(savedProjects) : [{ name: "", deployedLink: "", summary: "", githubLink: "" }];
   });
-
+  const { updateResumeData  } = useResume();
+  const {activeResumeId} = useContext(AppContext)
+console.log('per',activeResumeId)
+const resumeId = activeResumeId;
+  // Save to local storage whenev
   // Save projects data to local storage whenever it updates
   useEffect(() => {
     localStorage.setItem('projects', JSON.stringify(projects));
@@ -36,6 +44,37 @@ const ProjectSection = () => {
     }
   },[])
 
+    const handleSave = async (e) => {
+      e.preventDefault();
+      
+    
+      if (!resumeId) {
+        toast.error("Resume ID is missing");
+        console.error("❌ Resume ID is undefined");
+        return;
+      }
+    
+      console.log("📤 Sending data to backend:", { resumeId, ...projects });
+    
+      try {
+        const data = await axios.post('http://localhost:5000/api/project/add-project', {
+          userId: localStorage.getItem("temporaryUserId"),
+          resumeId,
+          projects,
+        });
+    
+        console.log("✅ Response from backend:", data);
+    
+  
+        toast.success(data.message || 'Saved successfully');
+       
+      } catch (error) {
+        console.error("❌ Error from backend:", error.response?.data || error);
+        toast.error(error.response?.data?.error || 'Save failed');
+      }
+    };
+    
+
   return (
     <>
       <div className="p-6 border rounded-md">
@@ -53,6 +92,7 @@ const ProjectSection = () => {
             )}
           </div>
         ))}
+        <button onClick={handleSave}>Save</button>
         <button type="button" onClick={addProject} className="bg-[linear-gradient(90deg,_hsla(133,_68%,_60%,_1)_0%,_hsla(205,_97%,_42%,_1)_100%)] cursor-pointer text-white px-4 py-2 rounded-md hover:bg-[linear-gradient(90deg,_hsla(205,_97%,_42%,_1)_0%,_hsla(133,_68%,_60%,_1)_100%)] mt-4">
           + Add One More Project
         </button>

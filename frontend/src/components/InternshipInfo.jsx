@@ -1,7 +1,10 @@
-  import React, { useState , useEffect } from 'react'
+  import React, { useState , useEffect ,useContext} from 'react'
   import { toast } from "react-toastify";
 import jobTypeData from '../assets/jobTypeData';
 import DatePicker from 'react-datepicker'; 
+import {  useResume } from '../context/FormContext';
+import { AppContext } from '../context/AppContext';
+import axios from 'axios'
 
   const InternshipInfo = ({ nextStep, prevStep }) => {
 
@@ -22,7 +25,10 @@ import DatePicker from 'react-datepicker';
         internshipMode: 'WFH'
       }
     ]})
-    
+      const { updateResumeData  } = useResume();
+      const {activeResumeId} = useContext(AppContext)
+    console.log('iE',activeResumeId)
+    const resumeId = activeResumeId;
     useEffect(() => {
       localStorage.setItem('internshipExperience', JSON.stringify(internshipExperience));
     }, [internshipExperience]);
@@ -135,7 +141,35 @@ import DatePicker from 'react-datepicker';
 
   }, []);
 
+  const handleSave = async (e) => {
+    e.preventDefault();
+    if (!validateForm()) return;
+  
+    if (!resumeId) {
+      toast.error("Resume ID is missing");
+      console.error("❌ Resume ID is undefined");
+      return;
+    }
+  
+    console.log("📤 Sending data to backend:", { resumeId, ...internshipExperience });
+  
+    try {
+      const data = await axios.post('http://localhost:5000/api/internship/add-internship', {
+        userId: localStorage.getItem("temporaryUserId"),
+        resumeId,
+        internships: internshipExperience,
+      });
+  
+      console.log("✅ Response from backend:", data);
+      
 
+      toast.success(data.message || 'Saved successfully');
+      nextStep();
+    } catch (error) {
+      console.error("❌ Error from backend:", error.response?.data || error);
+      toast.error(error.response?.data?.error || 'Save failed');
+    }
+  };
     return (
       <>
         <div className="p-4 md:p-6 max-w-3xl mx-auto">
@@ -235,7 +269,7 @@ import DatePicker from 'react-datepicker';
               <button type="button" onClick={prevStep} className="bg-gray-500 text-white px-4 py-2 rounded-md hover:bg-gray-600">
                 Previous
               </button>
-              <button type="button" onClick={handleNext} className="bg-[linear-gradient(90deg,_hsla(133,_68%,_60%,_1)_0%,_hsla(205,_97%,_42%,_1)_100%)] cursor-pointer text-white px-4 py-2 rounded-md hover:bg-[linear-gradient(90deg,_hsla(205,_97%,_42%,_1)_0%,_hsla(133,_68%,_60%,_1)_100%)]">
+              <button type="button" onClick={handleSave} className="bg-[linear-gradient(90deg,_hsla(133,_68%,_60%,_1)_0%,_hsla(205,_97%,_42%,_1)_100%)] cursor-pointer text-white px-4 py-2 rounded-md hover:bg-[linear-gradient(90deg,_hsla(205,_97%,_42%,_1)_0%,_hsla(133,_68%,_60%,_1)_100%)]">
                 Next
               </button>
             </div>

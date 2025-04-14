@@ -42,7 +42,11 @@
 
 
 //local storage
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect ,useContext} from 'react';
+import {  useResume } from '../context/FormContext';
+import { AppContext } from '../context/AppContext';
+import { toast } from 'react-toastify';
+import axios from 'axios'
 import { BsInstagram } from "react-icons/bs";
 import { RiFacebookBoxFill } from "react-icons/ri";
 import { FaWhatsapp } from "react-icons/fa";
@@ -64,7 +68,11 @@ const SocialMediaSection = () => {
       portfolio:''
     }]
   });
-
+  const { updateResumeData  } = useResume();
+  const {activeResumeId} = useContext(AppContext)
+console.log('soc',activeResumeId)
+const resumeId = activeResumeId;
+  // Save to local storage whenev
   useEffect(() => {
     localStorage.setItem('socialLinks', JSON.stringify(socialLinks));
   }, [socialLinks]);
@@ -73,6 +81,36 @@ const SocialMediaSection = () => {
     setSocialLinks(prev => ({ ...prev, [platform]: value }));
   };
 
+    const handleSave = async (e) => {
+      e.preventDefault();
+     
+    
+      if (!resumeId) {
+        toast.error("Resume ID is missing");
+        console.error("❌ Resume ID is undefined");
+        return;
+      }
+    
+      console.log("📤 Sending data to backend:", { resumeId, socialLinks });
+    
+      try {
+        const data = await axios.post('http://localhost:5000/api/socialMedia/add-socialLink', {
+          userId: localStorage.getItem("temporaryUserId"),
+          resumeId,
+          socialLinks,
+        });
+    
+        console.log("✅ Response from backend:", data);
+    
+  
+        toast.success(data.message || 'Saved successfully');
+   
+      } catch (error) {
+        console.error("❌ Error from backend:", error.response?.data || error);
+        toast.error(error.response?.data?.error || 'Save failed');
+      }
+    };
+    
   return (
     <main className="border m-1.5">
       <div className="flex flex-col gap-6 p-10">
@@ -111,6 +149,7 @@ const SocialMediaSection = () => {
           <FaSchool className="text-2xl" />
           <input type="url" placeholder="Enter your portfolio link" className="outline-none w-full" value={socialLinks.portfolio} onChange={(e) => handleChange('portfolio', e.target.value)}/>
         </div>
+        <button onClick={handleSave}>save</button>
       </div>
     </main>
   );

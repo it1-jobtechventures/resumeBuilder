@@ -1,4 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect ,useContext} from 'react';
+import {  useResume } from '../context/FormContext';
+import { AppContext } from '../context/AppContext';
+import { toast } from 'react-toastify';
+import axios from 'axios'
 import language from '../assets/language';
 import { RxCross2 } from "react-icons/rx";
 
@@ -8,7 +12,11 @@ const LanguagesSection = () => {
     const savedLanguages = localStorage.getItem('languages');
     return savedLanguages ? JSON.parse(savedLanguages) : [{ language: '',   customLanguage: '', level: '' }];
   });
-
+  const { updateResumeData  } = useResume();
+  const {activeResumeId} = useContext(AppContext)
+console.log('cer',activeResumeId)
+const resumeId = activeResumeId;
+  // Save to local storage whenev
   // Save to local storage whenever languages change
   useEffect(() => {
     localStorage.setItem('languages', JSON.stringify(languages));
@@ -34,6 +42,36 @@ const LanguagesSection = () => {
     setLanguages(updatedLanguages);
   };
 
+    const handleSave = async (e) => {
+      e.preventDefault();
+     
+    
+      if (!resumeId) {
+        toast.error("Resume ID is missing");
+        console.error("❌ Resume ID is undefined");
+        return;
+      }
+    
+      console.log("📤 Sending data to backend:", { resumeId, ...languages });
+    
+      try {
+        const data = await axios.post('http://localhost:5000/api/language/add-language', {
+          userId: localStorage.getItem("temporaryUserId"),
+          resumeId,
+          languages,
+        });
+    
+        console.log("✅ Response from backend:", data);
+    
+  
+        toast.success(data.message || 'Saved successfully');
+   
+      } catch (error) {
+        console.error("❌ Error from backend:", error.response?.data || error);
+        toast.error(error.response?.data?.error || 'Save failed');
+      }
+    };
+    
   return (
     <div className="p-6">
       <h2 className="text-2xl font-bold mb-4">Languages</h2>
@@ -61,6 +99,7 @@ const LanguagesSection = () => {
             )}
           </div>
         ))}
+        <button onClick={handleSave}>save</button>
         <button type="button" onClick={addLanguage} className="bg-[linear-gradient(90deg,_hsla(133,_68%,_60%,_1)_0%,_hsla(205,_97%,_42%,_1)_100%)] cursor-pointer text-white px-4 py-2 rounded-md hover:bg-[linear-gradient(90deg,_hsla(205,_97%,_42%,_1)_0%,_hsla(133,_68%,_60%,_1)_100%)]">
           Add One More Language
         </button>

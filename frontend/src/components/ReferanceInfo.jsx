@@ -54,8 +54,12 @@
 
 
 //local storage
-import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState, useEffect ,useContext} from 'react';
+import {  useResume } from '../context/FormContext';
+import { AppContext } from '../context/AppContext';
+import { toast } from 'react-toastify';
+import axios from 'axios'
+import { Link, useNavigate } from 'react-router-dom';
 
 const ReferanceInfo = ({ nextStep, prevStep }) => {
   const [reference, setReference] = useState( () => {
@@ -64,7 +68,12 @@ const ReferanceInfo = ({ nextStep, prevStep }) => {
       company: '',
       contact: ''}]
   });
-
+  const { updateResumeData  } = useResume();
+  const {activeResumeId} = useContext(AppContext)
+console.log('ref',activeResumeId)
+const navigate = useNavigate()
+const resumeId = activeResumeId;
+  // Save to local storage whenev
   // Load data from local storage when component mounts
   // useEffect(() => {
   //   const savedReference = localStorage.getItem('reference');
@@ -86,6 +95,37 @@ const ReferanceInfo = ({ nextStep, prevStep }) => {
     });
   };
 
+    const handleSave = async (e) => {
+      e.preventDefault();
+     
+    
+      if (!resumeId) {
+        toast.error("Resume ID is missing");
+        console.error("❌ Resume ID is undefined");
+        return;
+      }
+    
+      console.log("📤 Sending data to backend:", { resumeId, ...reference });
+    
+      try {
+        const data = await axios.post('http://localhost:5000/api/reference/add-reference', {
+          userId: localStorage.getItem("temporaryUserId"),
+          resumeId,
+          ...reference,
+        });
+    
+        console.log("✅ Response from backend:", data);
+    
+  
+        toast.success(data.message || 'Saved successfully');
+       nextStep();
+       navigate('/templates')
+      } catch (error) {
+        console.error("❌ Error from backend:", error.response?.data || error);
+        toast.error(error.response?.data?.error || 'Save failed');
+      }
+    };
+    
   return (
     <>
       <div>
@@ -110,7 +150,7 @@ const ReferanceInfo = ({ nextStep, prevStep }) => {
               Previous
             </button>
             <Link to={'/templates'}>
-              <button type="button" onClick={nextStep} className="bg-[linear-gradient(90deg,_hsla(133,_68%,_60%,_1)_0%,_hsla(205,_97%,_42%,_1)_100%)] cursor-pointer text-white px-4 py-2 rounded-md hover:bg-[linear-gradient(90deg,_hsla(205,_97%,_42%,_1)_0%,_hsla(133,_68%,_60%,_1)_100%)]">
+              <button type="button" onClick={handleSave} className="bg-[linear-gradient(90deg,_hsla(133,_68%,_60%,_1)_0%,_hsla(205,_97%,_42%,_1)_100%)] cursor-pointer text-white px-4 py-2 rounded-md hover:bg-[linear-gradient(90deg,_hsla(205,_97%,_42%,_1)_0%,_hsla(133,_68%,_60%,_1)_100%)]">
                 Select your Template
               </button>
             </Link>

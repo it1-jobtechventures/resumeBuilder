@@ -1,11 +1,20 @@
-import React, { useState ,useEffect } from "react";
+import React, { useState ,useEffect , useContext } from "react";
 import { Trash2 } from "lucide-react";
+import axios from 'axios'
+import {  useResume } from '../context/FormContext';
+import { AppContext } from '../context/AppContext';
+import { toast } from 'react-toastify';
 
 const SkillsInfo = ({ nextStep, prevStep }) => {
   const [skills, setSkills] = useState(() => {
     const savedSkills = localStorage.getItem("skills");
     return savedSkills ? JSON.parse(savedSkills) : [{ name: "", level: ""}]
   });
+
+    const { updateResumeData  } = useResume();
+    const {activeResumeId} = useContext(AppContext)
+    console.log('skilss',activeResumeId)
+    const resumeId = activeResumeId;
 
   useEffect(() => {
     localStorage.setItem('skills' , JSON.stringify(skills))
@@ -44,6 +53,36 @@ const SkillsInfo = ({ nextStep, prevStep }) => {
     }
   },[])
 
+    const handleSave = async (e) => {
+      e.preventDefault();
+     
+    
+      if (!resumeId) {
+        toast.error("Resume ID is missing");
+        console.error("❌ Resume ID is undefined");
+        return;
+      }
+    
+      console.log("📤 Sending data to backend:", { resumeId, ...skills });
+    
+      try {
+        const data = await axios.post('http://localhost:5000/api/skills/add-skills', {
+          userId: localStorage.getItem("temporaryUserId"),
+          resumeId,
+          skills,
+        });
+    
+        console.log("✅ Response from backend:", data);
+    
+
+        toast.success(data.message || 'Saved successfully');
+        nextStep();
+      } catch (error) {
+        console.error("❌ Error from backend:", error.response?.data || error);
+        toast.error(error.response?.data?.error || 'Save failed');
+      }
+    };
+
   return (
     <>
       <div className="max-w-2xl mx-auto">
@@ -73,7 +112,7 @@ const SkillsInfo = ({ nextStep, prevStep }) => {
             <button type="button" onClick={prevStep} className="bg-gray-500 text-white px-4 py-2 rounded-md hover:bg-gray-600">
               Previous
             </button>
-            <button type="button" onClick={nextStep} className="bg-[linear-gradient(90deg,_hsla(133,_68%,_60%,_1)_0%,_hsla(205,_97%,_42%,_1)_100%)] cursor-pointer text-white px-4 py-2 rounded-md hover:bg-[linear-gradient(90deg,_hsla(205,_97%,_42%,_1)_0%,_hsla(133,_68%,_60%,_1)_100%)]">
+            <button type="button" onClick={handleSave} className="bg-[linear-gradient(90deg,_hsla(133,_68%,_60%,_1)_0%,_hsla(205,_97%,_42%,_1)_100%)] cursor-pointer text-white px-4 py-2 rounded-md hover:bg-[linear-gradient(90deg,_hsla(205,_97%,_42%,_1)_0%,_hsla(133,_68%,_60%,_1)_100%)]">
               Next
             </button>
           </div>

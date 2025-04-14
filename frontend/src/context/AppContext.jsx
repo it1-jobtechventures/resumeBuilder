@@ -25,6 +25,8 @@ export const AppContextProvider = (props) => {
     }
   }, [activeResumeId]);
 
+  console.log("appcontect" ,activeResumeId)
+
    // Generate Random 24-character ID
     const generateTempId = () => {
         const chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';

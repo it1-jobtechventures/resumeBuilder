@@ -252,7 +252,7 @@
 // export default WorkExperience;
 
 
-import React, { useState,useEffect } from 'react';
+import React, { useState,useEffect, useContext } from 'react';
 import { toast } from 'react-toastify';
 import Select from "react-select";
 import axios from "axios";
@@ -260,10 +260,13 @@ import location from '../assets/locationData';
 import industryData from '../assets/industryData';
 import jobTypeData from '../assets/jobTypeData';
 import DatePicker from 'react-datepicker'; 
+import {  useResume } from '../context/FormContext';
+import { AppContext } from '../context/AppContext';
 
 const WorkExperience = ({ nextStep, prevStep }) => {
   const [industries, setIndustries] = useState([]);
-
+  const { updateResumeData  } = useResume();
+  const {activeResumeId} = useContext(AppContext)
   const [workExperience, setWorkExperience] = useState(() => {
     const savedData = localStorage.getItem('workExperience');
     return savedData ? JSON.parse(savedData):[
@@ -279,10 +282,13 @@ const WorkExperience = ({ nextStep, prevStep }) => {
     ]
   });
 
+  const resumeId = activeResumeId;
+
   useEffect(() => {
     localStorage.setItem('workExperience' ,JSON.stringify(workExperience))
   },[workExperience])
 
+  console.log("we" , activeResumeId)
   // // Handle input changes
   // const handleCompanyChange = (index, event) => {
   //   const updatedExperience = [...workExperience];
@@ -395,6 +401,9 @@ const WorkExperience = ({ nextStep, prevStep }) => {
     return true;
   };
 
+  const local = localStorage.getItem('temporaryUserId')
+  console.log("local", local)
+
   const handleNext = () => {
     if (validateFields()) {
       nextStep();
@@ -488,6 +497,65 @@ const WorkExperience = ({ nextStep, prevStep }) => {
       label: job.job_type, // Use `label` instead of `name` for Select options for clarity
     })) || []; // Handle empty or undefined `jobTypeData` gracefully
   };
+
+  // const handleSubmit = async (e) => {
+  //   e.preventDefault();
+
+
+  
+  //   if (!validateFields()) return;
+  
+  //   try {
+  //     for (let companyData of workExperience) {
+
+  
+  //       const res = await axios.post("http://localhost:5000/api/workExperience/add-workExperince", {
+  //         userId: localStorage.getItem("temporaryUserId"),
+  //         resumeId,
+  //         ...companyData,
+  //       });
+  
+  //       console.log(res.data);
+  //     }
+  //     toast.success("Work experience saved successfully!");
+  //     nextStep();
+  //   } catch (error) {
+  //     toast.error("Failed to save work experience");
+  //     console.error(error);
+  //   }
+  // };
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+  
+    if (!validateFields()) return;
+  
+    try {
+      for (let companyData of workExperience) {
+        const payload = {
+          userId: localStorage.getItem("temporaryUserId"),
+          resumeId,
+          ...companyData,
+        };
+  
+        console.log("📤 Sending work experience to backend:", payload);
+  
+        const res = await axios.post("http://localhost:5000/api/workExperience/add-workExperince", 
+{          userId: localStorage.getItem("temporaryUserId"),
+          resumeId,
+        ...companyData}
+        );
+  
+        console.log("✅ Response from backend:", res.data);
+      }
+  
+      toast.success("Work experience saved successfully!");
+      nextStep();
+    } catch (error) {
+      toast.error("Failed to save work experience");
+      console.error("❌ Error while saving work experience:", error);
+    }
+  };
+  
   return (
     <>
       <div className="p-6 bg-white shadow-lg rounded-lg">
@@ -651,7 +719,7 @@ const WorkExperience = ({ nextStep, prevStep }) => {
             <button type="button" onClick={prevStep} className="bg-gray-500 text-white px-4 py-2 rounded-md hover:bg-gray-600">
               Previous
             </button>
-            <button type="button" onClick={handleNext} className="bg-[linear-gradient(90deg,_hsla(133,_68%,_60%,_1)_0%,_hsla(205,_97%,_42%,_1)_100%)] cursor-pointer text-white px-4 py-2 rounded-md hover:bg-[linear-gradient(90deg,_hsla(205,_97%,_42%,_1)_0%,_hsla(133,_68%,_60%,_1)_100%)]">
+            <button type="button" onClick={handleSubmit} className="bg-[linear-gradient(90deg,_hsla(133,_68%,_60%,_1)_0%,_hsla(205,_97%,_42%,_1)_100%)] cursor-pointer text-white px-4 py-2 rounded-md hover:bg-[linear-gradient(90deg,_hsla(205,_97%,_42%,_1)_0%,_hsla(133,_68%,_60%,_1)_100%)]">
               Next
             </button>
           </div>

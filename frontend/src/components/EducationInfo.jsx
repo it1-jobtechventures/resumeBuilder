@@ -1,9 +1,13 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import degreeData from "../assets/degreeData";
 import location from "../assets/locationData";
 import DatePicker from 'react-datepicker'; 
 import Select from 'react-select'
+import {  useResume } from '../context/FormContext';
+import { AppContext } from '../context/AppContext';
+import axios from 'axios'
+
 const EducationInfo = ({ nextStep, prevStep }) => {
 
   const [educationList, setEducationList] = useState(() => {
@@ -12,6 +16,11 @@ const EducationInfo = ({ nextStep, prevStep }) => {
       { school: "", location: "", degree: "", field: "", graduationDate: "", cgpa: "" ,educationMode:"" },
     ]
   });
+
+    const { updateResumeData  } = useResume();
+    const {activeResumeId} = useContext(AppContext)
+    const resumeId = activeResumeId;
+    console.log('edu',activeResumeId)
 
   useEffect(()=>{
     localStorage.setItem("education" , JSON.stringify(educationList))
@@ -59,11 +68,11 @@ const EducationInfo = ({ nextStep, prevStep }) => {
     return true;
   };
 
-  const handleNext = () => {
-    if (validateEducation()) {
-      nextStep();
-    }
-  };
+  // const handleNext = () => {
+  //   if (validateEducation()) {
+  //     nextStep();
+  //   }
+  // };
 
     useEffect(() => {
       if (educationList.length === 0) {
@@ -79,6 +88,62 @@ const EducationInfo = ({ nextStep, prevStep }) => {
         value: deg.degree,
         label: deg.degree,
       })) || []; // Ensure the function returns an empty array if degreeData is empty or undefined
+    };
+    
+    // const handleNext = async (e) => {
+    //   e.preventDefault();
+    //   if (validateEducation()) {
+    //     try {
+    //       for (const education of educationList) {
+    //         if (education.school.trim() !== "") {
+    //           await axios.post('http://localhost:5000/api/education/add-education', {
+    //             userId: localStorage.getItem("temporaryUserId"),
+    //             resumeId,
+    //             ...education,
+    //           });
+    //         }
+    //       }
+    //       nextStep();
+    //     } catch (error) {
+    //       console.error("Error saving education:", error);
+    //       toast.error("Something went wrong while saving education");
+    //     }
+    //   }
+    // };
+
+    const handleNext = async (e) => {
+      e.preventDefault();
+      console.log("📋 Starting education validation...");
+
+      if (validateEducation()) {
+        try {
+          console.log("✅ Validation passed.");
+          console.log("📚 Education list to be submitted:", educationList);
+          for (const education of educationList) {
+            if (education.school.trim() !== "") {
+              const payload = {
+                userId: localStorage.getItem("temporaryUserId"),
+                resumeId,
+                ...education,
+              };
+              console.log("📤 Sending education data to backend:", payload);
+              const res = await axios.post('http://localhost:5000/api/education/add-education', {                userId: localStorage.getItem("temporaryUserId"),
+                resumeId,
+                ...education,});
+              console.log("✅ Education saved:", res.data);
+            } else {
+              console.log("⛔ Skipping empty education entry:", education);
+            }
+          }
+          console.log("🎓 All valid education entries processed.");
+          nextStep();
+        } catch (error) {
+          console.error("❌ Error saving education:", error);
+          toast.error("Something went wrong while saving education");
+        }
+      } else {
+        console.warn("🚫 Validation failed. Not submitting.");
+      }
     };
     
   return (
@@ -118,8 +183,18 @@ const EducationInfo = ({ nextStep, prevStep }) => {
   style={{ textTransform: 'capitalize' }} // Apply style for text capitalization
   isSearchable // Make the dropdown searchable
   placeholder="Select Degree" // Set placeholder
+  
   value={degree().find((deg) => deg.value === education.degree)} // Find the selected degree
-  onChange={(selectedOption) => handleEducationChange(index, selectedOption)} // Handle change with selectedOption
+  onChange={(selectedOption) => {
+    const event = {
+      target: {
+        name: "degree",
+        value: selectedOption?.value || "",
+      }
+    };
+    handleEducationChange(index, event);
+  }}
+  // onChange={(selectedOption) => handleEducationChange(index, selectedOption)} // Handle change with selectedOption
 />
               </div>
               <div className="mb-4">
