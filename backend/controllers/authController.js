@@ -3,8 +3,52 @@ import bcrypt from "bcryptjs";
 import userModel from "../model/userModel.js";
 import transporter from "../config/nodemailer.js";
 import { PASSWORD_RESET_TEMPLATE } from "../config/emailTemplates.js";
+import resumeModel from "../model/resumeModel.js";
 
 const maxAge = 7 * 24 * 60 * 60 * 1000;
+
+// export const signup = async (req, res) => {
+//     const { name, email, password } = req.body;
+
+//     if (!name || !email || !password) {
+//         return res.json({ success: false, message: "Please fill all the fields" });
+//     }
+
+//     try {
+//         const existingUser = await userModel.findOne({ email });
+
+//         if (existingUser) {
+//             return res.json({ success: false, message: "User already exists" });
+//         }
+
+//         const hashedPassword = await bcrypt.hash(password, 12);
+//         const user = new userModel({ name, email, password: hashedPassword });
+//         await user.save();
+
+//         const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: "2d" });
+
+//         res.cookie("token", token, {
+//             httpOnly: true,
+//             secure: process.env.NODE_ENV === "production",
+//             sameSite: process.env.NODE_ENV === "production" ? "None" : "strict",
+//             maxAge,
+//         });
+
+//         //Sending Welcome Email
+//         const mailOption = {
+//             from: process.env.SENDER_EMAIL,
+//             to: email,
+//             subject: "Welcome to Resume Builder",
+//             text: `Welcome to resume builder. Your account has been created with email id: ${email}`
+//         }
+
+//         await transporter.sendMail(mailOption)
+
+//         return res.json({ success: true, message: "User registered successfully" });
+//     } catch (error) {
+//         return res.json({ success: false, message: error.message });
+//     }
+// };
 
 export const signup = async (req, res) => {
     const { name, email, password } = req.body;
@@ -14,6 +58,8 @@ export const signup = async (req, res) => {
     }
 
     try {
+
+
         const existingUser = await userModel.findOne({ email });
 
         if (existingUser) {
@@ -32,6 +78,15 @@ export const signup = async (req, res) => {
             sameSite: process.env.NODE_ENV === "production" ? "None" : "strict",
             maxAge,
         });
+
+        // Update resumes from temporary userId to actual user._id
+        const tempId = req.body.temporaryUserId;
+        if (tempId) {
+            await resumeModel.updateMany(
+                { userId: tempId },
+                { $set: { userId: user._id } }
+            );
+        }
 
         //Sending Welcome Email
         const mailOption = {
@@ -57,7 +112,7 @@ export const login = async (req, res) => {
     }
 
     try {
-        const user = await userModel.findOne({ email });
+    const user = await userModel.findOne({ email });
 
         if (!user) {
             return res.json({ success: false, message: "Invalid credentials" });
@@ -76,7 +131,15 @@ export const login = async (req, res) => {
             sameSite: process.env.NODE_ENV === "production" ? "none" : "strict",
             maxAge,
         });
+        const tempId = req.body.temporaryUserId;
 
+if (tempId) {
+    await resumeModel.updateMany(
+        { userId: tempId },
+        { $set: { userId: user._id } }
+    );
+}
+    
         return res.json({ success: true, message: "Login successful" });
     } catch (error) {
         return res.json({ success: false, message: error.message });
