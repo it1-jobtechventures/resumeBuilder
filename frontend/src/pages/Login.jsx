@@ -17,34 +17,73 @@ const Login = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
+    // const onSubmitHandler = async (e) => {
+    //     try {
+    //         e.preventDefault();
+            
+    //         axios.defaults.withCredentials = true;
+    //         if(state === 'Sign Up') {
+    //             const {data} = await axios.post(backendUrl + '/api/auth/signup', {name, email, password});
+    //             if(data.success) {
+    //                 setIsLoggedIn(true);
+    //                 navigate('/')
+    //             } else {
+    //                 toast.error(data.message)
+    //             }
+    //         } else {
+    //             const {data} = await axios.post(backendUrl + '/api/auth/login', { email, password});
+    //             if(data.success) {
+    //                 setIsLoggedIn(true);
+    //                 toast.success("Logged in successfully")
+    //                 navigate('/')
+    //             } else {
+    //                 toast.error(data.message)
+    //             }
+    //         }
+    //     } catch (error) {
+    //         toast.error(error.message)
+    //     }
+    // }
+
     const onSubmitHandler = async (e) => {
         try {
-            e.preventDefault();
-            
-            axios.defaults.withCredentials = true;
-            if(state === 'Sign Up') {
-                const {data} = await axios.post(backendUrl + '/api/auth/signup', {name, email, password});
-                if(data.success) {
-                    setIsLoggedIn(true);
-                    navigate('/')
-                } else {
-                    toast.error(data.message)
-                }
+          e.preventDefault();
+      
+          const temporaryUserId = localStorage.getItem("temporaryUserId");
+          axios.defaults.withCredentials = true;
+      
+          if (state === 'Sign Up') {
+            const { data } = await axios.post(`${url}/api/auth/signup`, {
+              name, email, password, temporaryUserId
+            });
+      
+            if (data.success) {
+              localStorage.removeItem("temporaryUserId"); // cleanup
+              setIsLoggedIn(true);
+              navigate('/');
             } else {
-                const {data} = await axios.post(backendUrl + '/api/auth/login', { email, password});
-                if(data.success) {
-                    setIsLoggedIn(true);
-                    toast.success("Logged in successfully")
-                    navigate('/')
-                } else {
-                    toast.error(data.message)
-                }
+              toast.error(data.message);
             }
+      
+          } else {
+            const { data } = await axios.post(`${url}/api/auth/login`, {
+              email, password, temporaryUserId
+            });
+      
+            if (data.success) {
+            //   localStorage.removeItem("temporaryUserId"); // cleanup
+              setIsLoggedIn(true);
+              toast.success("Logged in successfully");
+              navigate('/');
+            } else {
+              toast.error(data.message);
+            }
+          }
         } catch (error) {
-            toast.error(error.message)
+          toast.error(error.message);
         }
-    }
-
+      }
+      
   return (
     <div className='flex items-center justify-center min-h-screen px-6 sm:px-0 '>
         <img onClick={() => navigate('/')} src="/resumeRingerLogo.png" alt="" className='absolute left-5 sm:left-20 top-5 w-20 sm:w-20 cursor-pointer' />
