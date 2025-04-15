@@ -9,6 +9,8 @@ const ProfilePage = ({url}) => {
     const navigate = useNavigate();
     const {isLoggedIn, backendUrl, setIsLoggedIn} = useContext(AppContext);
   
+  const [drafts, setDrafts] = useState([]);
+ 
     const getUserProfile = async() => {
         try {
             const res = await axios.get(`${url}/api/auth/profile` ,{ withCredentials: true,})
@@ -22,6 +24,25 @@ const ProfilePage = ({url}) => {
     useEffect(() => {
         getUserProfile()
     },[])
+
+    useEffect(() => {
+        const fetchDrafts = async () => {
+          try {
+            axios.defaults.withCredentials = true;
+            const { data } = await axios.get(`${url}/api/resume/draft` ,{ withCredentials: true,});
+    
+            if (data.success) {
+              setDrafts(data.drafts);
+            } else {
+              console.log(data.message);
+            }
+          } catch (error) {
+            console.error("Error fetching drafted resumes:", error.message);
+          }
+        };
+    
+        fetchDrafts();
+      }, [backendUrl]);
 
     const logout = async() => {
         try {
@@ -51,6 +72,31 @@ const ProfilePage = ({url}) => {
             )}
             <button onClick={logout}  className="bg-red-500 text-white py-2 px-4 rounded-md hover:bg-red-600 transition duration-200">Logout</button>
         </div>
+
+        <div className="p-4">
+      <h2 className="text-2xl font-semibold mb-4">Drafted Resumes</h2>
+      
+      {drafts.length === 0 ? (
+        <p className="text-gray-500">No drafted resumes found.</p>
+      ) : (
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          {drafts.map((resume) => (
+            <div key={resume._id} className="p-4 bg-white shadow rounded">
+              <p className="font-medium">Resume ID: {resume._id}</p>
+              <p className="text-sm text-gray-500 mt-1">
+                Created: {new Date(resume.createdAt).toLocaleDateString()}
+              </p>
+              <button 
+                className="mt-4 bg-blue-500 text-white px-3 py-1 rounded"
+                onClick={() => navigate(`/resume/edit/${resume._id}`)}
+              >
+                Continue Editing
+              </button>
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
     </>
   )
 }
