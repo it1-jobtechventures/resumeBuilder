@@ -4,9 +4,9 @@ const referenceSchema =  mongoose.Schema({
   // userId: { type: mongoose.Schema.Types.ObjectId, ref: "user", required: true }, // Link to User
   userId:{type:String , required:true},
   resumeId: { type: mongoose.Schema.Types.ObjectId, ref: "resume", required: true }, // Link to Resume
-  name: { type: String, required: true }, // Reference Name
-  company: { type: String, required: true }, // Company Name
-  contact: { type: String, required: true }, // Contact Number or Email
+  name: { type: String}, // Reference Name
+  company: { type: String }, // Company Name
+  contact: { type: String}, // Contact Number or Email
 },
 { timestamps: true });
   
