@@ -275,4 +275,21 @@ const transferTempResumesToUser = async (req, res) => {
   }
 };
 
-export {updateResume ,getResumeById ,getUserResumes ,createResume,transferTempResumesToUser}
+// GET /api/resume/drafts
+const getDraftResumes = async (req, res) => {
+  try {
+    const userId = req.user.id;
+
+    const drafts = await resumeModel.find({
+      userId,
+      isDraft: true
+    }).populate('userId'); // Optional if you want user data
+
+    return res.json({ success: true, drafts });
+  } catch (error) {
+    return res.json({ success: false, message: error.message });
+  }
+};
+
+
+export {updateResume ,getResumeById ,getUserResumes ,createResume,transferTempResumesToUser,getDraftResumes}

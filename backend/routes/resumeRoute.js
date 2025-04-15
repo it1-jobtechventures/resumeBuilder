@@ -1,5 +1,6 @@
 import express from 'express'
-import { createResume, getResumeById, getUserResumes, transferTempResumesToUser, updateResume } from '../controllers/resumeControllers.js';
+import { createResume, getDraftResumes, getResumeById, getUserResumes, transferTempResumesToUser, updateResume } from '../controllers/resumeControllers.js';
+import userAuth from '../middleware/userAuth.js';
 
 const resumeRouter = express.Router();
 
@@ -16,5 +17,8 @@ resumeRouter.get("/:resumeId",getResumeById );
 resumeRouter.put("/update/:resumeId",updateResume);
 
 resumeRouter.post('/convert-user' , transferTempResumesToUser)
+
+resumeRouter.post('/draft' ,userAuth, getDraftResumes)
+
 
 export default resumeRouter
