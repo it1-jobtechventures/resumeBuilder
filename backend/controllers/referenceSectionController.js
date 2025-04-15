@@ -31,9 +31,9 @@ const saveReference = async (req, res) => {
     const userId = req.body.userId; // ✅ Fixed
     const { resumeId, name, company, contact } = req.body;
 
-    if (!resumeId || !name || !company || !contact) {
-      return res.status(400).json({ message: "All fields are required" });
-    }
+    // if (!resumeId || !name || !company || !contact) {
+    //   return res.status(400).json({ message: "All fields are required" });
+    // }
 
     // Upsert (update if exists, otherwise create new)
     const updatedReference = await referenceModel.findOneAndUpdate(
