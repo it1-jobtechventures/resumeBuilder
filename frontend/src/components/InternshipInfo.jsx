@@ -21,7 +21,7 @@ import axios from 'axios'
         description: '' , 
         stipend: '', 
         noticePeriod:'' , 
-        internshipType: 'Permanent', 
+        internshipType: '', 
         internshipMode: 'WFH'
       }
     ]})
@@ -66,7 +66,7 @@ import axios from 'axios'
           description: '' , 
           stipend: '', 
           noticePeriod:'' , 
-          internshipType: 'Permanent', 
+          internshipType: '', 
           internshipMode: 'WFH'
         }
       ])
@@ -132,7 +132,7 @@ import axios from 'axios'
           description: '',
           stipend: '',
           noticePeriod: '',
-          internshipType: 'Permanent',
+          internshipType: '',
           internshipMode: 'WFH'
         }
       ]);
