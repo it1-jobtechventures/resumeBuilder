@@ -724,13 +724,8 @@ const ResumeReview = ({ url }) => {
   //     },
   //     x: 0,
   //     y: 0,
-  //     html2canvas: {
-  //       scale: 2,          // Better quality
-  //       useCORS: true,     // Allow external images/fonts
-  //       scrollY: 0         // Prevent vertical scroll issues
-  //     },
   //     margin: [0, 0, 0, 0], // <-- Explicitly remove all margins
-  //     autoPaging: 'text',   // Handle page breaks better (optional)
+
   //     width: 210,           // A4 width in mm
   //     windowWidth: element.scrollWidth
   //   });
@@ -796,7 +791,7 @@ const ResumeReview = ({ url }) => {
         {/* Resume Preview */}
         <div className="flex-1" id="resume-content"
           contentEditable={true}
-          style={{ fontSize, fontFamily, color: textColor, backgroundColor: bgColor, padding: '20px' }}
+          style={{ fontSize, fontFamily, color: textColor, backgroundColor: bgColor }}
           dangerouslySetInnerHTML={{ __html: finalHTML }}
         />
         <style>{templateData.cssContent}</style>
