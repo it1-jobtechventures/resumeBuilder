@@ -578,7 +578,7 @@ const handleSubmit = async (e) => {
                   <div className="mb-4">
                     <label className="block text-gray-700">Notice period</label>
                     <select name="noticePeriod" style={{ textTransform: 'capitalize' }} value={role.noticePeriod} onChange={(e) => handleRoleChange(companyIndex, roleIndex, e)} className="w-full p-2 border rounded-md">
-                      <option disabled>Choose your notice period</option>
+                      <option selected disabled value=''>Choose your notice period</option>
                       <option value='Immediately Join'>Immediately Join</option>
                       <option value='Less Than 15 Days'>Less than 15 days</option>
                       <option value='1 Month'>1 month</option>
@@ -609,7 +609,7 @@ const handleSubmit = async (e) => {
                   <div className="mb-4">
                     <label className="block text-gray-700">Job Mode</label>
                     <select name="jobMode" style={{ textTransform: 'capitalize' }} value={role.jobMode} onChange={(e) => handleRoleChange(companyIndex,roleIndex, e)} className="w-full p-2 border rounded-md mb-2">
-                      <option disabled>Select your job Mode</option>
+                      <option selected disabled value=''>Select your job Mode</option>
                       <option value="WFH">Work From Home</option>
                       <option value="WFO">Work From Office</option>
                       <option value="Hybrid">Hybrid</option>

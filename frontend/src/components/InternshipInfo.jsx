@@ -254,7 +254,7 @@ import axios from 'axios'
                       <label className="block text-[#4b164c]">Notice Period</label>
                       {/* <input type='text' name='noticePeriod' value={internhip.noticePeriod} onChange={(e) => handleCompanyChange(internshipIndex , e)} className="w-full p-2 border rounded-md"/> */}
                       <select name="noticePeriod" value={internhip.noticePeriod} onChange={(e) => handleCompanyChange(internshipIndex , e)} className="w-full p-2 border rounded-md">
-                        <option disabled>Choose your notice period</option>
+                        <option disabled value=''>Choose your notice period</option>
                         <option value='Immediately Join'>Immediately Join</option>
                         <option value='Less Than 15 Days'>Less than 15 days</option>
                         <option value='One Month'>1 month</option>
@@ -265,7 +265,7 @@ import axios from 'axios'
                     <div className="mb-4">
                       <label className="block text-gray-700">Internship Mode</label>
                       <select name="internshipMode" value={internhip.internshipMode} onChange={(e) => handleCompanyChange(internshipIndex, e)} className="w-full p-2 border rounded-md mb-2">
-                        <option disabled>Select Internship Mode</option>
+                        <option disabled value=''>Select Internship Mode</option>
                         <option value="WFH">Work From Home</option>
                         <option value="WFO">Work From Office</option>
                         <option value="Hybrid">Hybrid</option>
@@ -274,7 +274,7 @@ import axios from 'axios'
                     <div className="mb-4">
                       <label className="block text-gray-700">Internship Type</label>
                       <select name="internshipType" value={internhip.internshipType} style={{textTransform:'capitalize'}} onChange={(e) => handleCompanyChange(internshipIndex, e)} className="w-full p-2 border rounded-md mb-2">
-                        <option disabled>Select Internship Type</option>
+                        <option disabled value=''>Select Internship Type</option>
                         {jobTypeData.map((internType) => (
                           <option value={internType.job_type}>{internType.job_type}</option>
                         ))}
