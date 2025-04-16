@@ -275,7 +275,7 @@ if(education.length>0){
  let languageHTML="";
  languages.forEach((language) => {
      if(language.language!="" && language.level!=null ){
-         languageHTML=languageHTML+'<li><span>'+language.language+'</span><span>'+language.level+'</span></li>';
+         languageHTML=languageHTML+'<li><span>'+language.language+'</span> - <span>'+language.level+'</span></li>';
      }
 
      
@@ -284,7 +284,7 @@ if(education.length>0){
  if(languageHTML!=null && languageHTML!=""){
      document.getElementById("languages").innerHTML=languageHTML;
  }else{
-     document.querySelector(".pg-language").style.display = "none";
+     document.querySelector(".pg-languages").style.display = "none";
  }
 
  //certifications
@@ -301,7 +301,7 @@ if(education.length>0){
  if(certificateHTML!=null && certificateHTML!=""){
      document.getElementById("certificates").innerHTML=certificateHTML;
  }else{
-     document.querySelector(".pg-certificate").style.display = "none";
+     document.querySelector(".pg-certificates").style.display = "none";
  }
 
  //    interests
@@ -377,7 +377,7 @@ if(education.length>0){
      if(softwareInfo.length>0){
          document.getElementById("softwareList").innerHTML=software_div;
      }else{
-         document.querySelector("#softwares").style.display = "none";
+         document.querySelector(".pg-softwares").style.display = "none";
      }
  
       //projects
@@ -410,55 +410,61 @@ if(education.length>0){
         projects_div+='</article>';
     });
 
-    if(education.length>0){
+    if(projects.length>0){
         document.getElementById("projects-list").innerHTML=projects_div;
     }else{
         document.querySelector("#projects").style.display = "none";
     }
-
+let social_count=0;
     //setting up social links
     if(socialLinks.hasOwnProperty("facebook") && socialLinks.facebook != null){
         document.getElementById("facebook-link").innerHTML = '<a href="'+socialLinks.facebook+'" target="_blank">'+socialLinks.facebook+'</a>';
+        social_count++;
     }else{
         document.getElementById("facebookDiv").style.display = "none";
     }
     if(socialLinks.hasOwnProperty("github") && socialLinks.github != null){
+        social_count++;
         document.getElementById("github-link").innerHTML = '<a href="'+socialLinks.github+'" target="_blank">'+socialLinks.github+'</a>';
     }else{
         document.getElementById("githubDiv").style.display = "none";
     }
     if(socialLinks.hasOwnProperty("portfolio") && socialLinks.portfolio != null){
+        social_count++;
         document.getElementById("portfolio-link").innerHTML = '<a href="'+socialLinks.portfolio+'" target="_blank">'+socialLinks.portfolio+'</a>';
     }else{
         document.getElementById("portfolioDiv").style.display = "none";
     }
     if(socialLinks.hasOwnProperty("instagram") && socialLinks.instagram != null){
+        social_count++;
         document.getElementById("instagram-link").innerHTML = '<a href="'+socialLinks.instagram+'" target="_blank">'+socialLinks.instagram+'</a>';
     }else{
         document.getElementById("instagramDiv").style.display = "none";
     }
     if(socialLinks.hasOwnProperty("twitter") && socialLinks.twitter != null){
+        social_count++;
         document.getElementById("twitter-link").innerHTML = '<a href="'+socialLinks.twitter+'" target="_blank">'+socialLinks.twitter+'</a>';
     }else{
         document.getElementById("twitterDiv").style.display = "none";
     }
-    if(socialLinks.hasOwnProperty("linkedin") && socialLinks.linkedin != null){
+    if(socialLinks.hasOwnProperty("linkedin") && socialLinks.linkedin != null && socialLinks.linkedin != ""){
+        social_count++;
         document.getElementById("linkedin-link").innerHTML = '<a href="'+socialLinks.linkedin+'" target="_blank">'+socialLinks.linkedin+'</a>';
-        document.getElementById("linkedin").innerHTML = '<span class="key-heading">Phone:</span> '+socialLinks.linkedin;
-    }else if(generalInfo.hasOwnProperty("linkedin") && generalInfo.linkedin != null){
-        document.getElementById("linkedin-link").innerHTML = '<a href="'+generalInfo.linkedin+'" target="_blank">'+generalInfo.linkedin+'</a>';
-        document.getElementById("linkedin").innerHTML = '<span class="key-heading">LinkedIn:</span> '+generalInfo.linkedin;
-        
+        document.getElementById("linkedin").innerHTML = '<span class="key-heading">LinkedIn:</span> '+socialLinks.linkedin;
     }else{
         document.getElementById("linkedin").style.display = "none";
         document.getElementById("linkedinDiv").style.display = "none";
     }
 
-/* <article>
-    <div class="headingSection">
-        <h2>College/University</h2>
-        <p class="subHeading">Mar 2023 - Dec 2024</p>
-    </div>
-    <p class="subDetails">Qualification</p>
-    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec ultricies massa et erat luctus hendrerit. Curabitur non consequat enim.</p>
-</article> */
+    if(social_count<1){
+        document.getElementById("socialDiv").style.display = "none";
+    }
+    
+    if(generalInfo.hasOwnProperty("summary") && generalInfo.summary != null){
+        document.getElementById("summary").innerHTML='<p>'+generalInfo.summary+'</p>';
+    }else{
+        document.getElementById("summaryDiv").style.display = "none";
+    }
+    if(generalInfo.hasOwnProperty("designation") && generalInfo.designation != null){
+        document.getElementById("designation").innerHTML=generalInfo.designation;
+    }

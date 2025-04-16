@@ -17,6 +17,14 @@
 	--percent: 100;
 }
 
+* {
+	box-sizing: border-box;
+	text-align: justify;
+	overflow-wrap: break-word;
+	word-wrap: break-word;
+	word-break: break-word;
+}
+
 ul#skills,#softwareList,.pg-list {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
@@ -46,7 +54,8 @@ ul#skills li,#softwareList li,.pg-list li {
     background-color: var(--color-gray-dark-3);
 }
 .keySkills > li > span {
-	flex: 0 0 50px;
+    flex: 0 0 50px;
+    word-break: auto-phrase;
 }
 .sb-skeleton > .skillbar {
 	position: absolute;
@@ -58,7 +67,7 @@ ul#skills li,#softwareList li,.pg-list li {
 }
 @page {
 	size: A4;
-	margin: 20mm; /* Adjust margins */
+	margin: 0mm; /* Adjust margins */
 }
 .page {
 	page-break-after: always;
@@ -139,18 +148,6 @@ p.subHeading {
 	padding: 0 40px;
 }
 
-#headshot {
-	width: 12.5%;
-	float: left;
-	margin-right: 30px;
-}
-
-#headshot img {
-	width: 100%;
-	height: auto;
-	-webkit-border-radius: 50px;
-	border-radius: 50px;
-}
 
 section {
     display: grid;
@@ -170,6 +167,7 @@ div#contactDetails {
 #contactDetails ul li {
 	margin-bottom: 3px;
 	color: #444;
+    text-align: right;
 }
 
 #contactDetails ul li a, a[href^=tel] {
@@ -198,11 +196,6 @@ section:first-child {
 
 section:last-child {
 	padding: 20px 0 10px;
-}
-
-.sectionTitle {
-	float: left;
-	width: 25%;
 }
 
 .headingSection {
@@ -246,208 +239,22 @@ section:last-child {
 	color: #444;
 }
 .pg-list > li {
-    margin: 1rem 0;
     display: flex;
     align-items: center;
 }
 .pg-list > li > span {
-    flex: 0 0 100px;
+    text-align: left;
 }
 .keySkills ul li {
 	margin-bottom: 3px;
 }
 
-@media all and (min-width: 602px) and (max-width: 800px) {
-	#headshot {
-		display: none;
-	}
-	
-	.keySkills {
-	-moz-column-count:2;
-	-webkit-column-count:2;
-	column-count:2;
-	}
-}
-
-@media all and (max-width: 601px) {
-	#cv {
-		width: 95%;
-		margin: 10px auto;
-		min-width: 280px;
-	}
-	
-	#headshot {
-		display: none;
-	}
-	
-	#titleDiv, #contactDetails {
-		float: none;
-		width: 100%;
-		text-align: center;
-	}
-	
-	
-	.sectionTitle {
-		margin-left: -2px;
-		font-size: 1.25em;
-	}
-	
-	.keySkills {
-		-moz-column-count:2;
-		-webkit-column-count:2;
-		column-count:2;
-	}
-}
-
-@media all and (max-width: 480px) {
-	.mainDetails {
-		padding: 15px 15px;
-	}
-	
-	section {
-		padding: 15px 0 0;
-	}
-	
-	#mainArea {
-		padding: 0 25px;
-	}
-
-	
-	.keySkills {
-	-moz-column-count:1;
-	-webkit-column-count:1;
-	column-count:1;
-	}
-	
-	#titleDiv h1 {
-		line-height: .8em;
-		margin-bottom: 4px;
-	}
-}
 
 @media print {
     #cv {
-        width: 100%;
+        width: 794px;
+		margin:0px
     }
+
 }
 
-@-webkit-keyframes reset {
-	0% {
-		opacity: 0;
-	}
-	100% {
-		opacity: 0;
-	}
-}
-
-@-webkit-keyframes fade-in {
-	0% {
-		opacity: 0;
-	}
-	40% {
-		opacity: 0;
-	}
-	100% {
-		opacity: 1;
-	}
-}
-
-@-moz-keyframes reset {
-	0% {
-		opacity: 0;
-	}
-	100% {
-		opacity: 0;
-	}
-}
-
-@-moz-keyframes fade-in {
-	0% {
-		opacity: 0;
-	}
-	40% {
-		opacity: 0;
-	}
-	100% {
-		opacity: 1;
-	}
-}
-
-@keyframes reset {
-	0% {
-		opacity: 0;
-	}
-	100% {
-		opacity: 0;
-	}
-}
-
-@keyframes fade-in {
-	0% {
-		opacity: 0;
-	}
-	40% {
-		opacity: 0;
-	}
-	100% {
-		opacity: 1;
-	}
-}
-
-.instaFade {
-    -webkit-animation-name: reset, fade-in;
-    -webkit-animation-duration: 1.5s;
-    -webkit-animation-timing-function: ease-in;
-	
-	-moz-animation-name: reset, fade-in;
-    -moz-animation-duration: 1.5s;
-    -moz-animation-timing-function: ease-in;
-	
-	animation-name: reset, fade-in;
-    animation-duration: 1.5s;
-    animation-timing-function: ease-in;
-}
-
-.quickFade {
-    -webkit-animation-name: reset, fade-in;
-    -webkit-animation-duration: 2.5s;
-    -webkit-animation-timing-function: ease-in;
-	
-	-moz-animation-name: reset, fade-in;
-    -moz-animation-duration: 2.5s;
-    -moz-animation-timing-function: ease-in;
-	
-	animation-name: reset, fade-in;
-    animation-duration: 2.5s;
-    animation-timing-function: ease-in;
-}
- 
-.delayOne {
-	-webkit-animation-delay: 0, .5s;
-	-moz-animation-delay: 0, .5s;
-	animation-delay: 0, .5s;
-}
-
-.delayTwo {
-	-webkit-animation-delay: 0, 1s;
-	-moz-animation-delay: 0, 1s;
-	animation-delay: 0, 1s;
-}
-
-.delayThree {
-	-webkit-animation-delay: 0, 1.5s;
-	-moz-animation-delay: 0, 1.5s;
-	animation-delay: 0, 1.5s;
-}
-
-.delayFour {
-	-webkit-animation-delay: 0, 2s;
-	-moz-animation-delay: 0, 2s;
-	animation-delay: 0, 2s;
-}
-
-.delayFive {
-	-webkit-animation-delay: 0, 2.5s;
-	-moz-animation-delay: 0, 2.5s;
-	animation-delay: 0, 2.5s;
-}
