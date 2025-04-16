@@ -524,38 +524,86 @@ const WorkExperience = ({ nextStep, prevStep , url}) => {
   //     console.error(error);
   //   }
   // };
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+//   const handleSubmit = async (e) => {
+//     e.preventDefault();
   
-    if (!validateFields()) return;
+//     if (!validateFields()) return;
   
-    try {
-      for (let companyData of workExperience) {
-        const payload = {
-          userId: localStorage.getItem("temporaryUserId"),
-          resumeId,
-          ...companyData,
-        };
+//     try {
+//       for (let companyData of workExperience) {
+//         const payload = {
+//           userId: localStorage.getItem("temporaryUserId"),
+//           resumeId,
+//           ...companyData,
+//         };
   
-        console.log("📤 Sending work experience to backend:", payload);
+//         console.log("📤 Sending work experience to backend:", payload);
   
-        const res = await axios.post(`${url}/api/workExperience/add-workExperince`, 
-{          userId: localStorage.getItem("temporaryUserId"),
-          resumeId,
-        ...companyData}
-        );
+//         const res = await axios.post(`${url}/api/workExperience/add-workExperince`, 
+// {          userId: localStorage.getItem("temporaryUserId"),
+//           resumeId,
+//         ...companyData}
+//         );
   
-        console.log("✅ Response from backend:", res.data);
-      }
+//         console.log("✅ Response from backend:", res.data);
+//       }
   
-      toast.success("Work experience saved successfully!");
-      nextStep();
-    } catch (error) {
-      toast.error("Failed to save work experience");
-      console.error("❌ Error while saving work experience:", error);
+//       toast.success("Work experience saved successfully!");
+//       nextStep();
+//     } catch (error) {
+//       toast.error("Failed to save work experience");
+//       console.error("❌ Error while saving work experience:", error);
+//     }
+//   };
+const handleSubmit = async (e) => {
+  e.preventDefault();
+
+  const isAllEmpty = workExperience.every(company =>
+    !company.company.trim() &&
+    company.roles.every(role =>
+      !role.title.trim() &&
+      !role.startDate &&
+      !role.endDate &&
+      !role.description &&
+      !role.ctc &&
+      !role.noticePeriod &&
+      !role.teamSize
+    )
+  );
+
+  // If all fields are empty, allow user to skip
+  if (isAllEmpty) {
+    toast.info("No work experience added. Skipping...");
+    nextStep();
+    return;
+  }
+
+  // Validate if any data is present
+  if (!validateFields()) return;
+
+  try {
+    for (let companyData of workExperience) {
+      const payload = {
+        userId: localStorage.getItem("temporaryUserId"),
+        resumeId,
+        ...companyData,
+      };
+
+      console.log("📤 Sending work experience to backend:", payload);
+
+      const res = await axios.post(`${url}/api/workExperience/add-workExperince`, payload);
+
+      console.log("✅ Response from backend:", res.data);
     }
-  };
-  
+
+    toast.success("Work experience saved successfully!");
+    nextStep();
+  } catch (error) {
+    toast.error("Failed to save work experience");
+    console.error("❌ Error while saving work experience:", error);
+  }
+};
+
   return (
     <>
       <div className="p-6 bg-white shadow-lg rounded-lg">
