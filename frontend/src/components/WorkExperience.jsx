@@ -276,7 +276,7 @@ const WorkExperience = ({ nextStep, prevStep , url}) => {
         industry: '',
         totalCompanyExperience: '',
         roles: [
-          { title: '', startDate: '', endDate: '', currentlyWorking: false, description: '',ctc: '', noticePeriod: '',teamSize: '',jobType: '',jobMode: ''}
+          { title: '', startDate: '', endDate: '', currentlyWorking: '', description: '',ctc: '', noticePeriod: '',teamSize: '',jobType: '',jobMode: ''}
         ]
       }
     ]
@@ -328,7 +328,7 @@ const WorkExperience = ({ nextStep, prevStep , url}) => {
       title: '',
       startDate: '',
       endDate: '',
-      currentlyWorking: false,
+      currentlyWorking: '',
       description: '',
       ctc: '', 
       noticePeriod: '',
@@ -348,7 +348,7 @@ const WorkExperience = ({ nextStep, prevStep , url}) => {
         location: '',
         industry: '',
         totalCompanyExperience: '',
-        roles: [{ title: '', startDate: '', endDate: '', currentlyWorking: false, description: '' ,ctc: '', noticePeriod: '',teamSize: '',jobType: '',jobMode: ''}]
+        roles: [{ title: '', startDate: '', endDate: '', currentlyWorking: '', description: '' ,ctc: '', noticePeriod: '',teamSize: '',jobType: '',jobMode: ''}]
       }
     ]);
   };
@@ -466,6 +466,22 @@ const WorkExperience = ({ nextStep, prevStep , url}) => {
 
   //   fetchIndustries();
   // }, []);
+  // useEffect(() => {
+  //   if (workExperience.length === 0) {
+  //     setWorkExperience([
+  //       {
+  //         company: '',
+  //         location: '',
+  //         industry: '',
+  //         totalCompanyExperience: '',
+  //         roles: [
+  //           { title: '', startDate: '', endDate: '', currentlyWorking: false, description: '', ctc: '', noticePeriod: '', teamSize: '', jobType: '', jobMode: '' }
+  //         ]
+  //       }
+  //     ]);
+  //   }
+  // }, []);
+
   useEffect(() => {
     if (workExperience.length === 0) {
       setWorkExperience([
@@ -475,12 +491,13 @@ const WorkExperience = ({ nextStep, prevStep , url}) => {
           industry: '',
           totalCompanyExperience: '',
           roles: [
-            { title: '', startDate: '', endDate: '', currentlyWorking: false, description: '', ctc: '', noticePeriod: '', teamSize: '', jobType: '', jobMode: '' }
+            { title: '', startDate: '', endDate: '', currentlyWorking: '', description: '', ctc: '', noticePeriod: '', teamSize: '', jobType: '', jobMode: '' }
           ]
         }
       ]);
     }
   }, []);
+  
   
   const industriesOption = () => {
     // Return the array of options, each with value and label
@@ -498,6 +515,12 @@ const WorkExperience = ({ nextStep, prevStep , url}) => {
     })) || []; // Handle empty or undefined `jobTypeData` gracefully
   };
 
+  const locationOption = () =>{
+    return location.map((loc) => ({
+      value:loc.city_name.toLowerCase().replace(/\s+/g, '-'),
+      label: loc.city_name
+    }))
+  }
   // const handleSubmit = async (e) => {
   //   e.preventDefault();
 
@@ -619,13 +642,11 @@ const handleSubmit = async (e) => {
               <div className="mb-4">
                 <label className="block text-gray-700">Location</label>
                 {/* <input type="text" name="location" style={{ textTransform: 'capitalize' }} value={company.location} onChange={(e) => handleCompanyChange(companyIndex, e)} className="w-full p-2 border rounded-md" placeholder="Enter company location"/> */}
-                <select name="location" style={{ textTransform: 'capitalize' }} value={company.location} onChange={(e) => handleCompanyChange(companyIndex, e)} className="w-full p-2 border rounded-md" placeholder="Enter company location">
-                  {
-                    location.map((city) => (
-                      <option value={city.city_name}>{city.city_name}</option>
-                    ))
-                  }
-                </select>
+                <Select name="location" options={locationOption()} isSearchable style={{ textTransform: 'capitalize' }} 
+                value={locationOption().find((loc) =>loc.value===company.location)} 
+                onChange={(e) => handleCompanyChange(companyIndex, {target:{name:'location',value:e.value}})} className="w-full p-2 border rounded-md" placeholder="Select an location">
+
+                </Select>
               </div>
               <div className="mb-4">
                 <label className="block text-gray-700">Company Industry</label>
