@@ -66,7 +66,7 @@ const ProfilePage = ({url}) => {
       </div>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-6">
         {drafts.map((resume) => (
-          <div key={resume._id} onClick={() => navigate(`/resume/edit/${resume._id}`)} className="cursor-pointer bg-white/30 backdrop-blur-md border border-gray-200 shadow-lg rounded-xl p-6 transition-all duration-300 hover:shadow-xl hover:scale-105">
+          <div key={resume._id} onClick={() => navigate(`/createResume`)} className="cursor-pointer bg-white/30 backdrop-blur-md border border-gray-200 shadow-lg rounded-xl p-6 transition-all duration-300 hover:shadow-xl hover:scale-105">
             <h3 className="text-lg font-semibold text-gray-800 mb-2">Resume Draft</h3>
             <p className="text-sm text-gray-600">ID: {resume._id}</p>
             <p className="text-sm text-gray-600">
