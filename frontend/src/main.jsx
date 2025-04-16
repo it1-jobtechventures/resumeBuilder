@@ -8,12 +8,12 @@ import { AppContextProvider } from './context/AppContext.jsx'
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <FormProvider>
-      <BrowserRouter>
+    <BrowserRouter>
       <AppContextProvider>
-        <App />
+        <FormProvider>
+          <App />
+        </FormProvider>
       </AppContextProvider>
-      </BrowserRouter>
-    </FormProvider>
+    </BrowserRouter>
   </StrictMode>,
 )
