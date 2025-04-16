@@ -703,7 +703,7 @@ const ResumeReview = ({ url }) => {
   };
 
   const handleDownloadPNG = () => {
-    const element = document.getElementById('resume-content');
+    const element = document.getElementById('cv');
     html2canvas(element, { scale: 2 }).then(canvas => {
       canvas.toBlob(blob => {
         saveAs(blob, 'My_Resume.png');
