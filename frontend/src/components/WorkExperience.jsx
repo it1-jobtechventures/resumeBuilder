@@ -276,7 +276,7 @@ const WorkExperience = ({ nextStep, prevStep , url}) => {
         industry: '',
         totalCompanyExperience: '',
         roles: [
-          { title: '', startDate: '', endDate: '', currentlyWorking: false, description: '',ctc: '', noticePeriod: '',teamSize: '',jobType: '',jobMode: 'WFH'}
+          { title: '', startDate: '', endDate: '', currentlyWorking: false, description: '',ctc: '', noticePeriod: '',teamSize: '',jobType: '',jobMode: ''}
         ]
       }
     ]
@@ -334,7 +334,7 @@ const WorkExperience = ({ nextStep, prevStep , url}) => {
       noticePeriod: '',
       teamSize: '',
       jobType: '',
-      jobMode: 'WFH'
+      jobMode: ''
     });
     setWorkExperience(updatedExperience);
   };
@@ -348,7 +348,7 @@ const WorkExperience = ({ nextStep, prevStep , url}) => {
         location: '',
         industry: '',
         totalCompanyExperience: '',
-        roles: [{ title: '', startDate: '', endDate: '', currentlyWorking: false, description: '' ,ctc: '', noticePeriod: '',teamSize: '',jobType: '',jobMode: 'WFH'}]
+        roles: [{ title: '', startDate: '', endDate: '', currentlyWorking: false, description: '' ,ctc: '', noticePeriod: '',teamSize: '',jobType: '',jobMode: ''}]
       }
     ]);
   };
@@ -475,7 +475,7 @@ const WorkExperience = ({ nextStep, prevStep , url}) => {
           industry: '',
           totalCompanyExperience: '',
           roles: [
-            { title: '', startDate: '', endDate: '', currentlyWorking: false, description: '', ctc: '', noticePeriod: '', teamSize: '', jobType: '', jobMode: 'WFH' }
+            { title: '', startDate: '', endDate: '', currentlyWorking: false, description: '', ctc: '', noticePeriod: '', teamSize: '', jobType: '', jobMode: '' }
           ]
         }
       ]);
