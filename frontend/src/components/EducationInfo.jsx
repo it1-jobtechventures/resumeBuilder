@@ -122,6 +122,22 @@ const EducationInfo = ({ nextStep, prevStep , url }) => {
       e.preventDefault();
       console.log("📋 Starting education validation...");
 
+      const isEMpty = educationList.every(edu =>
+        !edu.school &&
+        !edu.location &&
+        !edu.degree && 
+        !edu.field && 
+        !edu.graduationDate && 
+        !edu.cgpa && 
+        !edu.educationMode
+      )
+
+      if(isEMpty){
+        localStorage.setItem('education',JSON.stringify([]))
+        toast.info("No Education added. Skipping...");
+            nextStep();
+            return;
+      }
       if (validateEducation()) {
         try {
           console.log("✅ Validation passed.");
@@ -134,7 +150,7 @@ const EducationInfo = ({ nextStep, prevStep , url }) => {
                 ...education,
               };
               console.log("📤 Sending education data to backend:", payload);
-              const res = await axios.post(`${url}/api/education/add-education`, {                userId: localStorage.getItem("temporaryUserId"),
+              const res = await axios.post(`${url}/api/education/add-education`, {  userId: localStorage.getItem("temporaryUserId"),
                 resumeId,
                 ...education,});
               console.log("✅ Education saved:", res.data);

@@ -276,7 +276,7 @@ const WorkExperience = ({ nextStep, prevStep , url}) => {
         industry: '',
         totalCompanyExperience: '',
         roles: [
-          { title: '', startDate: '', endDate: '', currentlyWorking: '', description: '',ctc: '', noticePeriod: '',teamSize: '',jobType: '',jobMode: ''}
+          { title: '', startDate: '', endDate: '', currentlyWorking: false, description: '',ctc: '', noticePeriod: '',teamSize: '',jobType: '',jobMode: ''}
         ]
       }
     ]
@@ -289,12 +289,7 @@ const WorkExperience = ({ nextStep, prevStep , url}) => {
   },[workExperience])
 
   console.log("we" , activeResumeId)
-  // // Handle input changes
-  // const handleCompanyChange = (index, event) => {
-  //   const updatedExperience = [...workExperience];
-  //   updatedExperience[index][event.target.name] = event.target.value;
-  //   setWorkExperience(updatedExperience);
-  // };
+
   const handleCompanyChange = (index, event) => {
     const updatedExperience = [...workExperience];
     updatedExperience[index][event.target.name] = event.target.value;
@@ -303,12 +298,6 @@ const WorkExperience = ({ nextStep, prevStep , url}) => {
     // Save the updated work experience in localStorage
     localStorage.setItem('workExperience', JSON.stringify(updatedExperience));
   };
-  
-  // const handleRoleChange = (companyIndex, roleIndex, event) => {
-  //   const updatedExperience = [...workExperience];
-  //   updatedExperience[companyIndex].roles[roleIndex][event.target.name] = event.target.value;
-  //   setWorkExperience(updatedExperience);
-  // };
 
   // Toggle "Currently Working Here"
   const toggleCurrentlyWorking = (companyIndex, roleIndex) => {
@@ -321,6 +310,9 @@ const WorkExperience = ({ nextStep, prevStep , url}) => {
     setWorkExperience(updatedExperience);
   };
 
+
+  
+
   // Add a new designation (role) in the same company
   const addNewRole = (companyIndex) => {
     const updatedExperience = [...workExperience];
@@ -328,7 +320,7 @@ const WorkExperience = ({ nextStep, prevStep , url}) => {
       title: '',
       startDate: '',
       endDate: '',
-      currentlyWorking: '',
+      currentlyWorking: false,
       description: '',
       ctc: '', 
       noticePeriod: '',
@@ -348,7 +340,7 @@ const WorkExperience = ({ nextStep, prevStep , url}) => {
         location: '',
         industry: '',
         totalCompanyExperience: '',
-        roles: [{ title: '', startDate: '', endDate: '', currentlyWorking: '', description: '' ,ctc: '', noticePeriod: '',teamSize: '',jobType: '',jobMode: ''}]
+        roles: [{ title: '', startDate: '', endDate: '', currentlyWorking: false, description: '' ,ctc: '', noticePeriod: '',teamSize: '',jobType: '',jobMode: ''}]
       }
     ]);
   };
@@ -436,52 +428,7 @@ const WorkExperience = ({ nextStep, prevStep , url}) => {
     updatedExperience[companyIndex].roles[roleIndex][field] = date;
     setWorkExperience(updatedExperience);
   };
-  // useEffect(() => {
-  //   const fetchIndustries = async () => {
-  //     let allIndustries = [];
-  //     let currentPage = 1;
-  //     // const lastPage = 10000; // Fetch only 5 pages for now to avoid API limits
-  //     const lastPage = 100; 
-  //     while (currentPage <= lastPage) {
-  //       try {
-  //         const response = await axios.get(
-  //           `https://api.thecompaniesapi.com/v2/industries?page=${currentPage}`
-  //         );
-  //         allIndustries = [...allIndustries, ...response.data.industries];
-  //         currentPage++;
-  //       } catch (error) {
-  //         console.error("Error fetching industries:", error);
-  //         break;
-  //       }
-  //     }
-
-  //     setIndustries(
-  //       allIndustries.map((industry) => ({
-  //         label: industry.name, // Display only the name
-  //         value: industry.name, // Optional, required by react-select
-  //       }))
-  //     );
-     
-  //   };
-
-  //   fetchIndustries();
-  // }, []);
-  // useEffect(() => {
-  //   if (workExperience.length === 0) {
-  //     setWorkExperience([
-  //       {
-  //         company: '',
-  //         location: '',
-  //         industry: '',
-  //         totalCompanyExperience: '',
-  //         roles: [
-  //           { title: '', startDate: '', endDate: '', currentlyWorking: false, description: '', ctc: '', noticePeriod: '', teamSize: '', jobType: '', jobMode: '' }
-  //         ]
-  //       }
-  //     ]);
-  //   }
-  // }, []);
-
+ 
   useEffect(() => {
     if (workExperience.length === 0) {
       setWorkExperience([
@@ -491,7 +438,7 @@ const WorkExperience = ({ nextStep, prevStep , url}) => {
           industry: '',
           totalCompanyExperience: '',
           roles: [
-            { title: '', startDate: '', endDate: '', currentlyWorking: '', description: '', ctc: '', noticePeriod: '', teamSize: '', jobType: '', jobMode: '' }
+            { title: '', startDate: '', endDate: '', currentlyWorking: false, description: '', ctc: '', noticePeriod: '', teamSize: '', jobType: '', jobMode: '' }
           ]
         }
       ]);
@@ -521,63 +468,8 @@ const WorkExperience = ({ nextStep, prevStep , url}) => {
       label: loc.city_name
     }))
   }
-  // const handleSubmit = async (e) => {
-  //   e.preventDefault();
+  
 
-
-  
-  //   if (!validateFields()) return;
-  
-  //   try {
-  //     for (let companyData of workExperience) {
-
-  
-  //       const res = await axios.post("http://localhost:5000/api/workExperience/add-workExperince", {
-  //         userId: localStorage.getItem("temporaryUserId"),
-  //         resumeId,
-  //         ...companyData,
-  //       });
-  
-  //       console.log(res.data);
-  //     }
-  //     toast.success("Work experience saved successfully!");
-  //     nextStep();
-  //   } catch (error) {
-  //     toast.error("Failed to save work experience");
-  //     console.error(error);
-  //   }
-  // };
-//   const handleSubmit = async (e) => {
-//     e.preventDefault();
-  
-//     if (!validateFields()) return;
-  
-//     try {
-//       for (let companyData of workExperience) {
-//         const payload = {
-//           userId: localStorage.getItem("temporaryUserId"),
-//           resumeId,
-//           ...companyData,
-//         };
-  
-//         console.log("📤 Sending work experience to backend:", payload);
-  
-//         const res = await axios.post(`${url}/api/workExperience/add-workExperince`, 
-// {          userId: localStorage.getItem("temporaryUserId"),
-//           resumeId,
-//         ...companyData}
-//         );
-  
-//         console.log("✅ Response from backend:", res.data);
-//       }
-  
-//       toast.success("Work experience saved successfully!");
-//       nextStep();
-//     } catch (error) {
-//       toast.error("Failed to save work experience");
-//       console.error("❌ Error while saving work experience:", error);
-//     }
-//   };
 const handleSubmit = async (e) => {
   e.preventDefault();
 
@@ -596,6 +488,8 @@ const handleSubmit = async (e) => {
 
   // If all fields are empty, allow user to skip
   if (isAllEmpty) {
+       // Save empty array to localStorage
+       localStorage.setItem('workExperience', JSON.stringify([]));
     toast.info("No work experience added. Skipping...");
     nextStep();
     return;
@@ -641,7 +535,6 @@ const handleSubmit = async (e) => {
               </div>
               <div className="mb-4">
                 <label className="block text-gray-700">Location</label>
-                {/* <input type="text" name="location" style={{ textTransform: 'capitalize' }} value={company.location} onChange={(e) => handleCompanyChange(companyIndex, e)} className="w-full p-2 border rounded-md" placeholder="Enter company location"/> */}
                 <Select name="location" options={locationOption()} isSearchable style={{ textTransform: 'capitalize' }} 
                 value={locationOption().find((loc) =>loc.value===company.location)} 
                 onChange={(e) => handleCompanyChange(companyIndex, {target:{name:'location',value:e.value}})} className="w-full p-2 border rounded-md" placeholder="Select an location">
@@ -684,7 +577,6 @@ const handleSubmit = async (e) => {
                   </div>
                   <div className="mb-4">
                     <label className="block text-gray-700">Notice period</label>
-                    {/* <input type="text" name="noticePeriod" value={role.noticePeriod} onChange={(e) => handleRoleChange(companyIndex, roleIndex, e)} className="w-full p-2 border rounded-md" placeholder="Enter your notice period"/> */}
                     <select name="noticePeriod" style={{ textTransform: 'capitalize' }} value={role.noticePeriod} onChange={(e) => handleRoleChange(companyIndex, roleIndex, e)} className="w-full p-2 border rounded-md">
                       <option disabled>Choose your notice period</option>
                       <option value='Immediately Join'>Immediately Join</option>
@@ -700,12 +592,7 @@ const handleSubmit = async (e) => {
                   </div>
                   <div className="mb-4">
                     <label className="block text-gray-700">Job Type</label>
-                      {/* <select name="jobType" style={{ textTransform: 'capitalize' }} value={role.jobType} onChange={(e) => handleRoleChange(companyIndex,roleIndex, e)} className="w-full p-2 border rounded-md mb-2">
-                        <option disabled>Select your job Type</option>
-                        {jobTypeData.map((jobType) => (
-                          <option value={jobType.job_type}>{jobType.job_type}</option>
-                        ))}
-                      </select> */}
+
   <Select
   options={jobTypeOptions()} // Use jobTypeOptions directly here
   value={jobTypeOptions().find(option => option.value === role.jobType)} // Find the selected value
@@ -728,16 +615,7 @@ const handleSubmit = async (e) => {
                       <option value="Hybrid">Hybrid</option>
                     </select>
                   </div>
-                  {/* <div className="flex gap-4">
-                    <div className="mb-4 w-1/2">
-                      <label className="block text-gray-700">Starting Date</label>
-                      <input type="date" name="startDate" value={role.startDate} onChange={(e) => handleRoleChange(companyIndex, roleIndex, e)} className="w-full p-2 border rounded-md"/>
-                    </div>
-                    <div className="mb-4 w-1/2">
-                      <label className="block text-gray-700">Ending Date</label>
-                      <input type="date" name="endDate" value={role.endDate} disabled={role.currentlyWorking} onChange={(e) => handleRoleChange(companyIndex, roleIndex, e)} className="w-full p-2 border rounded-md"/>
-                    </div>
-                  </div> */}
+ 
                   <div className="flex gap-4">
                     <div className="mb-4 w-1/2">
                       <label className="block text-gray-700">Starting Date</label>

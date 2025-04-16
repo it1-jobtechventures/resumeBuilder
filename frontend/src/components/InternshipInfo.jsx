@@ -143,6 +143,31 @@ import axios from 'axios'
 
   const handleSave = async (e) => {
     e.preventDefault();
+
+      // Check if internship data is empty and update local storage accordingly
+  const isEmpty = internshipExperience.every(item =>
+    !item.company &&
+    !item.location &&
+    !item.title &&
+    !item.startDate &&
+    !item.endDate &&
+    !item.description &&
+    !item.stipend &&
+    !item.noticePeriod &&
+    !item.internshipType &&
+    !item.internshipMode &&
+    item.currentlyWorking === false
+  );
+
+  if (isEmpty) {
+    localStorage.setItem("internshipExperience", JSON.stringify([]));
+    toast.info("No internship experience added. Skipping...");
+        nextStep();
+        return;
+  } else {
+    localStorage.setItem("internshipExperience", JSON.stringify(internshipExperience));
+  }
+
     if (!validateForm()) return;
   
     if (!resumeId) {
