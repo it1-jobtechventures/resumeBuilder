@@ -2,7 +2,7 @@ import React, { useContext, useState } from 'react';
 import person_icon from "../assets/person_icon.svg"
 import mail_icon from "../assets/mail_icon.svg";
 import lock_icon from "../assets/lock_icon.svg"
-import { useNavigate } from 'react-router-dom';
+import { useNavigate ,useLocation} from 'react-router-dom';
 import { AppContext } from '../context/AppContext';
 import axios from 'axios';
 import { toast } from 'react-toastify';
