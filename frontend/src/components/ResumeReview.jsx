@@ -689,7 +689,7 @@ const ResumeReview = ({ url }) => {
   
 
   const handleDownloadPDF = () => {
-    const element = document.getElementById('resume-content');
+    const element = document.getElementById('cv');
     // element.style.width = '794px';
     const pdf = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' });
 
@@ -703,7 +703,7 @@ const ResumeReview = ({ url }) => {
   };
 
   const handleDownloadPNG = () => {
-    const element = document.getElementById('cv');
+    const element = document.getElementById('resume-content');
     html2canvas(element, { scale: 2 }).then(canvas => {
       canvas.toBlob(blob => {
         saveAs(blob, 'My_Resume.png');
