@@ -52,47 +52,96 @@ console.log('asd',activeResumeId)
 
 
  
+  // const validateForm = () => {
+  //   let isValid = true;
+  //   if (!formData.firstName.trim()) {
+  //     toast.error('First name is required');
+  //     isValid = false;
+  //   }
+  //   if (!formData.lastName.trim()) {
+  //     toast.error('Last name is required');
+  //     isValid = false;
+  //   }
+  //   if (!formData.email.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)) {
+  //     toast.error('Invalid email format');
+  //     isValid = false;
+  //   }
+  //   if (!formData.phone1.match(/^\d{10}$/)) {
+  //     toast.error('Phone number must be 10 digits');
+  //     isValid = false;
+  //   }
+
+  //   if (formData.dob) {
+  //     const today = new Date().toISOString().split('T')[0];
+  //     if (formData.dob > today) {
+  //       toast.error('Date of birth cannot be in the future');
+  //       isValid = false;
+  //     }
+  //   }
+
+  //   if (formData.experience && formData.experience < 0) {
+  //     toast.error('Experience cannot be negative');
+  //     isValid = false;
+  //   }
+  //   if (!formData.country.trim()) {
+  //     toast.error('Country is required');
+  //     isValid = false;
+  //   }
+  //   if (formData.pincode && !formData.pincode.match(/^\d{5,6}$/)) {
+  //     toast.error('Pincode must be 5-6 digits');
+  //     isValid = false;
+  //   }
+  //   return isValid;
+  // };
+
   const validateForm = () => {
-    let isValid = true;
-    if (!formData.firstName.trim()) {
-      toast.error('First name is required');
-      isValid = false;
-    }
-    if (!formData.lastName.trim()) {
-      toast.error('Last name is required');
-      isValid = false;
-    }
-    if (!formData.email.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)) {
-      toast.error('Invalid email format');
-      isValid = false;
-    }
-    if (!formData.phone1.match(/^\d{10}$/)) {
-      toast.error('Phone number must be 10 digits');
-      isValid = false;
-    }
+  let isValid = true;
 
-    if (formData.dob) {
-      const today = new Date().toISOString().split('T')[0];
-      if (formData.dob > today) {
-        toast.error('Date of birth cannot be in the future');
-        isValid = false;
-      }
-    }
+  if (!formData.firstName?.trim()) {
+    toast.error('First name is required');
+    isValid = false;
+  }
 
-    if (formData.experience && formData.experience < 0) {
-      toast.error('Experience cannot be negative');
+  if (!formData.lastName?.trim()) {
+    toast.error('Last name is required');
+    isValid = false;
+  }
+
+  if (!formData.email || !formData.email.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)) {
+    toast.error('Invalid email format');
+    isValid = false;
+  }
+
+  if (!formData.phone1 || !formData.phone1.match(/^\d{10}$/)) {
+    toast.error('Phone number must be 10 digits');
+    isValid = false;
+  }
+
+  if (formData.dob) {
+    const today = new Date().toISOString().split('T')[0];
+    if (formData.dob > today) {
+      toast.error('Date of birth cannot be in the future');
       isValid = false;
     }
-    if (!formData.country.trim()) {
-      toast.error('Country is required');
-      isValid = false;
-    }
-    if (formData.pincode && !formData.pincode.match(/^\d{5,6}$/)) {
-      toast.error('Pincode must be 5-6 digits');
-      isValid = false;
-    }
-    return isValid;
-  };
+  }
+
+  if (formData.experience && formData.experience < 0) {
+    toast.error('Experience cannot be negative');
+    isValid = false;
+  }
+
+  if (!formData.country?.trim()) {
+    toast.error('Country is required');
+    isValid = false;
+  }
+
+  if (formData.pincode && !formData.pincode.match(/^\d{5,6}$/)) {
+    toast.error('Pincode must be 5-6 digits');
+    isValid = false;
+  }
+
+  return isValid;
+};
 
   const handleNext = () => {
     if (validateForm()) {
