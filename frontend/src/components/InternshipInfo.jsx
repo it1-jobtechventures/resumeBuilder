@@ -22,7 +22,7 @@ import axios from 'axios'
         stipend: '', 
         noticePeriod:'' , 
         internshipType: '', 
-        internshipMode: 'WFH'
+        internshipMode: ''
       }
     ]})
       const { updateResumeData  } = useResume();
@@ -67,7 +67,7 @@ import axios from 'axios'
           stipend: '', 
           noticePeriod:'' , 
           internshipType: '', 
-          internshipMode: 'WFH'
+          internshipMode: ''
         }
       ])
     }
@@ -133,7 +133,7 @@ import axios from 'axios'
           stipend: '',
           noticePeriod: '',
           internshipType: '',
-          internshipMode: 'WFH'
+          internshipMode: ''
         }
       ]);
     }
