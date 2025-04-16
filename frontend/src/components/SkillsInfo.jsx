@@ -8,7 +8,7 @@ import { toast } from 'react-toastify';
 const SkillsInfo = ({ nextStep, prevStep , url }) => {
   const [skills, setSkills] = useState(() => {
     const savedSkills = localStorage.getItem("skills");
-    return savedSkills ? JSON.parse(savedSkills) : [{ name: "", level: ""}]
+    return savedSkills ? JSON.parse(savedSkills) : [{ name: "", level: 0}]
   });
 
     const { updateResumeData  } = useResume();
@@ -20,13 +20,26 @@ const SkillsInfo = ({ nextStep, prevStep , url }) => {
     localStorage.setItem('skills' , JSON.stringify(skills))
   },[skills])
   
-  // Handle skill name change
+  // // Handle skill name change
+  // const handleSkillChange = (index, event) => {
+  //   const updatedSkills = [...skills];
+  //   updatedSkills[index].name = event.target.value;
+  //   setSkills(updatedSkills);
+  // };
   const handleSkillChange = (index, event) => {
     const updatedSkills = [...skills];
-    updatedSkills[index].name = event.target.value;
+    const value = event.target.value;
+  
+    updatedSkills[index].name = value;
+  
+    // Clear level if name is empty
+    if (value.trim() === "") {
+      updatedSkills[index].level = "";
+    }
+  
     setSkills(updatedSkills);
   };
-
+  
   // Handle skill level change
   const handleSkillLevelChange = (index, event) => {
     const updatedSkills = [...skills];
@@ -36,7 +49,7 @@ const SkillsInfo = ({ nextStep, prevStep , url }) => {
 
   // Add a new skill entry
   const addSkill = () => {
-    setSkills([...skills, { name: "", level: ""}]);
+    setSkills([...skills, { name: "", level: "0"}]);
   };
 
   // Remove a skill entry
@@ -48,33 +61,68 @@ const SkillsInfo = ({ nextStep, prevStep , url }) => {
   useEffect(() => {
     if(skills.length === 0){
       setSkills(
-        [{ name: "", level: "" }]
+        [{ name: "", level: "0" }]
       )
     }
   },[])
 
-    const handleSave = async (e) => {
-      e.preventDefault();
+    // const handleSave = async (e) => {
+    //   e.preventDefault();
      
     
+    //   if (!resumeId) {
+    //     toast.error("Resume ID is missing");
+    //     console.error("❌ Resume ID is undefined");
+    //     return;
+    //   }
+    
+    //   console.log("📤 Sending data to backend:", { resumeId, ...skills });
+    
+    //   try {
+    //     const data = await axios.post(`${url}/api/skills/add-skills`, {
+    //       userId: localStorage.getItem("temporaryUserId"),
+    //       resumeId,
+    //       skills,
+    //     });
+    
+    //     console.log("✅ Response from backend:", data);
+    
+
+    //     toast.success(data.message || 'Saved successfully');
+    //     nextStep();
+    //   } catch (error) {
+    //     console.error("❌ Error from backend:", error.response?.data || error);
+    //     toast.error(error.response?.data?.error || 'Save failed');
+    //   }
+    // };
+    const handleSave = async (e) => {
+      e.preventDefault();
+      
       if (!resumeId) {
         toast.error("Resume ID is missing");
         console.error("❌ Resume ID is undefined");
         return;
       }
     
-      console.log("📤 Sending data to backend:", { resumeId, ...skills });
+      // Check if there are any skills entered
+      let validSkills = skills.filter(skill => skill.name.trim() && skill.level);
+
+      if (validSkills.length === 0) {
+        validSkills.push({ name: "", level: "" });  // Now works because validSkills is declared as let
+      }
+       else {
+        console.log("📤 Sending valid skills data to backend:", { resumeId, skills: validSkills });
+      }
     
       try {
+        // Send the request with valid skills (empty array if skipped)
         const data = await axios.post(`${url}/api/skills/add-skills`, {
           userId: localStorage.getItem("temporaryUserId"),
           resumeId,
-          skills,
+          skills: validSkills,
         });
     
         console.log("✅ Response from backend:", data);
-    
-
         toast.success(data.message || 'Saved successfully');
         nextStep();
       } catch (error) {
@@ -82,7 +130,7 @@ const SkillsInfo = ({ nextStep, prevStep , url }) => {
         toast.error(error.response?.data?.error || 'Save failed');
       }
     };
-
+    
   return (
     <>
       <div className="max-w-2xl mx-auto">
