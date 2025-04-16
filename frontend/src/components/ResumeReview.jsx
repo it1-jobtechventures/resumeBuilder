@@ -690,7 +690,7 @@ const ResumeReview = ({ url }) => {
 
   const handleDownloadPDF = () => {
     const element = document.getElementById('cv');
-    // element.style.width = '794px';
+    element.style.width = '794px';
     const pdf = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' });
 
     pdf.html(element, {
