@@ -49,6 +49,13 @@ const EducationInfo = ({ nextStep, prevStep , url }) => {
     }
   };
 
+    const locationOption = () =>{
+      return location.map((loc) => ({
+        value:loc.city_name.toLowerCase().replace(/\s+/g, '-'),
+        label: loc.city_name
+      }))
+    }
+
   const validateEducation = () => {
     for (const edu of educationList) {
       if (edu.school.trim() !== "") {
@@ -161,11 +168,16 @@ const EducationInfo = ({ nextStep, prevStep , url }) => {
               <div className="mb-4">
                 <label className="block text-gray-700">Location</label>
                 {/* <input type="text" style={{ textTransform: 'capitalize' }} name="location" value={education.location} onChange={(e) => handleEducationChange(index, e)} className="w-full p-2 border rounded-md focus:ring-2 focus:ring-blue-400 focus:border-blue-400 transition-all" placeholder="Enter School Location"/> */}
-                <select style={{ textTransform: 'capitalize' }} name="location" value={education.location} onChange={(e) => handleEducationChange(index, e)} className="w-full p-2 border rounded-md focus:ring-2 focus:ring-blue-400 focus:border-blue-400 transition-all" placeholder="Enter School Location">
+                {/* <select style={{ textTransform: 'capitalize' }} name="location" value={education.location} onChange={(e) => handleEducationChange(index, e)} className="w-full p-2 border rounded-md focus:ring-2 focus:ring-blue-400 focus:border-blue-400 transition-all" placeholder="Enter School Location">
                   {location.map((loc) => (
                     <option value={loc.city_name}>{loc.city_name}</option>
                   ))}
-                </select>
+                </select> */}
+                                <Select name="location" options={locationOption()} isSearchable style={{ textTransform: 'capitalize' }} 
+                                value={locationOption().find((loc) =>loc.value===education.location)} 
+                                onChange={(e) => handleEducationChange(index, {target:{name:'location',value:e.value}})} className="w-full p-2 border rounded-md" placeholder="Select an location">
+                
+                                </Select>
               </div>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
