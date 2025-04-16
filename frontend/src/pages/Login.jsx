@@ -16,7 +16,8 @@ const Login = () => {
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-
+    const location = useLocation(); 
+    const from = location.state?.from || "/"
     // const onSubmitHandler = async (e) => {
     //     try {
     //         e.preventDefault();
@@ -60,7 +61,8 @@ const Login = () => {
             if (data.success) {
               localStorage.removeItem("temporaryUserId"); // cleanup
               setIsLoggedIn(true);
-              navigate('/');
+              // navigate('/');
+              navigate(from)
             } else {
               toast.error(data.message);
             }
@@ -74,7 +76,8 @@ const Login = () => {
             //   localStorage.removeItem("temporaryUserId"); // cleanup
               setIsLoggedIn(true);
               toast.success("Logged in successfully");
-              navigate('/');
+              // navigate('/');
+              navigate(from)
             } else {
               toast.error(data.message);
             }
