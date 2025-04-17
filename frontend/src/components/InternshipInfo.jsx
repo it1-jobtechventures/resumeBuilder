@@ -100,6 +100,14 @@ import axios from 'axios'
             toast.error("Start date cannot be in the future.");
             return false;
           }
+
+          // Ensure Start Date is before End Date
+         const start = new Date(internship.startDate);
+          const end = internship.endDate ? new Date(internship.endDate) : null;
+            if (end && start >= end) {
+              toast.error('Start Date cannot be after or equal to End Date.');
+            return false;
+          }
     
           // Validate stipend is not negative
           if (internship.stipend !== "" && Number(internship.stipend) < 0) {
@@ -224,7 +232,10 @@ import axios from 'axios'
                     selected={internhip.startDate ? new Date(internhip.startDate) : null}
                     onChange={(date) => handleCompanyChange(internshipIndex, { target: { name: 'startDate', value: date ? date.toISOString().split("T")[0] : '' } })}
                     className="w-full p-2 border rounded-md"
-                    dateFormat="yyyy-MM-dd"
+                    dateFormat="dd/mm/yyyy"
+                    dropdownMode='select'
+                    showMonthDropdown
+                    showYearDropdown
                   />
                     </div>
                     <div className="mb-4">
@@ -234,8 +245,11 @@ import axios from 'axios'
                     selected={internhip.endDate ? new Date(internhip.endDate) : null}
                     onChange={(date) => handleCompanyChange(internshipIndex, { target: { name: 'endDate', value: date ? date.toISOString().split("T")[0] : '' } })}
                     className="w-full p-2 border rounded-md"
-                    dateFormat="yyyy-MM-dd"
+                    dateFormat="dd/mm/yyyy"
                     disabled={internhip.currentlyWorking}
+                    dropdownMode='select'
+                    showMonthDropdown
+                    showYearDropdown
                   />
                     </div>
                     <div className="mb-4 flex justify-center items-center gap-1">
