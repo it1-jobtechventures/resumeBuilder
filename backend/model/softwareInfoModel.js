@@ -6,8 +6,8 @@ const softwareInfoSchema =  mongoose.Schema(  {
   resumeId: { type: mongoose.Schema.Types.ObjectId, ref: "resume", required: true }, // Link to Resume
   softwareSkills: [
     {
-      name: { type: String, required: true }, // Software name (e.g., Photoshop, Linux)
-      rating: { type: Number, required: true, min: 1, max: 5 }, // Proficiency rating (1-5)
+      name: { type: String }, // Software name (e.g., Photoshop, Linux)
+      rating: { type: Number, min: 1, max: 5 }, // Proficiency rating (1-5)
     },
   ],
 },

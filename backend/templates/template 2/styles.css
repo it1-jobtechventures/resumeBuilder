@@ -120,6 +120,7 @@ p.subHeading {
 
 #cv {
 	background: #f3f3f3;
+	width:794px;
 }
 
 .mainDetails {
@@ -256,9 +257,21 @@ section:last-child {
 
 @media print {
     #cv {
-        width: 794px;
+        width: 100%;
 		margin:0px;
     }
 
+}
+
+@media screen and (max-width: 800px) {
+	#resume-wrapper {
+	  transform: scale(0.8);  /* Scale down on smaller screens */
+	}
+}
+  
+  @media screen and (max-width: 500px) {
+	#resume-wrapper {
+	  transform: scale(0.6);  /* Further scale on phones */
+	}
 }
 

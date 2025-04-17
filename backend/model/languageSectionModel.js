@@ -4,8 +4,8 @@ const languageSchema =  mongoose.Schema(  {
   // userId: { type: mongoose.Schema.Types.ObjectId, ref: "user", required: true }, // Link to User
   userId:{type:String , required:true},
   resumeId: { type: mongoose.Schema.Types.ObjectId, ref: "resume", required: true }, // Link to Resume
-  language: { type: String, required: true }, // Language name
-  level: { type: String, enum: ["Beginner", "Intermediate", "Advanced", "Fluent", "Native"], required: true }, // Proficiency level
+  language: { type: String,}, // Language name
+  level: { type: String, enum: ["Beginner", "Intermediate", "Advanced", "Fluent", "Native"]}, // Proficiency level
   customLanguage: { type: String }, // If a user wants to add a custom language
 },
 { timestamps: true });

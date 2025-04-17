@@ -291,10 +291,13 @@ if(education.length>0){
 
  let certificateHTML="";
  certifications.forEach((certifications) => {
-    if(certifications.name!="" && certifications.name!=null ){
-         console.log("entered2");
+     if(certifications!="" && certifications!=null ){
+         certificateHTML=certificateHTML+'<li><span>'+certifications+'</span></li>';
+     }else if(certifications.name!="" && certifications.name!=null ){
         certificateHTML=certificateHTML+'<li><span>'+certifications.name+'</span></li>';
     }
+
+     
  });
 
  if(certificateHTML!=null && certificateHTML!=""){
