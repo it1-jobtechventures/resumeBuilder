@@ -1,10 +1,11 @@
-  import React, { useState , useEffect ,useContext} from 'react'
-  import { toast } from "react-toastify";
+import React, { useState , useEffect ,useContext , useRef ,useMemo} from 'react'
+import { toast } from "react-toastify";
 import jobTypeData from '../assets/jobTypeData';
 import DatePicker from 'react-datepicker'; 
 import {  useResume } from '../context/FormContext';
 import { AppContext } from '../context/AppContext';
 import axios from 'axios'
+import JoditEditor from 'jodit-react';
 
   const InternshipInfo = ({ nextStep, prevStep , url}) => {
 
@@ -25,16 +26,15 @@ import axios from 'axios'
         internshipMode: ''
       }
     ]})
-      const { updateResumeData  } = useResume();
-      const {activeResumeId} = useContext(AppContext)
+    const { updateResumeData  } = useResume();
+    const {activeResumeId} = useContext(AppContext)
     console.log('iE',activeResumeId)
     const resumeId = activeResumeId;
+    const editor = useRef(null);
+
     useEffect(() => {
       localStorage.setItem('internshipExperience', JSON.stringify(internshipExperience));
     }, [internshipExperience]);
-
-     // Load from localStorage when the component mounts
-  
  
     //handle input change 
     const handleCompanyChange = (index , event) => {
@@ -149,6 +149,19 @@ import axios from 'axios'
 
   }, []);
 
+  const editorConfig = useMemo(() => ({
+    readonly: false,
+    height: 400,
+    toolbarSticky: false,
+    buttons: [
+      'bold', 'italic', 'underline', 'ul', 'ol', 'font', 'fontsize',
+      'paragraph', 'align', 'undo', 'redo', 'link', 'image', 'video'
+    ],
+    uploader: {
+      insertImageAsBase64URI: true,
+    }
+  }), []);
+
   const handleSave = async (e) => {
     e.preventDefault();
 
@@ -258,7 +271,7 @@ import axios from 'axios'
                     </div>
                     <div className="mb-4">
                       <label className="block text-[#4b164c]">Description</label>
-                      <textarea type='text' name='description' style={{ textTransform: 'capitalize' }} value={internhip.description} onChange={(e) => handleCompanyChange(internshipIndex , e)} className="w-full p-2 border rounded-md"/>
+                      <JoditEditor ref={editor} config={editorConfig} value={internhip.description} onBlur={(newContent) => {const updatedInternships = [...internshipExperience];updatedInternships[internshipIndex].description = newContent;setInternshipExperience(updatedInternships); }}/>
                     </div>
                     <div className="mb-4">
                       <label className="block text-[#4b164c]">Stipend(in LPA)</label>

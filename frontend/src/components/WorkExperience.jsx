@@ -252,7 +252,7 @@
 // export default WorkExperience;
 
 
-import React, { useState,useEffect, useContext } from 'react';
+import React, { useState,useEffect, useContext , useRef ,useMemo} from 'react';
 import { toast } from 'react-toastify';
 import Select from "react-select";
 import axios from "axios";
@@ -262,11 +262,15 @@ import jobTypeData from '../assets/jobTypeData';
 import DatePicker from 'react-datepicker'; 
 import {  useResume } from '../context/FormContext';
 import { AppContext } from '../context/AppContext';
+import JoditEditor from 'jodit-react';
 
 const WorkExperience = ({ nextStep, prevStep , url}) => {
   const [industries, setIndustries] = useState([]);
   const { updateResumeData  } = useResume();
   const {activeResumeId} = useContext(AppContext)
+  const resumeId = activeResumeId;
+  const editor = useRef(null);
+
   const [workExperience, setWorkExperience] = useState(() => {
     const savedData = localStorage.getItem('workExperience');
     return savedData ? JSON.parse(savedData):[
@@ -281,8 +285,6 @@ const WorkExperience = ({ nextStep, prevStep , url}) => {
       }
     ]
   });
-
-  const resumeId = activeResumeId;
 
   useEffect(() => {
     localStorage.setItem('workExperience' ,JSON.stringify(workExperience))
@@ -474,6 +476,19 @@ const WorkExperience = ({ nextStep, prevStep , url}) => {
   }
   
 
+  const editorConfig = useMemo(() => ({
+    readonly: false,
+    height: 400,
+    toolbarSticky: false,
+    buttons: [
+      'bold', 'italic', 'underline', 'ul', 'ol', 'font', 'fontsize',
+      'paragraph', 'align', 'undo', 'redo', 'link', 'image', 'video'
+    ],
+    uploader: {
+      insertImageAsBase64URI: true,
+    }
+  }), []);
+
 const handleSubmit = async (e) => {
   e.preventDefault();
 
@@ -631,6 +646,7 @@ const handleSubmit = async (e) => {
                   <div className="mb-4">
                     <label className="block text-gray-700">Job Description</label>
                     <textarea name="description" style={{ textTransform: 'capitalize' }} value={role.description} onChange={(e) => handleRoleChange(companyIndex, roleIndex, e)} className="w-full p-2 border rounded-md" placeholder="Describe your responsibilities" rows={3}/>
+                    <JoditEditor value={role.description} config={editorConfig} onBlur={(newContent) => {const updatedExperience = [...workExperience];updatedExperience[companyIndex].roles[roleIndex].description = newContent; setWorkExperience(updatedExperience);}}/>
                   </div>
                   <div className='flex justify-between flex-col gap-5 lg:flex-row'>
                     <button type="button" onClick={() => addNewRole(companyIndex)} className="bg-[linear-gradient(90deg,_hsla(133,_68%,_60%,_1)_0%,_hsla(205,_97%,_42%,_1)_100%)] cursor-pointer text-white px-4 py-2 rounded-md hover:bg-[linear-gradient(90deg,_hsla(205,_97%,_42%,_1)_0%,_hsla(133,_68%,_60%,_1)_100%)]">

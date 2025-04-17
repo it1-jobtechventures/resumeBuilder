@@ -1,8 +1,9 @@
-import React, { useState, useEffect ,useContext} from 'react';
+import React, { useState, useEffect ,useContext, useRef ,useMemo} from 'react';
 import {  useResume } from '../context/FormContext';
 import { AppContext } from '../context/AppContext';
 import { toast } from 'react-toastify';
 import axios from 'axios'
+import JoditEditor from 'jodit-react';
 
 const ProjectSection = ({url}) => {
   const [projects, setProjects] = useState(() => {
@@ -12,8 +13,10 @@ const ProjectSection = ({url}) => {
   });
   const { updateResumeData  } = useResume();
   const {activeResumeId} = useContext(AppContext)
-console.log('per',activeResumeId)
-const resumeId = activeResumeId;
+  console.log('per',activeResumeId)
+  const resumeId = activeResumeId;
+  const editor = useRef(null);
+
   // Save to local storage whenev
   // Save projects data to local storage whenever it updates
   useEffect(() => {
@@ -44,36 +47,40 @@ const resumeId = activeResumeId;
     }
   },[])
 
+  const editorConfig = useMemo(() => ({
+    readonly: false,
+    height: 400,
+    toolbarSticky: false,
+    buttons: [
+      'bold', 'italic', 'underline', 'ul', 'ol', 'font', 'fontsize',
+      'paragraph', 'align', 'undo', 'redo', 'link', 'image', 'video'
+    ],
+    uploader: {
+      insertImageAsBase64URI: true,
+    }
+  }), []);
+
     const handleSave = async (e) => {
       e.preventDefault();
-      
-    
       if (!resumeId) {
         toast.error("Resume ID is missing");
         console.error("❌ Resume ID is undefined");
         return;
       }
-    
       console.log("📤 Sending data to backend:", { resumeId, ...projects });
-    
       try {
         const data = await axios.post(`${url}/api/project/add-project`, {
           userId: localStorage.getItem("temporaryUserId"),
           resumeId,
           projects,
         });
-    
         console.log("✅ Response from backend:", data);
-    
-  
         toast.success(data.message || 'Saved successfully');
-       
       } catch (error) {
         console.error("❌ Error from backend:", error.response?.data || error);
         toast.error(error.response?.data?.error || 'Save failed');
       }
     };
-    
 
   return (
     <>
@@ -83,7 +90,7 @@ const resumeId = activeResumeId;
           <div key={index} className="mb-4 border-b pb-4">
             <input type="text" name="name" placeholder="Project Name" style={{ textTransform: 'capitalize' }} value={project.name} onChange={(e) => handleChange(index, e)} className="w-full p-2 border rounded-md mb-2"/>
             <input type="url" name="deployedLink" placeholder="Deployed Link" style={{ textTransform: 'capitalize' }} value={project.deployedLink} onChange={(e) => handleChange(index, e)} className="w-full p-2 border rounded-md mb-2"/>
-            <textarea name="summary" placeholder="Project Summary" value={project.summary} style={{ textTransform: 'capitalize' }} onChange={(e) => handleChange(index, e)} className="w-full p-2 border rounded-md mb-2"></textarea>
+            <JoditEditor value={project.summary}config={editorConfig} onBlur={(newContent) => {const updatedProjects = [...projects]; updatedProjects[index].summary = newContent;setProjects(updatedProjects);}}/>
             <input type="url" name="githubLink" style={{ textTransform: 'capitalize' }} placeholder="GitHub Link" value={project.githubLink} onChange={(e) => handleChange(index, e)} className="w-full p-2 border rounded-md mb-2"/>
             {projects.length > 1 && (
               <button type="button" onClick={() => removeProject(index)} className="text-red-500 hover:underline">
