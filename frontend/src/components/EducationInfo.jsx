@@ -64,8 +64,7 @@ const EducationInfo = ({ nextStep, prevStep , url }) => {
           !edu.degree ||
           !edu.field.trim() ||
           !edu.graduationDate ||
-          !edu.educationMode ||
-          !edu.cgpa.trim()
+          !edu.educationMode 
         ) {
           toast.error("Please fill all fields if School Name is entered.");
           return false;
@@ -211,6 +210,9 @@ const EducationInfo = ({ nextStep, prevStep , url }) => {
                   dateFormat="dd/MM/yyyy"
                   className="w-full p-2 border rounded-md focus:ring-2 focus:ring-blue-400 focus:border-blue-400 transition-all"
                   placeholderText="Select graduation date"
+                  dropdownMode='select'
+                  showMonthDropdown
+                  showYearDropdown
                 />
               </div>
             </div>
