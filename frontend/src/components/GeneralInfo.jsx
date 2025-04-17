@@ -1,5 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react'
-
+import React, { useContext, useEffect, useState , useRef ,useMemo } from 'react'
 import countryCode from '../assets/countryCode';
 import DatePicker from 'react-datepicker'; 
 import Select from 'react-select'
@@ -7,6 +6,7 @@ import {  useResume } from '../context/FormContext';
 import { AppContext } from '../context/AppContext';
 import { toast } from 'react-toastify';
 import axios from 'axios'
+import JoditEditor from 'jodit-react';
 
 const GeneralInfo = ({nextStep , url}) => {
   const [countries, setCountries] = useState([]);
@@ -16,9 +16,13 @@ const GeneralInfo = ({nextStep , url}) => {
   const [pincode, setPincode] = useState("");
   const { updateResumeData  } = useResume();
   const {activeResumeId} = useContext(AppContext)
-console.log('asd',activeResumeId)
+  const resumeId = activeResumeId;
+  const editor = useRef(null);
+
+  console.log('generalInfo',activeResumeId)
   const [formData, setFormData] = useState({
     firstName: '',
+    middleName:'',
     lastName: '',
     email: '',
     dob: '',
@@ -35,11 +39,6 @@ console.log('asd',activeResumeId)
     designation:''
   });
 
-  const resumeId = activeResumeId;
-
-  useEffect(() => {
-
-  },[resumeId])
   useEffect(() => {
     const storedData = JSON.parse(localStorage.getItem('generalInfo'));
     if (storedData) {
@@ -48,51 +47,6 @@ console.log('asd',activeResumeId)
       setSelectedCity(storedData.city || '');
     }
   },[])
-
-
-
- 
-  // const validateForm = () => {
-  //   let isValid = true;
-  //   if (!formData.firstName.trim()) {
-  //     toast.error('First name is required');
-  //     isValid = false;
-  //   }
-  //   if (!formData.lastName.trim()) {
-  //     toast.error('Last name is required');
-  //     isValid = false;
-  //   }
-  //   if (!formData.email.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)) {
-  //     toast.error('Invalid email format');
-  //     isValid = false;
-  //   }
-  //   if (!formData.phone1.match(/^\d{10}$/)) {
-  //     toast.error('Phone number must be 10 digits');
-  //     isValid = false;
-  //   }
-
-  //   if (formData.dob) {
-  //     const today = new Date().toISOString().split('T')[0];
-  //     if (formData.dob > today) {
-  //       toast.error('Date of birth cannot be in the future');
-  //       isValid = false;
-  //     }
-  //   }
-
-  //   if (formData.experience && formData.experience < 0) {
-  //     toast.error('Experience cannot be negative');
-  //     isValid = false;
-  //   }
-  //   if (!formData.country.trim()) {
-  //     toast.error('Country is required');
-  //     isValid = false;
-  //   }
-  //   if (formData.pincode && !formData.pincode.match(/^\d{5,6}$/)) {
-  //     toast.error('Pincode must be 5-6 digits');
-  //     isValid = false;
-  //   }
-  //   return isValid;
-  // };
 
   const validateForm = () => {
   let isValid = true;
@@ -167,10 +121,8 @@ console.log('asd',activeResumeId)
     setFormData(prev => ({ ...prev, country }));
   
     if (!country) return;
-  
     try {
       const { data } = await axios.post('https://countriesnow.space/api/v0.1/countries/cities', { country });
-  
       setCities(data?.data || []);
       if (!data?.data.length) toast.error('No cities found');
     } catch (error) {
@@ -188,7 +140,6 @@ console.log('asd',activeResumeId)
       toast.error("Please select a country first.");
       return;
     }
-    
     try {
       const countryCode = selectedCountry.toLowerCase(); // Convert to lowercase for API
       const response = await axios.get(`https://api.zippopotam.us/${countryCode}/${city}`);
@@ -204,7 +155,6 @@ console.log('asd',activeResumeId)
       console.error("Error fetching pincode:", error);
       toast.error("Failed to fetch pincode. Try another city.");
     }
-  
   };
   
   const handleChange = (e) => {
@@ -214,32 +164,19 @@ console.log('asd',activeResumeId)
     localStorage.setItem('generalInfo', JSON.stringify(updatedData));
   };
 
-  // useEffect(() => {
-  //   fetchCountries()
-  // },[])
-
-  // const handleSave = async (e) =>{
-  //   e.preventDefault();
-  //   if(!validateForm()) return;
-
-  //   try {
-  //     console.log('hey')
-  //     // const data = await axios.post('http://localhost:5000/api/generalInfo/add-generalInfo',{resumeId,...formData })
-  //     const data = await axios.post('http://localhost:5000/api/generalInfo/add-generalInfo', {
-  //       resumeId,
-  //       ...formData,
-  //     });
-  //     console.log(data)
-  //     localStorage.setItem('generalInfo',JSON.stringify(formData))
-  //     updateResumeData('generalInfo',formData)
-  //     localStorage.setItem('generalInfoId', data.generalInfo._id);
-  //     toast.success(data.message || 'Saved successfully');
-  //     nextStep()
-  //   } catch (error) {
-  //       console.error(error);
-  //       toast.error(error.response?.data?.error || 'Save failed')
-  //   }
-  // }
+  const editorConfig = useMemo(() => ({
+    readonly: false,
+    height: 400,
+    toolbarSticky: false,
+    buttons: [
+      'bold', 'italic', 'underline', 'ul', 'ol', 'font', 'fontsize',
+      'paragraph', 'align', 'undo', 'redo', 'link', 'image', 'video'
+    ],
+    uploader: {
+      insertImageAsBase64URI: true,
+    }
+  }), []);
+  
 
   const handleSave = async (e) => {
     e.preventDefault();
@@ -250,19 +187,14 @@ console.log('asd',activeResumeId)
       console.error("❌ Resume ID is undefined");
       return;
     }
-  
     console.log("📤 Sending data to backend:", { resumeId, ...formData });
-  
     try {
       const data = await axios.post(`${url}/api/generalInfo/add-generalInfo`, {
         userId: localStorage.getItem("temporaryUserId"),
         resumeId,
         ...formData,
       });
-  
       console.log("✅ Response from backend:", data);
-  
-
       toast.success(data.message || 'Saved successfully');
       nextStep();
     } catch (error) {
@@ -270,7 +202,6 @@ console.log('asd',activeResumeId)
       toast.error(error.response?.data?.error || 'Save failed');
     }
   };
-  
 
   const countryOptions = () => {
     return countryCode.map((cc) =>({
@@ -303,15 +234,14 @@ console.log('asd',activeResumeId)
             </div>
             <div className="mb-4">
               <label className="block text-[#4b164c] font-bold">DOB</label>
-                <DatePicker
-                  selected={formData.dob ? new Date(formData.dob.split('/').reverse().join('-')) : null}
-                  onChange={(date) => {
-                    const formattedDate = date ? `${String(date.getDate()).padStart(2, '0')}/${String(date.getMonth() + 1).padStart(2, '0')}/${date.getFullYear()}` : '';
-                    setFormData(prev => ({ ...prev, dob: formattedDate }));
-                  }}
-                  dateFormat="dd/MM/yyyy" // Set the format to dd/mm/yyyy
+                <DatePicker selected={formData.dob ? new Date(formData.dob.split('/').reverse().join('-')) : null} onChange={(date) => { const formattedDate = date ? `${String(date.getDate()).padStart(2, '0')}/${String(date.getMonth() + 1).padStart(2, '0')}/${date.getFullYear()}` : '';setFormData(prev => ({ ...prev, dob: formattedDate }));}}
+                  dateFormat="dd/MM/yyyy"
                   className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400 focus:outline-none"
                   placeholderText="Enter your DOB"
+                  showMonthDropdown
+                  showYearDropdown
+                  dropdownMode="select"
+                  maxDate={new Date()}
                 />
             </div>
           </div>
@@ -321,40 +251,24 @@ console.log('asd',activeResumeId)
             </div>
           <div className='grid grid-cols-1 md:grid-cols-2 gap-4'>
             <div className="mb-4">
-              <label className="block text-[#4b164c] font-bold">Phone Number<span className='text-red-700 pl-0.5'>*</span></label>
+              <label className="block text-[#4b164c] font-bold">Primary Number<span className='text-red-700 pl-0.5'>*</span></label>
               <div className='flex border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400 focus:outline-none'>
-              <Select
-          options={countryOptions()}
-          isSearchable
-          value={countryOptions().find((cc) => cc.value === formData.countryCode1 )}
-          onChange={selectedOption => handleChange({ target: { name: 'countryCode1', value: selectedOption.value } })}
-          className="w-15"
-          placeholder="+91"
-        />
-
-              <input type="tel" name="phone1" value={formData.phone1} onChange={handleChange} className="w-full p-3 border-none focus:outline-none" placeholder="Enter your phone number" required/>
+                <Select options={countryOptions()} isSearchable value={countryOptions().find((cc) => cc.value === formData.countryCode1 )} onChange={selectedOption => handleChange({ target: { name: 'countryCode1', value: selectedOption.value } })} className="w-15" placeholder="+91"/>
+                <input type="number" name="phone1" value={formData.phone1} onChange={handleChange} className="w-full p-3 border-none focus:outline-none" placeholder="Enter your phone number" required/>
               </div>
-
             </div>
             <div className="">
-              <label className="block text-[#4b164c] font-bold">Phone Number</label>
+              <label className="block text-[#4b164c] font-bold">Secondary Number</label>
               <div className='flex border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400 focus:outline-none'>
-              <select name='countryCode2' value={formData.countryCode2} onChange={handleChange} className=' w-15'>
-                <option disabled>Select country Code</option>
-                {countryCode.map(country => (
-                  <option key={country.id}>+{country.tel_country_code}</option>
-                ))}
-              </select>
-              <input type="tel" name="phone2" value={formData.phone2} onChange={handleChange} className="w-full p-3 border-none focus:outline-none" placeholder="Enter your optional phone number" />
+                <Select options={countryOptions()} isSearchable value={countryOptions().find((cc) => cc.value === formData.countryCode2 )} onChange={selectedOption => handleChange({ target: { name: 'countryCode2', value: selectedOption.value } })} className="w-15" placeholder="+91"/>
+                <input type="number" name="phone2" value={formData.phone2} onChange={handleChange} className="w-full p-3 border-none focus:outline-none" placeholder="Enter your optional phone number" />
               </div>
-
             </div>
           </div>
           <div className="mb-4">  
-                <label className="block text-[#4b164c] font-bold">Country<span className='text-red-700 pl-0.5'>*</span></label>
-                {/* <input type="text"name="country" value={formData.country} onChange={handleChange} className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400 focus:outline-none" placeholder="Enter your Country" required/> */}
-                <select value={selectedCountry} onChange={handleCountryChange} style={{ textTransform: 'capitalize' }} className='w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400 focus:outline-none'>
-                  <option value="">Select Country</option>
+            <label className="block text-[#4b164c] font-bold">Country<span className='text-red-700 pl-0.5'>*</span></label>
+            <select value={selectedCountry} onChange={handleCountryChange} style={{ textTransform: 'capitalize' }} className='w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400 focus:outline-none'>
+              <option value="">Select Country</option>
                   {countries.map((country, index) => (
                     <option key={index} value={country}>{country}</option>
                 ))}
@@ -385,7 +299,17 @@ console.log('asd',activeResumeId)
           </div>
           <div className="mb-4">
             <label className="block text-[#4b164c] font-bold">Summary</label>
-            <textarea type="number"  name="summary" rows={4} value={formData.summary} onChange={handleChange} className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400 focus:outline-none" placeholder="Enter your Total Experience"  />
+            {/* <textarea type="number"  name="summary" rows={4} value={formData.summary} onChange={handleChange} className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400 focus:outline-none" placeholder="Enter your Total Experience"  /> */}
+            <JoditEditor
+  ref={editor}
+  config={editorConfig}
+  defaultValue={formData.summary}
+  onBlur={(newContent) => {
+    const updatedData = { ...formData, summary: newContent };
+    setFormData(updatedData);
+    localStorage.setItem('generalInfo', JSON.stringify(updatedData));
+  }}
+/>
           </div>
           <div className="flex lg:justify-end ">
             <button type='submit' onClick={handleSave} className="w-full  lg:w-auto bg-[linear-gradient(90deg,_hsla(133,_68%,_60%,_1)_0%,_hsla(205,_97%,_42%,_1)_100%)] cursor-pointer text-white px-4 py-2 rounded-md hover:bg-[linear-gradient(90deg,_hsla(205,_97%,_42%,_1)_0%,_hsla(133,_68%,_60%,_1)_100%)]">
