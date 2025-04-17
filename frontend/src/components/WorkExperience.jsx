@@ -310,9 +310,6 @@ const WorkExperience = ({ nextStep, prevStep , url}) => {
     setWorkExperience(updatedExperience);
   };
 
-
-  
-
   // Add a new designation (role) in the same company
   const addNewRole = (companyIndex) => {
     const updatedExperience = [...workExperience];
@@ -387,6 +384,13 @@ const WorkExperience = ({ nextStep, prevStep , url}) => {
             toast.error('Start Date cannot be after End Date.');
             return false;
           }
+          // Ensure Start Date is before End Date
+          const start = new Date(role.startDate);
+          const end = role.endDate ? new Date(role.endDate) : null;
+          if (end && start >= end) {
+            toast.error('Start Date cannot be after or equal to End Date.');
+            return false;
+          }
         }
       }
     }
@@ -394,7 +398,7 @@ const WorkExperience = ({ nextStep, prevStep , url}) => {
   };
 
   const local = localStorage.getItem('temporaryUserId')
-  console.log("local", local)
+  console.log("tempuserid", local)
 
   const handleNext = () => {
     if (validateFields()) {
@@ -505,14 +509,10 @@ const handleSubmit = async (e) => {
         resumeId,
         ...companyData,
       };
-
       console.log("📤 Sending work experience to backend:", payload);
-
       const res = await axios.post(`${url}/api/workExperience/add-workExperince`, payload);
-
       console.log("✅ Response from backend:", res.data);
     }
-
     toast.success("Work experience saved successfully!");
     nextStep();
   } catch (error) {
@@ -536,26 +536,16 @@ const handleSubmit = async (e) => {
               <div className="mb-4">
                 <label className="block text-gray-700">Location</label>
                 <Select name="location" options={locationOption()} isSearchable style={{ textTransform: 'capitalize' }} 
-                value={locationOption().find((loc) =>loc.value===company.location)} 
-                onChange={(e) => handleCompanyChange(companyIndex, {target:{name:'location',value:e.value}})} className="w-full p-2 border rounded-md" placeholder="Select an location">
-
+                  value={locationOption().find((loc) =>loc.value===company.location)} 
+                  onChange={(e) => handleCompanyChange(companyIndex, {target:{name:'location',value:e.value}})} className="w-full p-2 border rounded-md" placeholder="Select an location">
                 </Select>
               </div>
               <div className="mb-4">
                 <label className="block text-gray-700">Company Industry</label>
-
-              <Select
-  options={industriesOption()} // Pass the options as the result of industriesOption()
-  style={{ textTransform: 'capitalize' }} // Capitalize the first letter of each option label
-  isSearchable
-  placeholder="Select an industry..."
-  value={industriesOption().find((ind) => ind.value === company.industry)} // Find the selected option based on value
-  onChange={(selectedOption) => {
-    handleCompanyChange(companyIndex, {
-      target: { name: 'industry', value: selectedOption.value },
-    });
-  }}
-/>
+                <Select options={industriesOption()}  style={{ textTransform: 'capitalize' }} isSearchable placeholder="Select an industry..."
+                  value={industriesOption().find((ind) => ind.value === company.industry)} // Find the selected option based on value
+                  onChange={(selectedOption) => {handleCompanyChange(companyIndex, {target: { name: 'industry', value: selectedOption.value },});}}
+                />
               </div>
               <div className="mb-4">
                 <label className="block text-gray-700">Company Experience</label>
@@ -572,7 +562,7 @@ const handleSubmit = async (e) => {
                     <input type="text" name="title" style={{ textTransform: 'capitalize' }} value={role.title} onChange={(e) => handleRoleChange(companyIndex, roleIndex, e)} className="w-full p-2 border rounded-md" placeholder="Enter your job title"/>
                   </div>
                   <div className="mb-4">
-                    <label className="block text-gray-700">CTC</label>
+                    <label className="block text-gray-700">CTC (In LPA)</label>
                     <input type="number" name="ctc" style={{ textTransform: 'capitalize' }} value={role.ctc} onChange={(e) => handleRoleChange(companyIndex, roleIndex, e)} className="w-full p-2 border rounded-md" placeholder="Enter your current ctc in lpa" min={0}/>
                   </div>
                   <div className="mb-4">
@@ -592,19 +582,9 @@ const handleSubmit = async (e) => {
                   </div>
                   <div className="mb-4">
                     <label className="block text-gray-700">Job Type</label>
-
-  <Select
-  options={jobTypeOptions()} // Use jobTypeOptions directly here
-  value={jobTypeOptions().find(option => option.value === role.jobType)} // Find the selected value
-  onChange={(selectedOption) => {
-    handleRoleChange(companyIndex, roleIndex, {
-      target: { name: 'jobType', value: selectedOption?.value }, // Safely access `value`
-    });
-  }}
-  className="w-full p-2 border rounded-md"
-  placeholder="Select your job type"
-  isSearchable // Make the dropdown searchable
-/>
+                    <Select options={jobTypeOptions()} value={jobTypeOptions().find(option => option.value === role.jobType)} 
+                      onChange={(selectedOption) => { handleRoleChange(companyIndex, roleIndex, { target: { name: 'jobType', value: selectedOption?.value },});}}className="w-full p-2 border rounded-md"placeholder="Select your job type" isSearchable
+                    />
                   </div>
                   <div className="mb-4">
                     <label className="block text-gray-700">Job Mode</label>
@@ -615,7 +595,6 @@ const handleSubmit = async (e) => {
                       <option value="Hybrid">Hybrid</option>
                     </select>
                   </div>
- 
                   <div className="flex gap-4">
                     <div className="mb-4 w-1/2">
                       <label className="block text-gray-700">Starting Date</label>
@@ -625,6 +604,9 @@ const handleSubmit = async (e) => {
                         dateFormat="dd/MM/yyyy"
                         className="w-full p-2 border rounded-md"
                         placeholderText="Select start date"
+                        dropdownMode='select'
+                        showMonthDropdown
+                        showYearDropdown
                       />
                     </div>
                     <div className="mb-4 w-1/2">
@@ -636,6 +618,9 @@ const handleSubmit = async (e) => {
                         disabled={role.currentlyWorking}
                         className="w-full p-2 border rounded-md"
                         placeholderText="Select end date"
+                        dropdownMode='select'
+                        showMonthDropdown
+                        showYearDropdown
                       />
                     </div>
                   </div>
