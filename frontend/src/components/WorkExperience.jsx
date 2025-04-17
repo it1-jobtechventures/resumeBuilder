@@ -645,7 +645,6 @@ const handleSubmit = async (e) => {
                   </div>
                   <div className="mb-4">
                     <label className="block text-gray-700">Job Description</label>
-                    <textarea name="description" style={{ textTransform: 'capitalize' }} value={role.description} onChange={(e) => handleRoleChange(companyIndex, roleIndex, e)} className="w-full p-2 border rounded-md" placeholder="Describe your responsibilities" rows={3}/>
                     <JoditEditor value={role.description} config={editorConfig} onBlur={(newContent) => {const updatedExperience = [...workExperience];updatedExperience[companyIndex].roles[roleIndex].description = newContent; setWorkExperience(updatedExperience);}}/>
                   </div>
                   <div className='flex justify-between flex-col gap-5 lg:flex-row'>
