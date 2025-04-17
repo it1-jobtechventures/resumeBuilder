@@ -128,7 +128,6 @@ const EducationInfo = ({ nextStep, prevStep , url }) => {
         !edu.degree && 
         !edu.field && 
         !edu.graduationDate && 
-        !edu.cgpa && 
         !edu.educationMode
       )
 
@@ -183,47 +182,22 @@ const EducationInfo = ({ nextStep, prevStep , url }) => {
               </div>
               <div className="mb-4">
                 <label className="block text-gray-700">Location</label>
-                {/* <input type="text" style={{ textTransform: 'capitalize' }} name="location" value={education.location} onChange={(e) => handleEducationChange(index, e)} className="w-full p-2 border rounded-md focus:ring-2 focus:ring-blue-400 focus:border-blue-400 transition-all" placeholder="Enter School Location"/> */}
-                {/* <select style={{ textTransform: 'capitalize' }} name="location" value={education.location} onChange={(e) => handleEducationChange(index, e)} className="w-full p-2 border rounded-md focus:ring-2 focus:ring-blue-400 focus:border-blue-400 transition-all" placeholder="Enter School Location">
-                  {location.map((loc) => (
-                    <option value={loc.city_name}>{loc.city_name}</option>
-                  ))}
-                </select> */}
-                                <Select name="location" options={locationOption()} isSearchable style={{ textTransform: 'capitalize' }} 
-                                value={locationOption().find((loc) =>loc.value===education.location)} 
-                                onChange={(e) => handleEducationChange(index, {target:{name:'location',value:e.value}})} className="w-full p-2 border rounded-md" placeholder="Select an location">
-                
-                                </Select>
+                <Select name="location" options={locationOption()} isSearchable style={{ textTransform: 'capitalize' }} 
+                  value={locationOption().find((loc) =>loc.value===education.location)} 
+                  onChange={(e) => handleEducationChange(index, {target:{name:'location',value:e.value}})} className="w-full p-2 border rounded-md" placeholder="Select an location">
+                </Select>
               </div>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
               <div className="mb-4">
                 <label className="block text-gray-700">Degree</label>
-                {/* <select name="degree" style={{ textTransform: 'capitalize' }} value={education.degree} onChange={(e) => handleEducationChange(index, e)} className="w-full p-2 border rounded-md focus:ring-2 focus:ring-blue-400 focus:border-blue-400 transition-all">
-                  <option value="">Select Degree</option>
-                  {degreeData.map((degree) => (
-                    <option value={degree.degree}>{degree.degree}</option>
-                  ))}
-                </select> */}
-                {/* <Select options={degree()} style={{textTransform:'capitalize'}} isSearchable placeholder='Select Degree' value={degree().find((deg) => deg.value === education.degree)} onChange={(e) => handleEducationChange(index, e)}/> */}
-                <Select
-  options={degree()} // Use degree() to get options
-  style={{ textTransform: 'capitalize' }} // Apply style for text capitalization
-  isSearchable // Make the dropdown searchable
-  placeholder="Select Degree" // Set placeholder
-  
-  value={degree().find((deg) => deg.value === education.degree)} // Find the selected degree
-  onChange={(selectedOption) => {
-    const event = {
-      target: {
-        name: "degree",
-        value: selectedOption?.value || "",
-      }
-    };
-    handleEducationChange(index, event);
-  }}
-  // onChange={(selectedOption) => handleEducationChange(index, selectedOption)} // Handle change with selectedOption
-/>
+                <Select options={degree()} style={{ textTransform: 'capitalize' }} isSearchable placeholder="Select Degree"
+                  value={degree().find((deg) => deg.value === education.degree)} // Find the selected degree
+                  onChange={(selectedOption) => {
+                    const event = {target: {name: "degree", value: selectedOption?.value || "", } };
+                    handleEducationChange(index, event);
+                  }}
+                />
               </div>
               <div className="mb-4">
                 <label className="block text-gray-700">Field of Study</label>
@@ -231,11 +205,10 @@ const EducationInfo = ({ nextStep, prevStep , url }) => {
               </div>
               <div className="mb-4">
                 <label className="block text-gray-700">Graduation Date (or expected Graduation Date)</label>
-                {/* <input type="date" name="graduationDate" value={education.graduationDate} style={{ textTransform: 'capitalize' }} onChange={(e) => handleEducationChange(index, e)} className="w-full p-2 border rounded-md focus:ring-2 focus:ring-blue-400 focus:border-blue-400 transition-all"/> */}
                 <DatePicker
                   selected={education.graduationDate ? new Date(education.graduationDate) : null}
                   onChange={(date) => handleEducationChange(index, { target: { name: 'graduationDate', value: date } })}
-                  dateFormat="yyyy/MM/dd"
+                  dateFormat="dd/MM/yyyy"
                   className="w-full p-2 border rounded-md focus:ring-2 focus:ring-blue-400 focus:border-blue-400 transition-all"
                   placeholderText="Select graduation date"
                 />
