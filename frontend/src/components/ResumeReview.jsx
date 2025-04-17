@@ -761,7 +761,7 @@ const ResumeReview = ({ url }) => {
 
       <div className="flex flex-col md:flex-row gap-5">
         {/* Customization Panel */}
-        <div className="bg-gray-100 p-4 rounded shadow w-full md:w-72">
+        {/* <div className="bg-gray-100 p-4 rounded shadow w-full md:w-72">
           <label>
             Font Size:
             <select value={fontSize} onChange={e => applyStyleToSelectedText('fontSize', e.target.value)} className="block w-full">
@@ -787,7 +787,7 @@ const ResumeReview = ({ url }) => {
             <input type="color" value={bgColor} onChange={e => setBgColor(e.target.value)} />
           </label>
           <button onClick={resetStyles} className="bg-green-500 text-white mt-4 px-4 py-1 rounded">Reset Styles</button>
-        </div>
+        </div> */}
 
         {/* Resume Preview */}
         <div className="flex-1" id="resume-content"
