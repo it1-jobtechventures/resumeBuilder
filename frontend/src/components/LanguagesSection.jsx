@@ -86,7 +86,7 @@ const resumeId = activeResumeId;
             </select>
             {lang.language === 'Others' && (<input type='text' placeholder='Enter Language' className="p-2 border rounded-md w-1/2" value={lang.customLanguage} onChange={(e) => handleChange(index, 'customLanguage', e.target.value)}/>)}
             <select className="p-2 border rounded-md w-1/2" style={{ textTransform: 'capitalize' }} value={lang.level} onChange={(e) => handleChange(index, 'level', e.target.value)}>
-              <option value="">Select Proficiency</option>
+              <option value="" disabled>Select Proficiency</option>
               <option value="Beginner">Beginner</option>
               <option value="Intermediate">Intermediate</option>
               <option value="Fluent">Fluent</option>
