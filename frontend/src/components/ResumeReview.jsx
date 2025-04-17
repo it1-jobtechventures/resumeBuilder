@@ -583,6 +583,9 @@ const ResumeReview = ({ url }) => {
   const [textColor, setTextColor] = useState(localStorage.getItem('textColor') || '#000000');
   const [bgColor, setBgColor] = useState(localStorage.getItem('bgColor') || '#ffffff');
 
+  const generalInfo = JSON.parse(localStorage.getItem('generalInfo'));
+  const userName = generalInfo?.firstName || "My_Resume";
+ 
   // ✅ Utility - Get nested value from path
   const getValueByPath = (obj, path) => {
     return path.split('.').reduce((acc, part) => acc && acc[part], obj);
@@ -694,7 +697,7 @@ const ResumeReview = ({ url }) => {
     const pdf = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' });
 
     pdf.html(element, {
-      callback: (doc) => doc.save('My_Resume.pdf'),
+      callback: (doc) => doc.save( `${userName}_Resume.pdf`),
       x: 0,
       y: 0,
       width: 210,
@@ -703,10 +706,10 @@ const ResumeReview = ({ url }) => {
   };
 
   const handleDownloadPNG = () => {
-    const element = document.getElementById('resume-content');
+    const element = document.getElementById('cv');
     html2canvas(element, { scale: 2 }).then(canvas => {
       canvas.toBlob(blob => {
-        saveAs(blob, 'My_Resume.png');
+        saveAs(blob, `${userName}_Resume.png`);
       });
     });
   };
@@ -807,6 +810,7 @@ const ResumeReview = ({ url }) => {
             <button onClick={handleDownloadPDF} className="bg-gradient-to-r from-green-400 to-blue-500 text-white px-4 py-2 rounded">Download PDF</button>
             <button onClick={handleDownloadPNG} className="bg-gradient-to-r from-green-400 to-blue-500 text-white px-4 py-2 rounded">Download PNG</button>
             <Link to="/createResume"><button className="bg-gradient-to-r from-green-400 to-blue-500 text-white px-4 py-2 rounded">Edit Form</button></Link>
+            <Link to="/templates"><button className="bg-gradient-to-r from-green-400 to-blue-500 text-white px-4 py-2 rounded">Choose Template</button></Link>
           </div>
         )}
       </div>
