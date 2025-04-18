@@ -37,7 +37,8 @@ const GeneralInfo = ({nextStep , url}) => {
     experience: '',
     summary:'',
     designation:'',
-    photo:''
+    photo:'',
+    noticePeriod:''
   });
 
   useEffect(() => {
@@ -325,18 +326,19 @@ const GeneralInfo = ({nextStep , url}) => {
             <input type="number" min={0} name="experience" value={formData.experience} onChange={handleChange} className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400 focus:outline-none" placeholder="Enter your Total Experience"  />
           </div>
           <div className="mb-4">
+            <label className="block text-[#4b164c]">Notice Period</label>
+            <select name="noticePeriod" value={formData.noticePeriod} onChange={handleChange} className="w-full p-2 border rounded-md">
+              <option disabled value=''>Choose your notice period</option>
+              <option value='Immediately Join'>Immediately Join</option>
+              <option value='Less Than 15 Days'>Less than 15 days</option>
+              <option value='One Month'>1 month</option>
+              <option value='3 Months'>3 Months</option>
+              <option value='More Than 3 Months'>More than 3 months</option>
+            </select>
+          </div>
+          <div className="mb-4">
             <label className="block text-[#4b164c] font-bold">Summary</label>
-            {/* <textarea type="number"  name="summary" rows={4} value={formData.summary} onChange={handleChange} className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400 focus:outline-none" placeholder="Enter your Total Experience"  /> */}
-            <JoditEditor
-  ref={editor}
-  config={editorConfig}
-  defaultValue={formData.summary}
-  onBlur={(newContent) => {
-    const updatedData = { ...formData, summary: newContent };
-    setFormData(updatedData);
-    localStorage.setItem('generalInfo', JSON.stringify(updatedData));
-  }}
-/>
+            <JoditEditor ref={editor} config={editorConfig} defaultValue={formData.summary} onBlur={(newContent) => {const updatedData = { ...formData, summary: newContent }; setFormData(updatedData); localStorage.setItem('generalInfo', JSON.stringify(updatedData)); }}/>
           </div>
           <div className="flex lg:justify-end ">
             <button type='submit' onClick={handleSave} className="w-full  lg:w-auto bg-[linear-gradient(90deg,_hsla(133,_68%,_60%,_1)_0%,_hsla(205,_97%,_42%,_1)_100%)] cursor-pointer text-white px-4 py-2 rounded-md hover:bg-[linear-gradient(90deg,_hsla(205,_97%,_42%,_1)_0%,_hsla(133,_68%,_60%,_1)_100%)]">
