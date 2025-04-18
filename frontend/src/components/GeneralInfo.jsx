@@ -36,7 +36,8 @@ const GeneralInfo = ({nextStep , url}) => {
     address: '',
     experience: '',
     summary:'',
-    designation:''
+    designation:'',
+    photo:''
   });
 
   useEffect(() => {
@@ -177,7 +178,24 @@ const GeneralInfo = ({nextStep , url}) => {
     }
   }), []);
   
-
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setFormData((prev) => ({
+          ...prev,
+          photo: reader.result, // base64 image string
+        }));
+        localStorage.setItem(
+          "generalInfo",
+          JSON.stringify({ ...formData, photo: reader.result })
+        );
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+  
   const handleSave = async (e) => {
     e.preventDefault();
     if (!validateForm()) return;
@@ -218,6 +236,15 @@ const GeneralInfo = ({nextStep , url}) => {
         <div className='flex  justify-center'>
         <form className='grid gap-4 '>
           <div className='grid grid-cols-1 md:grid-cols-2 gap-4'>
+            <div className="mb-4">
+              <label className="block text-[#4b164c] font-bold">Upload Photo</label>
+              <input type="file"accept="image/*"onChange={handleImageChange}className="w-full p-2 border border-gray-300 rounded-lg"/>
+              {formData.photo && (
+                <div className="mt-2">
+                  <img src={formData.photo}alt="Profile Preview"className="w-24 h-24 object-cover rounded-full border border-gray-400"/>
+                </div>
+              )}
+            </div>
             <div className="">
               <label className="block text-[#4b164c] font-semibold">First Name<span className='text-red-700 pl-0.5'>*</span></label>
               <input type="text" style={{ textTransform: 'capitalize' }} value={formData.firstName} name='firstName' onChange={handleChange} className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400 focus:outline-none" placeholder="Rohit" required />
