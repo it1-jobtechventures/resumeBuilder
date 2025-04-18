@@ -7,6 +7,7 @@ import Select from 'react-select'
 import {  useResume } from '../context/FormContext';
 import { AppContext } from '../context/AppContext';
 import axios from 'axios'
+import clgName from "../assets/clgName";
 
 const EducationInfo = ({ nextStep, prevStep , url }) => {
 
@@ -56,23 +57,23 @@ const EducationInfo = ({ nextStep, prevStep , url }) => {
       }))
     }
 
-  const validateEducation = () => {
-    for (const edu of educationList) {
-      if (edu.school.trim() !== "") {
-        if (
-          !edu.location.trim() ||
-          !edu.degree ||
-          !edu.field.trim() ||
-          !edu.graduationDate ||
-          !edu.educationMode 
-        ) {
-          toast.error("Please fill all fields if School Name is entered.");
-          return false;
-        }
-      }
-    }
-    return true;
-  };
+  // const validateEducation = () => {
+  //   for (const edu of educationList) {
+  //     if (edu.school.trim() !== "") {
+  //       if (
+  //         !edu.location.trim() ||
+  //         !edu.degree ||
+  //         !edu.field.trim() ||
+  //         !edu.graduationDate ||
+  //         !edu.educationMode 
+  //       ) {
+  //         toast.error("Please fill all fields if School Name is entered.");
+  //         return false;
+  //       }
+  //     }
+  //   }
+  //   return true;
+  // };
 
   // const handleNext = () => {
   //   if (validateEducation()) {
@@ -96,6 +97,12 @@ const EducationInfo = ({ nextStep, prevStep , url }) => {
       })) || []; // Ensure the function returns an empty array if degreeData is empty or undefined
     };
     
+    const schoolName = ()=> {
+      return clgName.map((sch) => ({
+        value : sch.college_name,
+        label: sch.college_name
+      }))
+    }
     // const handleNext = async (e) => {
     //   e.preventDefault();
     //   if (validateEducation()) {
@@ -136,7 +143,7 @@ const EducationInfo = ({ nextStep, prevStep , url }) => {
             nextStep();
             return;
       }
-      if (validateEducation()) {
+   
         try {
           console.log("✅ Validation passed.");
           console.log("📚 Education list to be submitted:", educationList);
@@ -162,9 +169,6 @@ const EducationInfo = ({ nextStep, prevStep , url }) => {
           console.error("❌ Error saving education:", error);
           toast.error("Something went wrong while saving education");
         }
-      } else {
-        console.warn("🚫 Validation failed. Not submitting.");
-      }
     };
     
   return (
@@ -177,11 +181,14 @@ const EducationInfo = ({ nextStep, prevStep , url }) => {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div className="mb-4">
                 <label className="block text-gray-700">School Name</label>
-                <input type="text" style={{ textTransform: 'capitalize' }} name="school" value={education.school} onChange={(e) => handleEducationChange(index, e)} className="w-full p-2 border rounded-md focus:ring-2 focus:ring-blue-400 focus:border-blue-400 transition-all" placeholder="Enter your School Name"/>
+                <Select name="school" options={schoolName()} isSearchable style={{ textTransform: 'capitalize' }}
+                  value={schoolName().find((school)=> school.value===education.school)}
+                  onChange={(e) => handleEducationChange(index  ,{target:{name:'school',value:e.value}})}  className="w-full p-2 border rounded-md" placeholder="Enter your School Name">
+                </Select>
               </div>
               <div className="mb-4">
                 <label className="block text-gray-700">Location</label>
-                <Select name="location" options={locationOption()} isSearchable style={{ textTransform: 'capitalize' }} 
+                <Select name="location" options={locationOption()} isSearchable  
                   value={locationOption().find((loc) =>loc.value===education.location)} 
                   onChange={(e) => handleEducationChange(index, {target:{name:'location',value:e.value}})} className="w-full p-2 border rounded-md" placeholder="Select an location">
                 </Select>
