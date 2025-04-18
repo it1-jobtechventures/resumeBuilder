@@ -29,8 +29,10 @@ const app = express();
 const allowedOrigins = ['https://resumebuilder-frontend-asqk.onrender.com' , "http://localhost:5174" , "http://localhost:5173"] 
 
 // Middleware
-app.use(express.json());
-app.use(express.urlencoded({ extended:false }));
+// app.use(express.json());
+// app.use(express.urlencoded({ extended:false }));
+app.use(express.json({ limit: '10mb' }));
+app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 app.use(cookieParser());
 app.use(cors({origin: allowedOrigins, credentials: true}));
 
