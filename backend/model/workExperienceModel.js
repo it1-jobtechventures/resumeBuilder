@@ -16,7 +16,6 @@ const workExperienceSchema =  mongoose.Schema({
       currentlyWorking: { type: Boolean, default: false },
       description: { type: String },
       ctc: { type: String },
-      noticePeriod: { type: String },
       teamSize: { type: String },
       jobType: { type: String, enum: [ "Full Time","Part Time","On Assignment","On Call","Freelancing","Specific Hours ","Work from Home / WFH" ,"Others" ,""] },
       jobMode: { type: String, enum: ["WFH", "Hybrid", "WFO",""]},

@@ -13,7 +13,6 @@ const internshipExperienceSchema =  mongoose.Schema(
     currentlyWorking: { type: Boolean, default: false },
     description: { type: String },
     stipend: { type: String },
-    noticePeriod: { type: String },
     internshipType: { type: String, enum: [ "Full Time","Part Time","On Assignment","On Call","Freelancing","Specific Hours ","Work from Home / WFH" ,"Others" ,""] },
     internshipMode: { type: String, enum: ["WFH", "Hybrid", "WFO",""]},
   },
