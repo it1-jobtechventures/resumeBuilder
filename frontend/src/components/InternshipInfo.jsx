@@ -21,7 +21,6 @@ import JoditEditor from 'jodit-react';
         currentlyWorking: false, 
         description: '' , 
         stipend: '', 
-        noticePeriod:'' , 
         internshipType: '', 
         internshipMode: ''
       }
@@ -65,7 +64,6 @@ import JoditEditor from 'jodit-react';
           currentlyWorking: false, 
           description: '' , 
           stipend: '', 
-          noticePeriod:'' , 
           internshipType: '', 
           internshipMode: ''
         }
@@ -139,7 +137,6 @@ import JoditEditor from 'jodit-react';
           currentlyWorking: false,
           description: '',
           stipend: '',
-          noticePeriod: '',
           internshipType: '',
           internshipMode: ''
         }
@@ -174,7 +171,6 @@ import JoditEditor from 'jodit-react';
     !item.endDate &&
     !item.description &&
     !item.stipend &&
-    !item.noticePeriod &&
     !item.internshipType &&
     !item.internshipMode &&
     item.currentlyWorking === false
@@ -276,18 +272,6 @@ import JoditEditor from 'jodit-react';
                     <div className="mb-4">
                       <label className="block text-[#4b164c]">Stipend(in LPA)</label>
                       <input type='number' min={0} name='stipend' placeholder='Enter your stipend in lpa' value={internhip.stipend} onChange={(e) => handleCompanyChange(internshipIndex , e)} className="w-full p-2 border rounded-md"/>
-                    </div>
-                    <div className="mb-4">
-                      <label className="block text-[#4b164c]">Notice Period</label>
-                      {/* <input type='text' name='noticePeriod' value={internhip.noticePeriod} onChange={(e) => handleCompanyChange(internshipIndex , e)} className="w-full p-2 border rounded-md"/> */}
-                      <select name="noticePeriod" value={internhip.noticePeriod} onChange={(e) => handleCompanyChange(internshipIndex , e)} className="w-full p-2 border rounded-md">
-                        <option disabled value=''>Choose your notice period</option>
-                        <option value='Immediately Join'>Immediately Join</option>
-                        <option value='Less Than 15 Days'>Less than 15 days</option>
-                        <option value='One Month'>1 month</option>
-                        <option value='3 Months'>3 Months</option>
-                        <option value='More Than 3 Months'>More than 3 months</option>
-                    </select>
                     </div>
                     <div className="mb-4">
                       <label className="block text-gray-700">Internship Mode</label>

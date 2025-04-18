@@ -280,7 +280,7 @@ const WorkExperience = ({ nextStep, prevStep , url}) => {
         industry: '',
         totalCompanyExperience: '',
         roles: [
-          { title: '', startDate: '', endDate: '', currentlyWorking: false, description: '',ctc: '', noticePeriod: '',teamSize: '',jobType: '',jobMode: ''}
+          { title: '', startDate: '', endDate: '', currentlyWorking: false, description: '',ctc: '',teamSize: '',jobType: '',jobMode: ''}
         ]
       }
     ]
@@ -322,7 +322,6 @@ const WorkExperience = ({ nextStep, prevStep , url}) => {
       currentlyWorking: false,
       description: '',
       ctc: '', 
-      noticePeriod: '',
       teamSize: '',
       jobType: '',
       jobMode: ''
@@ -339,7 +338,7 @@ const WorkExperience = ({ nextStep, prevStep , url}) => {
         location: '',
         industry: '',
         totalCompanyExperience: '',
-        roles: [{ title: '', startDate: '', endDate: '', currentlyWorking: false, description: '' ,ctc: '', noticePeriod: '',teamSize: '',jobType: '',jobMode: ''}]
+        roles: [{ title: '', startDate: '', endDate: '', currentlyWorking: false, description: '' ,ctc: '', teamSize: '',jobType: '',jobMode: ''}]
       }
     ]);
   };
@@ -444,7 +443,7 @@ const WorkExperience = ({ nextStep, prevStep , url}) => {
           industry: '',
           totalCompanyExperience: '',
           roles: [
-            { title: '', startDate: '', endDate: '', currentlyWorking: false, description: '', ctc: '', noticePeriod: '', teamSize: '', jobType: '', jobMode: '' }
+            { title: '', startDate: '', endDate: '', currentlyWorking: false, description: '', ctc: '', teamSize: '', jobType: '', jobMode: '' }
           ]
         }
       ]);
@@ -500,7 +499,6 @@ const handleSubmit = async (e) => {
       !role.endDate &&
       !role.description &&
       !role.ctc &&
-      !role.noticePeriod &&
       !role.teamSize
     )
   );
@@ -579,17 +577,6 @@ const handleSubmit = async (e) => {
                   <div className="mb-4">
                     <label className="block text-gray-700">CTC (In LPA)</label>
                     <input type="number" name="ctc" style={{ textTransform: 'capitalize' }} value={role.ctc} onChange={(e) => handleRoleChange(companyIndex, roleIndex, e)} className="w-full p-2 border rounded-md" placeholder="Enter your current ctc in lpa" min={0}/>
-                  </div>
-                  <div className="mb-4">
-                    <label className="block text-gray-700">Notice period</label>
-                    <select name="noticePeriod" style={{ textTransform: 'capitalize' }} value={role.noticePeriod} onChange={(e) => handleRoleChange(companyIndex, roleIndex, e)} className="w-full p-2 border rounded-md">
-                      <option selected disabled value=''>Choose your notice period</option>
-                      <option value='Immediately Join'>Immediately Join</option>
-                      <option value='Less Than 15 Days'>Less than 15 days</option>
-                      <option value='1 Month'>1 month</option>
-                      <option value='3 Months'>3 Months</option>
-                      <option value='More Than 3 Months'>More than 3 months</option>
-                    </select>
                   </div>
                   <div className="mb-4">
                     <label className="block text-gray-700">Team size</label>
