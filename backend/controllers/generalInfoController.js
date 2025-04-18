@@ -52,10 +52,15 @@ const saveGeneralInfo = async (req, res) => {
 
     console.log("📥 Incoming data:", { userId, resumeId, ...generalInfoData });
 
+    // Sanitize photo field in case it's incorrectly sent as an object
+if (typeof generalInfoData.photo !== "string") {
+  delete generalInfoData.photo;
+}
+
     // 📸 Handle image upload
     if (req.file) {
       const result = await cloudinary.uploader.upload(req.file.path, {
-        folder: "photo",
+        folder: "photo",//cloudinary folder name 
       });
       generalInfoData.photo = result.secure_url; // 👈 Save the Cloudinary image URL
     }

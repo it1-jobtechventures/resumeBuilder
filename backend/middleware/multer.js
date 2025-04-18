@@ -8,7 +8,7 @@ import { CloudinaryStorage } from 'multer-storage-cloudinary';
 const storage = new CloudinaryStorage({
   cloudinary: cloudinary,
   params: {
-    folder: '/photos', // You can customize the folder name
+    folder: '/photo', // You can customize the folder name
     allowed_formats: ['jpg', 'jpeg', 'png'],
     transformation: [{ width: 500, height: 500, crop: 'limit' }],
   },
