@@ -55,7 +55,7 @@ const saveGeneralInfo = async (req, res) => {
     // 📸 Handle image upload
     if (req.file) {
       const result = await cloudinary.uploader.upload(req.file.path, {
-        folder: "resume_photos",
+        folder: "photo",
       });
       generalInfoData.photo = result.secure_url; // 👈 Save the Cloudinary image URL
     }
