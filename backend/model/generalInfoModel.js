@@ -21,6 +21,7 @@ const generalInfoSchema =  mongoose.Schema({
     designation: {type : String},
     summary : {type : String},
     photo: { type: String }, 
+    noticePeriod : {type: String}
   },
   { timestamps: true }
   );
