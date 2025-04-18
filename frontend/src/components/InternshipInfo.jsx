@@ -6,6 +6,8 @@ import {  useResume } from '../context/FormContext';
 import { AppContext } from '../context/AppContext';
 import axios from 'axios'
 import JoditEditor from 'jodit-react';
+import CreatableSelect from 'react-select/creatable'
+import location from "../assets/locationData";
 
   const InternshipInfo = ({ nextStep, prevStep , url}) => {
 
@@ -159,6 +161,13 @@ import JoditEditor from 'jodit-react';
     }
   }), []);
 
+      const locationOption = () =>{
+        return location.map((loc) => ({
+          value:loc.city_name.toLowerCase().replace(/\s+/g, '-'),
+          label: loc.city_name
+        }))
+      }
+
   const handleSave = async (e) => {
     e.preventDefault();
 
@@ -227,8 +236,12 @@ import JoditEditor from 'jodit-react';
                       <input type='text' placeholder='Enter Company name' name='company' style={{ textTransform: 'capitalize' }} value={internhip.company} onChange={(e) => handleCompanyChange(internshipIndex , e)} className="w-full p-2 border rounded-md"/>
                     </div>
                     <div className="mb-4">
-                    <label className="block text-[#4b164c]">Company Location</label>
-                    <input type='text' placeholder='ENter company location' name='location' style={{ textTransform: 'capitalize' }} value={internhip.location} onChange={(e) => handleCompanyChange(internshipIndex , e)} className="w-full p-2 border rounded-md"/>
+                      <label className="block text-[#4b164c]">Company Location</label>
+                      <CreatableSelect name="location" options={locationOption()} isSearchable style={{ textTransform: 'capitalize' }} 
+                        value={locationOption().find((loc) =>loc.value===internhip.location) || {label:internhip.location, value:internhip.location}} 
+                        onChange={(e) => handleCompanyChange(internshipIndex, {target:{name:'location',value:e.value}})} className="w-full p-2 border rounded-md" placeholder="Select an location" isClearable>
+                      </CreatableSelect>
+                    {/* <input type='text' placeholder='ENter company location' name='location' style={{ textTransform: 'capitalize' }} value={internhip.location} onChange={(e) => handleCompanyChange(internshipIndex , e)} className="w-full p-2 border rounded-md"/> */}
                     </div>
                     <div className="mb-4">
                       <label className="block text-[#4b164c]">Internship Title</label>

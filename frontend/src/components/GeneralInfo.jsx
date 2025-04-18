@@ -8,6 +8,7 @@ import { toast } from 'react-toastify';
 import axios from 'axios'
 import JoditEditor from 'jodit-react';
 import designationData from '../assets/designationData';
+import CreatableSelect from 'react-select/creatable'
 
 const GeneralInfo = ({nextStep , url}) => {
   const [countries, setCountries] = useState([]);
@@ -283,10 +284,17 @@ const GeneralInfo = ({nextStep , url}) => {
           </div>
           <div className="mb-4">
             <label className="block text-[#4b164c] font-bold">Designation<span className='text-red-700 pl-0.5'>*</span></label>
-            <Select name="designation" options={designationOption()} isSearchable style={{ textTransform: 'capitalize' }}
-              value={designationOption().find((des)=> des.value===formData.designation)}
-              onChange={(e) => handleChange({target:{name:'designation',value:e.value}})}  className="w-full p-2 border rounded-md" placeholder="Enter your Designation">
-            </Select>
+
+  <CreatableSelect
+    name="designation"
+    options={designationOption()}
+    isSearchable
+    value={designationOption().find((des) => des.value === formData.designation) || { label: formData.designation, value: formData.designation }}
+    onChange={(e) => handleChange({ target: { name: 'designation', value: e.value } })}
+    className="w-full p-2 border rounded-md"
+    placeholder="Enter your Designation"
+    isClearable
+  />
           </div>
           <div className='grid grid-cols-1 md:grid-cols-2 gap-4'>
             <div className="mb-4">

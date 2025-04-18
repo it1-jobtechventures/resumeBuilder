@@ -34978,6 +34978,16 @@ const clgName =[
                 "id": 7049,
                 "university_id": 986,
                 "college_name": "Institute of Acutaries of India, Navi Mumbai"
+            },
+            {
+                "id": 7050,
+                "university_id": 987,
+                "college_name" : "University of Mumbai"
+            },
+            {
+                "id": 7051,
+                "university_id": 988,
+                "college_name" : "Mumbai University"
             }
 ]
 

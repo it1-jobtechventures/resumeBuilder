@@ -8,6 +8,7 @@ import {  useResume } from '../context/FormContext';
 import { AppContext } from '../context/AppContext';
 import axios from 'axios'
 import clgName from "../assets/clgName";
+import CreatableSelect from 'react-select/creatable'
 
 const EducationInfo = ({ nextStep, prevStep , url }) => {
 
@@ -181,24 +182,24 @@ const EducationInfo = ({ nextStep, prevStep , url }) => {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div className="mb-4">
                 <label className="block text-gray-700">School Name</label>
-                <Select name="school" options={schoolName()} isSearchable style={{ textTransform: 'capitalize' }}
-                  value={schoolName().find((school)=> school.value===education.school)}
+                <CreatableSelect name="school" options={schoolName()} isSearchable style={{ textTransform: 'capitalize' }}
+                  value={schoolName().find((school)=> school.value===education.school) || {label:education.school,value:education.school}}
                   onChange={(e) => handleEducationChange(index  ,{target:{name:'school',value:e.value}})}  className="w-full p-2 border rounded-md" placeholder="Enter your School Name">
-                </Select>
+                </CreatableSelect>
               </div>
               <div className="mb-4">
                 <label className="block text-gray-700">Location</label>
-                <Select name="location" options={locationOption()} isSearchable  
-                  value={locationOption().find((loc) =>loc.value===education.location)} 
+                <CreatableSelect name="location" options={locationOption()} isSearchable  
+                  value={locationOption().find((loc) =>loc.value===education.location) || {label:education.location ,value:education.location}} 
                   onChange={(e) => handleEducationChange(index, {target:{name:'location',value:e.value}})} className="w-full p-2 border rounded-md" placeholder="Select an location">
-                </Select>
+                </CreatableSelect>
               </div>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
               <div className="mb-4">
                 <label className="block text-gray-700">Degree</label>
-                <Select options={degree()} style={{ textTransform: 'capitalize' }} isSearchable placeholder="Select Degree"
-                  value={degree().find((deg) => deg.value === education.degree)} // Find the selected degree
+                <CreatableSelect options={degree()} style={{ textTransform: 'capitalize' }} isSearchable placeholder="Select Degree"
+                  value={degree().find((deg) => deg.value === education.degree) || {label:education.degree , value:education.degree}} // Find the selected degree
                   onChange={(selectedOption) => {
                     const event = {target: {name: "degree", value: selectedOption?.value || "", } };
                     handleEducationChange(index, event);

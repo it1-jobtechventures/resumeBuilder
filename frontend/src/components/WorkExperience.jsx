@@ -263,6 +263,7 @@ import DatePicker from 'react-datepicker';
 import {  useResume } from '../context/FormContext';
 import { AppContext } from '../context/AppContext';
 import JoditEditor from 'jodit-react';
+import CreatableSelect from 'react-select/creatable'
 
 const WorkExperience = ({ nextStep, prevStep , url}) => {
   const [industries, setIndustries] = useState([]);
@@ -548,15 +549,15 @@ const handleSubmit = async (e) => {
               </div>
               <div className="mb-4">
                 <label className="block text-gray-700">Location</label>
-                <Select name="location" options={locationOption()} isSearchable style={{ textTransform: 'capitalize' }} 
-                  value={locationOption().find((loc) =>loc.value===company.location)} 
-                  onChange={(e) => handleCompanyChange(companyIndex, {target:{name:'location',value:e.value}})} className="w-full p-2 border rounded-md" placeholder="Select an location">
-                </Select>
+                <CreatableSelect name="location" options={locationOption()} isSearchable style={{ textTransform: 'capitalize' }} 
+                  value={locationOption().find((loc) =>loc.value===company.location) || {label:company.location, value:company.location}} 
+                  onChange={(e) => handleCompanyChange(companyIndex, {target:{name:'location',value:e.value}})} className="w-full p-2 border rounded-md" placeholder="Select an location" isClearable>
+                </CreatableSelect>
               </div>
               <div className="mb-4">
                 <label className="block text-gray-700">Company Industry</label>
-                <Select options={industriesOption()}  style={{ textTransform: 'capitalize' }} isSearchable placeholder="Select an industry..."
-                  value={industriesOption().find((ind) => ind.value === company.industry)} // Find the selected option based on value
+                <CreatableSelect options={industriesOption()}  style={{ textTransform: 'capitalize' }} isSearchable placeholder="Select an industry..."
+                  value={industriesOption().find((ind) => ind.value === company.industry) || {label:company.industry , value:company.industry}} // Find the selected option based on value
                   onChange={(selectedOption) => {handleCompanyChange(companyIndex, {target: { name: 'industry', value: selectedOption.value },});}}
                 />
               </div>
