@@ -3,7 +3,7 @@ import mongoose from "mongoose";
 const generalInfoSchema =  mongoose.Schema({
   
     // userId: { type: mongoose.Schema.Types.ObjectId, ref: "user", required: true }, // Link to User
-    userId:{type:String, required: true,},
+    // userId:{type:String, required: true,},
     resumeId: { type: mongoose.Schema.Types.ObjectId, ref: "resume", required: true }, // Link to Resume
     firstName: { type: String, required: true },
     lastName: { type: String, required: true },
@@ -19,7 +19,8 @@ const generalInfoSchema =  mongoose.Schema({
     address: { type: String },
     experience: { type: String },
     designation: {type : String},
-    summary : {type : String}
+    summary : {type : String},
+    photo: { type: String }, 
   },
   { timestamps: true }
   );

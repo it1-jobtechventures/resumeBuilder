@@ -1,74 +1,9 @@
 import generalInfoModel from '../model/generalInfoModel.js'
 import resumeModel from '../model/resumeModel.js';
-
-// // Create or Update General Info
+import cloudinary from "../config/cloudinary.js";
 // const saveGeneralInfo = async (req, res) => {
 //   try {
-//     const userId = req.user.id;
-//     const { resumeId, ...generalInfoData } = req.body;
-
-//     let generalInfo = await generalInfoModel.findOne({ userId, resumeId });
-
-//     if (generalInfo) {
-//       generalInfo = await generalInfoModel.findOneAndUpdate(
-//         { userId, resumeId },
-//         generalInfoData,
-//         { new: true }
-//       );
-//       return res.status(200).json({ message: "General Info updated", generalInfo });
-//     }
-
-//     const newGeneralInfo = new generalInfoModel ({ userId, resumeId, ...generalInfoData });
-//     await newGeneralInfo.save();
-
-//     res.status(201).json({ message: "General Info saved", generalInfo: newGeneralInfo });
-//   } catch (error) {
-//     res.status(500).json({ error: error.message });
-//   }
-// };
-
-
-
-// // Create or Update General Info
-// const saveGeneralInfo = async (req, res) => {
-//   try {
-//     const userId = req.user.id;
-//     const { resumeId, ...generalInfoData } = req.body;
-
-//     let generalInfo = await generalInfoModel.findOne({ userId, resumeId });
-
-//     if (generalInfo) {
-//       generalInfo = await generalInfoModel.findOneAndUpdate(
-//         { userId, resumeId },
-//         generalInfoData,
-//         { new: true }
-//       );
-
-//       // Make sure resume gets updated if it's not linked yet
-//       await resumeModel.findByIdAndUpdate(resumeId, {
-//         generalInfo: generalInfo._id
-//       });
-
-//       return res.status(200).json({ message: "General Info updated", generalInfo });
-//     }
-
-//     const newGeneralInfo = new generalInfoModel({ userId, resumeId, ...generalInfoData });
-//     await newGeneralInfo.save();
-
-//     // 🧠 Update resume with generalInfo ID
-//     await resumeModel.findByIdAndUpdate(resumeId, {
-//       generalInfo: newGeneralInfo._id
-//     });
-
-//     res.status(201).json({ message: "General Info saved", generalInfo: newGeneralInfo });
-//   } catch (error) {
-//     res.status(500).json({ error: error.message });
-//   }
-// };
-
-// const saveGeneralInfo = async (req, res) => {
-//   try {
-//     const userId = req.user.id;
+//     const userId = req.body.userId; // ✅ Fixed
 //     const { resumeId, ...generalInfoData } = req.body;
 
 //     console.log("📥 Incoming data:", { userId, resumeId, ...generalInfoData });
@@ -112,10 +47,18 @@ import resumeModel from '../model/resumeModel.js';
 
 const saveGeneralInfo = async (req, res) => {
   try {
-    const userId = req.body.userId; // ✅ Fixed
+    const userId = req.body.userId;
     const { resumeId, ...generalInfoData } = req.body;
 
     console.log("📥 Incoming data:", { userId, resumeId, ...generalInfoData });
+
+    // 📸 Handle image upload
+    if (req.file) {
+      const result = await cloudinary.uploader.upload(req.file.path, {
+        folder: "resume_photos",
+      });
+      generalInfoData.photo = result.secure_url; // 👈 Save the Cloudinary image URL
+    }
 
     let generalInfo = await generalInfoModel.findOne({ userId, resumeId });
 
@@ -129,7 +72,7 @@ const saveGeneralInfo = async (req, res) => {
       );
 
       await resumeModel.findByIdAndUpdate(resumeId, {
-        generalInfo: generalInfo._id
+        generalInfo: generalInfo._id,
       });
 
       console.log("✅ Updated generalInfo:", generalInfo);
@@ -138,11 +81,12 @@ const saveGeneralInfo = async (req, res) => {
     }
 
     console.log("➕ Creating new generalInfo");
+
     const newGeneralInfo = new generalInfoModel({ userId, resumeId, ...generalInfoData });
     await newGeneralInfo.save();
 
     await resumeModel.findByIdAndUpdate(resumeId, {
-      generalInfo: newGeneralInfo._id
+      generalInfo: newGeneralInfo._id,
     });
 
     console.log("✅ Saved new generalInfo:", newGeneralInfo);
@@ -153,7 +97,6 @@ const saveGeneralInfo = async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 };
-
 
 // Fetch General Info for a Resume
 const getGeneralInfo = async (req, res) => {
