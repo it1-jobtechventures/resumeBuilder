@@ -7,6 +7,7 @@ import { AppContext } from '../context/AppContext';
 import { toast } from 'react-toastify';
 import axios from 'axios'
 import JoditEditor from 'jodit-react';
+import designationData from '../assets/designationData';
 
 const GeneralInfo = ({nextStep , url}) => {
   const [countries, setCountries] = useState([]);
@@ -197,6 +198,13 @@ const GeneralInfo = ({nextStep , url}) => {
     }
   };
   
+  const designationOption = () => {
+    return designationData.map((des) => ({
+      value :des.role,
+      label:des.role
+    }))
+  }
+
   const handleSave = async (e) => {
     e.preventDefault();
     if (!validateForm()) return;
@@ -274,9 +282,12 @@ const GeneralInfo = ({nextStep , url}) => {
             </div>
           </div>
           <div className="mb-4">
-              <label className="block text-[#4b164c] font-bold">Designation<span className='text-red-700 pl-0.5'>*</span></label>
-              <input type="text" style={{ textTransform: 'capitalize' }} name="designation" value={formData.designation} onChange={handleChange} className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400 focus:outline-none" placeholder="Designation" required/>
-            </div>
+            <label className="block text-[#4b164c] font-bold">Designation<span className='text-red-700 pl-0.5'>*</span></label>
+            <Select name="designation" options={designationOption()} isSearchable style={{ textTransform: 'capitalize' }}
+              value={designationOption().find((des)=> des.value===formData.designation)}
+              onChange={(e) => handleChange({target:{name:'designation',value:e.value}})}  className="w-full p-2 border rounded-md" placeholder="Enter your Designation">
+            </Select>
+          </div>
           <div className='grid grid-cols-1 md:grid-cols-2 gap-4'>
             <div className="mb-4">
               <label className="block text-[#4b164c] font-bold">Primary Number<span className='text-red-700 pl-0.5'>*</span></label>
