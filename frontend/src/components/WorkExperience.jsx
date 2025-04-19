@@ -352,10 +352,10 @@ const WorkExperience = ({ nextStep, prevStep , url}) => {
           toast.error('Location is required when adding a company name.');
           return false;
         }
-        if (!company.totalCompanyExperience) {
-          toast.error('Company Experience is required when adding a company name.');
-          return false;
-        }
+        // if (!company.totalCompanyExperience) {
+        //   toast.error('Company Experience is required when adding a company name.');
+        //   return false;
+        // }
         for (const role of company.roles) {
           if (!role.title.trim()) {
             toast.error('Job Title is required when adding a company name.');
