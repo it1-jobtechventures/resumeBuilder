@@ -6,6 +6,7 @@ const generalInfoSchema =  mongoose.Schema({
     // userId:{type:String, required: true,},
     resumeId: { type: mongoose.Schema.Types.ObjectId, ref: "resume", required: true }, // Link to Resume
     firstName: { type: String, required: true },
+    middleName: { type: String },
     lastName: { type: String, required: true },
     email: { type: String, required: true },
     dob: { type: String },
