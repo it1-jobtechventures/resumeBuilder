@@ -352,10 +352,6 @@ const WorkExperience = ({ nextStep, prevStep , url}) => {
           toast.error('Location is required when adding a company name.');
           return false;
         }
-        // if (!company.totalCompanyExperience) {
-        //   toast.error('Company Experience is required when adding a company name.');
-        //   return false;
-        // }
         for (const role of company.roles) {
           if (!role.title.trim()) {
             toast.error('Job Title is required when adding a company name.');
@@ -537,129 +533,114 @@ const handleSubmit = async (e) => {
 
   return (
     <>
-      <div className="p-6 bg-white shadow-lg rounded-lg">
-        <h2 className="text-2xl font-bold text-center bg-gradient-to-r from-green-500 to-blue-500 text-white p-3 rounded-md mb-4">Work Experience</h2>
-        <form className='p-6'>
-          {workExperience.map((company, companyIndex) => (
-            <div key={companyIndex} className="border p-4 rounded-md mb-6">
-              <h3 className="text-lg font-semibold mb-2">Company {companyIndex + 1}</h3>
-              <div className="mb-4">
-                <label className="block text-gray-700">Company Name</label>
-                <input type="text" name="company" style={{ textTransform: 'capitalize' }} value={company.company} onChange={(e) => handleCompanyChange(companyIndex, e)} className="w-full p-2 border rounded-md" placeholder="Enter company name"/>
+      <form className="grid gap-6">
+        {workExperience.map((company, companyIndex) => (
+          <div key={companyIndex} className="border border-gray-300 p-6 rounded-lg shadow-md">
+            <h3 className="text-xl font-semibold mb-4 text-[#4b164c]">Company {companyIndex + 1}</h3>
+            {/* Company Info */}
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+              <div>
+                <label className="block text-gray-700 font-medium">Company Name</label>
+                <input type="text" name="company" className="w-full p-3 border rounded-md capitalize" placeholder="Enter company name" value={company.company} onChange={(e) => handleCompanyChange(companyIndex, e)}/>
               </div>
-              <div className="mb-4">
-                <label className="block text-gray-700">Location</label>
-                <CreatableSelect name="location" options={locationOption()} isSearchable style={{ textTransform: 'capitalize' }} 
-                  value={locationOption().find((loc) =>loc.value===company.location) || {label:company.location, value:company.location}} 
-                  onChange={(e) => handleCompanyChange(companyIndex, {target:{name:'location',value:e.value}})} className="w-full p-2 border rounded-md" placeholder="Select an location" isClearable>
-                </CreatableSelect>
+              <div>
+                <label className="block text-gray-700 font-medium">Location</label>
+                <CreatableSelect name="location" options={locationOption()} isSearchable className="capitalize" value={ locationOption().find((loc) => loc.value === company.location) || { label: company.location, value: company.location,}}onChange={(e) =>handleCompanyChange(companyIndex, {target: { name: 'location', value: e.value },}) }placeholder="Select a location"isClearable/>
               </div>
-              <div className="mb-4">
-                <label className="block text-gray-700">Company Industry</label>
-                <CreatableSelect options={industriesOption()}  style={{ textTransform: 'capitalize' }} isSearchable placeholder="Select an industry..."
-                  value={industriesOption().find((ind) => ind.value === company.industry) || {label:company.industry , value:company.industry}} // Find the selected option based on value
-                  onChange={(selectedOption) => {handleCompanyChange(companyIndex, {target: { name: 'industry', value: selectedOption.value },});}}
-                />
+              <div>
+                <label className="block text-gray-700 font-medium">Company Industry</label>
+                <CreatableSelect options={industriesOption()} className="capitalize" isSearchable placeholder="Select an industry..." value={industriesOption().find((ind) => ind.value === company.industry) || {label: company.industry, value: company.industry, }} onChange={(selectedOption) =>handleCompanyChange(companyIndex, {target: { name: 'industry', value: selectedOption.value },}) }/>
               </div>
-              <div className="mb-4">
-                <label className="block text-gray-700">Company Experience</label>
-                <input type="Number" min={0} name="totalCompanyExperience" value={company.totalCompanyExperience} onChange={(e) => handleCompanyChange(companyIndex, e)} className="w-full p-2 border rounded-md" placeholder="total Company Experience In Year"/>
+              <div>
+                <label className="block text-gray-700 font-medium">Company Experience</label>
+                <input type="number" min={0} name="totalCompanyExperience" className="w-full p-3 border rounded-md" value={company.totalCompanyExperience} placeholder="Total experience in years" onChange={(e) => handleCompanyChange(companyIndex, e)}/>
               </div>
-              <button type="button" onClick={() => removeCompany(companyIndex )} className="mb-6 bg-[linear-gradient(90deg,_hsla(133,_68%,_60%,_1)_0%,_hsla(205,_97%,_42%,_1)_100%)] cursor-pointer text-white px-4 py-2 rounded-md ">
-                - remove company
+            </div>
+            <div className="mt-4">
+              <button type="button" onClick={() => removeCompany(companyIndex)} className="text-sm bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-md transition" >
+                – Remove Company
               </button>
-              {company.roles.map((role, roleIndex) => (
-                <div key={roleIndex} className="border-l-4 border-blue-500 p-4 mb-4 pt-4">
-                  <h4 className="text-md font-semibold mb-2">Position {roleIndex + 1}</h4>
-                  <div className="mb-4">
-                    <label className="block text-gray-700">Job Title</label>
-                    <input type="text" name="title" style={{ textTransform: 'capitalize' }} value={role.title} onChange={(e) => handleRoleChange(companyIndex, roleIndex, e)} className="w-full p-2 border rounded-md" placeholder="Enter your job title"/>
+            </div>
+            {/* Roles */}
+            {company.roles.map((role, roleIndex) => (
+              <div key={roleIndex}className="mt-6 border-l-4 border-blue-500 pl-4 py-4 rounded-lg bg-gray-50" >
+                <h4 className="text-lg font-semibold mb-4">Designation {roleIndex + 1}</h4>
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                  <div>
+                    <label className="block text-gray-700 font-medium">Job Title</label>
+                    <input type="text" name="title" value={role.title} className="w-full p-3 border rounded-md capitalize" onChange={(e) => handleRoleChange(companyIndex, roleIndex, e)} placeholder="Enter your job title" />
                   </div>
-                  <div className="mb-4">
-                    <label className="block text-gray-700">CTC (In LPA)</label>
-                    <input type="number" name="ctc" style={{ textTransform: 'capitalize' }} value={role.ctc} onChange={(e) => handleRoleChange(companyIndex, roleIndex, e)} className="w-full p-2 border rounded-md" placeholder="Enter your current ctc in lpa" min={0}/>
+                  <div>
+                    <label className="block text-gray-700 font-medium">CTC (In LPA)</label>
+                    <input type="number" name="ctc" min={0} className="w-full p-3 border rounded-md" value={role.ctc} placeholder="Current CTC" onChange={(e) => handleRoleChange(companyIndex, roleIndex, e)}/>
                   </div>
-                  <div className="mb-4">
-                    <label className="block text-gray-700">Team size</label>
-                    <input type="number" min={0} name="teamSize" value={role.teamSize} onChange={(e) => handleRoleChange(companyIndex, roleIndex, e)} className="w-full p-2 border rounded-md" placeholder="Enter your job title"/>
+                  <div>
+                    <label className="block text-gray-700 font-medium">Team Size</label>
+                    <input type="number" min={0} name="teamSize" className="w-full p-3 border rounded-md" value={role.teamSize} onChange={(e) => handleRoleChange(companyIndex, roleIndex, e)} placeholder="Team size"/>
                   </div>
-                  <div className="mb-4">
-                    <label className="block text-gray-700">Job Type</label>
-                    <Select options={jobTypeOptions()} value={jobTypeOptions().find(option => option.value === role.jobType)} 
-                      onChange={(selectedOption) => { handleRoleChange(companyIndex, roleIndex, { target: { name: 'jobType', value: selectedOption?.value },});}}className="w-full p-2 border rounded-md"placeholder="Select your job type" isSearchable
-                    />
+                  <div>
+                    <label className="block text-gray-700 font-medium">Job Type</label>
+                    <Select options={jobTypeOptions()}value={jobTypeOptions().find((opt) => opt.value === role.jobType)}onChange={(selectedOption) => handleRoleChange(companyIndex, roleIndex, {target: { name: 'jobType', value: selectedOption?.value },}) }placeholder="Select job type"className="w-full" isSearchable />
                   </div>
-                  <div className="mb-4">
-                    <label className="block text-gray-700">Job Mode</label>
-                    <select name="jobMode" style={{ textTransform: 'capitalize' }} value={role.jobMode} onChange={(e) => handleRoleChange(companyIndex,roleIndex, e)} className="w-full p-2 border rounded-md mb-2">
-                      <option selected disabled value=''>Select your job Mode</option>
+                  <div>
+                    <label className="block text-gray-700 font-medium">Job Mode</label>
+                    <select name="jobMode" className="w-full p-3 border rounded-md capitalize" value={role.jobMode} onChange={(e) => handleRoleChange(companyIndex, roleIndex, e)}>
+                      <option value="">Select job mode</option>
                       <option value="WFH">Work From Home</option>
                       <option value="WFO">Work From Office</option>
                       <option value="Hybrid">Hybrid</option>
                     </select>
                   </div>
-                  <div className="flex gap-4">
-                    <div className="mb-4 w-1/2">
-                      <label className="block text-gray-700">Starting Date</label>
-                      <DatePicker
-                        selected={role.startDate ? new Date(role.startDate) : null}
-                        onChange={(date) => handleDateChange(date, companyIndex, roleIndex, 'startDate')}
-                        dateFormat="dd/MM/yyyy"
-                        className="w-full p-2 border rounded-md"
-                        placeholderText="Select start date"
-                        dropdownMode='select'
-                        showMonthDropdown
-                        showYearDropdown
-                      />
-                    </div>
-                    <div className="mb-4 w-1/2">
-                      <label className="block text-gray-700">Ending Date</label>
-                      <DatePicker
-                        selected={role.endDate ? new Date(role.endDate) : null}
-                        onChange={(date) => handleDateChange(date, companyIndex, roleIndex, 'endDate')}
-                        dateFormat="dd/MM/yyyy"
-                        disabled={role.currentlyWorking}
-                        className="w-full p-2 border rounded-md"
-                        placeholderText="Select end date"
-                        dropdownMode='select'
-                        showMonthDropdown
-                        showYearDropdown
-                      />
-                    </div>
+                </div>
+                {/* Dates and Checkbox */}
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-4">
+                  <div>
+                    <label className="block text-gray-700 font-medium">Start Date</label>
+                    <DatePicker selected={role.startDate ? new Date(role.startDate) : null} onChange={(date) => handleDateChange(date, companyIndex, roleIndex, 'startDate')} dateFormat="dd/MM/yyyy" className="w-full p-3 border rounded-md" placeholderText="Select start date" dropdownMode="select" showMonthDropdown showYearDropdown/>
                   </div>
-                  <div className="mb-4 flex items-center gap-2">
-                    <input type="checkbox" checked={role.currentlyWorking} onChange={() => toggleCurrentlyWorking(companyIndex, roleIndex)} className="h-5 w-5"/>
-                    <label className="text-gray-700">I currently work here</label>
-                  </div>
-                  <div className="mb-4">
-                    <label className="block text-gray-700">Job Description</label>
-                    <JoditEditor value={role.description} config={editorConfig} onBlur={(newContent) => {const updatedExperience = [...workExperience];updatedExperience[companyIndex].roles[roleIndex].description = newContent; setWorkExperience(updatedExperience);}}/>
-                  </div>
-                  <div className='flex justify-between flex-col gap-5 lg:flex-row'>
-                    <button type="button" onClick={() => addNewRole(companyIndex)} className="bg-[linear-gradient(90deg,_hsla(133,_68%,_60%,_1)_0%,_hsla(205,_97%,_42%,_1)_100%)] cursor-pointer text-white px-4 py-2 rounded-md hover:bg-[linear-gradient(90deg,_hsla(205,_97%,_42%,_1)_0%,_hsla(133,_68%,_60%,_1)_100%)]">
-                      + Add Another Designation in this Company
-                    </button>
-                    <button type="button" onClick={() => removeRole(companyIndex ,roleIndex)} className="bg-[linear-gradient(90deg,_hsla(133,_68%,_60%,_1)_0%,_hsla(205,_97%,_42%,_1)_100%)] cursor-pointer text-white px-4 py-2 rounded-md hover:bg-red-600">
-                      - remove role
-                    </button>
+                  <div>
+                    <label className="block text-gray-700 font-medium">End Date</label>
+                    <DatePicker selected={role.endDate ? new Date(role.endDate) : null} onChange={(date) => handleDateChange(date, companyIndex, roleIndex, 'endDate')} dateFormat="dd/MM/yyyy" className="w-full p-3 border rounded-md" disabled={role.currentlyWorking} placeholderText="Select end date" dropdownMode="select" showMonthDropdown showYearDropdown/>
                   </div>
                 </div>
-              ))}
-            </div>
-          ))}
-          <button type="button" onClick={addNewCompany} className=" w-full bg-[linear-gradient(90deg,_hsla(133,_68%,_60%,_1)_0%,_hsla(205,_97%,_42%,_1)_100%)] cursor-pointer text-white px-4 py-2 rounded-md hover:bg-[linear-gradient(90deg,_hsla(205,_97%,_42%,_1)_0%,_hsla(133,_68%,_60%,_1)_100%)]">
+                {/* Checkbox */}
+                <div className="mt-4 flex items-center gap-2">
+                  <input type="checkbox" checked={role.currentlyWorking} onChange={() => toggleCurrentlyWorking(companyIndex, roleIndex)} className="h-5 w-5"/>
+                  <label className="text-gray-700">I currently work here</label>
+                </div>
+                {/* Description */}
+                <div className="mt-4">
+                  <label className="block text-gray-700 font-medium">Job Description</label>
+                  <JoditEditor value={role.description} config={editorConfig} onBlur={(newContent) => {const updatedExperience = [...workExperience]; updatedExperience[companyIndex].roles[roleIndex].description = newContent; setWorkExperience(updatedExperience);  }} />
+                </div>
+                {/* Add/Remove Role Buttons */}
+                <div className="flex flex-col lg:flex-row justify-between items-center gap-4 mt-6">
+                  <button type="button" onClick={() => addNewRole(companyIndex)} className="bg-gradient-to-r from-green-400 to-blue-500 hover:from-blue-500 hover:to-green-400 text-white px-4 py-2 rounded-md transition">
+                    + Add Another Designation in this Company
+                  </button>
+                  <button type="button" onClick={() => removeRole(companyIndex, roleIndex)} className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-md transition">
+                    – Remove Role
+                  </button>
+                </div>
+              </div>
+            ))}
+          </div>
+        ))}
+        {/* Add Company + Navigation */}
+        <div className="flex flex-col sm:flex-row justify-between items-center gap-4 mt-6">
+          <button type="button" onClick={addNewCompany} className="w-full sm:w-auto bg-gradient-to-r from-green-400 to-blue-500 hover:from-blue-500 hover:to-green-400 text-white px-6 py-3 rounded-md transition">
             + Add Another Company
           </button>
-          <div className="flex justify-between mt-6">
-            <button type="button" onClick={prevStep} className="bg-gray-500 text-white px-4 py-2 rounded-md hover:bg-gray-600">
+          <div className="flex gap-4 mt-4 sm:mt-0">
+            <button type="button" onClick={prevStep} className="bg-gray-500 hover:bg-gray-600 text-white px-6 py-3 rounded-md transition">
               Previous
             </button>
-            <button type="button" onClick={handleSubmit} className="bg-[linear-gradient(90deg,_hsla(133,_68%,_60%,_1)_0%,_hsla(205,_97%,_42%,_1)_100%)] cursor-pointer text-white px-4 py-2 rounded-md hover:bg-[linear-gradient(90deg,_hsla(205,_97%,_42%,_1)_0%,_hsla(133,_68%,_60%,_1)_100%)]">
+            <button type="button"  onClick={handleSubmit} className="bg-gradient-to-r from-green-400 to-blue-500 hover:from-blue-500 hover:to-green-400 text-white px-6 py-3 rounded-md transition">
               Next
             </button>
           </div>
-        </form>
-      </div>
+        </div>
+      </form>
     </>
   );
 };

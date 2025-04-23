@@ -20,12 +20,6 @@ const SkillsInfo = ({ nextStep, prevStep , url }) => {
     localStorage.setItem('skills' , JSON.stringify(skills))
   },[skills])
   
-  // // Handle skill name change
-  // const handleSkillChange = (index, event) => {
-  //   const updatedSkills = [...skills];
-  //   updatedSkills[index].name = event.target.value;
-  //   setSkills(updatedSkills);
-  // };
   const handleSkillChange = (index, event) => {
     const updatedSkills = [...skills];
     const value = event.target.value;
@@ -66,35 +60,6 @@ const SkillsInfo = ({ nextStep, prevStep , url }) => {
     }
   },[])
 
-    // const handleSave = async (e) => {
-    //   e.preventDefault();
-     
-    
-    //   if (!resumeId) {
-    //     toast.error("Resume ID is missing");
-    //     console.error("❌ Resume ID is undefined");
-    //     return;
-    //   }
-    
-    //   console.log("📤 Sending data to backend:", { resumeId, ...skills });
-    
-    //   try {
-    //     const data = await axios.post(`${url}/api/skills/add-skills`, {
-    //       userId: localStorage.getItem("temporaryUserId"),
-    //       resumeId,
-    //       skills,
-    //     });
-    
-    //     console.log("✅ Response from backend:", data);
-    
-
-    //     toast.success(data.message || 'Saved successfully');
-    //     nextStep();
-    //   } catch (error) {
-    //     console.error("❌ Error from backend:", error.response?.data || error);
-    //     toast.error(error.response?.data?.error || 'Save failed');
-    //   }
-    // };
     const handleSave = async (e) => {
       e.preventDefault();
       
@@ -133,34 +98,34 @@ const SkillsInfo = ({ nextStep, prevStep , url }) => {
     
   return (
     <>
-      <div className="max-w-2xl mx-auto">
-        <h2 className="text-2xl text-white h-12 flex items-center justify-center font-bold rounded-lg mb-4 shadow-md bg-[linear-gradient(90deg,_hsla(133,_68%,_60%,_1)_0%,_hsla(205,_97%,_42%,_1)_100%)]">Skills</h2>
-        <form className="p-6 bg-white shadow-md rounded-lg">
+      <div className="max-w-2xl mx-auto p-4 sm:p-6">
+        <h2 className="text-2xl font-bold text-white text-center h-12 flex items-center justify-center rounded-lg mb-6 shadow-md bg-gradient-to-r from-green-500 to-blue-500">
+          Skills
+        </h2>
+        <form className="p-6 bg-white shadow-md rounded-lg space-y-6">
           {skills.map((skill, index) => (
-            <div key={index} className="mb-6 border p-4 rounded-md relative bg-gray-50">
-              <div className="flex justify-between items-center mb-2">
-                <label className="block text-gray-700">Skill {index + 1}</label>
-                {
-                  skills.length > 1 && (
-                    <button type="button" onClick={() => removeSkill(index)} className="text-red-600 hover:text-red-800 transition-all duration-300">
-                      <Trash2 size={18} />
-                    </button>
-                  )
-                }
+            <div key={index} className="border p-4 rounded-md bg-gray-50 relative animate-fade-in">
+              <div className="flex justify-between items-center mb-3">
+                <label className="text-gray-700 font-medium"> Skill {index + 1} </label>
+                {skills.length > 1 && (
+                  <button type="button" onClick={() => removeSkill(index)} className="text-red-600 hover:text-red-800 transition-colors duration-300" aria-label={`Remove skill ${index + 1}`} >
+                    <Trash2 size={18} />
+                  </button>
+                )}
               </div>
-              <input type="text" value={skill.name} style={{ textTransform: 'capitalize' }} onChange={(e) => handleSkillChange(index, e)} className="w-full p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400 mb-3" placeholder="Enter a skill (e.g., JavaScript)"/>
-              <label className="block text-gray-700 font-semibold mb-1">Proficiency ({skill.level}%)</label>
-              <input type="range" min="0" max="100" value={skill.level} onChange={(e) => handleSkillLevelChange(index, e)} className="w-full accent-green-500 hover:accent-green-600 cursor-pointer"/>
+              <input type="text" value={skill.name} onChange={(e) => handleSkillChange(index, e)} placeholder="e.g., JavaScript" className="w-full p-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400 capitalize"/>
+              <label className="block mt-4 text-gray-700 font-semibold">Proficiency: {skill.level}% </label>
+              <input type="range" min="0" max="100" value={skill.level} onChange={(e) => handleSkillLevelChange(index, e)} className="w-full mt-1 accent-green-500 hover:accent-green-600 transition-all cursor-pointer"/>
             </div>
           ))}
-          <button type="button" onClick={addSkill} className="w-full bg-[linear-gradient(90deg,_hsla(133,_68%,_60%,_1)_0%,_hsla(205,_97%,_42%,_1)_100%)] cursor-pointer text-white px-4 py-2 rounded-md hover:bg-[linear-gradient(90deg,_hsla(205,_97%,_42%,_1)_0%,_hsla(133,_68%,_60%,_1)_100%)] transition-all duration-300 mt-2 shadow-md">
+          <button type="button" onClick={addSkill}className="w-full bg-gradient-to-r from-green-500 to-blue-500 text-white px-6 py-3 rounded-md hover:from-blue-500 hover:to-green-500 transition-all duration-300 shadow-md">
             + Add Another Skill
           </button>
-          <div className="flex justify-between mt-6">
-            <button type="button" onClick={prevStep} className="bg-gray-500 text-white px-4 py-2 rounded-md hover:bg-gray-600">
+          <div className="flex flex-col sm:flex-row justify-between gap-4 mt-6">
+            <button type="button" onClick={prevStep} className="w-full sm:w-auto bg-gray-500 text-white px-6 py-3 rounded-md hover:bg-gray-600 transition">
               Previous
             </button>
-            <button type="button" onClick={handleSave} className="bg-[linear-gradient(90deg,_hsla(133,_68%,_60%,_1)_0%,_hsla(205,_97%,_42%,_1)_100%)] cursor-pointer text-white px-4 py-2 rounded-md hover:bg-[linear-gradient(90deg,_hsla(205,_97%,_42%,_1)_0%,_hsla(133,_68%,_60%,_1)_100%)]">
+            <button type="button" onClick={handleSave} className="w-full sm:w-auto bg-gradient-to-r from-green-500 to-blue-500 text-white px-6 py-3 rounded-md hover:from-blue-500 hover:to-green-500 transition-all" >
               Next
             </button>
           </div>

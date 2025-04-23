@@ -1,52 +1,46 @@
 @import url('https://fonts.googleapis.com/css2?family=Material+Icons');
 @import "tailwindcss";
 
-/* @keyframes popUp {
-    0% {
-      opacity: 0;
-      transform: translateY(20px);
-    }
-    50% {
-      opacity: 1;
-      transform: translateY(0);
-    }
-    100% {
-      opacity: 0;
-      transform: translateY(20px);
-    }
+@keyframes enhancedPopUp {
+  0% {
+    opacity: 0;
+    transform: scale(0.95);
+    border-color: transparent;
+    box-shadow: none;
   }
-  
-  .popup {
-    animation: popUp 2s ease-in-out infinite;
+  50% {
+    opacity: 1;
+    transform: scale(1.02);
+    border-color: #54df71; /* Light green */
+    box-shadow: 0 0 10px rgba(84, 223, 113, 0.4);
   }
-   */
-
-   @keyframes popUp {
-    0% {
-      opacity: 0;
-      border-width: 0;
-    }
-    50% {
-      opacity: 1;
-      border-width: 2px; /* Adjust this value based on the desired border thickness */
-    }
-    100% {
-      opacity: 1;
-      border-width: 2px; /* Maintain the border thickness */
-    }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+    border-color: #037cd5; /* Blue highlight */
+    box-shadow: 0 0 5px rgba(3, 124, 213, 0.3);
+  }
 }
 
 .popup {
-  animation: popUp 1s infinite;
-  border: solid transparent; /* Initially transparent border */
-  border-width: 0px; /* Initial border width */
-  border-color: #000; /* You can adjust this color */
+  animation: enhancedPopUp 2.5s ease-in-out infinite;
+  border: 2px solid transparent;
+  border-radius: 0.5rem;
+  background: linear-gradient(135deg, #f0f9ff, #e0f7ec);
+  transition: all 0.3s ease-in-out;
 }
 
-.input {
-  @apply w-full px-4 py-2 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-400;
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
-.btn-primary {
-  @apply bg-blue-500 hover:bg-blue-600 text-white font-semibold px-6 py-2 rounded-md shadow;
+.template-card {
+  animation: fadeUp 0.5s ease-in-out;
 }

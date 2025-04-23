@@ -10,7 +10,6 @@ import CreatableSelect from 'react-select/creatable'
 import location from "../assets/locationData";
 
   const InternshipInfo = ({ nextStep, prevStep , url}) => {
-
     const [internshipExperience , setInternshipExperience] = useState(() => {
       const savedData = localStorage.getItem('internshipExperience')
       return savedData ? JSON.parse(savedData) : 
@@ -212,8 +211,6 @@ import location from "../assets/locationData";
       });
   
       console.log("✅ Response from backend:", data);
-      
-
       toast.success(data.message || 'Saved successfully');
       nextStep();
     } catch (error) {
@@ -223,102 +220,104 @@ import location from "../assets/locationData";
   };
     return (
       <>
-        <div className="p-4 md:p-6 max-w-3xl mx-auto">
-          <h2 className="text-xl md:text-2xl font-bold text-center h-10 mb-4 bg-gradient-to-r from-green-500 to-blue-500 text-white">Internship Experience</h2>
-          <form>
-            {
-              internshipExperience.map((internhip , internshipIndex) => (
-                <div key={internshipIndex} className="border p-4 rounded-lg mb-6 shadow-md bg-white">
-                  <h3 className="text-lg font-semibold mb-2">Internship {internshipIndex + 1}</h3>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div>
-                      <label className="block text-[#4b164c]">Company Name</label>
-                      <input type='text' placeholder='Enter Company name' name='company' style={{ textTransform: 'capitalize' }} value={internhip.company} onChange={(e) => handleCompanyChange(internshipIndex , e)} className="w-full p-2 border rounded-md"/>
-                    </div>
-                    <div className="mb-4">
-                      <label className="block text-[#4b164c]">Company Location</label>
-                      <CreatableSelect name="location" options={locationOption()} isSearchable style={{ textTransform: 'capitalize' }} 
-                        value={locationOption().find((loc) =>loc.value===internhip.location) || {label:internhip.location, value:internhip.location}} 
-                        onChange={(e) => handleCompanyChange(internshipIndex, {target:{name:'location',value:e.value}})} className="w-full p-2 border rounded-md" placeholder="Select an location" isClearable>
-                      </CreatableSelect>
-                    {/* <input type='text' placeholder='ENter company location' name='location' style={{ textTransform: 'capitalize' }} value={internhip.location} onChange={(e) => handleCompanyChange(internshipIndex , e)} className="w-full p-2 border rounded-md"/> */}
-                    </div>
-                    <div className="mb-4">
-                      <label className="block text-[#4b164c]">Internship Title</label>
-                      <input type='text' placeholder='Enter Internship title' name='title' style={{ textTransform: 'capitalize' }} value={internhip.title} onChange={(e) => handleCompanyChange(internshipIndex , e)} className="w-full p-2 border rounded-md"/>
-                    </div>
-                    <div className="mb-4">
-                      <label className="block text-[#4b164c]">Starting Date</label>
-                      {/* <input type='date' name='startDate' value={internhip.startDate} onChange={(e) => handleCompanyChange(internshipIndex , e)} className="w-full p-2 border rounded-md"/> */}
-                      <DatePicker placeholderText='Joining Date'
-                    selected={internhip.startDate ? new Date(internhip.startDate) : null}
-                    onChange={(date) => handleCompanyChange(internshipIndex, { target: { name: 'startDate', value: date ? date.toISOString().split("T")[0] : '' } })}
-                    className="w-full p-2 border rounded-md"
-                    dateFormat="dd/mm/yyyy"
-                    dropdownMode='select'
-                    showMonthDropdown
-                    showYearDropdown
-                  />
-                    </div>
-                    <div className="mb-4">
-                      <label className="block text-[#4b164c]">Ending Date</label>
-                      {/* <input type='date' name='endDate' value={internhip.endDate} disabled={internhip.currentlyWorking} onChange={(e) => handleCompanyChange(internshipIndex , e)} className="w-full p-2 border rounded-md"/> */}
-                      <DatePicker placeholderText='Ending Date'
-                    selected={internhip.endDate ? new Date(internhip.endDate) : null}
-                    onChange={(date) => handleCompanyChange(internshipIndex, { target: { name: 'endDate', value: date ? date.toISOString().split("T")[0] : '' } })}
-                    className="w-full p-2 border rounded-md"
-                    dateFormat="dd/mm/yyyy"
-                    disabled={internhip.currentlyWorking}
-                    dropdownMode='select'
-                    showMonthDropdown
-                    showYearDropdown
-                  />
-                    </div>
-                    <div className="mb-4 flex justify-center items-center gap-1">
-                      <input type='checkbox' checked={internhip.currentlyWorking} name='currentlyworking' value={internhip.currentlyWorking} onChange={(e) => toggleCurrentlyWorking(internshipIndex , e)} className=""/>
-                      <label className="block text-[#4b164c]">I currently work here</label>
-                    </div>
-                    <div className="mb-4">
-                      <label className="block text-[#4b164c]">Description</label>
-                      <JoditEditor ref={editor} config={editorConfig} value={internhip.description} onBlur={(newContent) => {const updatedInternships = [...internshipExperience];updatedInternships[internshipIndex].description = newContent;setInternshipExperience(updatedInternships); }}/>
-                    </div>
-                    <div className="mb-4">
-                      <label className="block text-[#4b164c]">Stipend(in LPA)</label>
-                      <input type='number' min={0} name='stipend' placeholder='Enter your stipend in lpa' value={internhip.stipend} onChange={(e) => handleCompanyChange(internshipIndex , e)} className="w-full p-2 border rounded-md"/>
-                    </div>
-                    <div className="mb-4">
-                      <label className="block text-gray-700">Internship Mode</label>
-                      <select name="internshipMode" value={internhip.internshipMode} onChange={(e) => handleCompanyChange(internshipIndex, e)} className="w-full p-2 border rounded-md mb-2">
-                        <option disabled value=''>Select Internship Mode</option>
-                        <option value="WFH">Work From Home</option>
-                        <option value="WFO">Work From Office</option>
-                        <option value="Hybrid">Hybrid</option>
-                      </select>
-                    </div>
-                    <div className="mb-4">
-                      <label className="block text-gray-700">Internship Type</label>
-                      <select name="internshipType" value={internhip.internshipType} style={{textTransform:'capitalize'}} onChange={(e) => handleCompanyChange(internshipIndex, e)} className="w-full p-2 border rounded-md mb-2">
-                        <option disabled value=''>Select Internship Type</option>
-                        {jobTypeData.map((internType) => (
-                          <option value={internType.job_type}>{internType.job_type}</option>
-                        ))}
-                      </select>
-                    </div>
+        <div className="p-4 md:p-6 max-w-4xl mx-auto">
+          <h2 className="text-2xl font-bold text-center text-white h-12 mb-6 flex items-center justify-center rounded-md shadow-md bg-gradient-to-r from-green-500 to-blue-500">
+            Internship Experience
+          </h2>
+          <form className="space-y-6">
+            {internshipExperience.map((internhip, internshipIndex) => (
+              <div key={internshipIndex} className="border p-6 rounded-lg shadow-md bg-white space-y-4">
+                <h3 className="text-lg font-semibold text-gray-800 mb-3">Internship {internshipIndex + 1}</h3>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-gray-700">Company Name</label>
+                    <input type="text" name="company" value={internhip.company}onChange={(e) => handleCompanyChange(internshipIndex, e)} style={{ textTransform: 'capitalize' }}className="w-full p-2 border rounded-md" placeholder="Enter company name"/>
                   </div>
-                  <button onClick={() => removeInternship(internshipIndex)} className=' text-center bg-[linear-gradient(90deg,_hsla(133,_68%,_60%,_1)_0%,_hsla(205,_97%,_42%,_1)_100%)] cursor-pointer text-white px-4 py-2 rounded-md hover:bg-[linear-gradient(90deg,_hsla(205,_97%,_42%,_1)_0%,_hsla(133,_68%,_60%,_1)_100%)] h-10'>
-                      remove internship
-                    </button>
+                  <div>
+                    <label className="block text-gray-700">Company Location</label>
+                    <CreatableSelect name="location" isSearchable isClearable options={locationOption()} value={locationOption().find((loc) => loc.value === internhip.location) ||
+                      { label: internhip.location, value: internhip.location }}onChange={(e) =>handleCompanyChange(internshipIndex, {target: { name: 'location', value: e?.value || '' },})}
+                      className="w-full"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-gray-700">Internship Title</label>
+                    <input type="text" name="title" value={internhip.title} onChange={(e) => handleCompanyChange(internshipIndex, e)} style={{ textTransform: 'capitalize' }} className="w-full p-2 border rounded-md" placeholder="Enter internship title"/>
+                  </div>
+                  <div>
+                    <label className="block text-gray-700">Starting Date</label>
+                    <DatePicker
+                      selected={internhip.startDate ? new Date(internhip.startDate) : null}
+                      onChange={(date) =>handleCompanyChange(internshipIndex, {target: { name: 'startDate', value: date?.toISOString().split('T')[0] || '' },})}
+                      className="w-full p-2 border rounded-md"
+                      placeholderText="Joining Date"
+                      dateFormat="dd/MM/yyyy"
+                      dropdownMode="select"
+                      showMonthDropdown
+                      showYearDropdown
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-gray-700">Ending Date</label>
+                    <DatePicker
+                      selected={internhip.endDate ? new Date(internhip.endDate) : null}
+                      onChange={(date) => handleCompanyChange(internshipIndex, { target: { name: 'endDate', value: date?.toISOString().split('T')[0] || '' }, })}
+                      className="w-full p-2 border rounded-md"
+                      placeholderText="Ending Date"
+                      disabled={internhip.currentlyWorking}
+                      dateFormat="dd/MM/yyyy"
+                      dropdownMode="select"
+                      showMonthDropdown
+                      showYearDropdown
+                    />
+                  </div>
+                  <div className="flex items-center gap-2 mt-2 md:col-span-2">
+                    <input type="checkbox" checked={internhip.currentlyWorking} onChange={(e) => toggleCurrentlyWorking(internshipIndex, e)} className="h-5 w-5"/>
+                    <label className="text-gray-700">I currently work here</label>
+                  </div>
+                  <div className="md:col-span-2">
+                    <label className="block text-gray-700">Description</label>
+                    <JoditEditor ref={editor} config={editorConfig}
+                      value={internhip.description}
+                      onBlur={(newContent) => { const updated = [...internshipExperience];  updated[internshipIndex].description = newContent; setInternshipExperience(updated); }}
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-gray-700">Stipend (in LPA)</label>
+                    <input type="number" name="stipend" min={0} value={internhip.stipend} onChange={(e) => handleCompanyChange(internshipIndex, e)} className="w-full p-2 border rounded-md" placeholder="Enter stipend"/>
+                  </div>
+                  <div>
+                    <label className="block text-gray-700">Internship Mode</label>
+                    <select name="internshipMode" value={internhip.internshipMode} onChange={(e) => handleCompanyChange(internshipIndex, e)} className="w-full p-2 border rounded-md">
+                      <option value="">Select Internship Mode</option>
+                      <option value="WFH">Work From Home</option>
+                      <option value="WFO">Work From Office</option>
+                      <option value="Hybrid">Hybrid</option>
+                    </select>
+                  </div>
+                  <div>
+                    <label className="block text-gray-700">Internship Type</label>
+                    <select name="internshipType" value={internhip.internshipType} onChange={(e) => handleCompanyChange(internshipIndex, e)} style={{ textTransform: 'capitalize' }}className="w-full p-2 border rounded-md">
+                      <option value="">Select Internship Type</option>
+                      {jobTypeData.map((type, idx) => (
+                        <option key={idx} value={type.job_type}>{type.job_type}</option>
+                      ))}
+                    </select>
+                  </div>
                 </div>
-              ))
-            }
-            <button type="button" onClick={addNewInternship} className='bg-[linear-gradient(90deg,_hsla(133,_68%,_60%,_1)_0%,_hsla(205,_97%,_42%,_1)_100%)] cursor-pointer text-white px-4 py-2 rounded-md hover:bg-[linear-gradient(90deg,_hsla(205,_97%,_42%,_1)_0%,_hsla(133,_68%,_60%,_1)_100%)]'>
-              + Add One More internsip
+                <button type="button" onClick={() => removeInternship(internshipIndex)} className="mt-4 bg-gradient-to-r from-green-500 to-blue-500 text-white px-4 py-2 rounded-md hover:from-blue-500 hover:to-green-500 transition-all">
+                  Remove Internship
+                </button>
+              </div>
+            ))}
+            <button type="button" onClick={addNewInternship}className="w-full bg-gradient-to-r from-green-500 to-blue-500 text-white px-6 py-3 rounded-md hover:from-blue-500 hover:to-green-500 transition-all duration-300">
+              + Add Another Internship
             </button>
-            <div className="flex justify-between mt-6">
-              <button type="button" onClick={prevStep} className="bg-gray-500 text-white px-4 py-2 rounded-md hover:bg-gray-600">
+            <div className="flex flex-col sm:flex-row justify-between gap-4 mt-6">
+              <button type="button"onClick={prevStep}className="w-full sm:w-auto bg-gray-500 text-white px-6 py-2 rounded-md hover:bg-gray-600 transition">
                 Previous
               </button>
-              <button type="button" onClick={handleSave} className="bg-[linear-gradient(90deg,_hsla(133,_68%,_60%,_1)_0%,_hsla(205,_97%,_42%,_1)_100%)] cursor-pointer text-white px-4 py-2 rounded-md hover:bg-[linear-gradient(90deg,_hsla(205,_97%,_42%,_1)_0%,_hsla(133,_68%,_60%,_1)_100%)]">
+              <button type="button" onClick={handleSave} className="w-full sm:w-auto bg-gradient-to-r from-green-500 to-blue-500 text-white px-6 py-2 rounded-md hover:from-blue-500 hover:to-green-500 transition-all">
                 Next
               </button>
             </div>

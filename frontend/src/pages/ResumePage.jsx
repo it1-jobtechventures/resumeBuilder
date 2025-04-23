@@ -84,10 +84,11 @@
 
 // export default ResumePage;
 
-
 import React, { useState, useEffect, useContext } from 'react';
 import { Link } from 'react-router-dom';
 import { FaBars, FaTimes } from 'react-icons/fa';
+import { motion, AnimatePresence } from 'framer-motion';
+
 import GeneralInfo from '../components/GeneralInfo';
 import WorkExperience from '../components/WorkExperience';
 import SkillsInfo from '../components/SkillsInfo';
@@ -97,7 +98,7 @@ import EducationInfo from '../components/EducationInfo';
 import InternshipInfo from '../components/InternshipInfo';
 import { AppContext } from '../context/AppContext';
 
-const ResumePage = ({url}) => {
+const ResumePage = ({ url }) => {
   const steps = [
     { id: 1, title: 'General Information', component: GeneralInfo },
     { id: 2, title: 'Work Experience', component: WorkExperience },
@@ -113,8 +114,8 @@ const ResumePage = ({url}) => {
   });
 
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-  const {isLoggedIn} = useContext(AppContext)
-  
+  const { isLoggedIn } = useContext(AppContext);
+
   useEffect(() => {
     localStorage.setItem('currentStep', currentStep);
   }, [currentStep]);
@@ -122,89 +123,69 @@ const ResumePage = ({url}) => {
   const StepComponent = steps[currentStep].component;
 
   return (
-    <div className="flex min-h-screen bg-gray-100">
-      {/* Hamburger Button for Mobile */}
-      <button
-        className="fixed top-4 left-4 z-50 p-2 bg-[linear-gradient(90deg,_#54DF71_0%,_#037CD5_100%)] text-white rounded-md lg:hidden"
-        onClick={() => setIsSidebarOpen(true)}
-      >
-        <FaBars size={20} />
-      </button>
-
-      {/* Sidebar (Mobile & Desktop) */}
-      <div
-        className={`fixed top-0 left-0 h-full min-h-screen bg-white w-64 p-4 border-r shadow-lg z-50 transition-transform duration-300 transform ${
-          isSidebarOpen ? 'translate-x-0' : '-translate-x-full'
-        } lg:relative lg:translate-x-0 lg:w-72 `}
-      >
-        {/* Close Button (Mobile) */}
-        <button
-          className="absolute top-4 right-4 text-gray-600 lg:hidden"
-          onClick={() => setIsSidebarOpen(false)}
-        >
-          <FaTimes size={24} />
+    <>
+      <div className="flex min-h-screen bg-gray-100">
+        {/* Hamburger Button for Mobile */}
+        <button className="fixed top-4 left-4 z-50 p-2 bg-[linear-gradient(90deg,_#54DF71_0%,_#037CD5_100%)] text-white rounded-md lg:hidden" onClick={() => setIsSidebarOpen(true)}>
+          <FaBars size={20} />
         </button>
-
-        <Link to="/">
-          <img src="/resumeRingerLogo.png" alt="logo" className="h-16 mb-4" />
-        </Link>
-
-        <ul className="w-full space-y-2">
-          {steps.map((step, index) => (
-            <li
-              key={step.id}
-              className={`p-3 text-sm sm:text-lg font-medium text-center cursor-pointer rounded-md transition-all duration-200 shadow-md ${
-                currentStep === index ? 'bg-[#037CD5] text-white' : 'bg-gray-200 hover:bg-gray-300'
-              }`}
-              onClick={() => {
-                setCurrentStep(index);
-                setIsSidebarOpen(false); // Close sidebar on selection (Mobile)
-              }}
-            >
-              {step.title}
-            </li>
-          ))}
-        </ul>
-        <section className='pt-5 flex justify-center items-center'>
-          {!isLoggedIn ? (
-            <Link to={'/login'}><button className='cursor-pointer font-bold bg-[#037cd5] text-white p-2.5 text-center rounded-4xl h-10 hover:border hover:border-[#037cd5] hover:text-[#037cd5] hover:bg-transparent'>Sign In</button></Link>
-          ) : (
-            <section>
-            <Link to={'/profile'}><img src='/profile.png' alt='profile image' className='w-14 h-14'/></Link>
+        {/* Sidebar */}
+        <div className={`fixed top-0 left-0 h-full min-h-screen bg-white w-64 p-4 border-r shadow-lg z-50 transition-transform duration-300 transform ${ isSidebarOpen ? 'translate-x-0' : '-translate-x-full' } lg:relative lg:translate-x-0 lg:w-72 `}>
+          <button className="absolute top-4 right-4 text-gray-600 lg:hidden" onClick={() => setIsSidebarOpen(false)}>
+            <FaTimes size={24} />
+          </button>
+          <Link to="/">
+            <img src="/resumeRingerLogo.png" alt="logo" className="h-16 mb-4" />
+          </Link>
+          <ul className="w-full space-y-2">
+            {steps.map((step, index) => (
+              <li key={step.id}className={`p-3 text-sm sm:text-lg font-medium text-center cursor-pointer rounded-md transition-all duration-200 shadow-md ${ currentStep === index ? 'bg-[#037CD5] text-white' : 'bg-gray-200 hover:bg-gray-300'}`}onClick={() => { setCurrentStep(index); setIsSidebarOpen(false);}}>
+                {step.title}
+              </li>
+            ))}
+          </ul>
+          <section className="pt-5 flex justify-center items-center">
+            {!isLoggedIn ? (
+              <Link to={'/login'}>
+                <button className="cursor-pointer font-bold bg-[#037cd5] text-white p-2.5 text-center rounded-4xl h-10 hover:border hover:border-[#037cd5] hover:text-[#037cd5] hover:bg-transparent">
+                  Sign In
+                </button>
+              </Link>
+            ) : (
+              <section>
+                <Link to={'/profile'}>
+                  <img src="/profile.png" alt="profile image" className="w-14 h-14" />
+                </Link>
+              </section>
+            )}
           </section>
-          )}
-        </section>
-        <Link to={'/feedback'}>
-          <section className='flex flex-col justify-center items-center pt-4 popup border'>
-            <p className='font-bold text-sm'>Alpha Review Version</p>
-            <div className='flex justify-between pt-1'>
-              <img src='/gif.gif' className='h-20 w-24'/>
-                <p className='pt-3'><span  className='font-bold text-sm'>Click Here</span> to Report Any Issue Or Suggestions</p>
-            </div>
-          </section>
-        </Link>
+          <Link to={'/feedback'}>
+            <section className="flex flex-col justify-center items-center pt-4 popup shadow-md mt-6">
+              <p className="font-bold text-sm text-[#037cd5]">🚀 Alpha Review Version</p>
+              <div className="flex justify-between items-center pt-2 px-2">
+                <img src="/gif.gif" alt="alpha" className="h-20 w-24 rounded-md mr-3" />
+                <p className="text-xs text-gray-700 leading-snug">
+                  <span className="font-bold text-blue-600">Click Here</span> to report any issues or share your suggestions to improve your experience.
+                </p>
+              </div>
+            </section>
+          </Link>
+        </div>
+        {/* Overlay for Mobile */}
+        {isSidebarOpen && (
+          <div className="fixed inset-0 bg-black bg-opacity-30 z-40 lg:hidden" onClick={() => setIsSidebarOpen(false)}></div>
+        )}
+        {/* Main Section with Motion */}
+        <div className="p-6 bg-white shadow-lg rounded-md flex-1 pt-17">
+          <AnimatePresence mode="wait">
+            <motion.div key={currentStep} initial={{ opacity: 0, x: 50 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -50 }} transition={{ duration: 0.4, ease: 'easeInOut' }} >
+              <StepComponent url={url} nextStep={() => setCurrentStep((prev) => Math.min(prev + 1, steps.length - 1))} prevStep={() => setCurrentStep((prev) => Math.max(prev - 1, 0))}/>
+            </motion.div>
+          </AnimatePresence>
+        </div>
       </div>
-
-      {/* Overlay for Mobile - Click outside to close sidebar */}
-      {isSidebarOpen && (
-        <div
-          className="fixed inset-0  bg-opacity-50 z-40 lg:hidden"
-          onClick={() => setIsSidebarOpen(false)}
-        ></div>
-      )}
-
-      {/* Main Form Section */}
-      <div className="p-6 bg-white shadow-lg rounded-md flex-1 pt-17">
-        <StepComponent onClick={(e) => e.stopPropagation()}
-        url={url}
-          nextStep={() => setCurrentStep((prev) => Math.min(prev + 1, steps.length - 1))}
-          prevStep={() => setCurrentStep((prev) => Math.max(prev - 1, 0))}
-        />
-      </div>
-    </div>
-
+    </>
   );
 };
 
 export default ResumePage;
-

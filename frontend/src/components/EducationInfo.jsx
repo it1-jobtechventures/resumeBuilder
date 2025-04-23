@@ -3,7 +3,6 @@ import { toast } from "react-toastify";
 import degreeData from "../assets/degreeData";
 import location from "../assets/locationData";
 import DatePicker from 'react-datepicker'; 
-import Select from 'react-select'
 import {  useResume } from '../context/FormContext';
 import { AppContext } from '../context/AppContext';
 import axios from 'axios'
@@ -11,7 +10,6 @@ import clgName from "../assets/clgName";
 import CreatableSelect from 'react-select/creatable'
 
 const EducationInfo = ({ nextStep, prevStep , url }) => {
-
   const [educationList, setEducationList] = useState(() => {
     const savedEducation = localStorage.getItem("education");
     return savedEducation ? JSON.parse(savedEducation) :[
@@ -31,13 +29,11 @@ const EducationInfo = ({ nextStep, prevStep , url }) => {
   const handleEducationChange = (index, event) => {
     const { name, value } = event.target;
     const updatedEducationList = [...educationList];
-    
     if (name.startsWith("educationMode")) {
       updatedEducationList[index]["educationMode"] = value;
     } else {
       updatedEducationList[index][name] = value;
     }
-  
     setEducationList(updatedEducationList);
   };
   
@@ -58,30 +54,6 @@ const EducationInfo = ({ nextStep, prevStep , url }) => {
       }))
     }
 
-  // const validateEducation = () => {
-  //   for (const edu of educationList) {
-  //     if (edu.school.trim() !== "") {
-  //       if (
-  //         !edu.location.trim() ||
-  //         !edu.degree ||
-  //         !edu.field.trim() ||
-  //         !edu.graduationDate ||
-  //         !edu.educationMode 
-  //       ) {
-  //         toast.error("Please fill all fields if School Name is entered.");
-  //         return false;
-  //       }
-  //     }
-  //   }
-  //   return true;
-  // };
-
-  // const handleNext = () => {
-  //   if (validateEducation()) {
-  //     nextStep();
-  //   }
-  // };
-
     useEffect(() => {
       if (educationList.length === 0) {
         setEducationList([
@@ -91,11 +63,10 @@ const EducationInfo = ({ nextStep, prevStep , url }) => {
     }, []);
 
     const degree = () => {
-      // Use optional chaining to handle cases where degreeData may be undefined or null
       return degreeData?.map((deg) => ({
         value: deg.degree,
         label: deg.degree,
-      })) || []; // Ensure the function returns an empty array if degreeData is empty or undefined
+      })) || [];
     };
     
     const schoolName = ()=> {
@@ -104,26 +75,6 @@ const EducationInfo = ({ nextStep, prevStep , url }) => {
         label: sch.college_name
       }))
     }
-    // const handleNext = async (e) => {
-    //   e.preventDefault();
-    //   if (validateEducation()) {
-    //     try {
-    //       for (const education of educationList) {
-    //         if (education.school.trim() !== "") {
-    //           await axios.post('http://localhost:5000/api/education/add-education', {
-    //             userId: localStorage.getItem("temporaryUserId"),
-    //             resumeId,
-    //             ...education,
-    //           });
-    //         }
-    //       }
-    //       nextStep();
-    //     } catch (error) {
-    //       console.error("Error saving education:", error);
-    //       toast.error("Something went wrong while saving education");
-    //     }
-    //   }
-    // };
 
     const handleNext = async (e) => {
       e.preventDefault();
@@ -171,100 +122,86 @@ const EducationInfo = ({ nextStep, prevStep , url }) => {
           toast.error("Something went wrong while saving education");
         }
     };
-    
+
   return (
-    <div className="p-6" >
-      <h2 className="text-2xl text-white font-bold text-center mb-6 py-3 rounded-md shadow-lg bg-gradient-to-r from-green-400 to-blue-500">Education</h2>
-      <form className="space-y-6">
-        {educationList.map((education, index) => (
-          <div key={index} className="bg-white p-6 rounded-lg shadow-md border border-gray-200 animate-fade-in">
-            <h3 className="text-lg font-semibold mb-3">Education {index + 1}</h3>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div className="mb-4">
-                <label className="block text-gray-700">School Name</label>
-                <CreatableSelect name="school" options={schoolName()} isSearchable style={{ textTransform: 'capitalize' }}
-                  value={schoolName().find((school)=> school.value===education.school) || {label:education.school,value:education.school}}
-                  onChange={(e) => handleEducationChange(index  ,{target:{name:'school',value:e.value}})}  className="w-full p-2 border rounded-md" placeholder="Enter your School Name">
-                </CreatableSelect>
+    <>
+      <div className="p-6">
+        <h2 className="text-2xl font-bold text-white text-center mb-6 py-3 rounded-md shadow-lg bg-gradient-to-r from-green-400 to-blue-500">
+          Education
+        </h2>
+        <form className="space-y-6">
+          {educationList.map((education, index) => (
+            <div key={index} className="bg-white p-6 rounded-lg shadow-md border border-gray-200 animate-fade-in">
+              <h3 className="text-lg font-semibold mb-4 text-[#4b164c]">Education {index + 1}</h3>
+              {/* School & Location */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                  <label className="block text-gray-700 font-medium">School Name</label>
+                  <CreatableSelect name="school" options={schoolName()} isSearchable className="capitalize"value={schoolName().find((school) => school.value === education.school) || {label: education.school,value: education.school,}}onChange={(e) => handleEducationChange(index, {target: { name: 'school', value: e.value }, })}placeholder="Enter your School Name" isClearable/>
+                </div>
+                <div>
+                  <label className="block text-gray-700 font-medium">Location</label>
+                  <CreatableSelect name="location" options={locationOption()} isSearchable className="capitalize" value={locationOption().find((loc) => loc.value === education.location) || {label: education.location, value: education.location,} }onChange={(e) =>handleEducationChange(index, {target: { name: 'location', value: e.value },})}placeholder="Select location" isClearable/>
+                </div>
               </div>
-              <div className="mb-4">
-                <label className="block text-gray-700">Location</label>
-                <CreatableSelect name="location" options={locationOption()} isSearchable  
-                  value={locationOption().find((loc) =>loc.value===education.location) || {label:education.location ,value:education.location}} 
-                  onChange={(e) => handleEducationChange(index, {target:{name:'location',value:e.value}})} className="w-full p-2 border rounded-md" placeholder="Select an location">
-                </CreatableSelect>
+              {/* Degree / Field / Graduation Date */}
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-6">
+                <div>
+                  <label className="block text-gray-700 font-medium">Degree</label>
+                  <CreatableSelect options={degree()} className="capitalize" isSearchable placeholder="Select Degree" value={degree().find((deg) => deg.value === education.degree) || {label: education.degree,value: education.degree,}}onChange={(selectedOption) => {const event = {target: {ame: 'degree',value: selectedOption?.value || '',}, };handleEducationChange(index, event);}}isClearable/>
+                </div>
+                <div>
+                  <label className="block text-gray-700 font-medium">Field of Study</label>
+                  <input type="text" name="field" className="w-full p-3 border rounded-md capitalize focus:ring-2 focus:ring-blue-400 focus:border-blue-400 transition-all" value={education.field} onChange={(e) => handleEducationChange(index, e)} placeholder="e.g. Computer Science"/>
+                </div>
+                <div>
+                  <label className="block text-gray-700 font-medium">Graduation Date</label>
+                  <DatePicker selected={education.graduationDate ? new Date(education.graduationDate) : null}onChange={(date) =>handleEducationChange(index, {target: { name: 'graduationDate', value: date },})}dateFormat="dd/MM/yyyy"className="w-full p-3 border rounded-md focus:ring-2 focus:ring-blue-400 focus:border-blue-400 transition-all"placeholderText="Select graduation date"dropdownMode="select"showMonthDropdown showYearDropdown/>
+                </div>
               </div>
+              {/* Mode of Education */}
+              <div className="mt-6">
+                <label className="block text-gray-700 font-medium">Mode of Education</label>
+                <div className="flex flex-wrap gap-6 mt-2">
+                  {['Online', 'Offline', 'Hybrid'].map((mode) => (
+                    <label key={mode} className="flex items-center gap-2 text-gray-700">
+                      <input type="radio" name={`educationMode-${index}`} value={mode} checked={education.educationMode === mode} onChange={(e) => handleEducationChange(index, e)} className="h-4 w-4"/>
+                      {mode}
+                    </label>
+                  ))}
+                </div>
+              </div>
+              {/* CGPA */}
+              <div className="mt-6">
+                <label className="block text-gray-700 font-medium">CGPA / Percentage</label>
+                <input type="number" name="cgpa" min={0} className="w-full p-3 border rounded-md focus:ring-2 focus:ring-blue-400 focus:border-blue-400 transition-all" value={education.cgpa} onChange={(e) => handleEducationChange(index, e)} placeholder="Enter your score"/>
+              </div>
+              {/* Remove Button */}
+              {educationList.length > 1 && (
+                <div className="mt-4">
+                  <button type="button" onClick={() => removeEducation(index)} className="text-red-600 hover:text-red-800 text-sm">
+                    Remove This Education
+                  </button>
+                </div>
+              )}
             </div>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
-              <div className="mb-4">
-                <label className="block text-gray-700">Degree</label>
-                <CreatableSelect options={degree()} style={{ textTransform: 'capitalize' }} isSearchable placeholder="Select Degree"
-                  value={degree().find((deg) => deg.value === education.degree) || {label:education.degree , value:education.degree}} // Find the selected degree
-                  onChange={(selectedOption) => {
-                    const event = {target: {name: "degree", value: selectedOption?.value || "", } };
-                    handleEducationChange(index, event);
-                  }}
-                />
-              </div>
-              <div className="mb-4">
-                <label className="block text-gray-700">Field of Study</label>
-                <input type="text" name="field" value={education.field} style={{ textTransform: 'capitalize' }}onChange={(e) => handleEducationChange(index, e)} className="w-full p-2 border rounded-md focus:ring-2 focus:ring-blue-400 focus:border-blue-400 transition-all" placeholder="E.g. Computer Science"/>
-              </div>
-              <div className="mb-4">
-                <label className="block text-gray-700">Graduation Date (or expected Graduation Date)</label>
-                <DatePicker
-                  selected={education.graduationDate ? new Date(education.graduationDate) : null}
-                  onChange={(date) => handleEducationChange(index, { target: { name: 'graduationDate', value: date } })}
-                  dateFormat="dd/MM/yyyy"
-                  className="w-full p-2 border rounded-md focus:ring-2 focus:ring-blue-400 focus:border-blue-400 transition-all"
-                  placeholderText="Select graduation date"
-                  dropdownMode='select'
-                  showMonthDropdown
-                  showYearDropdown
-                />
-              </div>
-            </div>
-            <div className="mt-4">
-              <label className="block text-gray-700">Mode of Education</label>
-              <div className="flex gap-4">
-                <label className="flex items-center">
-                  <input type="radio" name={`educationMode-${index}`} value="Online" checked={education.educationMode === "Online"} onChange={(e) => handleEducationChange(index, e)} className="mr-2"/>
-                  Online
-                </label>
-                <label className="flex items-center">
-                  <input type="radio" name={`educationMode-${index}`} value="Offline" checked={education.educationMode === "Offline"} onChange={(e) => handleEducationChange(index, e)} className="mr-2"/>
-                  Offline
-                </label>
-                <label className="flex items-center">
-                  <input type="radio" name={`educationMode-${index}`} value="Hybrid" checked={education.educationMode === "Hybrid"} onChange={(e) => handleEducationChange(index, e)} className="mr-2"/>
-                  Hybrid
-                </label>
-              </div>
-            </div>
-            <div className="mb-4">
-              <label className="block text-gray-700">CGPA/Percentage</label>
-              <input type="number" min={0} name="cgpa" value={education.cgpa} onChange={(e) => handleEducationChange(index, e)} className="w-full p-2 border rounded-md" placeholder="Enter Your Score"/>
-            </div>
-            {educationList.length > 1 && (
-              <button type="button" onClick={() => removeEducation(index)} className="text-red-600 hover:text-red-800 text-sm">
-                Remove This Education
-              </button>
-            )}
+          ))}
+          {/* Add New Button */}
+          <button type="button" onClick={addNewEducation} className="w-full bg-gradient-to-r from-green-400 to-blue-500 hover:from-blue-500 hover:to-green-400 text-white px-6 py-3 rounded-md transition">
+            + Add Another Education
+          </button>
+          {/* Navigation Buttons */}
+          <div className="flex flex-col sm:flex-row justify-between gap-4 mt-6">
+            <button type="button" onClick={prevStep} className="w-full sm:w-auto bg-gray-500 hover:bg-gray-600 text-white px-6 py-3 rounded-md transition">
+              Previous
+            </button>
+            <button type="button" onClick={handleNext} className="w-full sm:w-auto bg-gradient-to-r from-green-400 to-blue-500 hover:from-blue-500 hover:to-green-400 text-white px-6 py-3 rounded-md transition">
+              Next
+            </button>
           </div>
-        ))}
-        <button type="button" onClick={addNewEducation} className="bg-[linear-gradient(90deg,_hsla(133,_68%,_60%,_1)_0%,_hsla(205,_97%,_42%,_1)_100%)] cursor-pointer text-white px-4 py-2 rounded-md hover:bg-[linear-gradient(90deg,_hsla(205,_97%,_42%,_1)_0%,_hsla(133,_68%,_60%,_1)_100%)] w-full">
-          + Add Another Education
-        </button>
-        <div className="flex justify-between mt-6">
-          <button type="button" onClick={prevStep} className="bg-gray-500 text-white px-4 py-2 rounded-md hover:bg-gray-600">
-            Previous
-          </button>
-          <button type="button" onClick={handleNext} className="bg-[linear-gradient(90deg,_hsla(133,_68%,_60%,_1)_0%,_hsla(205,_97%,_42%,_1)_100%)] cursor-pointer text-white px-4 py-2 rounded-md hover:bg-[linear-gradient(90deg,_hsla(205,_97%,_42%,_1)_0%,_hsla(133,_68%,_60%,_1)_100%)]">
-            Next
-          </button>
-        </div>
-      </form>
-    </div>
+        </form>
+      </div>
+    </>
   );
 };
 

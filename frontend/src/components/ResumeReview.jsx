@@ -561,6 +561,283 @@
 // // export default ResumeReview;
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//// main code
+
+// import React, { useContext, useEffect, useState } from 'react';
+// import { Link, useLocation, useNavigate } from 'react-router-dom';
+// import { saveAs } from 'file-saver';
+// import html2canvas from 'html2canvas';
+// import jsPDF from 'jspdf';
+// import { AppContext } from '../context/AppContext';
+// import { useResume } from '../context/FormContext';
+
+// const ResumeReview = ({ url }) => {
+//   const location = useLocation();
+//   const navigate = useNavigate();
+//   const { isLoggedIn } = useContext(AppContext);
+//   const { resumeData } = useResume();
+
+//   const [templateData, setTemplateData] = useState(null);
+//   const [templateId, setTemplateId] = useState(location.state?.templateId || localStorage.getItem("selectedTemplateId"));
+
+//   const [fontSize, setFontSize] = useState(localStorage.getItem('fontSize') || '16px');
+//   const [fontFamily, setFontFamily] = useState(localStorage.getItem('fontFamily') || 'Arial');
+//   const [textColor, setTextColor] = useState(localStorage.getItem('textColor') || '#000000');
+//   const [bgColor, setBgColor] = useState(localStorage.getItem('bgColor') || '#ffffff');
+
+//   const generalInfo = JSON.parse(localStorage.getItem('generalInfo'));
+//   const userName = generalInfo?.firstName || "My_Resume";
+ 
+//   // ✅ Utility - Get nested value from path
+//   const getValueByPath = (obj, path) => {
+//     return path.split('.').reduce((acc, part) => acc && acc[part], obj);
+//   };
+
+//   // ✅ Utility - Replace placeholders in HTML
+//   const replacePlaceholders = (html, data) => {
+//     return html
+//       .replace(/{{#(\w+)}}([\s\S]*?){{\/\1}}/g, (match, key, content) => {
+//         let value = getValueByPath(data, key.trim());
+
+//         if (Array.isArray(value) && value.length > 0) {
+//           return value
+//             .map(item => {
+//               if (typeof item === "string") {
+//                 return content.replace(/{{.}}/g, item);
+//               }
+
+//               let updatedContent = content;
+
+//               updatedContent = updatedContent.replace(/{{#(\w+)}}([\s\S]*?){{\/\1}}/g, (subMatch, subKey, subContent) => {
+//                 let nestedValue = item[subKey.trim()];
+//                 if (Array.isArray(nestedValue) && nestedValue.length > 0) {
+//                   return nestedValue.map(nestedItem =>
+//                     subContent.replace(/{{(.*?)}}/g, (m, k) => nestedItem[k.trim()] || "")
+//                   ).join("");
+//                 }
+//                 return "";
+//               });
+
+//               return updatedContent.replace(/{{(.*?)}}/g, (m, k) => item[k.trim()] || "");
+//             })
+//             .join("");
+//         }
+
+//         return "";
+//       })
+//       .replace(/{{(.*?)}}/g, (match, key) => getValueByPath(data, key.trim()) || "");
+//   };
+
+//   // ✅ Utility - Store resume data in localStorage (for older templates)
+//   const setLocalStorageFromResume = (resumeData) => {
+//     const sections = [
+//       'generalInfo', 'socialLinks', 'certifications', 'interests',
+//       'softwareInfo', 'accomplishments', 'volunteering',
+//       'languages', 'skills', 'projects', 'workExperience',
+//       'education', 'internshipExperience'
+//     ];
+
+//     const dataObject = {}; // Wrap sections in an object
+//     sections.forEach(section => {
+//       if (resumeData[section]) {
+//         dataObject[section] = resumeData[section];
+//       }
+//     });
+
+//     // Store the entire object in localStorage under a single key
+//     localStorage.setItem('resumeSections', JSON.stringify(dataObject));
+//   };
+
+//   useEffect(() => {
+//     if (resumeData) {
+//       setLocalStorageFromResume(resumeData);
+//     }
+//   }, [resumeData]);
+
+//   useEffect(() => {
+//     if (!templateId) return;
+
+//     const fetchTemplate = async () => {
+//       try {
+//         const res = await fetch(`${url}/api/template/singleTemplate/${templateId}`);
+//         const data = await res.json();
+//         setTemplateData(data);
+//       } catch (err) {
+//         console.error('Error loading template', err);
+//       }
+//     };
+
+//     fetchTemplate();
+//   }, [templateId]);
+
+//   useEffect(() => {
+//     if (templateData?.jsContent) {
+//       const script = document.createElement("script");
+//       script.type = "text/javascript";
+//       script.text = `(function() { ${templateData.jsContent} })();`;  // Wrapping in an IIFE
+//       document.getElementById("resume-content")?.appendChild(script);
+//     }
+//   }, [templateData]);
+  
+
+//   const applyStyleToSelectedText = (property, value) => {
+//     const selection = window.getSelection();
+//     if (!selection.rangeCount) return;  // No selection available, exit early
+//     const range = selection.getRangeAt(0);
+//     if (!range.collapsed) {  // Ensure the range is not collapsed (i.e., there's text to style)
+//       const span = document.createElement('span');
+//       span.style[property] = value;
+//       range.surroundContents(span);
+//       localStorage.setItem(property, value);
+//     }
+//   };
+  
+
+//   const handleDownloadPDF = () => {
+//     const element = document.getElementById('cv');
+//     // element.style.width = '794px';
+//     const pdf = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' });
+
+//     pdf.html(element, {
+//       callback: (doc) => doc.save( `${userName}_Resume.pdf`),
+//       x: 0,
+//       y: 0,
+//       width: 210,
+//       windowWidth: element.scrollWidth,
+//     });
+//   };
+
+//   const handleDownloadPNG = () => {
+//     const element = document.getElementById('cv');
+//     html2canvas(element, { scale: 2 }).then(canvas => {
+//       canvas.toBlob(blob => {
+//         saveAs(blob, `${userName}_Resume.png`);
+//       });
+//     });
+//   };
+
+//   // const handleDownloadPDF = () => {
+//   //   const element = document.getElementById('resume-content');
+//   //   const pdf = new jsPDF({
+//   //     orientation: 'portrait',
+//   //     unit: 'mm',
+//   //     format: 'a4',
+//   //   });
+  
+//   //   pdf.html(element, {
+//   //     callback: function (pdf) {
+//   //       pdf.save('My_Resume.pdf');
+//   //     },
+//   //     x: 0,
+//   //     y: 0,
+//   //     margin: [0, 0, 0, 0], // <-- Explicitly remove all margins
+
+//   //     width: 210,           // A4 width in mm
+//   //     windowWidth: element.scrollWidth
+//   //   });
+//   // };
+//   const resetStyles = () => {
+//     setFontSize('16px');
+//     setFontFamily('Arial');
+//     setTextColor('#000000');
+//     setBgColor('#ffffff');
+//     localStorage.removeItem('fontSize');
+//     localStorage.removeItem('fontFamily');
+//     localStorage.removeItem('textColor');
+//     localStorage.removeItem('bgColor');
+//     document.getElementById('resume-content').innerHTML = finalHTML;
+//   };
+
+//   const handleLoginRedirect = () => {
+//     if (templateId) {
+//       localStorage.setItem("selectedTemplateId", templateId);
+//     }
+//     navigate('/login', { state: { from: location.pathname } });
+//   };
+
+//   if (!templateId) return <h2>No template selected!</h2>;
+//   if (!templateData) return <h2>Loading template...</h2>;
+
+//   const finalHTML = replacePlaceholders(templateData.htmlContent, resumeData);
+
+//   return (
+//     <div className="p-4">
+//       <h1 className='text-center text-2xl font-bold capitalize mb-4'>{templateData.name}</h1>
+
+//       <div className="flex flex-col md:flex-row gap-5">
+//         {/* Customization Panel */}
+//         {/* <div className="bg-gray-100 p-4 rounded shadow w-full md:w-72">
+//           <label>
+//             Font Size:
+//             <select value={fontSize} onChange={e => applyStyleToSelectedText('fontSize', e.target.value)} className="block w-full">
+//               {["12px", "14px", "16px", "18px", "20px", "22px"].map(size => (
+//                 <option key={size} value={size}>{size}</option>
+//               ))}
+//             </select>
+//           </label>
+//           <label>
+//             Font Family:
+//             <select value={fontFamily} onChange={e => applyStyleToSelectedText('fontFamily', e.target.value)} className="block w-full">
+//               {["Arial", "Times New Roman", "Verdana", "Georgia", "Courier New", "Tahoma", "Helvetica", "Comic Sans MS"].map(font => (
+//                 <option key={font} value={font}>{font}</option>
+//               ))}
+//             </select>
+//           </label>
+//           <label>
+//             Text Color:
+//             <input type="color" value={textColor} onChange={e => applyStyleToSelectedText('color', e.target.value)} />
+//           </label>
+//           <label>
+//             Background Color:
+//             <input type="color" value={bgColor} onChange={e => setBgColor(e.target.value)} />
+//           </label>
+//           <button onClick={resetStyles} className="bg-green-500 text-white mt-4 px-4 py-1 rounded">Reset Styles</button>
+//         </div> */}
+
+//         {/* Resume Preview */}
+//         <div className="flex-1" id="resume-content"
+//           contentEditable={true}
+//           style={{ fontSize, fontFamily, color: textColor, backgroundColor: bgColor }}
+//           dangerouslySetInnerHTML={{ __html: finalHTML }}
+//         />
+//         <style>{templateData.cssContent}</style>
+//       </div>
+
+//       {/* Download/Login Options */}
+//       <div className="mt-6 flex justify-between flex-wrap gap-3">
+//         {!isLoggedIn ? (
+//           <button onClick={handleLoginRedirect} className="bg-gradient-to-r from-green-400 to-blue-500 text-white px-4 py-2 rounded">Login to download</button>
+//         ) : (
+//           <div className="flex gap-4 flex-wrap">
+//             <button onClick={handleDownloadPDF} className="bg-gradient-to-r from-green-400 to-blue-500 text-white px-4 py-2 rounded">Download PDF</button>
+//             <button onClick={handleDownloadPNG} className="bg-gradient-to-r from-green-400 to-blue-500 text-white px-4 py-2 rounded">Download PNG</button>
+//             <Link to="/createResume"><button className="bg-gradient-to-r from-green-400 to-blue-500 text-white px-4 py-2 rounded">Edit Form</button></Link>
+//             <Link to="/templates"><button className="bg-gradient-to-r from-green-400 to-blue-500 text-white px-4 py-2 rounded">Choose Template</button></Link>
+//           </div>
+//         )}
+//       </div>
+//     </div>
+//   );
+// };
+
+// export default ResumeReview;
+
+
 import React, { useContext, useEffect, useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { saveAs } from 'file-saver';
@@ -576,128 +853,106 @@ const ResumeReview = ({ url }) => {
   const { resumeData } = useResume();
 
   const [templateData, setTemplateData] = useState(null);
-  const [templateId, setTemplateId] = useState(location.state?.templateId || localStorage.getItem("selectedTemplateId"));
+  const [templateId, setTemplateId] = useState(location.state?.templateId || localStorage.getItem('selectedTemplateId'));
+
+  const generalInfo = JSON.parse(localStorage.getItem('generalInfo'));
+  const userName = generalInfo?.firstName || 'My_Resume';
 
   const [fontSize, setFontSize] = useState(localStorage.getItem('fontSize') || '16px');
   const [fontFamily, setFontFamily] = useState(localStorage.getItem('fontFamily') || 'Arial');
   const [textColor, setTextColor] = useState(localStorage.getItem('textColor') || '#000000');
   const [bgColor, setBgColor] = useState(localStorage.getItem('bgColor') || '#ffffff');
 
-  const generalInfo = JSON.parse(localStorage.getItem('generalInfo'));
-  const userName = generalInfo?.firstName || "My_Resume";
- 
-  // ✅ Utility - Get nested value from path
-  const getValueByPath = (obj, path) => {
-    return path.split('.').reduce((acc, part) => acc && acc[part], obj);
-  };
+  const getValueByPath = (obj, path) => path.split('.').reduce((acc, part) => acc && acc[part], obj);
 
-  // ✅ Utility - Replace placeholders in HTML
-  const replacePlaceholders = (html, data) => {
-    return html
+  const replacePlaceholders = (html, data) =>
+    html
       .replace(/{{#(\w+)}}([\s\S]*?){{\/\1}}/g, (match, key, content) => {
         let value = getValueByPath(data, key.trim());
-
         if (Array.isArray(value) && value.length > 0) {
           return value
             .map(item => {
-              if (typeof item === "string") {
+              let updatedContent = content;
+              if (typeof item === 'string') {
                 return content.replace(/{{.}}/g, item);
               }
-
-              let updatedContent = content;
-
               updatedContent = updatedContent.replace(/{{#(\w+)}}([\s\S]*?){{\/\1}}/g, (subMatch, subKey, subContent) => {
                 let nestedValue = item[subKey.trim()];
-                if (Array.isArray(nestedValue) && nestedValue.length > 0) {
-                  return nestedValue.map(nestedItem =>
-                    subContent.replace(/{{(.*?)}}/g, (m, k) => nestedItem[k.trim()] || "")
-                  ).join("");
+                if (Array.isArray(nestedValue)) {
+                  return nestedValue
+                    .map(nestedItem => subContent.replace(/{{(.*?)}}/g, (_, k) => nestedItem[k.trim()] || ''))
+                    .join('');
                 }
-                return "";
+                return '';
               });
 
-              return updatedContent.replace(/{{(.*?)}}/g, (m, k) => item[k.trim()] || "");
+              return updatedContent.replace(/{{(.*?)}}/g, (_, k) => item[k.trim()] || '');
             })
-            .join("");
+            .join('');
         }
-
-        return "";
+        return '';
       })
-      .replace(/{{(.*?)}}/g, (match, key) => getValueByPath(data, key.trim()) || "");
-  };
+      .replace(/{{(.*?)}}/g, (_, key) => getValueByPath(data, key.trim()) || '');
 
-  // ✅ Utility - Store resume data in localStorage (for older templates)
   const setLocalStorageFromResume = (resumeData) => {
     const sections = [
-      'generalInfo', 'socialLinks', 'certifications', 'interests',
-      'softwareInfo', 'accomplishments', 'volunteering',
-      'languages', 'skills', 'projects', 'workExperience',
-      'education', 'internshipExperience'
+      'generalInfo', 'socialLinks', 'certifications', 'interests', 'softwareInfo',
+      'accomplishments', 'volunteering', 'languages', 'skills', 'projects',
+      'workExperience', 'education', 'internshipExperience',
     ];
-
-    const dataObject = {}; // Wrap sections in an object
+    const resumeSections = {};
     sections.forEach(section => {
       if (resumeData[section]) {
-        dataObject[section] = resumeData[section];
+        resumeSections[section] = resumeData[section];
       }
     });
-
-    // Store the entire object in localStorage under a single key
-    localStorage.setItem('resumeSections', JSON.stringify(dataObject));
+    localStorage.setItem('resumeSections', JSON.stringify(resumeSections));
   };
 
   useEffect(() => {
-    if (resumeData) {
-      setLocalStorageFromResume(resumeData);
-    }
+    if (resumeData) setLocalStorageFromResume(resumeData);
   }, [resumeData]);
 
   useEffect(() => {
     if (!templateId) return;
-
     const fetchTemplate = async () => {
       try {
         const res = await fetch(`${url}/api/template/singleTemplate/${templateId}`);
         const data = await res.json();
         setTemplateData(data);
       } catch (err) {
-        console.error('Error loading template', err);
+        console.error('Error loading template:', err);
       }
     };
-
     fetchTemplate();
   }, [templateId]);
 
   useEffect(() => {
     if (templateData?.jsContent) {
-      const script = document.createElement("script");
-      script.type = "text/javascript";
-      script.text = `(function() { ${templateData.jsContent} })();`;  // Wrapping in an IIFE
-      document.getElementById("resume-content")?.appendChild(script);
+      const script = document.createElement('script');
+      script.type = 'text/javascript';
+      script.text = `(function() { ${templateData.jsContent} })();`;
+      document.getElementById('resume-content')?.appendChild(script);
     }
   }, [templateData]);
-  
 
   const applyStyleToSelectedText = (property, value) => {
     const selection = window.getSelection();
-    if (!selection.rangeCount) return;  // No selection available, exit early
+    if (!selection.rangeCount) return;
     const range = selection.getRangeAt(0);
-    if (!range.collapsed) {  // Ensure the range is not collapsed (i.e., there's text to style)
+    if (!range.collapsed) {
       const span = document.createElement('span');
       span.style[property] = value;
       range.surroundContents(span);
       localStorage.setItem(property, value);
     }
   };
-  
 
   const handleDownloadPDF = () => {
     const element = document.getElementById('cv');
-    // element.style.width = '794px';
     const pdf = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' });
-
     pdf.html(element, {
-      callback: (doc) => doc.save( `${userName}_Resume.pdf`),
+      callback: (doc) => doc.save(`${userName}_Resume.pdf`),
       x: 0,
       y: 0,
       width: 210,
@@ -714,104 +969,58 @@ const ResumeReview = ({ url }) => {
     });
   };
 
-  // const handleDownloadPDF = () => {
-  //   const element = document.getElementById('resume-content');
-  //   const pdf = new jsPDF({
-  //     orientation: 'portrait',
-  //     unit: 'mm',
-  //     format: 'a4',
-  //   });
-  
-  //   pdf.html(element, {
-  //     callback: function (pdf) {
-  //       pdf.save('My_Resume.pdf');
-  //     },
-  //     x: 0,
-  //     y: 0,
-  //     margin: [0, 0, 0, 0], // <-- Explicitly remove all margins
-
-  //     width: 210,           // A4 width in mm
-  //     windowWidth: element.scrollWidth
-  //   });
-  // };
   const resetStyles = () => {
     setFontSize('16px');
     setFontFamily('Arial');
     setTextColor('#000000');
     setBgColor('#ffffff');
-    localStorage.removeItem('fontSize');
-    localStorage.removeItem('fontFamily');
-    localStorage.removeItem('textColor');
-    localStorage.removeItem('bgColor');
+    ['fontSize', 'fontFamily', 'textColor', 'bgColor'].forEach(key => localStorage.removeItem(key));
     document.getElementById('resume-content').innerHTML = finalHTML;
   };
 
   const handleLoginRedirect = () => {
-    if (templateId) {
-      localStorage.setItem("selectedTemplateId", templateId);
-    }
+    if (templateId) localStorage.setItem('selectedTemplateId', templateId);
     navigate('/login', { state: { from: location.pathname } });
   };
 
-  if (!templateId) return <h2>No template selected!</h2>;
-  if (!templateData) return <h2>Loading template...</h2>;
+  if (!templateId) return <h2 className="text-center text-lg font-semibold mt-10">No template selected!</h2>;
+  if (!templateData) return <h2 className="text-center text-lg font-semibold mt-10">Loading template...</h2>;
 
   const finalHTML = replacePlaceholders(templateData.htmlContent, resumeData);
 
   return (
     <div className="p-4">
-      <h1 className='text-center text-2xl font-bold capitalize mb-4'>{templateData.name}</h1>
+      <h1 className="text-center text-2xl font-bold capitalize mb-4">{templateData.name}</h1>
 
       <div className="flex flex-col md:flex-row gap-5">
-        {/* Customization Panel */}
-        {/* <div className="bg-gray-100 p-4 rounded shadow w-full md:w-72">
-          <label>
-            Font Size:
-            <select value={fontSize} onChange={e => applyStyleToSelectedText('fontSize', e.target.value)} className="block w-full">
-              {["12px", "14px", "16px", "18px", "20px", "22px"].map(size => (
-                <option key={size} value={size}>{size}</option>
-              ))}
-            </select>
-          </label>
-          <label>
-            Font Family:
-            <select value={fontFamily} onChange={e => applyStyleToSelectedText('fontFamily', e.target.value)} className="block w-full">
-              {["Arial", "Times New Roman", "Verdana", "Georgia", "Courier New", "Tahoma", "Helvetica", "Comic Sans MS"].map(font => (
-                <option key={font} value={font}>{font}</option>
-              ))}
-            </select>
-          </label>
-          <label>
-            Text Color:
-            <input type="color" value={textColor} onChange={e => applyStyleToSelectedText('color', e.target.value)} />
-          </label>
-          <label>
-            Background Color:
-            <input type="color" value={bgColor} onChange={e => setBgColor(e.target.value)} />
-          </label>
-          <button onClick={resetStyles} className="bg-green-500 text-white mt-4 px-4 py-1 rounded">Reset Styles</button>
-        </div> */}
-
         {/* Resume Preview */}
-        <div className="flex-1" id="resume-content"
-          contentEditable={true}
+        <div
+          id="resume-content"
+          contentEditable
+          className="flex-1 shadow-lg rounded border p-4 bg-white"
           style={{ fontSize, fontFamily, color: textColor, backgroundColor: bgColor }}
           dangerouslySetInnerHTML={{ __html: finalHTML }}
         />
         <style>{templateData.cssContent}</style>
       </div>
 
-      {/* Download/Login Options */}
-      <div className="mt-6 flex justify-between flex-wrap gap-3">
+      <div className="mt-6 flex flex-wrap gap-4 justify-between items-center">
         {!isLoggedIn ? (
-          <button onClick={handleLoginRedirect} className="bg-gradient-to-r from-green-400 to-blue-500 text-white px-4 py-2 rounded">Login to download</button>
+          <button onClick={handleLoginRedirect} className="bg-gradient-to-r from-green-400 to-blue-500 text-white px-6 py-2 rounded shadow hover:opacity-90">
+            Login to Download
+          </button>
         ) : (
-          <div className="flex gap-4 flex-wrap">
-            <button onClick={handleDownloadPDF} className="bg-gradient-to-r from-green-400 to-blue-500 text-white px-4 py-2 rounded">Download PDF</button>
-            <button onClick={handleDownloadPNG} className="bg-gradient-to-r from-green-400 to-blue-500 text-white px-4 py-2 rounded">Download PNG</button>
-            <Link to="/createResume"><button className="bg-gradient-to-r from-green-400 to-blue-500 text-white px-4 py-2 rounded">Edit Form</button></Link>
-            <Link to="/templates"><button className="bg-gradient-to-r from-green-400 to-blue-500 text-white px-4 py-2 rounded">Choose Template</button></Link>
-          </div>
+          <>
+            <button onClick={handleDownloadPDF} className="btn-primary">Download PDF</button>
+            <button onClick={handleDownloadPNG} className="btn-primary">Download PNG</button>
+            <Link to="/createResume">
+              <button className="btn-primary">Edit Resume</button>
+            </Link>
+            <Link to="/templates">
+              <button className="btn-primary">Change Template</button>
+            </Link>
+            <button onClick={resetStyles} className="btn-secondary">Reset Styles</button>
+          </>
         )}
       </div>
     </div>
