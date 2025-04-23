@@ -69,7 +69,7 @@ const resumeId = activeResumeId;
       <h2 className="text-2xl font-bold mb-4">Volunteering</h2>
       {volunteering.map((item, index) => (
         <div key={index} className="mb-4 flex items-center">
-          <input type="text" className="w-full p-2 border rounded-md" style={{ textTransform: 'capitalize' }} placeholder="Enter volunteering experience" value={item} onChange={(e) => handleVolunteeringChange(index, e.target.value)}/>
+          <input spellCheck={true} type="text" className="w-full p-2 border rounded-md" style={{ textTransform: 'capitalize' }} placeholder="Enter volunteering experience" value={item} onChange={(e) => handleVolunteeringChange(index, e.target.value)}/>
           {volunteering.length > 1 && (
             <button type="button" onClick={() => removeVolunteering(index)} className="ml-2 text-red-500 hover:text-red-700 font-extrabold text-3xl">
               <RxCross2/>

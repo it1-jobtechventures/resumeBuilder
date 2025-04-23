@@ -88,10 +88,10 @@ const ProjectSection = ({url}) => {
         <h2 className="text-xl font-bold mb-4">Projects</h2>
         {projects.map((project, index) => (
           <div key={index} className="mb-4 border-b pb-4">
-            <input type="text" name="name" placeholder="Project Name" style={{ textTransform: 'capitalize' }} value={project.name} onChange={(e) => handleChange(index, e)} className="w-full p-2 border rounded-md mb-2"/>
-            <input type="url" name="deployedLink" placeholder="Deployed Link" style={{ textTransform: 'capitalize' }} value={project.deployedLink} onChange={(e) => handleChange(index, e)} className="w-full p-2 border rounded-md mb-2"/>
-            <JoditEditor value={project.summary}config={editorConfig} onBlur={(newContent) => {const updatedProjects = [...projects]; updatedProjects[index].summary = newContent;setProjects(updatedProjects);}}/>
-            <input type="url" name="githubLink" style={{ textTransform: 'capitalize' }} placeholder="GitHub Link" value={project.githubLink} onChange={(e) => handleChange(index, e)} className="w-full p-2 border rounded-md mb-2"/>
+            <input spellCheck={true} type="text" name="name" placeholder="Project Name" style={{ textTransform: 'capitalize' }} value={project.name} onChange={(e) => handleChange(index, e)} className="w-full p-2 border rounded-md mb-2"/>
+            <input spellCheck={true} type="url" name="deployedLink" placeholder="Deployed Link" style={{ textTransform: 'capitalize' }} value={project.deployedLink} onChange={(e) => handleChange(index, e)} className="w-full p-2 border rounded-md mb-2"/>
+            <JoditEditor spellCheck={true} value={project.summary}config={editorConfig} onBlur={(newContent) => {const updatedProjects = [...projects]; updatedProjects[index].summary = newContent;setProjects(updatedProjects);}}/>
+            <input spellCheck={true} type="url" name="githubLink" style={{ textTransform: 'capitalize' }} placeholder="GitHub Link" value={project.githubLink} onChange={(e) => handleChange(index, e)} className="w-full p-2 border rounded-md mb-2"/>
             {projects.length > 1 && (
               <button type="button" onClick={() => removeProject(index)} className="text-red-500 hover:underline">
                 Remove Project

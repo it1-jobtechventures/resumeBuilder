@@ -71,19 +71,19 @@ const FeedbackForm = () => {
                 </div>
                 <form onSubmit={handleSubmit} className="space-y-4">
                     <div>
-                        <input type='email' name='email' value={formData.email} onChange={handleChange} placeholder='Enter email' className="w-full p-3 border-2 border-[#037cd5] rounded-md focus:outline-none focus:ring-2 focus:ring-[#54df71]"/>
+                        <input spellCheck={true} type='email' name='email' value={formData.email} onChange={handleChange} placeholder='Enter email' className="w-full p-3 border-2 border-[#037cd5] rounded-md focus:outline-none focus:ring-2 focus:ring-[#54df71]"/>
                     </div>
                     <div>
-                        <input type='text' name='name' value={formData.name} onChange={handleChange} placeholder='Enter name' className="w-full p-3 border-2 border-[#037cd5] rounded-md focus:outline-none focus:ring-2 focus:ring-[#54df71]"/>
+                        <input spellCheck={true} type='text' name='name' value={formData.name} onChange={handleChange} placeholder='Enter name' className="w-full p-3 border-2 border-[#037cd5] rounded-md focus:outline-none focus:ring-2 focus:ring-[#54df71]"/>
                     </div>
                     <div>
-                        <input type='text' name='location' value={formData.location} onChange={handleChange} placeholder='Enter location' className="w-full p-3 border-2 border-[#037cd5] rounded-md focus:outline-none focus:ring-2 focus:ring-[#54df71]"/>
+                        <input spellCheck={true} type='text' name='location' value={formData.location} onChange={handleChange} placeholder='Enter location' className="w-full p-3 border-2 border-[#037cd5] rounded-md focus:outline-none focus:ring-2 focus:ring-[#54df71]"/>
                     </div>
                     <div>
-                        <input type='tel' name='phoneNo' value={formData.phoneNo} onChange={handleChange} placeholder='Enter phone' className="w-full p-3 border-2 border-[#037cd5] rounded-md focus:outline-none focus:ring-2 focus:ring-[#54df71]"/>
+                        <input spellCheck={true} type='tel' name='phoneNo' value={formData.phoneNo} onChange={handleChange} placeholder='Enter phone' className="w-full p-3 border-2 border-[#037cd5] rounded-md focus:outline-none focus:ring-2 focus:ring-[#54df71]"/>
                     </div>
                     <div>
-                        <input type='file' name='image' value={formData.image} onChange={handleChange} className="w-full p-3 border-2 border-[#037cd5] rounded-md focus:outline-none focus:ring-2 focus:ring-[#54df71]"/>
+                        <input spellCheck={true} type='file' name='image' value={formData.image} onChange={handleChange} className="w-full p-3 border-2 border-[#037cd5] rounded-md focus:outline-none focus:ring-2 focus:ring-[#54df71]"/>
                     </div>
                     <div>
                         <textarea name='message' value={formData.message} onChange={handleChange} placeholder='Your message' className="w-full p-3 border-2 border-[#037cd5] rounded-md focus:outline-none focus:ring-2 focus:ring-[#54df71]"/>

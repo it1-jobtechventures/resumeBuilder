@@ -248,7 +248,7 @@ const GeneralInfo = ({nextStep , url}) => {
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
               <div>
                 <label className="block text-[#4b164c] font-bold">Upload Photo</label>
-                <input type="file"accept="image/*" onChange={handleImageChange}className="w-full p-2 border border-gray-300 rounded-lg" />
+                <input  spellCheck={true} type="file"accept="image/*" onChange={handleImageChange}className="w-full p-2 border border-gray-300 rounded-lg" />
                 {formData.photo && (
                   <div className="mt-4 flex justify-center">
                     <img src={formData.photo} alt="Profile Preview" className="w-24 h-24 sm:w-28 sm:h-28 md:w-32 md:h-32 object-cover rounded-full border border-gray-400"/>
@@ -258,15 +258,15 @@ const GeneralInfo = ({nextStep , url}) => {
               <div className="grid gap-4">
                 <div>
                   <label className="block text-[#4b164c] font-semibold">First Name<span className="text-red-700 pl-0.5">*</span></label>
-                  <input type="text" name="firstName" style={{ textTransform: 'capitalize' }} value={formData.firstName} onChange={handleChange} className="w-full p-3 border border-gray-300 rounded-xl shadow-sm focus:ring-2 focus:ring-blue-500 focus:outline-none" placeholder="Rohit" required/>
+                  <input spellCheck={true} type="text" name="firstName" style={{ textTransform: 'capitalize' }} value={formData.firstName} onChange={handleChange} className="w-full p-3 border border-gray-300 rounded-xl shadow-sm focus:ring-2 focus:ring-blue-500 focus:outline-none" placeholder="Rohit" required/>
                 </div>
                 <div>
                   <label className="block text-[#4b164c] font-bold">Middle Name<span className="text-red-700 pl-0.5">*</span></label>
-                  <input type="text" name="middleName" style={{ textTransform: 'capitalize' }} value={formData.middleName} onChange={handleChange} className="w-full p-3 border border-gray-300 rounded-xl shadow-sm focus:ring-2 focus:ring-blue-500 focus:outline-none" placeholder="Name" required />
+                  <input spellCheck={true} type="text" name="middleName" style={{ textTransform: 'capitalize' }} value={formData.middleName} onChange={handleChange} className="w-full p-3 border border-gray-300 rounded-xl shadow-sm focus:ring-2 focus:ring-blue-500 focus:outline-none" placeholder="Name" required />
                 </div>
                 <div>
                   <label className="block text-[#4b164c] font-bold">Last Name<span className="text-red-700 pl-0.5">*</span></label>
-                  <input type="text" name="lastName" style={{ textTransform: 'capitalize' }} value={formData.lastName} onChange={handleChange} className="w-full p-3 border border-gray-300 rounded-xl shadow-sm focus:ring-2 focus:ring-blue-500 focus:outline-none" placeholder="Sharma" required />
+                  <input spellCheck={true} type="text" name="lastName" style={{ textTransform: 'capitalize' }} value={formData.lastName} onChange={handleChange} className="w-full p-3 border border-gray-300 rounded-xl shadow-sm focus:ring-2 focus:ring-blue-500 focus:outline-none" placeholder="Sharma" required />
                 </div>
               </div>
             </div>
@@ -274,7 +274,7 @@ const GeneralInfo = ({nextStep , url}) => {
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
               <div>
                 <label className="block text-[#4b164c] font-bold">Email<span className="text-red-700 pl-0.5">*</span></label>
-                <input type="email" name="email" value={formData.email} onChange={handleChange} className="w-full p-3 border border-gray-300 rounded-xl shadow-sm focus:ring-2 focus:ring-blue-500 focus:outline-none" placeholder="rohit@gmail.com" required/>
+                <input spellCheck={true} type="email" name="email" value={formData.email} onChange={handleChange} className="w-full p-3 border border-gray-300 rounded-xl shadow-sm focus:ring-2 focus:ring-blue-500 focus:outline-none" placeholder="rohit@gmail.com" required/>
               </div>
               <div>
                 <label className="block text-[#4b164c] font-bold">DOB</label>
@@ -305,14 +305,14 @@ const GeneralInfo = ({nextStep , url}) => {
                 <label className="block text-[#4b164c] font-bold">Primary Number<span className="text-red-700 pl-0.5">*</span></label>
                 <div className="flex items-center border border-gray-300 rounded-lg">
                   <Select options={countryOptions()}isSearchable value={countryOptions().find((cc) => cc.value === formData.countryCode1)} onChange={(selectedOption) =>handleChange({ target: { name: 'countryCode1', value: selectedOption.value }, }) } className="w-28" placeholder="+91"/>
-                  <input type="number" min={0} name="phone1" value={formData.phone1} onChange={handleChange} className="w-full p-3 border-none focus:outline-none" placeholder="Enter your phone number" required/>
+                  <input spellCheck={true} type="number" min={0} name="phone1" value={formData.phone1} onChange={handleChange} className="w-full p-3 border-none focus:outline-none" placeholder="Enter your phone number" required/>
                 </div>
               </div>
               <div>
                 <label className="block text-[#4b164c] font-bold">Secondary Number</label>
                 <div className="flex items-center border border-gray-300 rounded-lg">
                   <Select options={countryOptions()} isSearchable value={countryOptions().find((cc) => cc.value === formData.countryCode2)} onChange={(selectedOption) => handleChange({target: { name: 'countryCode2', value: selectedOption.value }, }) }className="w-28" placeholder="+91"/>
-                  <input type="number" name="phone2" value={formData.phone2} onChange={handleChange} className="w-full p-3 border-none focus:outline-none" placeholder="Optional number"/>
+                  <input spellCheck={true} type="number" name="phone2" value={formData.phone2} onChange={handleChange} className="w-full p-3 border-none focus:outline-none" placeholder="Optional number"/>
                 </div>
               </div>
             </div>
@@ -345,18 +345,18 @@ const GeneralInfo = ({nextStep , url}) => {
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
               <div>
                 <label className="block text-[#4b164c] font-bold">Pincode</label>
-                <input type="number" name="pincode" min={0} value={formData.pincode} onChange={handleChange} className="w-full p-3 border border-gray-300 rounded-xl shadow-sm focus:ring-2 focus:ring-blue-500 focus:outline-none" placeholder="Enter your Pincode"/>
+                <input spellCheck={true} type="number" name="pincode" min={0} value={formData.pincode} onChange={handleChange} className="w-full p-3 border border-gray-300 rounded-xl shadow-sm focus:ring-2 focus:ring-blue-500 focus:outline-none" placeholder="Enter your Pincode"/>
               </div>
               <div>
                 <label className="block text-[#4b164c] font-bold">Address</label>
-                <textarea name="address" value={formData.address} style={{ textTransform: 'capitalize' }} onChange={handleChange} className="w-full p-3 border border-gray-300 rounded-xl shadow-sm focus:ring-2 focus:ring-blue-500 focus:outline-none" placeholder="Enter your full address" rows={4}/>
+                <textarea spellCheck={true} name="address" value={formData.address} style={{ textTransform: 'capitalize' }} onChange={handleChange} className="w-full p-3 border border-gray-300 rounded-xl shadow-sm focus:ring-2 focus:ring-blue-500 focus:outline-none" placeholder="Enter your full address" rows={4}/>
               </div>
             </div>
             {/* 🧳 Experience + Notice Period */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
               <div>
                 <label className="block text-[#4b164c] font-bold">Total Experience</label>
-                <input type="number" min={0} name="experience" value={formData.experience} onChange={handleChange} className="w-full p-3 border border-gray-300 rounded-xl shadow-sm focus:ring-2 focus:ring-blue-500 focus:outline-none" placeholder="Enter your Total Experience"/>
+                <input spellCheck={true} type="number" min={0} name="experience" value={formData.experience} onChange={handleChange} className="w-full p-3 border border-gray-300 rounded-xl shadow-sm focus:ring-2 focus:ring-blue-500 focus:outline-none" placeholder="Enter your Total Experience"/>
               </div>
               <div>
                 <label className="block text-[#4b164c] font-bold">Notice Period</label>
@@ -373,7 +373,7 @@ const GeneralInfo = ({nextStep , url}) => {
             {/* ✍️ Summary Editor */}
             <div>
               <label className="block text-[#4b164c] font-bold">Summary</label>
-              <JoditEditor ref={editor} config={editorConfig} defaultValue={formData.summary} onBlur={(newContent) => {const updatedData = { ...formData, summary: newContent };setFormData(updatedData);localStorage.setItem('generalInfo', JSON.stringify(updatedData));}}/>
+              <JoditEditor spellCheck={true} ref={editor} config={editorConfig} defaultValue={formData.summary} onBlur={(newContent) => {const updatedData = { ...formData, summary: newContent };setFormData(updatedData);localStorage.setItem('generalInfo', JSON.stringify(updatedData));}}/>
             </div>
             {/* 🟢 Next Button */}
             <div className="flex justify-center sm:justify-end">

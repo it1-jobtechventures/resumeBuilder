@@ -231,7 +231,7 @@ import location from "../assets/locationData";
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div>
                     <label className="block text-gray-700">Company Name</label>
-                    <input type="text" name="company" value={internhip.company}onChange={(e) => handleCompanyChange(internshipIndex, e)} style={{ textTransform: 'capitalize' }}className="w-full p-2 border rounded-md" placeholder="Enter company name"/>
+                    <input spellCheck={true} type="text" name="company" value={internhip.company}onChange={(e) => handleCompanyChange(internshipIndex, e)} style={{ textTransform: 'capitalize' }}className="w-full p-2 border rounded-md" placeholder="Enter company name"/>
                   </div>
                   <div>
                     <label className="block text-gray-700">Company Location</label>
@@ -242,7 +242,7 @@ import location from "../assets/locationData";
                   </div>
                   <div>
                     <label className="block text-gray-700">Internship Title</label>
-                    <input type="text" name="title" value={internhip.title} onChange={(e) => handleCompanyChange(internshipIndex, e)} style={{ textTransform: 'capitalize' }} className="w-full p-2 border rounded-md" placeholder="Enter internship title"/>
+                    <input spellCheck={true} type="text" name="title" value={internhip.title} onChange={(e) => handleCompanyChange(internshipIndex, e)} style={{ textTransform: 'capitalize' }} className="w-full p-2 border rounded-md" placeholder="Enter internship title"/>
                   </div>
                   <div>
                     <label className="block text-gray-700">Starting Date</label>
@@ -272,19 +272,19 @@ import location from "../assets/locationData";
                     />
                   </div>
                   <div className="flex items-center gap-2 mt-2 md:col-span-2">
-                    <input type="checkbox" checked={internhip.currentlyWorking} onChange={(e) => toggleCurrentlyWorking(internshipIndex, e)} className="h-5 w-5"/>
+                    <input spellCheck={true} type="checkbox" checked={internhip.currentlyWorking} onChange={(e) => toggleCurrentlyWorking(internshipIndex, e)} className="h-5 w-5"/>
                     <label className="text-gray-700">I currently work here</label>
                   </div>
                   <div className="md:col-span-2">
                     <label className="block text-gray-700">Description</label>
-                    <JoditEditor ref={editor} config={editorConfig}
+                    <JoditEditor ref={editor} config={editorConfig} spellCheck={true}
                       value={internhip.description}
                       onBlur={(newContent) => { const updated = [...internshipExperience];  updated[internshipIndex].description = newContent; setInternshipExperience(updated); }}
                     />
                   </div>
                   <div>
                     <label className="block text-gray-700">Stipend (in LPA)</label>
-                    <input type="number" name="stipend" min={0} value={internhip.stipend} onChange={(e) => handleCompanyChange(internshipIndex, e)} className="w-full p-2 border rounded-md" placeholder="Enter stipend"/>
+                    <input spellCheck={true} type="number" name="stipend" min={0} value={internhip.stipend} onChange={(e) => handleCompanyChange(internshipIndex, e)} className="w-full p-2 border rounded-md" placeholder="Enter stipend"/>
                   </div>
                   <div>
                     <label className="block text-gray-700">Internship Mode</label>

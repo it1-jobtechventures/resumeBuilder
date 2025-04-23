@@ -541,7 +541,7 @@ const handleSubmit = async (e) => {
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
               <div>
                 <label className="block text-gray-700 font-medium">Company Name</label>
-                <input type="text" name="company" className="w-full p-3 border rounded-md capitalize" placeholder="Enter company name" value={company.company} onChange={(e) => handleCompanyChange(companyIndex, e)}/>
+                <input spellCheck={true} type="text" name="company" className="w-full p-3 border rounded-md capitalize" placeholder="Enter company name" value={company.company} onChange={(e) => handleCompanyChange(companyIndex, e)}/>
               </div>
               <div>
                 <label className="block text-gray-700 font-medium">Location</label>
@@ -553,7 +553,7 @@ const handleSubmit = async (e) => {
               </div>
               <div>
                 <label className="block text-gray-700 font-medium">Company Experience</label>
-                <input type="number" min={0} name="totalCompanyExperience" className="w-full p-3 border rounded-md" value={company.totalCompanyExperience} placeholder="Total experience in years" onChange={(e) => handleCompanyChange(companyIndex, e)}/>
+                <input spellCheck={true} type="number" min={0} name="totalCompanyExperience" className="w-full p-3 border rounded-md" value={company.totalCompanyExperience} placeholder="Total experience in years" onChange={(e) => handleCompanyChange(companyIndex, e)}/>
               </div>
             </div>
             <div className="mt-4">
@@ -568,15 +568,15 @@ const handleSubmit = async (e) => {
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                   <div>
                     <label className="block text-gray-700 font-medium">Job Title</label>
-                    <input type="text" name="title" value={role.title} className="w-full p-3 border rounded-md capitalize" onChange={(e) => handleRoleChange(companyIndex, roleIndex, e)} placeholder="Enter your job title" />
+                    <input spellCheck={true} type="text" name="title" value={role.title} className="w-full p-3 border rounded-md capitalize" onChange={(e) => handleRoleChange(companyIndex, roleIndex, e)} placeholder="Enter your job title" />
                   </div>
                   <div>
                     <label className="block text-gray-700 font-medium">CTC (In LPA)</label>
-                    <input type="number" name="ctc" min={0} className="w-full p-3 border rounded-md" value={role.ctc} placeholder="Current CTC" onChange={(e) => handleRoleChange(companyIndex, roleIndex, e)}/>
+                    <input  spellCheck={true} type="number" name="ctc" min={0} className="w-full p-3 border rounded-md" value={role.ctc} placeholder="Current CTC" onChange={(e) => handleRoleChange(companyIndex, roleIndex, e)}/>
                   </div>
                   <div>
                     <label className="block text-gray-700 font-medium">Team Size</label>
-                    <input type="number" min={0} name="teamSize" className="w-full p-3 border rounded-md" value={role.teamSize} onChange={(e) => handleRoleChange(companyIndex, roleIndex, e)} placeholder="Team size"/>
+                    <input spellCheck={true} type="number" min={0} name="teamSize" className="w-full p-3 border rounded-md" value={role.teamSize} onChange={(e) => handleRoleChange(companyIndex, roleIndex, e)} placeholder="Team size"/>
                   </div>
                   <div>
                     <label className="block text-gray-700 font-medium">Job Type</label>
@@ -605,7 +605,7 @@ const handleSubmit = async (e) => {
                 </div>
                 {/* Checkbox */}
                 <div className="mt-4 flex items-center gap-2">
-                  <input type="checkbox" checked={role.currentlyWorking} onChange={() => toggleCurrentlyWorking(companyIndex, roleIndex)} className="h-5 w-5"/>
+                  <input  spellCheck={true} type="checkbox" checked={role.currentlyWorking} onChange={() => toggleCurrentlyWorking(companyIndex, roleIndex)} className="h-5 w-5"/>
                   <label className="text-gray-700">I currently work here</label>
                 </div>
                 {/* Description */}

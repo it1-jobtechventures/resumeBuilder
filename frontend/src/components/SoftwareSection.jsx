@@ -75,7 +75,7 @@ const resumeId = activeResumeId;
       <h2 className="text-2xl font-bold mb-4">Software</h2>
       {softwareList.map((software, index) => (
         <div key={index} className="mb-4 flex items-center justify-around">
-          <input type="text" style={{ textTransform: 'capitalize' }} className="w-1/2 p-2 border rounded-md" placeholder="Enter software name" value={software.name} onChange={(e) => handleSoftwareChange(index, e.target.value)}/>
+          <input spellCheck={true} type="text" style={{ textTransform: 'capitalize' }} className="w-1/2 p-2 border rounded-md" placeholder="Enter software name" value={software.name} onChange={(e) => handleSoftwareChange(index, e.target.value)}/>
           <div className="flex items-center mt-2">
             {[1, 2, 3, 4, 5].map((star) => (
               <FaStar key={star} className={`cursor-pointer text-xl ${software.rating >= star ? 'text-yellow-400' : 'text-gray-300'}`} onClick={() => handleRatingChange(index, star)}/>

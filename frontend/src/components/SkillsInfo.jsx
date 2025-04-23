@@ -113,9 +113,9 @@ const SkillsInfo = ({ nextStep, prevStep , url }) => {
                   </button>
                 )}
               </div>
-              <input type="text" value={skill.name} onChange={(e) => handleSkillChange(index, e)} placeholder="e.g., JavaScript" className="w-full p-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400 capitalize"/>
+              <input spellCheck={true} type="text" value={skill.name} onChange={(e) => handleSkillChange(index, e)} placeholder="e.g., JavaScript" className="w-full p-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400 capitalize"/>
               <label className="block mt-4 text-gray-700 font-semibold">Proficiency: {skill.level}% </label>
-              <input type="range" min="0" max="100" value={skill.level} onChange={(e) => handleSkillLevelChange(index, e)} className="w-full mt-1 accent-green-500 hover:accent-green-600 transition-all cursor-pointer"/>
+              <input spellCheck={true} type="range" min="0" max="100" value={skill.level} onChange={(e) => handleSkillLevelChange(index, e)} className="w-full mt-1 accent-green-500 hover:accent-green-600 transition-all cursor-pointer"/>
             </div>
           ))}
           <button type="button" onClick={addSkill}className="w-full bg-gradient-to-r from-green-500 to-blue-500 text-white px-6 py-3 rounded-md hover:from-blue-500 hover:to-green-500 transition-all duration-300 shadow-md">

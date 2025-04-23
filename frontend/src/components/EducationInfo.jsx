@@ -152,7 +152,7 @@ const EducationInfo = ({ nextStep, prevStep , url }) => {
                 </div>
                 <div>
                   <label className="block text-gray-700 font-medium">Field of Study</label>
-                  <input type="text" name="field" className="w-full p-3 border rounded-md capitalize focus:ring-2 focus:ring-blue-400 focus:border-blue-400 transition-all" value={education.field} onChange={(e) => handleEducationChange(index, e)} placeholder="e.g. Computer Science"/>
+                  <input spellCheck={true} type="text" name="field" className="w-full p-3 border rounded-md capitalize focus:ring-2 focus:ring-blue-400 focus:border-blue-400 transition-all" value={education.field} onChange={(e) => handleEducationChange(index, e)} placeholder="e.g. Computer Science"/>
                 </div>
                 <div>
                   <label className="block text-gray-700 font-medium">Graduation Date</label>
@@ -165,7 +165,7 @@ const EducationInfo = ({ nextStep, prevStep , url }) => {
                 <div className="flex flex-wrap gap-6 mt-2">
                   {['Online', 'Offline', 'Hybrid'].map((mode) => (
                     <label key={mode} className="flex items-center gap-2 text-gray-700">
-                      <input type="radio" name={`educationMode-${index}`} value={mode} checked={education.educationMode === mode} onChange={(e) => handleEducationChange(index, e)} className="h-4 w-4"/>
+                      <input spellCheck={true} type="radio" name={`educationMode-${index}`} value={mode} checked={education.educationMode === mode} onChange={(e) => handleEducationChange(index, e)} className="h-4 w-4"/>
                       {mode}
                     </label>
                   ))}
@@ -174,7 +174,7 @@ const EducationInfo = ({ nextStep, prevStep , url }) => {
               {/* CGPA */}
               <div className="mt-6">
                 <label className="block text-gray-700 font-medium">CGPA / Percentage</label>
-                <input type="number" name="cgpa" min={0} className="w-full p-3 border rounded-md focus:ring-2 focus:ring-blue-400 focus:border-blue-400 transition-all" value={education.cgpa} onChange={(e) => handleEducationChange(index, e)} placeholder="Enter your score"/>
+                <input spellCheck={true} type="number" name="cgpa" min={0} className="w-full p-3 border rounded-md focus:ring-2 focus:ring-blue-400 focus:border-blue-400 transition-all" value={education.cgpa} onChange={(e) => handleEducationChange(index, e)} placeholder="Enter your score"/>
               </div>
               {/* Remove Button */}
               {educationList.length > 1 && (

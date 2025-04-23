@@ -135,15 +135,15 @@ const resumeId = activeResumeId;
         <form className="p-6">
           <div className="mb-4">
             <label className="block text-gray-700">Reference Name</label>
-            <input type="text" name="name" style={{ textTransform: 'capitalize' }} className="w-full p-2 border rounded-md" placeholder="Enter reference name" value={reference.name} onChange={handleChange}/>
+            <input spellCheck={true} type="text" name="name" style={{ textTransform: 'capitalize' }} className="w-full p-2 border rounded-md" placeholder="Enter reference name" value={reference.name} onChange={handleChange}/>
           </div>
           <div className="mb-4">
             <label className="block text-gray-700">Company</label>
-            <input type="text" name="company" style={{ textTransform: 'capitalize' }} className="w-full p-2 border rounded-md" placeholder="Enter company name" value={reference.company} onChange={handleChange}/>
+            <input spellCheck={true} type="text" name="company" style={{ textTransform: 'capitalize' }} className="w-full p-2 border rounded-md" placeholder="Enter company name" value={reference.company} onChange={handleChange}/>
           </div>
           <div className="mb-4">
             <label className="block text-gray-700">Contact Information</label>
-            <input type="text" name="contact" style={{ textTransform: 'capitalize' }} className="w-full p-2 border rounded-md" placeholder="Enter contact details" value={reference.contact} onChange={handleChange}/>
+            <input spellCheck={true} type="text" name="contact" style={{ textTransform: 'capitalize' }} className="w-full p-2 border rounded-md" placeholder="Enter contact details" value={reference.contact} onChange={handleChange}/>
           </div>
           <div className="flex justify-between">
             <button type="button" onClick={prevStep} className="bg-gray-500 text-white px-4 py-2 rounded-md hover:bg-gray-600">
