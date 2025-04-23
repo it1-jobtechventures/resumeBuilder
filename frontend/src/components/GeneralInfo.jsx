@@ -261,6 +261,10 @@ const GeneralInfo = ({nextStep , url}) => {
                   <input type="text" name="firstName" style={{ textTransform: 'capitalize' }} value={formData.firstName} onChange={handleChange} className="w-full p-3 border border-gray-300 rounded-xl shadow-sm focus:ring-2 focus:ring-blue-500 focus:outline-none" placeholder="Rohit" required/>
                 </div>
                 <div>
+                  <label className="block text-[#4b164c] font-bold">Middle Name<span className="text-red-700 pl-0.5">*</span></label>
+                  <input type="text" name="middleName" style={{ textTransform: 'capitalize' }} value={formData.middleName} onChange={handleChange} className="w-full p-3 border border-gray-300 rounded-xl shadow-sm focus:ring-2 focus:ring-blue-500 focus:outline-none" placeholder="Name" required />
+                </div>
+                <div>
                   <label className="block text-[#4b164c] font-bold">Last Name<span className="text-red-700 pl-0.5">*</span></label>
                   <input type="text" name="lastName" style={{ textTransform: 'capitalize' }} value={formData.lastName} onChange={handleChange} className="w-full p-3 border border-gray-300 rounded-xl shadow-sm focus:ring-2 focus:ring-blue-500 focus:outline-none" placeholder="Sharma" required />
                 </div>
@@ -301,7 +305,7 @@ const GeneralInfo = ({nextStep , url}) => {
                 <label className="block text-[#4b164c] font-bold">Primary Number<span className="text-red-700 pl-0.5">*</span></label>
                 <div className="flex items-center border border-gray-300 rounded-lg">
                   <Select options={countryOptions()}isSearchable value={countryOptions().find((cc) => cc.value === formData.countryCode1)} onChange={(selectedOption) =>handleChange({ target: { name: 'countryCode1', value: selectedOption.value }, }) } className="w-28" placeholder="+91"/>
-                  <input type="number" name="phone1" value={formData.phone1} onChange={handleChange} className="w-full p-3 border-none focus:outline-none" placeholder="Enter your phone number" required/>
+                  <input type="number" min={0} name="phone1" value={formData.phone1} onChange={handleChange} className="w-full p-3 border-none focus:outline-none" placeholder="Enter your phone number" required/>
                 </div>
               </div>
               <div>
