@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 
 const educationSchema =  mongoose.Schema(  {
   // userId: { type: mongoose.Schema.Types.ObjectId, ref: "user", required: true }, // Link to User
-  userId:{type:String, required:true},
+  // userId:{type:String, required:true},
   resumeId: { type: mongoose.Schema.Types.ObjectId, ref: "resume", required: true }, // Link to Resume
   school: { type: String, required: true },
   location: { type: String },
