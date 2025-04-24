@@ -139,7 +139,7 @@
 import resumeModel from '../model/resumeModel.js'
 import userModel from '../model/userModel.js'
 import mongoose from 'mongoose';
-
+import '../model/volunterringModel.js'
 // Create new resume (Draft or Downloaded)
 const createResume = async (req, res) => {
   try {
@@ -203,7 +203,10 @@ const getUserResumes = async (req, res) => {
 const getResumeById = async (req, res) => {
   try {
     const { resumeId } = req.params;
-
+    console.log("Getting resume for ID:", resumeId);
+    if (!mongoose.Types.ObjectId.isValid(resumeId)) {
+      return res.status(400).json({ error: "Invalid resume ID format" });
+    }
     const resume = await resumeModel.findById(resumeId)
       // .populate("templateId")
       .populate("generalInfo")
@@ -218,14 +221,60 @@ const getResumeById = async (req, res) => {
       .populate("reference")
       .populate("accomplishment")
       .populate("interestsSection")
-      .populate("volunteering")
+      // .populate("volunteering")
       .populate("education")
-
+      if (!resume) {
+        return res.status(404).json({ error: "Resume not found" });
+      }
+  
     res.status(200).json(resume);
   } catch (err) {
     res.status(500).json({ error: "Failed to fetch resume", details: err });
   }
 };
+
+// const getResumeById = async (req, res) => {
+//   try {
+//     const { resumeId } = req.params;
+
+//     console.log("Requested Resume ID:", resumeId);
+
+//     if (!mongoose.Types.ObjectId.isValid(resumeId)) {
+//       console.log("Invalid ObjectId format");
+//       return res.status(400).json({ error: "Invalid Resume ID format" });
+//     }
+
+//     const resume = await resumeModel.findById(resumeId)
+//       // .populate("templateId")
+//       .populate("generalInfo")
+//       .populate("workExperience")
+//       .populate("projects")
+//       .populate("internshipExperience")
+//       .populate("skill")
+//       .populate("certification")
+//       .populate("language")
+//       .populate("socialLinks")
+//       .populate("softwareInfo")
+//       .populate("reference")
+//       .populate("accomplishment")
+//       .populate("interestsSection")
+//       // .populate("volunteering")
+//       .populate("education")
+
+//     if (!resume) {
+//       console.log("Resume not found in DB");
+//       return res.status(404).json({ error: "Resume not found" });
+//     }
+
+//     console.log("Resume found:", resume._id);
+//     res.status(200).json(resume);
+
+//   } catch (err) {
+//     console.error("Error fetching resume:", err);
+//     res.status(500).json({ error: "Failed to fetch resume", details: err.message });
+//   }
+// };
+
 
 // Update an existing resume (when edited)
 const updateResume = async (req, res) => {
