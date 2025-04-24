@@ -283,22 +283,30 @@ const transferTempResumesToUser = async (req, res) => {
       return res.status(400).json({ success: false, message: "Both IDs are required." });
     }
 
-    // Step 1: Find resumes with temp userId
-    const resumesToTransfer = await resumeModel.find({ userId: temporaryUserId });
+    // Step 1: Find all resumes that were created with temp ID but now may have real userId
+    const allResumes = await resumeModel.find({
+      $or: [
+        { userId: temporaryUserId },
+        { userId: realUserId }  // Just in case they were already updated
+      ]
+    });
 
-    if (resumesToTransfer.length === 0) {
+    // Filter those that have some reference to the temp userId
+    const resumesToAdd = allResumes.filter(r => r.userId.toString() === realUserId || r.previousUserId === temporaryUserId);
+
+    const resumeIds = resumesToAdd.map(r => r._id);
+
+    if (resumeIds.length === 0) {
       return res.status(404).json({ success: false, message: "No resumes found to transfer." });
     }
 
-    const resumeIds = resumesToTransfer.map(r => r._id);
-
-    // Step 2: Update those resumes to have the real userId
+    // Step 2: Ensure all of them have correct real userId (for safety)
     await resumeModel.updateMany(
       { _id: { $in: resumeIds } },
       { userId: realUserId }
     );
 
-    // Step 3: Add those resumeIds to the user's resume list
+    // Step 3: Push resume IDs to user model
     await userModel.findByIdAndUpdate(realUserId, {
       $addToSet: { resumes: { $each: resumeIds } }
     });
@@ -309,6 +317,7 @@ const transferTempResumesToUser = async (req, res) => {
     res.status(500).json({ error: "Failed to transfer resumes", details: error.message });
   }
 };
+
 
 
 // GET /api/resume/drafts
