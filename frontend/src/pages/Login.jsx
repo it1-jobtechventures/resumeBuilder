@@ -77,6 +77,19 @@ const Login = () => {
               setIsLoggedIn(true);
               toast.success("Logged in successfully");
               // navigate('/');
+              const realUserId = data.user?._id || data.userId;
+              const temporaryUserId = localStorage.getItem("temporaryUserId");
+              if (temporaryUserId && realUserId) {
+                try {
+                  await axios.post(`${backendUrl}/api/resume/convert-user`, {
+                    temporaryUserId,
+                    realUserId
+                  });
+                  localStorage.removeItem("temporaryUserId");
+                } catch (transferError) {
+                  console.error("Failed to transfer resumes:", transferError);
+                }
+              }
               navigate(from)
             } else {
               toast.error(data.message);
