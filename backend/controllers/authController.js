@@ -78,13 +78,29 @@ export const signup = async (req, res) => {
             maxAge,
         });
 
-        // Update resumes from temporary userId to actual user._id
+        // // Update resumes from temporary userId to actual user._id
         const tempId = req.body.temporaryUserId;
-        if (tempId) {
-            await resumeModel.updateMany(
-                { userId: tempId },
-                { $set: { userId: user._id } }
-            );
+        // if (tempId) {
+        //     await resumeModel.updateMany(
+        //         { userId: tempId },
+        //         { $set: { userId: user._id } }
+        //     );
+        // }
+
+        if(tempId){
+            const tempResumes = await resumeModel.find({ userId: tempId });
+
+            if (tempResumes.length > 0) {
+                await resumeModel.updateMany(
+                    { userId: tempId },
+                    { $set: { userId: user._id } }
+                );
+
+                const resumeIds = tempResumes.map(r => r._id);
+                await userModel.findByIdAndUpdate(user._id, {
+                    $addToSet: { resumes: { $each: resumeIds } }
+                });
+            }
         }
 
         //Sending Welcome Email
@@ -132,11 +148,26 @@ export const login = async (req, res) => {
         });
         const tempId = req.body.temporaryUserId;
 
+// if (tempId) {
+//     await resumeModel.updateMany(
+//         { userId: tempId },
+//         { $set: { userId: user._id } }
+//     );
+// }
 if (tempId) {
-    await resumeModel.updateMany(
-        { userId: tempId },
-        { $set: { userId: user._id } }
-    );
+    const tempResumes = await resumeModel.find({ userId: tempId });
+
+    if (tempResumes.length > 0) {
+        await resumeModel.updateMany(
+            { userId: tempId },
+            { $set: { userId: user._id } }
+        );
+
+        const resumeIds = tempResumes.map(r => r._id);
+        await userModel.findByIdAndUpdate(user._id, {
+            $addToSet: { resumes: { $each: resumeIds } }
+        });
+    }
 }
     
         return res.json({ success: true, message: "Login successful" });
