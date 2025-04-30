@@ -68,3 +68,26 @@ export const generateInternshipExperience= async ( company, title) => {
     throw new Error('Failed to generate summary');
   }
 };
+
+// Model function to interact with OpenAI API and generate the summary
+export const generateProjevtdes = async ( name, deployedLink ,githubLink) => {
+  try {
+    const prompt = `Create project description of 5 to 8 lines for resume with only given data:
+    projectName: ${name}
+    deplayedLink:${deployedLink}
+    githubLink:${githubLink}`
+    
+
+    // Call OpenAI API to generate the summary
+    const response = await openai.chat.completions.create({
+      model: 'gpt-4.1-nano', // You can adjust the model version as needed
+      messages: [{ role: 'system', content: 'You are a helpful assistant.' },
+                 { role: 'user', content: prompt }],
+      max_tokens: 100, // Adjust based on how long you want the summary to be
+    });
+
+    return response.choices[0].message.content;
+  } catch (error) {
+    throw new Error('Failed to generate summary');
+  }
+};

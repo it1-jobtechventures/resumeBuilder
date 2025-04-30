@@ -50,4 +50,19 @@ const aiInternshipExperience = async (req, res) => {
   }
 }
 
-export {aiGenerate , aiWorkExperience,aiInternshipExperience}
+const aiProject = async (req, res) => {
+  const {  name, deployedLink ,githubLink } = req.body;
+  
+  if (!name || !deployedLink ) {
+    return res.status(400).json({ message: 'Missing required fields.' });
+  }
+  try {
+    // Call the model to generate the summary
+    const generatedDescription = await generateWorkExperience(name, deployedLink ,githubLink);
+    return res.json({ summary :generatedDescription});
+  } catch (error) {
+    console.error('Error generating summary:', error);
+    return res.status(500).json({ error: 'Failed to generate summary' });
+  }
+}
+export {aiGenerate , aiWorkExperience,aiInternshipExperience,aiProject}
