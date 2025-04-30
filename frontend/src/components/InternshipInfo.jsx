@@ -82,17 +82,16 @@ import location from "../assets/locationData";
       for (const internship of internshipExperience) {
         if (internship.company.trim() !== "") {
           // Check if required fields are filled
-          if (
-            !internship.location.trim() ||
-            !internship.title.trim() ||
-            !internship.startDate ||
-            (!internship.currentlyWorking && !internship.endDate) || // End date required if not currently working
-            !internship.description.trim() ||
-            !internship.internshipMode
-          ) {
-            toast.error("Please fill all fields if the Company Name is entered.");
-            return false;
-          }
+          // if (
+          //   !internship.location.trim() ||
+          //   !internship.title.trim() ||
+          //   !internship.startDate ||
+          //   (!internship.currentlyWorking && !internship.endDate) || // End date required if not currently working
+          //   !internship.internshipMode
+          // ) {
+          //   toast.error("Please fill all fields if the Company Name is entered.");
+          //   return false;
+          // }
     
           // Validate that start date is not in the future
           if (internship.startDate > today) {
