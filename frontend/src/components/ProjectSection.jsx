@@ -60,6 +60,32 @@ const ProjectSection = ({url}) => {
     }
   }), []);
 
+  const generateProjectSummary = async (index) => {
+    const { name, deployedLink, githubLink } = projects[index];
+  
+    if (!name || !deployedLink) {
+      toast.error("Please enter both project name and deployed link to generate summary.");
+      return;
+    }
+  
+    try {
+      toast.info("Generating project summary...");
+      const response = await axios.post(`http://localhost:5000/api/ai/generate-projectDes`, {
+        name,
+        deployedLink,
+      });
+  
+      const updated = [...projects];
+      updated[index].summary = response.data.summary;
+      setProjects(updated);
+      toast.success("Generated successfully!");
+    } catch (error) {
+      console.error("Error generating project summary:", error.response?.data || error.message);
+      toast.error("Failed to generate summary.");
+    }
+  };
+  
+
     const handleSave = async (e) => {
       e.preventDefault();
       if (!resumeId) {
@@ -90,8 +116,10 @@ const ProjectSection = ({url}) => {
           <div key={index} className="mb-4 border-b pb-4">
             <input spellCheck={true} type="text" name="name" placeholder="Project Name" style={{ textTransform: 'capitalize' }} value={project.name} onChange={(e) => handleChange(index, e)} className="w-full p-2 border rounded-md mb-2"/>
             <input spellCheck={true} type="url" name="deployedLink" placeholder="Deployed Link" style={{ textTransform: 'capitalize' }} value={project.deployedLink} onChange={(e) => handleChange(index, e)} className="w-full p-2 border rounded-md mb-2"/>
-            <JoditEditor spellCheck={true} value={project.summary}config={editorConfig} onBlur={(newContent) => {const updatedProjects = [...projects]; updatedProjects[index].summary = newContent;setProjects(updatedProjects);}}/>
-            <input spellCheck={true} type="url" name="githubLink" style={{ textTransform: 'capitalize' }} placeholder="GitHub Link" value={project.githubLink} onChange={(e) => handleChange(index, e)} className="w-full p-2 border rounded-md mb-2"/>
+            <input spellCheck={true} type="url" name="githubLink" style={{ textTransform: 'capitalize' }} placeholder="GitHub Link" value={project.githubLink} onChange={(e) => handleChange(index, e)} className="w-full p-2 border rounded-md mb-2"/>            <JoditEditor spellCheck={true} value={project.summary}config={editorConfig} onBlur={(newContent) => {const updatedProjects = [...projects]; updatedProjects[index].summary = newContent;setProjects(updatedProjects);}}/>
+            <button type="button" onClick={() => generateProjectSummary(index)} className="text-sm bg-blue-500 text-white px-3 py-1 rounded-md hover:bg-blue-600 transition">
+              ✨ Generate with AI
+            </button>
             {projects.length > 1 && (
               <button type="button" onClick={() => removeProject(index)} className="text-red-500 hover:underline">
                 Remove Project
