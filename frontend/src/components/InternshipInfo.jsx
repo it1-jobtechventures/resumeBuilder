@@ -167,6 +167,32 @@ import location from "../assets/locationData";
         }))
       }
 
+      const generateInternshipSummary = async (index) => {
+        const { company, title } = internshipExperience[index];
+      
+        if (!company || !title) {
+          toast.error("Please enter both company and title to generate description.");
+          return;
+        }
+      
+        try {
+          toast.info("Generating description...");
+          const response = await axios.post(`${url}/api/ai/generate-internshipdescription`, {
+            company,
+            title
+          });
+      
+          const updated = [...internshipExperience];
+          updated[index].description = response.data.summary;
+          setInternshipExperience(updated);
+          toast.success("Generated successfully!");
+        } catch (error) {
+          console.error("Error generating internship summary:", error);
+          toast.error("Failed to generate summary.");
+        }
+      };
+      
+
   const handleSave = async (e) => {
     e.preventDefault();
 
@@ -282,6 +308,13 @@ import location from "../assets/locationData";
                       onBlur={(newContent) => { const updated = [...internshipExperience];  updated[internshipIndex].description = newContent; setInternshipExperience(updated); }}
                     />
                   </div>
+                  <button
+      type="button"
+      onClick={() => generateInternshipSummary(internshipIndex)}
+      className="text-sm bg-blue-500 text-white px-3 py-1 rounded-md hover:bg-blue-600 transition"
+    >
+      ✨ Generate with AI
+    </button>
                   <div>
                     <label className="block text-gray-700">Stipend (in LPA)</label>
                     <input spellCheck={true} type="number" name="stipend" min={0} value={internhip.stipend} onChange={(e) => handleCompanyChange(internshipIndex, e)} className="w-full p-2 border rounded-md" placeholder="Enter stipend"/>

@@ -161,13 +161,6 @@ const GeneralInfo = ({nextStep , url}) => {
     }
   };
   
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    const updatedData = { ...formData, [name]: value };
-    setFormData(updatedData);
-    localStorage.setItem('generalInfo', JSON.stringify(updatedData));
-  };
-
   const editorConfig = useMemo(() => ({
     readonly: false,
     height: 400,
@@ -206,6 +199,34 @@ const GeneralInfo = ({nextStep , url}) => {
     }))
   }
 
+  const generateSummary = async () => {
+    if (!formData.designation || !formData.experience) {
+      return; // Avoid generating summary if designation or experience is missing
+    }
+  
+    try {
+      // Send designation and experience to your backend AI API
+      const response = await axios.post(`${url}/api/ai/generate-summary`, {
+        designation: formData.designation,
+        experience: formData.experience,
+      });
+  
+      if (response.data && response.data.summary) {
+        // Update the formData with the generated summary
+        setFormData((prevData) => ({
+          ...prevData,
+          summary: response.data.summary,
+        }));
+      } else {
+        toast.error('Failed to generate summary.');
+      }
+    } catch (error) {
+      console.error('Error generating summary:', error);
+      toast.error('Error generating summary. Please try again.');
+    }
+  };
+  
+
   const handleSave = async (e) => {
     e.preventDefault();
     if (!validateForm()) return;
@@ -238,6 +259,23 @@ const GeneralInfo = ({nextStep , url}) => {
     }))
   }
 
+  // const handleChange = (e) => {
+  //   const { name, value } = e.target;
+  //   const updatedData = { ...formData, [name]: value };
+  //   setFormData(updatedData);
+  //   localStorage.setItem('generalInfo', JSON.stringify(updatedData));
+  // };
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    const updatedData = { ...formData, [name]: value };
+    setFormData(updatedData);
+    localStorage.setItem('generalInfo', JSON.stringify(updatedData));
+  
+    // Check if the updated field is either designation or experience
+    if (name === 'designation' || name === 'experience') {
+    }
+  };
+  
   return (
     <div className='flex justify-center items-center min-h-screen p-4 bg-gray-100'>
       <div className="w-full max-w-3xl bg-white shadow-lg rounded-xl p-6">
@@ -373,8 +411,11 @@ const GeneralInfo = ({nextStep , url}) => {
             {/* ✍️ Summary Editor */}
             <div>
               <label className="block text-[#4b164c] font-bold">Summary</label>
-              <JoditEditor spellCheck={true} ref={editor} config={editorConfig} defaultValue={formData.summary} onBlur={(newContent) => {const updatedData = { ...formData, summary: newContent };setFormData(updatedData);localStorage.setItem('generalInfo', JSON.stringify(updatedData));}}/>
+              <JoditEditor spellCheck={true} ref={editor} config={editorConfig} Value={formData.summary} onBlur={(newContent) => {const updatedData = { ...formData, summary: newContent };setFormData(updatedData);localStorage.setItem('generalInfo', JSON.stringify(updatedData));}}/>
             </div>
+            <button type="button" onClick={generateSummary} className="w-full sm:w-auto bg-gradient-to-r from-yellow-400 to-orange-500 text-white px-6 py-3 rounded-lg shadow-md hover:scale-105 transition-transform duration-200">
+              Generate summary using ai
+            </button>
             {/* 🟢 Next Button */}
             <div className="flex justify-center sm:justify-end">
               <button type="submit" onClick={handleSave} className="w-full sm:w-auto bg-gradient-to-r from-green-400 to-blue-500 text-white px-6 py-3 rounded-lg shadow-md hover:scale-105 transition-transform duration-200">

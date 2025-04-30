@@ -485,6 +485,35 @@ const WorkExperience = ({ nextStep, prevStep , url}) => {
     }
   }), []);
 
+  const generateDescription = async (companyIndex, roleIndex) => {
+    const company = workExperience[companyIndex];
+    const role = company.roles[roleIndex];
+  
+    if (!company.company || !company.totalCompanyExperience || !role.title) {
+      toast.warning("Please fill in Company Name, Experience, and Job Title before generating.");
+      return;
+    }
+  
+    try {
+      const response = await axios.post(`${url}/api/ai/generate-jobdescription`, {
+        companyName: company.company,
+        companyExperience: company.totalCompanyExperience,
+        jobTitle: role.title,
+      });
+  
+      const summary = response.data.summary || "";
+  
+      const updatedExperience = [...workExperience];
+      updatedExperience[companyIndex].roles[roleIndex].description = summary;
+      setWorkExperience(updatedExperience);
+      toast.success("Description generated successfully!");
+    } catch (error) {
+      toast.error("Failed to generate description.");
+      console.error("Error generating description:", error);
+    }
+  };
+  
+  
 const handleSubmit = async (e) => {
   e.preventDefault();
 
@@ -611,8 +640,20 @@ const handleSubmit = async (e) => {
                 {/* Description */}
                 <div className="mt-4">
                   <label className="block text-gray-700 font-medium">Job Description</label>
-                  <JoditEditor value={role.description} config={editorConfig} onBlur={(newContent) => {const updatedExperience = [...workExperience]; updatedExperience[companyIndex].roles[roleIndex].description = newContent; setWorkExperience(updatedExperience);  }} />
+                  {/* <JoditEditor value={role.description} config={editorConfig} onBlur={(newContent) => {const updatedExperience = [...workExperience]; updatedExperience[companyIndex].roles[roleIndex].description = newContent; setWorkExperience(updatedExperience);  }} /> */}
+                  <JoditEditor
+  ref={editor}
+  value={role.description}
+  config={editorConfig}
+  onChange={(newContent) => handleRoleChange(companyIndex, roleIndex, { target: { name: 'description', value: newContent } })}
+/>
                 </div>
+<button 
+  type="button" 
+  onClick={() => generateDescription(companyIndex, roleIndex)} 
+  className="text-sm bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-md transition">
+  Generate Job Description
+</button>
                 {/* Add/Remove Role Buttons */}
                 <div className="flex flex-col lg:flex-row justify-between items-center gap-4 mt-6">
                   <button type="button" onClick={() => addNewRole(companyIndex)} className="bg-gradient-to-r from-green-400 to-blue-500 hover:from-blue-500 hover:to-green-400 text-white px-4 py-2 rounded-md transition">
