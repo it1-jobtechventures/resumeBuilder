@@ -25,7 +25,23 @@ export const AppContextProvider = (props) => {
     }
   }, [activeResumeId]);
 
-  console.log("appcontect" ,activeResumeId)
+  console.log("appcontext" ,activeResumeId)
+
+  
+  // ✅ New: Track selectedTemplateId (or null if skipped)
+  const [selectedTemplateId, setSelectedTemplateId] = useState(
+    localStorage.getItem("selectedTemplateId") || null
+  );
+
+    // ✅ Save template selection to localStorage
+    useEffect(() => {
+        if (selectedTemplateId !== null) {
+          localStorage.setItem("selectedTemplateId", selectedTemplateId);
+        } else {
+          localStorage.removeItem("selectedTemplateId");
+        }
+      }, [selectedTemplateId]);
+
 
    // Generate Random 24-character ID
     const generateTempId = () => {
@@ -60,6 +76,8 @@ export const AppContextProvider = (props) => {
         temporaryUserId,
         activeResumeId,
         setActiveResumeId,
+        selectedTemplateId,
+        setSelectedTemplateId
     }
 
     return (
