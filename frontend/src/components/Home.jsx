@@ -28,8 +28,11 @@ const Home = ({url}) => {
       const response = await axios.post(`${url}/api/resume/create`, {userId , isDraft:true})
       // const resumeId = response.data.resumeId;
       const resumeId = response.data._id;
+      localStorage.removeItem('selectedTemplateId');
       localStorage.setItem('activeResumeId' , resumeId)
-      naviagte(`/createResume`)
+      localStorage.setItem('currentStep' ,0)
+      // naviagte(`/templates`)
+      naviagte('/templates', { state: { flow: 'template-first' } });
     } catch (error) {
       console.error("Error creating resume:", error.response?.data || error.message);
     }
@@ -59,4 +62,3 @@ const Home = ({url}) => {
 }
 
 export default Home
-
