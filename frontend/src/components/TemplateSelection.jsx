@@ -2,7 +2,7 @@ import React from 'react';
 import TemplateCard from './TemplateCard';
 import { useNavigate } from 'react-router-dom';
 
-const TemplateSelection = ({ templates }) => {
+const TemplateSelection = ({ templates ,onTemplateSelect}) => {
   const navigate = useNavigate()
 
   return (
@@ -10,7 +10,7 @@ const TemplateSelection = ({ templates }) => {
       <h2 className="text-2xl md:text-3xl font-bold text-center mb-8 text-gray-800">Choose Your Resume Template</h2>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
         {templates.map((template) => (
-          <TemplateCard key={template._id} template={template} />
+          <TemplateCard key={template._id} template={template} onTemplateSelect={onTemplateSelect}/>
         ))}
       </div>
       <div>
