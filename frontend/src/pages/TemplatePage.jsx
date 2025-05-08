@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios'
 import TemplateSelection from '../components/TemplateSelection'
 
-const TemplatePage = ({url}) => {
+const TemplatePage = ({url, onTemplateSelect}) => {
   const [templates, setTemplates] = useState([]);
 
   useEffect(() => {
@@ -21,7 +21,7 @@ const TemplatePage = ({url}) => {
   return (
     <div>
       <h1>Choose a Template</h1>
-      <TemplateSelection templates={templates} url={url} />
+      <TemplateSelection templates={templates} url={url}  onTemplateSelect={ onTemplateSelect} />
     </div>
   );
 };
