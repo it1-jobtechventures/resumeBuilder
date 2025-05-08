@@ -31,7 +31,7 @@ import React, { useContext } from 'react';
 import { useNavigate ,useLocation} from 'react-router-dom';
 import { AppContext } from '../context/AppContext';
 
-const TemplateCard = ({ template }) => {
+const TemplateCard = ({ template , onTemplateSelect}) => {
   const navigate = useNavigate();
   const { setSelectedTemplateId } = useContext(AppContext);
   const location = useLocation();
@@ -42,6 +42,13 @@ const TemplateCard = ({ template }) => {
     localStorage.setItem('selectedTemplateId', template._id);
     setSelectedTemplateId(template._id); // Update the context state as well
     console.log('selected template from template card', template._id);
+
+    // Call the prop if provided (e.g., from ResumeReview)
+    if (onTemplateSelect) {
+      onTemplateSelect(template._id);
+      return; // Stop further navigation
+    }
+
     // Check if the form is already filled (you can replace with your own condition based on filled form data)
     const formFilled = localStorage.getItem('generalInfo') ;
     console.log("Navigation state:", location.state);
