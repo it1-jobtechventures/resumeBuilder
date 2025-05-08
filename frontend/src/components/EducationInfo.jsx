@@ -149,7 +149,7 @@ const EducationInfo = ({ nextStep, prevStep , url }) => {
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-6">
                 <div>
                   <label className="block text-gray-700 font-medium">Degree</label>
-                  <CreatableSelect options={degree()} className="capitalize" isSearchable placeholder="Select Degree" value={degree().find((deg) => deg.value === education.degree) || {label: education.degree,value: education.degree,}}onChange={(selectedOption) => {const event = {target: {ame: 'degree',value: selectedOption?.value || '',}, };handleEducationChange(index, event);}}isClearable/>
+                  <CreatableSelect options={degree()} className="capitalize" isSearchable placeholder="Select Degree" value={degree().find((deg) => deg.value === education.degree) || {label: education.degree,value: education.degree,}}onChange={(selectedOption) => {const event = {target: {name: 'degree',value: selectedOption?.value || '',}, };handleEducationChange(index, event);}}isClearable/>
                 </div>
                 <div>
                   <label className="block text-gray-700 font-medium">Field of Study</label>
