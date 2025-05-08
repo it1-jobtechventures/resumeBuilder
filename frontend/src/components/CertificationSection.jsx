@@ -12,7 +12,8 @@ const CertificationSection = ({ nextStep, prevStep , url}) => {
   });
 
   const { updateResumeData } = useResume();
-  const { activeResumeId } = useContext(AppContext);
+  // const { activeResumeId } = useContext(AppContext);
+  const [activeResumeId, setActiveResumeId] = useState(() => localStorage.getItem("activeResumeId") || null);
   const resumeId = activeResumeId;
 
   useEffect(() => {

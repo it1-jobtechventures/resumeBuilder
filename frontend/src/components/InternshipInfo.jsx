@@ -27,7 +27,8 @@ import location from "../assets/locationData";
       }
     ]})
     const { updateResumeData  } = useResume();
-    const {activeResumeId} = useContext(AppContext)
+    // const {activeResumeId} = useContext(AppContext)
+    const [activeResumeId, setActiveResumeId] = useState(() => localStorage.getItem("activeResumeId") || null);
     console.log('iE',activeResumeId)
     const resumeId = activeResumeId;
     const editor = useRef(null);

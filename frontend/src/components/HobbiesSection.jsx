@@ -12,7 +12,8 @@ const HobbiesSection = ({url}) => {
     return savedInterests ? JSON.parse(savedInterests) : [''];
   });
   const { updateResumeData  } = useResume();
-  const {activeResumeId} = useContext(AppContext)
+  // const {activeResumeId} = useContext(AppContext)
+  const [activeResumeId, setActiveResumeId] = useState(() => localStorage.getItem("activeResumeId") || null);
 console.log('intrest',activeResumeId)
 const resumeId = activeResumeId;
   // Save to local storage whenev
@@ -36,54 +37,20 @@ const resumeId = activeResumeId;
     setInterests(updatedInterests);
   };
 
-    // const handleSave = async (e) => {
-    //   e.preventDefault();
-
-    
-    //   if (!resumeId) {
-    //     toast.error("Resume ID is missing");
-    //     console.error("❌ Resume ID is undefined");
-    //     return;
-    //   }
-    
-    //   console.log("📤 Sending data to backend:", { resumeId, ...interests });
-    
-    //   try {
-    //     const data = await axios.post('http://localhost:5000/api/interest/add-interest', {
-    //       userId: localStorage.getItem("temporaryUserId"),
-    //       resumeId,
-    //       interests,
-    //     });
-    
-    //     console.log("✅ Response from backend:", data);
-    
-  
-    //     toast.success(data.message || 'Saved successfully');
-
-    //   } catch (error) {
-    //     console.error("❌ Error from backend:", error.response?.data || error);
-    //     toast.error(error.response?.data?.error || 'Save failed');
-    //   }
-    // };
-    
     const handleSave = async (e) => {
       e.preventDefault();
-    
       if (!resumeId) {
         toast.error("Resume ID is missing");
         console.error("❌ Resume ID is undefined");
         return;
       }
-    
       const formattedInterests = interests
         .filter((item) => item.trim() !== "")
         .map((item) => ({ name: item }));
-    
       console.log("📤 Sending data to backend:", {
         resumeId,
         interests: formattedInterests,
       });
-    
       try {
         const data = await axios.post(
           `${url}/api/interest/add-interest`,
@@ -93,9 +60,7 @@ const resumeId = activeResumeId;
             interests: formattedInterests,
           }
         );
-    
         console.log("✅ Response from backend:", data);
-    
         toast.success(data.data.message || "Saved successfully");
       } catch (error) {
         console.error("❌ Error from backend:", error.response?.data || error);

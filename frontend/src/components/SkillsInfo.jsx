@@ -12,7 +12,8 @@ const SkillsInfo = ({ nextStep, prevStep , url }) => {
   });
 
     const { updateResumeData  } = useResume();
-    const {activeResumeId} = useContext(AppContext)
+    // const {activeResumeId} = useContext(AppContext)
+    const [activeResumeId, setActiveResumeId] = useState(() => localStorage.getItem("activeResumeId") || null);
     console.log('skilss',activeResumeId)
     const resumeId = activeResumeId;
 
@@ -62,13 +63,11 @@ const SkillsInfo = ({ nextStep, prevStep , url }) => {
 
     const handleSave = async (e) => {
       e.preventDefault();
-      
       if (!resumeId) {
         toast.error("Resume ID is missing");
         console.error("❌ Resume ID is undefined");
         return;
       }
-    
       // Check if there are any skills entered
       let validSkills = skills.filter(skill => skill.name.trim() && skill.level);
 

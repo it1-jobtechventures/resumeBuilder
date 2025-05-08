@@ -13,8 +13,9 @@ const LanguagesSection = () => {
     return savedLanguages ? JSON.parse(savedLanguages) : [{ language: '',   customLanguage: '', level: '' }];
   });
   const { updateResumeData  } = useResume();
-  const {activeResumeId} = useContext(AppContext)
-console.log('cer',activeResumeId)
+  // const {activeResumeId} = useContext(AppContext)
+  const [activeResumeId, setActiveResumeId] = useState(() => localStorage.getItem("activeResumeId") || null);
+console.log('lang',activeResumeId)
 const resumeId = activeResumeId;
   // Save to local storage whenev
   // Save to local storage whenever languages change
@@ -44,28 +45,20 @@ const resumeId = activeResumeId;
 
     const handleSave = async (e) => {
       e.preventDefault();
-     
-    
       if (!resumeId) {
         toast.error("Resume ID is missing");
         console.error("❌ Resume ID is undefined");
         return;
       }
-    
       console.log("📤 Sending data to backend:", { resumeId, ...languages });
-    
       try {
         const data = await axios.post('http://localhost:5000/api/language/add-language', {
           userId: localStorage.getItem("temporaryUserId"),
           resumeId,
           languages,
         });
-    
         console.log("✅ Response from backend:", data);
-    
-  
         toast.success(data.message || 'Saved successfully');
-   
       } catch (error) {
         console.error("❌ Error from backend:", error.response?.data || error);
         toast.error(error.response?.data?.error || 'Save failed');

@@ -12,7 +12,8 @@ const SoftwareSection = ({url}) => {
     return savedSoftware ? JSON.parse(savedSoftware):[{ name: '', rating: 0 }];
   });
   const { updateResumeData  } = useResume();
-  const {activeResumeId} = useContext(AppContext)
+  // const {activeResumeId} = useContext(AppContext)
+  const [activeResumeId, setActiveResumeId] = useState(() => localStorage.getItem("activeResumeId") || null);
 console.log('sof',activeResumeId)
 const resumeId = activeResumeId;
   // Save to local storage whenev
@@ -43,27 +44,20 @@ const resumeId = activeResumeId;
 
     const handleSave = async (e) => {
       e.preventDefault();
-      
       if (!resumeId) {
         toast.error("Resume ID is missing");
         console.error("❌ Resume ID is undefined");
         return;
       }
-    
       console.log("📤 Sending data to backend:", { resumeId, ...softwareList });
-    
       try {
         const data = await axios.post(`${url}/api/softwareInfo/add-software`, {
           userId: localStorage.getItem("temporaryUserId"),
           resumeId,
           softwareSkills: softwareList,
-        });
-    
+        })
         console.log("✅ Response from backend:", data);
-    
-  
         toast.success(data.message || 'Saved successfully');
-    
       } catch (error) {
         console.error("❌ Error from backend:", error.response?.data || error);
         toast.error(error.response?.data?.error || 'Save failed');

@@ -13,7 +13,8 @@ const ReferanceInfo = ({ nextStep, prevStep , url}) => {
       contact: ''}]
   });
   const { updateResumeData  } = useResume();
-  const {activeResumeId} = useContext(AppContext)
+  // const {activeResumeId} = useContext(AppContext)
+  const [activeResumeId, setActiveResumeId] = useState(() => localStorage.getItem("activeResumeId") || null);
 console.log('ref',activeResumeId)
 const navigate = useNavigate()
 const resumeId = activeResumeId;

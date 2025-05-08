@@ -12,7 +12,8 @@ const ProjectSection = ({url}) => {
     return savedProjects ? JSON.parse(savedProjects) : [{ name: "", deployedLink: "", summary: "", githubLink: "" }];
   });
   const { updateResumeData  } = useResume();
-  const {activeResumeId} = useContext(AppContext)
+  // const {activeResumeId} = useContext(AppContext)
+  const [activeResumeId, setActiveResumeId] = useState(() => localStorage.getItem("activeResumeId") || null);
   console.log('per',activeResumeId)
   const resumeId = activeResumeId;
   const editor = useRef(null);
@@ -74,7 +75,6 @@ const ProjectSection = ({url}) => {
         name,
         deployedLink,
       });
-  
       const updated = [...projects];
       updated[index].summary = response.data.summary;
       setProjects(updated);

@@ -17,7 +17,13 @@ const GeneralInfo = ({nextStep , url}) => {
   const [selectedCity, setSelectedCity] = useState('');
   const [pincode, setPincode] = useState("");
   const { updateResumeData  } = useResume();
-  const {activeResumeId} = useContext(AppContext)
+  // const {activeResumeId} = useContext(AppContext)
+  // useEffect(() => {
+  //   if (activeResumeId) {
+  //     localStorage.setItem("activeResumeId", activeResumeId);
+  //   }
+  // }, [activeResumeId]);
+  const [activeResumeId, setActiveResumeId] = useState(() => localStorage.getItem("activeResumeId") || null);
   const resumeId = activeResumeId;
   const editor = useRef(null);
 

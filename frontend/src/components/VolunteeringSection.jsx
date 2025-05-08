@@ -11,7 +11,8 @@ const VolunteeringSection = ({url}) => {
     return savedVolunteering ? JSON.parse(savedVolunteering) : [''];
   });
   const { updateResumeData  } = useResume();
-  const {activeResumeId} = useContext(AppContext)
+  // const {activeResumeId} = useContext(AppContext)
+  const [activeResumeId, setActiveResumeId] = useState(() => localStorage.getItem("activeResumeId") || null);
 console.log('vo',activeResumeId)
 const resumeId = activeResumeId;
   // Save to local storage whenev
@@ -36,28 +37,20 @@ const resumeId = activeResumeId;
   };
   const handleSave = async (e) => {
     e.preventDefault();
-   
-  
     if (!resumeId) {
       toast.error("Resume ID is missing");
       console.error("❌ Resume ID is undefined");
       return;
     }
-  
     console.log("📤 Sending data to backend:", { resumeId, ...volunteering });
-  
     try {
       const data = await axios.post(`${url}/api/volunteering/add-volunteering`, {
         userId: localStorage.getItem("temporaryUserId"),
         resumeId,
         volunteerings:volunteering.map((item) => ({ name: item })),
       });
-  
       console.log("✅ Response from backend:", data);
-  
-
       toast.success(data.message || 'Saved successfully');
-      
     } catch (error) {
       console.error("❌ Error from backend:", error.response?.data || error);
       toast.error(error.response?.data?.error || 'Save failed');
