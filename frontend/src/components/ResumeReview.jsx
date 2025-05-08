@@ -845,6 +845,8 @@ import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
 import { AppContext } from '../context/AppContext';
 import { useResume } from '../context/FormContext';
+import axios from 'axios';
+import TemplatePage from '../pages/TemplatePage'
 
 const ResumeReview = ({ url }) => {
   const location = useLocation();
@@ -865,6 +867,11 @@ const ResumeReview = ({ url }) => {
 
   const getValueByPath = (obj, path) => path.split('.').reduce((acc, part) => acc && acc[part], obj);
 
+  const handleTemplateChange = (newTemplateId) => {
+    setTemplateId(newTemplateId);
+    localStorage.setItem('selectedTemplateId', newTemplateId);
+  };
+  
   const replacePlaceholders = (html, data) =>
     html
       .replace(/{{#(\w+)}}([\s\S]*?){{\/\1}}/g, (match, key, content) => {
@@ -917,9 +924,8 @@ const ResumeReview = ({ url }) => {
     if (!templateId) return;
     const fetchTemplate = async () => {
       try {
-        const res = await fetch(`${url}/api/template/singleTemplate/${templateId}`);
-        const data = await res.json();
-        setTemplateData(data);
+        const res = await axios.get(`${url}/api/template/singleTemplate/${templateId}`);
+        setTemplateData(res.data);
       } catch (err) {
         console.error('Error loading template:', err);
       }
@@ -989,7 +995,8 @@ const ResumeReview = ({ url }) => {
   const finalHTML = replacePlaceholders(templateData.htmlContent, resumeData);
 
   return (
-    <div className="p-4">
+    <>
+          <div className="p-4">
       <h1 className="text-center text-2xl font-bold capitalize mb-4">{templateData.name}</h1>
 
       <div className="flex flex-col md:flex-row gap-5">
@@ -1024,6 +1031,11 @@ const ResumeReview = ({ url }) => {
         )}
       </div>
     </div>
+    <div>
+      <TemplatePage url={url} onTemplateSelect={handleTemplateChange}/>
+    </div>
+    </>
+
   );
 };
 
