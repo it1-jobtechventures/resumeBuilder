@@ -119,54 +119,107 @@ const GeneralInfo = ({nextStep , url}) => {
     }
   };
 
-  //using json 
+  // //using json 
+  // useEffect(() => {
+  //   if (!countryCode || countryCode.length === 0) return;
+  //   setCountries(countryCode.map((country) => country.country_name));
+  // }, [countryCode]); // Added dependency for re-fetching if countryCode changes
+  
   useEffect(() => {
-    if (!countryCode || countryCode.length === 0) return;
-    setCountries(countryCode.map((country) => country.country_name));
-  }, [countryCode]); // Added dependency for re-fetching if countryCode changes
-  
-  const handleCountryChange = async (e) => {
-    const country = e.target.value;
-    setSelectedCountry(country);
-    setFormData(prev => ({ ...prev, country }));
-  
-    if (!country) return;
-    try {
-      const { data } = await axios.post('https://countriesnow.space/api/v0.1/countries/cities', { country });
-      setCities(data?.data || []);
-      if (!data?.data.length) toast.error('No cities found');
-    } catch (error) {
-      console.error('Error fetching cities:', error);
-      toast.error('Failed to load cities');
-    }
-  };
-  
-  const handleCityChange = async(e) => {
-    const city = e.target.value
-    setSelectedCity(city);
-    setFormData(prev => ({ ...prev, city}));
+  if (!countryCode || countryCode.length === 0) return;
+  const countryList = countryCode.map((country) => ({
+    label: country.country_name,
+    value: country.country_name
+  }));
+  setCountries(countryList);
+}, []);
 
-    if (!selectedCountry || !city) {
-      toast.error("Please select a country first.");
-      return;
-    }
-    try {
-      const countryCode = selectedCountry.toLowerCase(); // Convert to lowercase for API
-      const response = await axios.get(`https://api.zippopotam.us/${countryCode}/${city}`);
-
-      if (response.data && response.data.places.length > 0) {
-        const fetchedPincode = response.data.places[0]["post code"];
-        setPincode(fetchedPincode);
-        setFormData(prev => ({ ...prev, pincode: fetchedPincode }));
-      } else {
-        toast.error("No pincode found for this city.");
-      }
-    } catch (error) {
-      console.error("Error fetching pincode:", error);
-      toast.error("Failed to fetch pincode. Try another city.");
-    }
-  };
+  // const handleCountryChange = async (e) => {
+  //   const country = e.target.value;
+  //   setSelectedCountry(country);
+  //   setFormData(prev => ({ ...prev, country }));
   
+  //   if (!country) return;
+  //   try {
+  //     const { data } = await axios.post('https://countriesnow.space/api/v0.1/countries/cities', { country });
+  //     setCities(data?.data || []);
+  //     if (!data?.data.length) toast.error('No cities found');
+  //   } catch (error) {
+  //     console.error('Error fetching cities:', error);
+  //     toast.error('Failed to load cities');
+  //   }
+  // };
+  const handleCountryChange = async (selectedOption) => {
+  const country = selectedOption?.value || '';
+  setSelectedCountry(country);
+  setFormData(prev => ({ ...prev, country }));
+
+  if (!country) return;
+
+  try {
+    const { data } = await axios.post('https://countriesnow.space/api/v0.1/countries/cities', { country });
+    const cityOptions = data?.data?.map(city => ({ label: city, value: city })) || [];
+    setCities(cityOptions);
+
+    if (!cityOptions.length) toast.error('No cities found');
+  } catch (error) {
+    console.error('Error fetching cities:', error);
+    toast.error('Failed to load cities');
+  }
+};
+
+  // const handleCityChange = async(e) => {
+  //   const city = e.target.value
+  //   setSelectedCity(city);
+  //   setFormData(prev => ({ ...prev, city}));
+
+  //   if (!selectedCountry || !city) {
+  //     toast.error("Please select a country first.");
+  //     return;
+  //   }
+  //   try {
+  //     const countryCode = selectedCountry.toLowerCase(); // Convert to lowercase for API
+  //     const response = await axios.get(`https://api.zippopotam.us/${countryCode}/${city}`);
+
+  //     if (response.data && response.data.places.length > 0) {
+  //       const fetchedPincode = response.data.places[0]["post code"];
+  //       setPincode(fetchedPincode);
+  //       setFormData(prev => ({ ...prev, pincode: fetchedPincode }));
+  //     } else {
+  //       toast.error("No pincode found for this city.");
+  //     }
+  //   } catch (error) {
+  //     console.error("Error fetching pincode:", error);
+  //     toast.error("Failed to fetch pincode. Try another city.");
+  //   }
+  // };
+  const handleCityChange = async (selectedOption) => {
+  const city = selectedOption?.value || '';
+  setSelectedCity(city);
+  setFormData(prev => ({ ...prev, city }));
+
+  if (!selectedCountry || !city) {
+    toast.error("Please select a country first.");
+    return;
+  }
+
+  try {
+    const countryCode = selectedCountry.toLowerCase();
+    const response = await axios.get(`https://api.zippopotam.us/${countryCode}/${city}`);
+
+    if (response.data && response.data.places.length > 0) {
+      const fetchedPincode = response.data.places[0]["post code"];
+      setPincode(fetchedPincode);
+      setFormData(prev => ({ ...prev, pincode: fetchedPincode }));
+    } else {
+      toast.error("No pincode found for this city.");
+    }
+  } catch (error) {
+    console.error("Error fetching pincode:", error);
+    toast.error("Failed to fetch pincode. Try another city.");
+  }
+};
+
   const editorConfig = useMemo(() => ({
     readonly: false,
     height: 400,
@@ -364,25 +417,11 @@ const GeneralInfo = ({nextStep , url}) => {
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
               <div>
                 <label className="block text-[#4b164c] font-bold">Country<span className='text-red-700 pl-0.5'>*</span></label>
-                <select value={selectedCountry} onChange={handleCountryChange} className="w-full p-3 border border-gray-300 rounded-xl shadow-sm focus:ring-2 focus:ring-blue-500 focus:outline-none capitalize">
-                  <option value="">Select Country</option>
-                  {countries.map((country, index) => (
-                    <option key={index} value={country}>
-                      {country}
-                    </option>
-                  ))}
-                </select>
+                <Select  isSearchable options={countries} value={countries.find((c) => c.value === selectedCountry)} onChange={handleCountryChange} className="w-full" placeholder="Select Country"/>
               </div>
               <div>
                 <label className="block text-[#4b164c] font-bold">City</label>
-                <select value={selectedCity} onChange={handleCityChange} className="w-full p-3 border border-gray-300 rounded-xl shadow-sm focus:ring-2 focus:ring-blue-500 focus:outline-none capitalize">
-                  <option value="">Select City</option>
-                  {cities.map((city, index) => (
-                    <option key={index} value={city}>
-                      {city}
-                    </option>
-                  ))}
-                </select>
+                <Select isSearchable options={cities} value={cities.find((c) => c.value === selectedCity)} onChange={handleCityChange} className="w-full" placeholder="Select City"/>
               </div>
             </div>
             {/* 📫 Address + Pincode */}
@@ -436,3 +475,27 @@ const GeneralInfo = ({nextStep , url}) => {
 }
 
 export default GeneralInfo
+            // <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+            //   <div>
+            //     <label className="block text-[#4b164c] font-bold">Country<span className='text-red-700 pl-0.5'>*</span></label>
+            //     <select value={selectedCountry} onChange={handleCountryChange} className="w-full p-3 border border-gray-300 rounded-xl shadow-sm focus:ring-2 focus:ring-blue-500 focus:outline-none capitalize">
+            //       <option value="">Select Country</option>
+            //       {countries.map((country, index) => (
+            //         <option key={index} value={country}>
+            //           {country}
+            //         </option>
+            //       ))}
+            //     </select>
+            //   </div>
+            //   <div>
+            //     <label className="block text-[#4b164c] font-bold">City</label>
+            //     <select value={selectedCity} onChange={handleCityChange} className="w-full p-3 border border-gray-300 rounded-xl shadow-sm focus:ring-2 focus:ring-blue-500 focus:outline-none capitalize">
+            //       <option value="">Select City</option>
+            //       {cities.map((city, index) => (
+            //         <option key={index} value={city}>
+            //           {city}
+            //         </option>
+            //       ))}
+            //     </select>
+            //   </div>
+            // </div>
