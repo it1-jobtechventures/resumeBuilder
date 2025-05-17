@@ -14,7 +14,6 @@ const SkillsInfo = ({ nextStep, prevStep , url }) => {
     const { updateResumeData  } = useResume();
     // const {activeResumeId} = useContext(AppContext)
     const [activeResumeId, setActiveResumeId] = useState(() => localStorage.getItem("activeResumeId") || null);
-    console.log('skilss',activeResumeId)
     const resumeId = activeResumeId;
 
   useEffect(() => {
@@ -85,8 +84,6 @@ const SkillsInfo = ({ nextStep, prevStep , url }) => {
           resumeId,
           skills: validSkills,
         });
-    
-        console.log("✅ Response from backend:", data);
         toast.success(data.message || 'Saved successfully');
         nextStep();
       } catch (error) {

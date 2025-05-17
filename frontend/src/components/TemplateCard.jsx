@@ -41,8 +41,6 @@ const TemplateCard = ({ template , onTemplateSelect}) => {
     // Save the selected template ID
     localStorage.setItem('selectedTemplateId', template._id);
     setSelectedTemplateId(template._id); // Update the context state as well
-    console.log('selected template from template card', template._id);
-
     // Call the prop if provided (e.g., from ResumeReview)
     if (onTemplateSelect) {
       onTemplateSelect(template._id);
@@ -51,8 +49,6 @@ const TemplateCard = ({ template , onTemplateSelect}) => {
 
     // Check if the form is already filled (you can replace with your own condition based on filled form data)
     const formFilled = localStorage.getItem('generalInfo') ;
-    console.log("Navigation state:", location.state);
-
     if (flowType === 'form-first' && formFilled) {
       navigate('/resume-review');
     } else {

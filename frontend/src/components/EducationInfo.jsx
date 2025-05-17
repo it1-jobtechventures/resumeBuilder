@@ -21,7 +21,6 @@ const EducationInfo = ({ nextStep, prevStep , url }) => {
     // const {activeResumeId} = useContext(AppContext)
     const [activeResumeId, setActiveResumeId] = useState(() => localStorage.getItem("activeResumeId") || null);
     const resumeId = activeResumeId;
-    console.log('edu',activeResumeId)
 
   useEffect(()=>{
     localStorage.setItem("education" , JSON.stringify(educationList))
@@ -79,7 +78,6 @@ const EducationInfo = ({ nextStep, prevStep , url }) => {
 
     const handleNext = async (e) => {
       e.preventDefault();
-      console.log("📋 Starting education validation...");
 
       const isEMpty = educationList.every(edu =>
         !edu.school &&
@@ -98,8 +96,6 @@ const EducationInfo = ({ nextStep, prevStep , url }) => {
       }
    
         try {
-          console.log("✅ Validation passed.");
-          console.log("📚 Education list to be submitted:", educationList);
           for (const education of educationList) {
             if (education.school.trim() !== "") {
               const payload = {
@@ -107,16 +103,12 @@ const EducationInfo = ({ nextStep, prevStep , url }) => {
                 resumeId,
                 ...education,
               };
-              console.log("📤 Sending education data to backend:", payload);
               const res = await axios.post(`${url}/api/education/add-education`, {  userId: localStorage.getItem("temporaryUserId"),
                 resumeId,
                 ...education,});
-              console.log("✅ Education saved:", res.data);
             } else {
-              console.log("⛔ Skipping empty education entry:", education);
             }
           }
-          console.log("🎓 All valid education entries processed.");
           nextStep();
         } catch (error) {
           console.error("❌ Error saving education:", error);
