@@ -42,14 +42,12 @@ const CertificationSection = ({ nextStep, prevStep , url}) => {
       console.error("❌ Resume ID is undefined");
       return;
     }
-    console.log("📤 Sending data to backend:", { resumeId, certifications });
     try {
       const data = await axios.post(`${url}/api/certificate/add-certificate`, {
         userId: localStorage.getItem("temporaryUserId"),
         resumeId,
         certifications, // Send certifications as an array of objects
       });
-      console.log("✅ Response from backend:", data);
       toast.success(data.message || 'Saved successfully');
     } catch (error) {
       console.error("❌ Error from backend:", error.response?.data || error);
@@ -58,25 +56,31 @@ const CertificationSection = ({ nextStep, prevStep , url}) => {
   };
 
   return (
-    <div className="p-6">
-      <h2 className="text-2xl font-bold mb-4">Certifications</h2>
-      <form>
+  <>
+    <div className="p-6 bg-white rounded-md shadow-md max-w-3xl mx-auto">
+      <h2 className="text-2xl font-bold text-center text-gray-800 mb-6">Certifications</h2>
+      <form className="space-y-6">
         {certifications.map((certification, index) => (
-          <div key={index} className="mb-4 flex items-center">
-            <input spellCheck={true} type="text" className="w-full p-2 border rounded-md" style={{ textTransform: 'capitalize' }} placeholder="Enter certification" value={certification.name} onChange={(e) => handleChange(index, e.target.value)} />
+          <div key={index} className="flex items-center gap-4 border border-gray-300 rounded-md p-4 bg-gray-50 shadow-sm">
+            <input type="text" spellCheck={true} placeholder="Enter certification name" value={certification.name} onChange={(e) => handleChange(index, e.target.value)} className="w-full p-3 border border-gray-300 rounded-md capitalize focus:outline-none focus:ring-2 focus:ring-blue-500"/>
             {certifications.length > 1 && (
-              <button type="button" onClick={() => handleRemoveCertification(index)} className="ml-2 text-red-500 hover:text-red-700 font-extrabold text-3xl">
+              <button type="button" onClick={() => handleRemoveCertification(index)} className="text-red-600 hover:text-red-800 text-xl" title="Remove">
                 <RxCross2 />
               </button>
             )}
           </div>
         ))}
-        <button onClick={handleSave}>Save</button>
-        <button type="button" onClick={handleAddCertification} className="bg-[linear-gradient(90deg,_hsla(133,_68%,_60%,_1)_0%,_hsla(205,_97%,_42%,_1)_100%)] cursor-pointer text-white px-4 py-2 rounded-md hover:bg-[linear-gradient(90deg,_hsla(205,_97%,_42%,_1)_0%,_hsla(133,_68%,_60%,_1)_100%)]">
-          + Add Certification
-        </button>
+        <div className="flex flex-col sm:flex-row justify-between items-center gap-4">
+          <button type="button" onClick={handleAddCertification} className="w-full sm:w-auto bg-gradient-to-r from-green-500 to-blue-500 text-white px-6 py-2 rounded-md hover:from-blue-500 hover:to-green-500 transition" >
+            + Add Certification
+          </button>
+          <button type="button" onClick={handleSave} className="w-full sm:w-auto bg-gray-700 text-white px-6 py-2 rounded-md hover:bg-gray-800 transition">
+            Save Certifications
+          </button>
+        </div>
       </form>
     </div>
+  </>
   );
 };
 

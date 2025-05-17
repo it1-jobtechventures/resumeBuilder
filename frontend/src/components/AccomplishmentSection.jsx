@@ -10,10 +10,10 @@ const AccomplishmentsSection = ({url}) => {
     const savedAccomplishments = localStorage.getItem('accomplishments');
     return savedAccomplishments ? JSON.parse(savedAccomplishments) : [''];
   });
+
   const { updateResumeData  } = useResume();
   // const {activeResumeId} = useContext(AppContext)
   const [activeResumeId, setActiveResumeId] = useState(() => localStorage.getItem("activeResumeId") || null);
-  console.log('acc',activeResumeId)
   const resumeId = activeResumeId;
 
   // Save to local storage whenever accomplishments change
@@ -43,15 +43,12 @@ const AccomplishmentsSection = ({url}) => {
       console.error("❌ Resume ID is undefined");
       return;
     }
-    console.log("📤 Sending data to backend:", { resumeId, ...accomplishments });
-  
     try {
       const data = await axios.post(`${url}/api/accomplishment/add-accomplishment`, {
         userId: localStorage.getItem("temporaryUserId"),
         resumeId,
         accomplishment: accomplishments.map((item) => ({ name: item })),
       });
-      console.log("✅ Response from backend:", data);
       toast.success(data.message || 'Saved successfully');
     } catch (error) {
       console.error("❌ Error from backend:", error.response?.data || error);
@@ -60,23 +57,31 @@ const AccomplishmentsSection = ({url}) => {
   };
 
   return (
-    <div className="p-6">
-      <h2 className="text-2xl font-bold mb-4">Accomplishments</h2>
-      {accomplishments.map((accomplishment, index) => (
-        <div key={index} className="mb-4 flex items-center">
-          <input type="text" spellCheck={true} className="w-full p-2 border rounded-md" style={{ textTransform: 'capitalize' }} placeholder="Enter an accomplishment" value={accomplishment} onChange={(e) => handleAccomplishmentChange(index, e.target.value)}/>
-          {accomplishments.length > 1 && (
-            <button type="button" onClick={() => removeAccomplishment(index)} className="ml-2 bg-red-500 text-white px-3 py-1 rounded-md hover:bg-red-600">
-              X
+    <>
+      <div className="p-6 bg-white rounded-md shadow-md max-w-3xl mx-auto">
+        <h2 className="text-2xl font-bold text-center text-gray-800 mb-6">Accomplishments</h2>
+        <form className="space-y-4">
+          {accomplishments.map((accomplishment, index) => (
+            <div key={index} className="flex items-center gap-3">
+              <input type="text" spellCheck={true} className="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-400 focus:outline-none capitalize" placeholder="Enter an accomplishment" value={accomplishment} onChange={(e) => handleAccomplishmentChange(index, e.target.value)} style={{ textTransform: 'capitalize' }}/>
+              {accomplishments.length > 1 && (
+                <button type="button" onClick={() => removeAccomplishment(index)} className="text-red-600 hover:text-red-800 text-xl" title="Remove">
+                  <RxCross2 />
+                </button>
+              )}
+            </div>
+          ))}
+          <div className="flex flex-col sm:flex-row justify-between gap-4 mt-6">
+            <button type="button" onClick={addAccomplishment} className="w-full sm:w-auto bg-gradient-to-r from-green-500 to-blue-500 text-white px-6 py-2 rounded-md hover:from-blue-500 hover:to-green-500 transition">
+              + Add Another Accomplishment
             </button>
-          )}
-        </div>
-      ))}
-      <button onClick={handleSave}>save</button>
-      <button type="button"onClick={addAccomplishment} className="mt-2 bg-[linear-gradient(90deg,_hsla(133,_68%,_60%,_1)_0%,_hsla(205,_97%,_42%,_1)_100%)] cursor-pointer text-white px-4 py-2 rounded-md hover:bg-[linear-gradient(90deg,_hsla(205,_97%,_42%,_1)_0%,_hsla(133,_68%,_60%,_1)_100%)]">
-        + Add Another Accomplishment
-      </button>
-    </div>
+            <button type="button" onClick={handleSave} className="w-full sm:w-auto bg-gray-700 text-white px-6 py-2 rounded-md hover:bg-gray-800 transition">
+              Save Accomplishments
+            </button>
+          </div>
+        </form>
+      </div>
+    </>
   );
 };
 

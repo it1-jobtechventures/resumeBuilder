@@ -14,8 +14,8 @@ const HobbiesSection = ({url}) => {
   const { updateResumeData  } = useResume();
   // const {activeResumeId} = useContext(AppContext)
   const [activeResumeId, setActiveResumeId] = useState(() => localStorage.getItem("activeResumeId") || null);
-console.log('intrest',activeResumeId)
-const resumeId = activeResumeId;
+  const resumeId = activeResumeId;
+
   // Save to local storage whenev
   // Save to local storage whenever interests change
   useEffect(() => {
@@ -37,55 +37,57 @@ const resumeId = activeResumeId;
     setInterests(updatedInterests);
   };
 
-    const handleSave = async (e) => {
-      e.preventDefault();
-      if (!resumeId) {
-        toast.error("Resume ID is missing");
-        console.error("❌ Resume ID is undefined");
-        return;
-      }
-      const formattedInterests = interests
-        .filter((item) => item.trim() !== "")
-        .map((item) => ({ name: item }));
-      console.log("📤 Sending data to backend:", {
-        resumeId,
-        interests: formattedInterests,
-      });
-      try {
-        const data = await axios.post(
-          `${url}/api/interest/add-interest`,
+  const handleSave = async (e) => {
+    e.preventDefault();
+    if (!resumeId) {
+      toast.error("Resume ID is missing");
+      console.error("❌ Resume ID is undefined");
+      return;
+    }
+    const formattedInterests = interests
+    .filter((item) => item.trim() !== "")
+    .map((item) => ({ name: item }));
+    try {
+      const data = await axios.post(
+        `${url}/api/interest/add-interest`,
           {
             userId: localStorage.getItem("temporaryUserId"),
             resumeId,
             interests: formattedInterests,
           }
         );
-        console.log("✅ Response from backend:", data);
         toast.success(data.data.message || "Saved successfully");
-      } catch (error) {
-        console.error("❌ Error from backend:", error.response?.data || error);
-        toast.error(error.response?.data?.error || "Save failed");
-      }
-    };
-    
+    } catch (error) {
+      console.error("❌ Error from backend:", error.response?.data || error);
+      toast.error(error.response?.data?.error || "Save failed");
+    }
+  };
   return (
-    <div className="p-6">
-      <h2 className="text-2xl font-bold mb-4">Interests & Hobbies</h2>
-      {interests.map((interest, index) => (
-        <div key={index} className="mb-4 flex items-center">
-          <input spellCheck={true} type="text" style={{ textTransform: 'capitalize' }} className="w-full p-2 border rounded-md" placeholder="Enter an interest or hobby" value={interest} onChange={(e) => handleInterestChange(index, e.target.value)}/>
-          {interests.length > 1 && (
-            <button type="button" onClick={() => removeInterest(index)} className="ml-2 text-red-500 hover:text-red-700 font-extrabold text-3xl">
-              <RxCross2/>
+    <>
+      <div className="p-6 bg-white rounded-md shadow-md max-w-3xl mx-auto">
+        <h2 className="text-2xl font-bold text-center text-gray-800 mb-6">Interests & Hobbies</h2>
+        <form className="space-y-6">
+          {interests.map((interest, index) => (
+            <div key={index} className="flex items-center gap-4 border border-gray-300 p-4 rounded-md bg-gray-50 shadow-sm">
+              <input type="text" spellCheck={true} placeholder="Enter an interest or hobby" value={interest} onChange={(e) => handleInterestChange(index, e.target.value)} className="w-full p-3 border border-gray-300 rounded-md capitalize focus:outline-none focus:ring-2 focus:ring-blue-500"/>
+              {interests.length > 1 && (
+                <button type="button" onClick={() => removeInterest(index)} className="text-red-600 hover:text-red-800 text-xl" title="Remove">
+                  <RxCross2 />
+                </button>
+              )}
+            </div>
+          ))}
+          <div className="flex flex-col sm:flex-row justify-between items-center gap-4">
+            <button type="button" onClick={addInterest} className="w-full sm:w-auto bg-gradient-to-r from-green-500 to-blue-500 text-white px-6 py-2 rounded-md hover:from-blue-500 hover:to-green-500 transition">
+              + Add Another Interest/Hobby
             </button>
-          )}
-        </div>
-      ))}
-      <button onClick={handleSave}>save</button>
-      <button type="button" onClick={addInterest} className="mt-2 bg-[linear-gradient(90deg,_hsla(133,_68%,_60%,_1)_0%,_hsla(205,_97%,_42%,_1)_100%)] cursor-pointer text-white px-4 py-2 rounded-md hover:bg-[linear-gradient(90deg,_hsla(205,_97%,_42%,_1)_0%,_hsla(133,_68%,_60%,_1)_100%)]">
-        + Add Another Interest/Hobby
-      </button>
-    </div>
+            <button type="button" onClick={handleSave} className="w-full sm:w-auto bg-gray-700 text-white px-6 py-2 rounded-md hover:bg-gray-800 transition">
+              Save Interests
+            </button>
+          </div>
+        </form>
+      </div>
+    </>
   );
 };
 

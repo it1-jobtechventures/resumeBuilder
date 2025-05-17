@@ -292,8 +292,6 @@ const WorkExperience = ({ nextStep, prevStep , url}) => {
     localStorage.setItem('workExperience' ,JSON.stringify(workExperience))
   },[workExperience])
 
-  console.log("we" , activeResumeId)
-
   const handleCompanyChange = (index, event) => {
     const updatedExperience = [...workExperience];
     updatedExperience[index][event.target.name] = event.target.value;
@@ -344,7 +342,6 @@ const WorkExperience = ({ nextStep, prevStep , url}) => {
       }
     ]);
   };
-
 
   const validateFields = () => {
     for (const company of workExperience) {
@@ -397,14 +394,12 @@ const WorkExperience = ({ nextStep, prevStep , url}) => {
   };
 
   const local = localStorage.getItem('temporaryUserId')
-  console.log("tempuserid", local)
 
   const handleNext = () => {
     if (validateFields()) {
       nextStep();
     }
   };
-
 
   const removeCompany = (index) => {
     const updatedExperience = workExperience.filter((_, i) => i !== index);
@@ -417,7 +412,6 @@ const WorkExperience = ({ nextStep, prevStep , url}) => {
     setWorkExperience(updatedExperience);
   };
 
-  
   // Update role change handler to handle dates properly
   const handleRoleChange = (companyIndex, roleIndex, event) => {
     const updatedExperience = [...workExperience];
@@ -447,8 +441,7 @@ const WorkExperience = ({ nextStep, prevStep , url}) => {
       ]);
     }
   }, []);
-  
-  
+
   const industriesOption = () => {
     // Return the array of options, each with value and label
     return industryData.map((indus) => ({
@@ -456,7 +449,6 @@ const WorkExperience = ({ nextStep, prevStep , url}) => {
       label: indus.industry_name // The label will be the industry name
     }));
   }
-
 
   const jobTypeOptions = () => {
     return jobTypeData?.map((job) => ({
@@ -471,7 +463,6 @@ const WorkExperience = ({ nextStep, prevStep , url}) => {
       label: loc.city_name
     }))
   }
-  
 
   const editorConfig = useMemo(() => ({
     readonly: false,
@@ -489,7 +480,6 @@ const WorkExperience = ({ nextStep, prevStep , url}) => {
   const generateDescription = async (companyIndex, roleIndex) => {
     const company = workExperience[companyIndex];
     const role = company.roles[roleIndex];
-  
     if (!company.company || !company.totalCompanyExperience || !role.title) {
       toast.warning("Please fill in Company Name, Experience, and Job Title before generating.");
       return;
@@ -510,105 +500,107 @@ const WorkExperience = ({ nextStep, prevStep , url}) => {
       console.error("Error generating description:", error);
     }
   };
-  
-  
-const handleSubmit = async (e) => {
-  e.preventDefault();
 
-  const isAllEmpty = workExperience.every(company =>
-    !company.company.trim() &&
-    company.roles.every(role =>
-      !role.title.trim() &&
-      !role.startDate &&
-      !role.endDate &&
-      !role.description &&
-      !role.ctc &&
-      !role.teamSize
-    )
-  );
-  // If all fields are empty, allow user to skip
-  if (isAllEmpty) {
-       // Save empty array to localStorage
-       localStorage.setItem('workExperience', JSON.stringify([]));
-    toast.info("No work experience added. Skipping...");
-    nextStep();
-    return;
-  }
-  // Validate if any data is present
-  if (!validateFields()) return;
-  try {
-    for (let companyData of workExperience) {
-      const payload = {
-        userId: localStorage.getItem("temporaryUserId"),
-        resumeId,
-        ...companyData,
-      };
-      console.log("📤 Sending work experience to backend:", payload);
-      const res = await axios.post(`${url}/api/workExperience/add-workExperince`, payload);
-      console.log("✅ Response from backend:", res.data);
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    const isAllEmpty = workExperience.every(company =>
+      !company.company.trim() &&
+      company.roles.every(role =>
+        !role.title.trim() &&
+        !role.startDate &&
+        !role.endDate &&
+        !role.description &&
+        !role.ctc &&
+        !role.teamSize
+      )
+    );
+    // If all fields are empty, allow user to skip
+    if (isAllEmpty) {
+      // Save empty array to localStorage
+      localStorage.setItem('workExperience', JSON.stringify([]));
+      toast.info("No work experience added. Skipping...");
+      nextStep();
+      return;
     }
-    toast.success("Work experience saved successfully!");
-    nextStep();
-  } catch (error) {
-    toast.error("Failed to save work experience");
-    console.error("❌ Error while saving work experience:", error);
-  }
-};
+    // Validate if any data is present
+    if (!validateFields()) return;
+    try {
+      for (let companyData of workExperience) {
+        const payload = {
+          userId: localStorage.getItem("temporaryUserId"),
+          resumeId,
+          ...companyData,
+        };
+        const res = await axios.post(`${url}/api/workExperience/add-workExperince`, payload);
+      }
+      toast.success("Work experience saved successfully!");
+      nextStep();
+    } catch (error) {
+      toast.error("Failed to save work experience");
+      console.error("❌ Error while saving work experience:", error);
+    }
+  };
 
   return (
     <>
-      <form className="grid gap-6">
+      <form className="space-y-8 max-w-6xl mx-auto p-4 sm:p-8 bg-gray-50 rounded-lg">
         {workExperience.map((company, companyIndex) => (
-          <div key={companyIndex} className="border border-gray-300 p-6 rounded-lg shadow-md">
-            <h3 className="text-xl font-semibold mb-4 text-[#4b164c]">Company {companyIndex + 1}</h3>
-            {/* Company Info */}
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-              <div>
-                <label className="block text-gray-700 font-medium">Company Name</label>
-                <input spellCheck={true} type="text" name="company" className="w-full p-3 border rounded-md capitalize" placeholder="Enter company name" value={company.company} onChange={(e) => handleCompanyChange(companyIndex, e)}/>
-              </div>
-              <div>
-                <label className="block text-gray-700 font-medium">Location</label>
-                <CreatableSelect name="location" options={locationOption()} isSearchable className="capitalize" value={ locationOption().find((loc) => loc.value === company.location) || { label: company.location, value: company.location,}}onChange={(e) =>handleCompanyChange(companyIndex, {target: { name: 'location', value: e.value },}) }placeholder="Select a location"isClearable/>
-              </div>
-              <div>
-                <label className="block text-gray-700 font-medium">Company Industry</label>
-                <CreatableSelect options={industriesOption()} className="capitalize" isSearchable placeholder="Select an industry..." value={industriesOption().find((ind) => ind.value === company.industry) || {label: company.industry, value: company.industry, }} onChange={(selectedOption) =>handleCompanyChange(companyIndex, {target: { name: 'industry', value: selectedOption.value },}) }/>
-              </div>
-              <div>
-                <label className="block text-gray-700 font-medium">Company Experience</label>
-                <input spellCheck={true} type="number" min={0} name="totalCompanyExperience" className="w-full p-3 border rounded-md" value={company.totalCompanyExperience} placeholder="Total experience in years" onChange={(e) => handleCompanyChange(companyIndex, e)}/>
-              </div>
-            </div>
-            <div className="mt-4">
-              <button type="button" onClick={() => removeCompany(companyIndex)} className="text-sm bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-md transition" >
+          <div key={companyIndex} className="bg-white border border-gray-200 p-6 rounded-xl shadow-lg space-y-6 transition-all duration-300">
+            <div className="flex justify-between items-center">
+              <h3 className="text-2xl font-semibold text-[#4b164c]">Company {companyIndex + 1}</h3>
+              <button type="button" onClick={() => removeCompany(companyIndex)} className="text-sm bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-md transition">
                 – Remove Company
               </button>
             </div>
-            {/* Roles */}
+            {/* Company Info */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div>
+                <label className="block text-gray-700 font-medium mb-1">Company Name</label>
+                <input type="text" name="company" className="w-full p-3 border border-gray-300 rounded-lg capitalize focus:ring-2 focus:ring-blue-500" placeholder="Enter company name" value={company.company} onChange={(e) => handleCompanyChange(companyIndex, e)} />
+              </div>
+              <div>
+                <label className="block text-gray-700 font-medium mb-1">Location</label>
+                <CreatableSelect name="location" options={locationOption()} isSearchable className="capitalize" value={locationOption().find((loc) => loc.value === company.location) || { label: company.location, value: company.location }} onChange={(e) => handleCompanyChange(companyIndex, { target: { name: 'location', value: e.value } })} placeholder="Select a location" isClearable />
+              </div>
+              <div>
+                <label className="block text-gray-700 font-medium mb-1">Industry</label>
+                <CreatableSelect options={industriesOption()} className="capitalize" isSearchable placeholder="Select an industry..." value={industriesOption().find((ind) => ind.value === company.industry) || { label: company.industry, value: company.industry }} onChange={(selectedOption) => handleCompanyChange(companyIndex, { target: { name: 'industry', value: selectedOption.value } })} />
+              </div>
+              <div>
+                <label className="block text-gray-700 font-medium mb-1">Total Experience</label>
+                <input type="number" min={0} name="totalCompanyExperience" className="w-full p-3 border border-gray-300 rounded-lg" value={company.totalCompanyExperience} placeholder="Experience in years" onChange={(e) => handleCompanyChange(companyIndex, e)} />
+              </div>
+            </div>
+            {/* Roles Section */}
             {company.roles.map((role, roleIndex) => (
-              <div key={roleIndex}className="mt-6 border-l-4 border-blue-500 pl-4 py-4 rounded-lg bg-gray-50" >
-                <h4 className="text-lg font-semibold mb-4">Designation {roleIndex + 1}</h4>
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+              <div key={roleIndex} className="bg-gray-50 border-l-4 border-blue-500 p-6 rounded-md space-y-6">
+                <div className="flex justify-between items-center">
+                  <h4 className="text-lg font-semibold text-blue-600">Designation {roleIndex + 1}</h4>
+                  <button type="button" onClick={() => removeRole(companyIndex, roleIndex)} className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-md transition">
+                    – Remove Role
+                  </button>
+                </div>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div>
-                    <label className="block text-gray-700 font-medium">Job Title</label>
-                    <input spellCheck={true} type="text" name="title" value={role.title} className="w-full p-3 border rounded-md capitalize" onChange={(e) => handleRoleChange(companyIndex, roleIndex, e)} placeholder="Enter your job title" />
+                    <label className="block text-gray-700 font-medium mb-1">Job Title</label>
+                    <input type="text" name="title" value={role.title} className="w-full p-3 border border-gray-300 rounded-lg capitalize" onChange={(e) => handleRoleChange(companyIndex, roleIndex, e)} placeholder="Enter your job title" />
                   </div>
                   <div>
-                    <label className="block text-gray-700 font-medium">CTC (In LPA)</label>
-                    <input  spellCheck={true} type="number" name="ctc" min={0} className="w-full p-3 border rounded-md" value={role.ctc} placeholder="Current CTC" onChange={(e) => handleRoleChange(companyIndex, roleIndex, e)}/>
+                    <label className="block text-gray-700 font-medium mb-1">CTC (In LPA)</label>
+                    <input type="number" name="ctc" min={0} className="w-full p-3 border border-gray-300 rounded-lg" value={role.ctc} placeholder="Current CTC" onChange={(e) => handleRoleChange(companyIndex, roleIndex, e)} />
                   </div>
                   <div>
-                    <label className="block text-gray-700 font-medium">Team Size</label>
-                    <input spellCheck={true} type="number" min={0} name="teamSize" className="w-full p-3 border rounded-md" value={role.teamSize} onChange={(e) => handleRoleChange(companyIndex, roleIndex, e)} placeholder="Team size"/>
+                    <label className="block text-gray-700 font-medium mb-1">Team Size</label>
+                    <input type="number" min={0} name="teamSize" className="w-full p-3 border border-gray-300 rounded-lg" value={role.teamSize} onChange={(e) => handleRoleChange(companyIndex, roleIndex, e)} placeholder="Team size" />
                   </div>
                   <div>
-                    <label className="block text-gray-700 font-medium">Job Type</label>
-                    <Select options={jobTypeOptions()}value={jobTypeOptions().find((opt) => opt.value === role.jobType)}onChange={(selectedOption) => handleRoleChange(companyIndex, roleIndex, {target: { name: 'jobType', value: selectedOption?.value },}) }placeholder="Select job type"className="w-full" isSearchable />
+                    <label className="block text-gray-700 font-medium mb-1">Job Type</label>
+                    <Select options={jobTypeOptions()} value={jobTypeOptions().find((opt) => opt.value === role.jobType)} onChange={(selectedOption) => handleRoleChange(companyIndex, roleIndex, { target: { name: 'jobType', value: selectedOption?.value } })} placeholder="Select job type" isSearchable className="w-full" />
                   </div>
                   <div>
-                    <label className="block text-gray-700 font-medium">Job Mode</label>
-                    <select name="jobMode" className="w-full p-3 border rounded-md capitalize" value={role.jobMode} onChange={(e) => handleRoleChange(companyIndex, roleIndex, e)}>
+                    <label className="block text-gray-700 font-medium mb-1">Job Mode</label>
+                    <select name="jobMode" className="w-full p-3 border border-gray-300 rounded-lg capitalize" value={role.jobMode} onChange={(e) => handleRoleChange(companyIndex, roleIndex, e)}>
                       <option value="">Select job mode</option>
                       <option value="WFH">Work From Home</option>
                       <option value="WFO">Work From Office</option>
@@ -617,53 +609,48 @@ const handleSubmit = async (e) => {
                   </div>
                 </div>
                 {/* Dates and Checkbox */}
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-4">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div>
-                    <label className="block text-gray-700 font-medium">Start Date</label>
-                    <DatePicker selected={role.startDate ? new Date(role.startDate) : null} onChange={(date) => handleDateChange(date, companyIndex, roleIndex, 'startDate')} dateFormat="dd/MM/yyyy" className="w-full p-3 border rounded-md" placeholderText="Select start date" dropdownMode="select" showMonthDropdown showYearDropdown/>
+                    <label className="block text-gray-700 font-medium mb-1">Start Date</label>
+                    <DatePicker selected={role.startDate ? new Date(role.startDate) : null} onChange={(date) => handleDateChange(date, companyIndex, roleIndex, 'startDate')} dateFormat="dd/MM/yyyy" className="w-full p-3 border border-gray-300 rounded-lg" placeholderText="Select start date" dropdownMode="select" showMonthDropdown showYearDropdown />
                   </div>
                   <div>
-                    <label className="block text-gray-700 font-medium">End Date</label>
-                    <DatePicker selected={role.endDate ? new Date(role.endDate) : null} onChange={(date) => handleDateChange(date, companyIndex, roleIndex, 'endDate')} dateFormat="dd/MM/yyyy" className="w-full p-3 border rounded-md" disabled={role.currentlyWorking} placeholderText="Select end date" dropdownMode="select" showMonthDropdown showYearDropdown/>
+                    <label className="block text-gray-700 font-medium mb-1">End Date</label>
+                    <DatePicker selected={role.endDate ? new Date(role.endDate) : null} onChange={(date) => handleDateChange(date, companyIndex, roleIndex, 'endDate')} dateFormat="dd/MM/yyyy" className="w-full p-3 border border-gray-300 rounded-lg" disabled={role.currentlyWorking} placeholderText="Select end date" dropdownMode="select" showMonthDropdown showYearDropdown />
+                    <div className="mt-2 flex items-center gap-2">
+                      <input type="checkbox" checked={role.currentlyWorking} onChange={() => toggleCurrentlyWorking(companyIndex, roleIndex)} className="h-4 w-4" />
+                      <label className="text-gray-700">I currently work here</label>
+                    </div>
                   </div>
-                </div>
-                {/* Checkbox */}
-                <div className="mt-4 flex items-center gap-2">
-                  <input  spellCheck={true} type="checkbox" checked={role.currentlyWorking} onChange={() => toggleCurrentlyWorking(companyIndex, roleIndex)} className="h-5 w-5"/>
-                  <label className="text-gray-700">I currently work here</label>
                 </div>
                 {/* Description */}
-                <div className="mt-4">
-                  <label className="block text-gray-700 font-medium">Job Description</label>
-                  {/* <JoditEditor value={role.description} config={editorConfig} onBlur={(newContent) => {const updatedExperience = [...workExperience]; updatedExperience[companyIndex].roles[roleIndex].description = newContent; setWorkExperience(updatedExperience);  }} /> */}
-                  <JoditEditor ref={editor}value={role.description}config={editorConfig} onChange={(newContent) => handleRoleChange(companyIndex, roleIndex, { target: { name: 'description', value: newContent } })}/>
-                </div>
-                <button type="button" onClick={() => generateDescription(companyIndex, roleIndex)} className="text-sm bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-md transition">
-                  Generate Job Description
-                </button>
-                {/* Add/Remove Role Buttons */}
-                <div className="flex flex-col lg:flex-row justify-between items-center gap-4 mt-6">
-                  <button type="button" onClick={() => addNewRole(companyIndex)} className="bg-gradient-to-r from-green-400 to-blue-500 hover:from-blue-500 hover:to-green-400 text-white px-4 py-2 rounded-md transition">
-                    + Add Another Designation in this Company
+                <div>
+                  <label className="block text-gray-700 font-medium mb-1">Job Description</label>
+                  <JoditEditor ref={editor} value={role.description} config={editorConfig} onChange={(newContent) => handleRoleChange(companyIndex, roleIndex, { target: { name: 'description', value: newContent } })} />
+                  <button type="button" onClick={() => generateDescription(companyIndex, roleIndex)} className="mt-2 text-sm bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-md transition">
+                    ✨ Generate Job Description
                   </button>
-                  <button type="button" onClick={() => removeRole(companyIndex, roleIndex)} className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-md transition">
-                    – Remove Role
+                </div>
+                {/* Add Role Button */}
+                <div className="text-right">
+                  <button type="button" onClick={() => addNewRole(companyIndex)} className="bg-gradient-to-r from-green-400 to-blue-500 hover:from-blue-500 hover:to-green-400 text-white px-4 py-2 rounded-md transition">
+                    + Add Another Designation
                   </button>
                 </div>
               </div>
             ))}
           </div>
         ))}
-        {/* Add Company + Navigation */}
-        <div className="flex flex-col sm:flex-row justify-between items-center gap-4 mt-6">
+        {/* Bottom Navigation */}
+        <div className="flex flex-col sm:flex-row justify-between items-center gap-4 mt-10">
           <button type="button" onClick={addNewCompany} className="w-full sm:w-auto bg-gradient-to-r from-green-400 to-blue-500 hover:from-blue-500 hover:to-green-400 text-white px-6 py-3 rounded-md transition">
             + Add Another Company
           </button>
-          <div className="flex gap-4 mt-4 sm:mt-0">
+          <div className="flex gap-4 w-full sm:w-auto justify-center">
             <button type="button" onClick={prevStep} className="bg-gray-500 hover:bg-gray-600 text-white px-6 py-3 rounded-md transition">
               Previous
             </button>
-            <button type="button"  onClick={handleSubmit} className="bg-gradient-to-r from-green-400 to-blue-500 hover:from-blue-500 hover:to-green-400 text-white px-6 py-3 rounded-md transition">
+            <button type="button" onClick={handleSubmit} className="bg-gradient-to-r from-green-400 to-blue-500 hover:from-blue-500 hover:to-green-400 text-white px-6 py-3 rounded-md transition">
               Next
             </button>
           </div>
@@ -674,3 +661,124 @@ const handleSubmit = async (e) => {
 };
 
 export default WorkExperience;
+
+      // <form className="grid gap-6">
+      //   {workExperience.map((company, companyIndex) => (
+      //     <div key={companyIndex} className="border border-gray-300 p-6 rounded-lg shadow-md">
+      //       <h3 className="text-xl font-semibold mb-4 text-[#4b164c]">Company {companyIndex + 1}</h3>
+      //                   <div className="mt-4">
+      //         <button type="button" onClick={() => removeCompany(companyIndex)} className="text-sm bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-md transition" >
+      //           – Remove Company
+      //         </button>
+      //       </div>
+          
+      //       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      //         <div>
+      //           <label className="block text-gray-700 font-medium">Company Name</label>
+      //           <input spellCheck={true} type="text" name="company" className="w-full p-3 border rounded-md capitalize" placeholder="Enter company name" value={company.company} onChange={(e) => handleCompanyChange(companyIndex, e)}/>
+      //         </div>
+      //         <div>
+      //           <label className="block text-gray-700 font-medium">Location</label>
+      //           <CreatableSelect name="location" options={locationOption()} isSearchable className="capitalize" value={ locationOption().find((loc) => loc.value === company.location) || { label: company.location, value: company.location,}}onChange={(e) =>handleCompanyChange(companyIndex, {target: { name: 'location', value: e.value },}) }placeholder="Select a location"isClearable/>
+      //         </div>
+      //         <div>
+      //           <label className="block text-gray-700 font-medium">Company Industry</label>
+      //           <CreatableSelect options={industriesOption()} className="capitalize" isSearchable placeholder="Select an industry..." value={industriesOption().find((ind) => ind.value === company.industry) || {label: company.industry, value: company.industry, }} onChange={(selectedOption) =>handleCompanyChange(companyIndex, {target: { name: 'industry', value: selectedOption.value },}) }/>
+      //         </div>
+      //         <div>
+      //           <label className="block text-gray-700 font-medium">Company Experience</label>
+      //           <input spellCheck={true} type="number" min={0} name="totalCompanyExperience" className="w-full p-3 border rounded-md" value={company.totalCompanyExperience} placeholder="Total experience in years" onChange={(e) => handleCompanyChange(companyIndex, e)}/>
+      //         </div>
+      //       </div>
+
+        
+      //       {company.roles.map((role, roleIndex) => (
+      //         <div key={roleIndex}className="mt-6 border-l-4 border-blue-500 pl-4 py-4 rounded-lg bg-gray-50" >
+      //           <h4 className="text-lg font-semibold mb-4">Designation {roleIndex + 1}</h4>
+      //           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      //             <div>
+      //               <label className="block text-gray-700 font-medium">Job Title</label>
+      //               <input spellCheck={true} type="text" name="title" value={role.title} className="w-full p-3 border rounded-md capitalize" onChange={(e) => handleRoleChange(companyIndex, roleIndex, e)} placeholder="Enter your job title" />
+      //             </div>
+      //             <div>
+      //               <label className="block text-gray-700 font-medium">CTC (In LPA)</label>
+      //               <input  spellCheck={true} type="number" name="ctc" min={0} className="w-full p-3 border rounded-md" value={role.ctc} placeholder="Current CTC" onChange={(e) => handleRoleChange(companyIndex, roleIndex, e)}/>
+      //             </div>
+      //             <div>
+      //             <div>
+      //               <label className="block text-gray-700 font-medium">Team Size</label>
+      //               <input spellCheck={true} type="number" min={0} name="teamSize" className="w-full p-3 border rounded-md" value={role.teamSize} onChange={(e) => handleRoleChange(companyIndex, roleIndex, e)} placeholder="Team size"/>
+      //             </div>
+      //             <div>
+      //               <label className="block text-gray-700 font-medium">Job Type</label>
+      //               <Select options={jobTypeOptions()}value={jobTypeOptions().find((opt) => opt.value === role.jobType)}onChange={(selectedOption) => handleRoleChange(companyIndex, roleIndex, {target: { name: 'jobType', value: selectedOption?.value },}) }placeholder="Select job type"className="w-full" isSearchable />
+      //             </div>
+      //             <div>
+      //               <label className="block text-gray-700 font-medium">Job Mode</label>
+      //               <select name="jobMode" className="w-full p-3 border rounded-md capitalize" value={role.jobMode} onChange={(e) => handleRoleChange(companyIndex, roleIndex, e)}>
+      //                 <option value="">Select job mode</option>
+      //                 <option value="WFH">Work From Home</option>
+      //                 <option value="WFO">Work From Office</option>
+      //                 <option value="Hybrid">Hybrid</option>
+      //               </select>
+      //             </div>
+      //             </div>
+
+      //           </div>
+          
+      //           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-4">
+      //             <div>
+      //               <label className="block text-gray-700 font-medium">Start Date</label>
+      //               <DatePicker selected={role.startDate ? new Date(role.startDate) : null} onChange={(date) => handleDateChange(date, companyIndex, roleIndex, 'startDate')} dateFormat="dd/MM/yyyy" className="w-full p-3 border rounded-md" placeholderText="Select start date" dropdownMode="select" showMonthDropdown showYearDropdown/>
+      //             </div>
+      //             <div>
+      //                                 <div>
+      //               <label className="block text-gray-700 font-medium">End Date</label>
+      //               <DatePicker selected={role.endDate ? new Date(role.endDate) : null} onChange={(date) => handleDateChange(date, companyIndex, roleIndex, 'endDate')} dateFormat="dd/MM/yyyy" className="w-full p-3 border rounded-md" disabled={role.currentlyWorking} placeholderText="Select end date" dropdownMode="select" showMonthDropdown showYearDropdown/>
+      //             </div>
+      
+      //           <div className="mt-4 flex items-center gap-2">
+      //             <input  spellCheck={true} type="checkbox" checked={role.currentlyWorking} onChange={() => toggleCurrentlyWorking(companyIndex, roleIndex)} className="h-5 w-5"/>
+      //             <label className="text-gray-700">I currently work here</label>
+      //           </div>
+      //             </div>
+
+      //           </div>
+
+
+      //           <div className="mt-4">
+      //             <label className="block text-gray-700 font-medium">Job Description</label>
+                 
+      //             <JoditEditor ref={editor}value={role.description}config={editorConfig} onChange={(newContent) => handleRoleChange(companyIndex, roleIndex, { target: { name: 'description', value: newContent } })}/>
+      //           </div>
+      //           <button type="button" onClick={() => generateDescription(companyIndex, roleIndex)} className="text-sm bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-md transition">
+      //             Generate Job Description
+      //           </button>
+    
+      //           <div className="flex flex-col lg:flex-row justify-between items-center gap-4 mt-6">
+      //             <button type="button" onClick={() => addNewRole(companyIndex)} className="bg-gradient-to-r from-green-400 to-blue-500 hover:from-blue-500 hover:to-green-400 text-white px-4 py-2 rounded-md transition">
+      //               + Add Another Designation in this Company
+      //             </button>
+      //             <button type="button" onClick={() => removeRole(companyIndex, roleIndex)} className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-md transition">
+      //               – Remove Role
+      //             </button>
+      //           </div>
+      //         </div>
+      //       ))}
+      //     </div>
+      //   ))}
+
+      //   <div className="flex flex-col sm:flex-row justify-between items-center gap-4 mt-6">
+      //     <button type="button" onClick={addNewCompany} className="w-full sm:w-auto bg-gradient-to-r from-green-400 to-blue-500 hover:from-blue-500 hover:to-green-400 text-white px-6 py-3 rounded-md transition">
+      //       + Add Another Company
+      //     </button>
+      //     <div className="flex gap-4 mt-4 sm:mt-0">
+      //       <button type="button" onClick={prevStep} className="bg-gray-500 hover:bg-gray-600 text-white px-6 py-3 rounded-md transition">
+      //         Previous
+      //       </button>
+      //       <button type="button"  onClick={handleSubmit} className="bg-gradient-to-r from-green-400 to-blue-500 hover:from-blue-500 hover:to-green-400 text-white px-6 py-3 rounded-md transition">
+      //         Next
+      //       </button>
+      //     </div>
+      //   </div>
+      // </form>

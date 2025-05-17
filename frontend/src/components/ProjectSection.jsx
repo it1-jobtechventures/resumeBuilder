@@ -14,7 +14,6 @@ const ProjectSection = ({url}) => {
   const { updateResumeData  } = useResume();
   // const {activeResumeId} = useContext(AppContext)
   const [activeResumeId, setActiveResumeId] = useState(() => localStorage.getItem("activeResumeId") || null);
-  console.log('per',activeResumeId)
   const resumeId = activeResumeId;
   const editor = useRef(null);
 
@@ -63,12 +62,10 @@ const ProjectSection = ({url}) => {
 
   const generateProjectSummary = async (index) => {
     const { name, deployedLink, githubLink } = projects[index];
-  
     if (!name || !deployedLink) {
       toast.error("Please enter both project name and deployed link to generate summary.");
       return;
     }
-  
     try {
       toast.info("Generating project summary...");
       const response = await axios.post(`http://localhost:5000/api/ai/generate-projectDes`, {
@@ -84,53 +81,81 @@ const ProjectSection = ({url}) => {
       toast.error("Failed to generate summary.");
     }
   };
-  
 
-    const handleSave = async (e) => {
-      e.preventDefault();
-      if (!resumeId) {
-        toast.error("Resume ID is missing");
-        console.error("❌ Resume ID is undefined");
-        return;
-      }
-      console.log("📤 Sending data to backend:", { resumeId, ...projects });
-      try {
-        const data = await axios.post(`${url}/api/project/add-project`, {
-          userId: localStorage.getItem("temporaryUserId"),
-          resumeId,
-          projects,
-        });
-        console.log("✅ Response from backend:", data);
-        toast.success(data.message || 'Saved successfully');
-      } catch (error) {
-        console.error("❌ Error from backend:", error.response?.data || error);
-        toast.error(error.response?.data?.error || 'Save failed');
-      }
-    };
+  const handleSave = async (e) => {
+    e.preventDefault();
+    if (!resumeId) {
+      toast.error("Resume ID is missing");
+      console.error("❌ Resume ID is undefined");
+      return;
+    }
+    try {
+      const data = await axios.post(`${url}/api/project/add-project`, {
+        userId: localStorage.getItem("temporaryUserId"),
+        resumeId,
+        projects,
+      });
+      toast.success(data.message || 'Saved successfully');
+    } catch (error) {
+      console.error("❌ Error from backend:", error.response?.data || error);
+      toast.error(error.response?.data?.error || 'Save failed');
+    }
+  };
 
   return (
     <>
-      <div className="p-6 border rounded-md">
-        <h2 className="text-xl font-bold mb-4">Projects</h2>
-        {projects.map((project, index) => (
-          <div key={index} className="mb-4 border-b pb-4">
-            <input spellCheck={true} type="text" name="name" placeholder="Project Name" style={{ textTransform: 'capitalize' }} value={project.name} onChange={(e) => handleChange(index, e)} className="w-full p-2 border rounded-md mb-2"/>
-            <input spellCheck={true} type="url" name="deployedLink" placeholder="Deployed Link" style={{ textTransform: 'capitalize' }} value={project.deployedLink} onChange={(e) => handleChange(index, e)} className="w-full p-2 border rounded-md mb-2"/>
-            <input spellCheck={true} type="url" name="githubLink" style={{ textTransform: 'capitalize' }} placeholder="GitHub Link" value={project.githubLink} onChange={(e) => handleChange(index, e)} className="w-full p-2 border rounded-md mb-2"/>            <JoditEditor spellCheck={true} value={project.summary}config={editorConfig} onBlur={(newContent) => {const updatedProjects = [...projects]; updatedProjects[index].summary = newContent;setProjects(updatedProjects);}}/>
-            <button type="button" onClick={() => generateProjectSummary(index)} className="text-sm bg-blue-500 text-white px-3 py-1 rounded-md hover:bg-blue-600 transition">
-              ✨ Generate with AI
+      <div className="p-6 border rounded-md bg-white shadow-md max-w-4xl mx-auto">
+        <h2 className="text-2xl font-bold text-center mb-6 text-gray-800">Projects</h2>
+        <form className="space-y-8">
+          {projects.map((project, index) => (
+            <div key={index} className="border border-gray-300 rounded-md p-6 space-y-4 bg-gray-50 shadow-sm">
+              <div className="flex justify-between items-center">
+                <h3 className="text-lg font-semibold text-gray-800">Project {index + 1}</h3>
+                {projects.length > 1 && (
+                  <button type="button" onClick={() => removeProject(index)} className="text-sm text-red-600 hover:text-red-800 transition">
+                    – Remove
+                  </button>
+                )}
+              </div>
+              <div className="space-y-4">
+                <div>
+                  <label className="block text-gray-700 font-medium mb-1">Project Name</label>
+                  <input type="text" name="name" value={project.name} placeholder="Enter project name"onChange={(e) => handleChange(index, e)}className="w-full p-3 border border-gray-300 rounded-md capitalize focus:outline-none focus:ring-2 focus:ring-blue-500"spellCheck={true}/>
+                </div>
+                <div>
+                  <label className="block text-gray-700 font-medium mb-1"> Deployed Link </label>
+                  <input type="url" name="deployedLink" value={project.deployedLink} placeholder="https://your-project.live" onChange={(e) => handleChange(index, e)} className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" spellCheck={true} />
+                </div>
+                <div>
+                  <label className="block text-gray-700 font-medium mb-1">GitHub Link</label>
+                  <input type="url" name="githubLink" value={project.githubLink} placeholder="https://github.com/your-repo" onChange={(e) => handleChange(index, e)} className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" spellCheck={true} />
+                </div>
+                <div>
+                  <label className="block text-gray-700 font-medium mb-1"> Project Summary </label>
+                  <JoditEditor config={editorConfig} value={project.summary}
+                    onBlur={(newContent) => {
+                      const updatedProjects = [...projects];
+                      updatedProjects[index].summary = newContent;
+                      setProjects(updatedProjects);
+                    }}
+                    spellCheck={true}
+                  />
+                  <button type="button" onClick={() => generateProjectSummary(index)} className="mt-2 text-sm bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-md transition">
+                    ✨ Generate with AI
+                  </button>
+                </div>
+              </div>
+            </div>
+          ))}
+          <div className="flex flex-col sm:flex-row justify-between items-center gap-4">
+            <button type="button" onClick={addProject} className="w-full sm:w-auto bg-gradient-to-r from-green-500 to-blue-500 text-white px-6 py-3 rounded-md hover:from-blue-500 hover:to-green-500 transition">
+              + Add One More Project
             </button>
-            {projects.length > 1 && (
-              <button type="button" onClick={() => removeProject(index)} className="text-red-500 hover:underline">
-                Remove Project
-              </button>
-            )}
+            <button type="button" onClick={handleSave} className="w-full sm:w-auto bg-gray-700 text-white px-6 py-3 rounded-md hover:bg-gray-800 transition" >
+              Save Projects
+            </button>
           </div>
-        ))}
-        <button onClick={handleSave}>Save</button>
-        <button type="button" onClick={addProject} className="bg-[linear-gradient(90deg,_hsla(133,_68%,_60%,_1)_0%,_hsla(205,_97%,_42%,_1)_100%)] cursor-pointer text-white px-4 py-2 rounded-md hover:bg-[linear-gradient(90deg,_hsla(205,_97%,_42%,_1)_0%,_hsla(133,_68%,_60%,_1)_100%)] mt-4">
-          + Add One More Project
-        </button>
+        </form>
       </div>
     </>
   );

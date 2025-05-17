@@ -13,10 +13,9 @@ const VolunteeringSection = ({url}) => {
   const { updateResumeData  } = useResume();
   // const {activeResumeId} = useContext(AppContext)
   const [activeResumeId, setActiveResumeId] = useState(() => localStorage.getItem("activeResumeId") || null);
-console.log('vo',activeResumeId)
-const resumeId = activeResumeId;
-  // Save to local storage whenev
+  const resumeId = activeResumeId;
 
+  // Save to local storage whenev
   useEffect(() => {
     localStorage.setItem('volunteering', JSON.stringify(volunteering));
   }, [volunteering]);
@@ -42,42 +41,63 @@ const resumeId = activeResumeId;
       console.error("❌ Resume ID is undefined");
       return;
     }
-    console.log("📤 Sending data to backend:", { resumeId, ...volunteering });
     try {
       const data = await axios.post(`${url}/api/volunteering/add-volunteering`, {
         userId: localStorage.getItem("temporaryUserId"),
         resumeId,
         volunteerings:volunteering.map((item) => ({ name: item })),
       });
-      console.log("✅ Response from backend:", data);
       toast.success(data.message || 'Saved successfully');
     } catch (error) {
       console.error("❌ Error from backend:", error.response?.data || error);
       toast.error(error.response?.data?.error || 'Save failed');
     }
   };
-  
+
   return (
-    <div className="p-6">
-      <h2 className="text-2xl font-bold mb-4">Volunteering</h2>
-      {volunteering.map((item, index) => (
-        <div key={index} className="mb-4 flex items-center">
-          <input spellCheck={true} type="text" className="w-full p-2 border rounded-md" style={{ textTransform: 'capitalize' }} placeholder="Enter volunteering experience" value={item} onChange={(e) => handleVolunteeringChange(index, e.target.value)}/>
-          {volunteering.length > 1 && (
-            <button type="button" onClick={() => removeVolunteering(index)} className="ml-2 text-red-500 hover:text-red-700 font-extrabold text-3xl">
-              <RxCross2/>
-            </button>
-          )}
+    <>
+      <div className="p-6 bg-white rounded-md shadow-md max-w-3xl mx-auto">
+        <h2 className="text-2xl font-bold mb-6 text-gray-800">Volunteering</h2>
+        {volunteering.map((item, index) => (
+          <div key={index} className="mb-4 flex items-center gap-3">
+            <input type="text" spellCheck={true} className="w-full p-2 border rounded-md text-gray-800" style={{ textTransform: "capitalize" }} placeholder="Enter volunteering experience" value={item} onChange={(e) => handleVolunteeringChange(index, e.target.value)} />
+            {volunteering.length > 1 && (
+              <button type="button" onClick={() => removeVolunteering(index)} className="text-red-500 hover:text-red-700 text-2xl" title="Remove">
+                <RxCross2 />
+              </button>
+            )}
+          </div>
+        ))}
+        <div className="flex flex-col sm:flex-row justify-between gap-4 mt-6">
+          <button type="button" onClick={addVolunteering} className="w-full sm:w-auto bg-gradient-to-r from-green-500 to-blue-500 text-white px-6 py-2 rounded-md hover:from-blue-500 hover:to-green-500 transition">
+            + Add Another Volunteering Experience
+          </button>
+          <button onClick={handleSave} className="w-full sm:w-auto bg-gray-700 text-white px-6 py-2 rounded-md hover:bg-gray-800 transition">
+            Save
+          </button>
         </div>
-      ))}
-      <button onClick={handleSave}>
-        save
-      </button>
-      <button type="button" onClick={addVolunteering} className="mt-2 bg-[linear-gradient(90deg,_hsla(133,_68%,_60%,_1)_0%,_hsla(205,_97%,_42%,_1)_100%)] cursor-pointer text-white px-4 py-2 rounded-md hover:bg-[linear-gradient(90deg,_hsla(205,_97%,_42%,_1)_0%,_hsla(133,_68%,_60%,_1)_100%)]">
-        + Add Another Volunteering Experience
-      </button>
-    </div>
+      </div>
+    </>
   );
 };
-
 export default VolunteeringSection;
+
+    // <div className="p-6">
+    //   <h2 className="text-2xl font-bold mb-4">Volunteering</h2>
+    //   {volunteering.map((item, index) => (
+    //     <div key={index} className="mb-4 flex items-center">
+    //       <input spellCheck={true} type="text" className="w-full p-2 border rounded-md" style={{ textTransform: 'capitalize' }} placeholder="Enter volunteering experience" value={item} onChange={(e) => handleVolunteeringChange(index, e.target.value)}/>
+    //       {volunteering.length > 1 && (
+    //         <button type="button" onClick={() => removeVolunteering(index)} className="ml-2 text-red-500 hover:text-red-700 font-extrabold text-3xl">
+    //           <RxCross2/>
+    //         </button>
+    //       )}
+    //     </div>
+    //   ))}
+    //   <button onClick={handleSave}>
+    //     save
+    //   </button>
+    //   <button type="button" onClick={addVolunteering} className="mt-2 bg-[linear-gradient(90deg,_hsla(133,_68%,_60%,_1)_0%,_hsla(205,_97%,_42%,_1)_100%)] cursor-pointer text-white px-4 py-2 rounded-md hover:bg-[linear-gradient(90deg,_hsla(205,_97%,_42%,_1)_0%,_hsla(133,_68%,_60%,_1)_100%)]">
+    //     + Add Another Volunteering Experience
+    //   </button>
+    // </div>

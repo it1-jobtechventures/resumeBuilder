@@ -15,13 +15,10 @@ const ReferanceInfo = ({ nextStep, prevStep , url}) => {
   const { updateResumeData  } = useResume();
   // const {activeResumeId} = useContext(AppContext)
   const [activeResumeId, setActiveResumeId] = useState(() => localStorage.getItem("activeResumeId") || null);
-console.log('ref',activeResumeId)
-const navigate = useNavigate()
-const resumeId = activeResumeId;
-
-// Check if a template is selected
-const selectedTemplateId = localStorage.getItem('selectedTemplateId');
-console.log('selectedTemplateId from referance page ',selectedTemplateId)
+  const navigate = useNavigate()
+  const resumeId = activeResumeId;
+  // Check if a template is selected
+  const selectedTemplateId = localStorage.getItem('selectedTemplateId');
 
   // Save data to local storage whenever it changes
   useEffect(() => {
@@ -42,32 +39,29 @@ console.log('selectedTemplateId from referance page ',selectedTemplateId)
       console.error("❌ Resume ID is undefined");
       return;
     }
-    console.log("📤 Sending data to backend:", { resumeId, ...reference });
     try {
       const data = await axios.post(`${url}/api/reference/add-reference`, {
         userId: localStorage.getItem("temporaryUserId"),
         resumeId,
         ...reference,
       });
-      console.log("✅ Response from backend:", data);
       toast.success(data.message || 'Saved successfully');
       nextStep();
-  
-        if (!selectedTemplateId) {
-          // If no template is selected, navigate the user to the template selection page
-          toast.warning("You haven't selected a template. Please select one.");
-          // navigate('/templates');
-          navigate('/templates', { state: { flow: 'form-first' } });
-        } else {
-          // If a template is selected, navigate to the resume review page
-          navigate('/resume-review');
-        }
-      } catch (error) {
-        console.error("❌ Error from backend:", error.response?.data || error);
-        toast.error(error.response?.data?.error || 'Save failed');
+      if (!selectedTemplateId) {
+        // If no template is selected, navigate the user to the template selection page
+        toast.warning("You haven't selected a template. Please select one.");
+        // navigate('/templates');
+        navigate('/templates', { state: { flow: 'form-first' } });
+      } else {
+        // If a template is selected, navigate to the resume review page
+        navigate('/resume-review');
       }
-    };
-    
+    } catch (error) {
+      console.error("❌ Error from backend:", error.response?.data || error);
+      toast.error(error.response?.data?.error || 'Save failed');
+    }
+  };
+
   return (
     <>
       <div>
@@ -91,7 +85,6 @@ console.log('selectedTemplateId from referance page ',selectedTemplateId)
             <button type="button" onClick={prevStep} className="bg-gray-500 text-white px-4 py-2 rounded-md hover:bg-gray-600">
               Previous
             </button>
-            {/* Conditionally render the button based on whether a template is selected */}
             {selectedTemplateId ? (
               <button type="button" onClick={handleSave} className="bg-[linear-gradient(90deg,_hsla(133,_68%,_60%,_1)_0%,_hsla(205,_97%,_42%,_1)_100%)] cursor-pointer text-white px-4 py-2 rounded-md hover:bg-[linear-gradient(90deg,_hsla(205,_97%,_42%,_1)_0%,_hsla(133,_68%,_60%,_1)_100%)]">
                 See Resume Review
