@@ -556,19 +556,19 @@ const WorkExperience = ({ nextStep, prevStep , url}) => {
             {/* Company Info */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
-                <label className="block text-gray-700 font-medium mb-1">Company Name</label>
+                <label className="block text-purple-800 font-medium mb-1">Company Name</label>
                 <input type="text" name="company" className="w-full p-3 border border-gray-300 rounded-lg capitalize focus:ring-2 focus:ring-blue-500" placeholder="Enter company name" value={company.company} onChange={(e) => handleCompanyChange(companyIndex, e)} />
               </div>
               <div>
-                <label className="block text-gray-700 font-medium mb-1">Location</label>
+                <label className="block text-purple-800 font-medium mb-1">Location</label>
                 <CreatableSelect name="location" options={locationOption()} isSearchable className="capitalize" value={locationOption().find((loc) => loc.value === company.location) || { label: company.location, value: company.location }} onChange={(e) => handleCompanyChange(companyIndex, { target: { name: 'location', value: e.value } })} placeholder="Select a location" isClearable />
               </div>
               <div>
-                <label className="block text-gray-700 font-medium mb-1">Industry</label>
+                <label className="block text-purple-800 font-medium mb-1">Industry</label>
                 <CreatableSelect options={industriesOption()} className="capitalize" isSearchable placeholder="Select an industry..." value={industriesOption().find((ind) => ind.value === company.industry) || { label: company.industry, value: company.industry }} onChange={(selectedOption) => handleCompanyChange(companyIndex, { target: { name: 'industry', value: selectedOption.value } })} />
               </div>
               <div>
-                <label className="block text-gray-700 font-medium mb-1">Total Experience</label>
+                <label className="block text-purple-800 font-medium mb-1">Total Experience</label>
                 <input type="number" min={0} name="totalCompanyExperience" className="w-full p-3 border border-gray-300 rounded-lg" value={company.totalCompanyExperience} placeholder="Experience in years" onChange={(e) => handleCompanyChange(companyIndex, e)} />
               </div>
             </div>
@@ -583,23 +583,23 @@ const WorkExperience = ({ nextStep, prevStep , url}) => {
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div>
-                    <label className="block text-gray-700 font-medium mb-1">Job Title</label>
+                    <label className="block text-purple-800 font-medium mb-1">Job Title</label>
                     <input type="text" name="title" value={role.title} className="w-full p-3 border border-gray-300 rounded-lg capitalize" onChange={(e) => handleRoleChange(companyIndex, roleIndex, e)} placeholder="Enter your job title" />
                   </div>
                   <div>
-                    <label className="block text-gray-700 font-medium mb-1">CTC (In LPA)</label>
+                    <label className="block text-purple-800 font-medium mb-1">CTC (In LPA)</label>
                     <input type="number" name="ctc" min={0} className="w-full p-3 border border-gray-300 rounded-lg" value={role.ctc} placeholder="Current CTC" onChange={(e) => handleRoleChange(companyIndex, roleIndex, e)} />
                   </div>
                   <div>
-                    <label className="block text-gray-700 font-medium mb-1">Team Size</label>
+                    <label className="block text-purple-800 font-medium mb-1">Team Size</label>
                     <input type="number" min={0} name="teamSize" className="w-full p-3 border border-gray-300 rounded-lg" value={role.teamSize} onChange={(e) => handleRoleChange(companyIndex, roleIndex, e)} placeholder="Team size" />
                   </div>
                   <div>
-                    <label className="block text-gray-700 font-medium mb-1">Job Type</label>
+                    <label className="block text-purple-800 font-medium mb-1">Job Type</label>
                     <Select options={jobTypeOptions()} value={jobTypeOptions().find((opt) => opt.value === role.jobType)} onChange={(selectedOption) => handleRoleChange(companyIndex, roleIndex, { target: { name: 'jobType', value: selectedOption?.value } })} placeholder="Select job type" isSearchable className="w-full" />
                   </div>
                   <div>
-                    <label className="block text-gray-700 font-medium mb-1">Job Mode</label>
+                    <label className="block text-purple-800 font-medium mb-1">Job Mode</label>
                     <select name="jobMode" className="w-full p-3 border border-gray-300 rounded-lg capitalize" value={role.jobMode} onChange={(e) => handleRoleChange(companyIndex, roleIndex, e)}>
                       <option value="">Select job mode</option>
                       <option value="WFH">Work From Home</option>
@@ -611,21 +611,21 @@ const WorkExperience = ({ nextStep, prevStep , url}) => {
                 {/* Dates and Checkbox */}
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div>
-                    <label className="block text-gray-700 font-medium mb-1">Start Date</label>
+                    <label className="block text-purple-800 font-medium mb-1">Start Date</label>
                     <DatePicker selected={role.startDate ? new Date(role.startDate) : null} onChange={(date) => handleDateChange(date, companyIndex, roleIndex, 'startDate')} dateFormat="dd/MM/yyyy" className="w-full p-3 border border-gray-300 rounded-lg" placeholderText="Select start date" dropdownMode="select" showMonthDropdown showYearDropdown />
                   </div>
                   <div>
-                    <label className="block text-gray-700 font-medium mb-1">End Date</label>
+                    <label className="block text-purple-800 font-medium mb-1">End Date</label>
                     <DatePicker selected={role.endDate ? new Date(role.endDate) : null} onChange={(date) => handleDateChange(date, companyIndex, roleIndex, 'endDate')} dateFormat="dd/MM/yyyy" className="w-full p-3 border border-gray-300 rounded-lg" disabled={role.currentlyWorking} placeholderText="Select end date" dropdownMode="select" showMonthDropdown showYearDropdown />
                     <div className="mt-2 flex items-center gap-2">
                       <input type="checkbox" checked={role.currentlyWorking} onChange={() => toggleCurrentlyWorking(companyIndex, roleIndex)} className="h-4 w-4" />
-                      <label className="text-gray-700">I currently work here</label>
+                      <label className="text-purple-800">I currently work here</label>
                     </div>
                   </div>
                 </div>
                 {/* Description */}
                 <div>
-                  <label className="block text-gray-700 font-medium mb-1">Job Description</label>
+                  <label className="block text-purple-800 font-medium mb-1">Job Description</label>
                   <JoditEditor ref={editor} value={role.description} config={editorConfig} onChange={(newContent) => handleRoleChange(companyIndex, roleIndex, { target: { name: 'description', value: newContent } })} />
                   <button type="button" onClick={() => generateDescription(companyIndex, roleIndex)} className="mt-2 text-sm bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-md transition">
                     ✨ Generate Job Description

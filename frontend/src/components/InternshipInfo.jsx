@@ -230,11 +230,11 @@ import location from "../assets/locationData";
               </div>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
-                  <label className="block text-gray-700 font-medium mb-1">Company Name</label>
+                  <label className="block text-purple-800 font-medium mb-1">Company Name</label>
                   <input type="text" name="company" value={internhip.company} onChange={(e) => handleCompanyChange(internshipIndex, e)} className="w-full p-3 border border-gray-300 rounded-md capitalize focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Enter company name"/>
                 </div>
                 <div>
-                  <label className="block text-gray-700 font-medium mb-1">Company Location</label>
+                  <label className="block text-purple-800 font-medium mb-1">Company Location</label>
                   <CreatableSelect name="location" isSearchable isClearable options={locationOption()}
                     value={locationOption().find((loc) => loc.value === internhip.location) || {label: internhip.location, value: internhip.location,}}
                     onChange={(e) =>handleCompanyChange(internshipIndex, {target: { name: 'location', value: e?.value || '' }, })}
@@ -242,15 +242,15 @@ import location from "../assets/locationData";
                   />
                 </div>
                 <div>
-                  <label className="block text-gray-700 font-medium mb-1">Internship Title</label>
+                  <label className="block text-purple-800 font-medium mb-1">Internship Title</label>
                   <input type="text" name="title" value={internhip.title} onChange={(e) => handleCompanyChange(internshipIndex, e)} className="w-full p-3 border border-gray-300 rounded-md capitalize focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Enter internship title"/>
                 </div>
                 <div>
-                  <label className="block text-gray-700 font-medium mb-1">Stipend (in LPA)</label>
+                  <label className="block text-purple-800 font-medium mb-1">Stipend (in LPA)</label>
                   <input type="number" name="stipend" min={0} value={internhip.stipend} onChange={(e) => handleCompanyChange(internshipIndex, e)} className="w-full p-3 border border-gray-300 rounded-md" placeholder="Enter stipend"/>
                 </div>
                 <div>
-                  <label className="block text-gray-700 font-medium mb-1">Internship Mode</label>
+                  <label className="block text-purple-800 font-medium mb-1">Internship Mode</label>
                   <select name="internshipMode" value={internhip.internshipMode} onChange={(e) => handleCompanyChange(internshipIndex, e)} className="w-full p-3 border border-gray-300 rounded-md capitalize">
                     <option value="">Select Internship Mode</option>
                     <option value="WFH">Work From Home</option>
@@ -259,7 +259,7 @@ import location from "../assets/locationData";
                   </select>
                 </div>
                 <div>
-                  <label className="block text-gray-700 font-medium mb-1">Internship Type</label>
+                  <label className="block text-purple-800 font-medium mb-1">Internship Type</label>
                   <select name="internshipType" value={internhip.internshipType} onChange={(e) => handleCompanyChange(internshipIndex, e)} className="w-full p-3 border border-gray-300 rounded-md capitalize">
                     <option value="">Select Internship Type</option>
                     {jobTypeData.map((type, idx) => (
@@ -270,7 +270,7 @@ import location from "../assets/locationData";
                   </select>
                 </div>
                 <div>
-                  <label className="block text-gray-700 font-medium mb-1">Starting Date</label>
+                  <label className="block text-purple-800 font-medium mb-1">Starting Date</label>
                   <DatePicker selected={internhip.startDate ? new Date(internhip.startDate) : null}
                     onChange={(date) =>handleCompanyChange(internshipIndex, {target: { name: 'startDate', value: date?.toISOString().split('T')[0] || '' },})}
                     className="w-full p-3 border border-gray-300 rounded-md"
@@ -282,7 +282,7 @@ import location from "../assets/locationData";
                   />
                 </div>
                 <div>
-                  <label className="block text-gray-700 font-medium mb-1">Ending Date</label>
+                  <label className="block text-purple-800 font-medium mb-1">Ending Date</label>
                   <DatePicker selected={internhip.endDate ? new Date(internhip.endDate) : null}
                     onChange={(date) =>handleCompanyChange(internshipIndex, {target: { name: 'endDate', value: date?.toISOString().split('T')[0] || '' },})}
                     className="w-full p-3 border border-gray-300 rounded-md"
@@ -301,7 +301,7 @@ import location from "../assets/locationData";
               </div>
               {/* Description */}
               <div>
-                <label className="block text-gray-700 font-medium mb-1">Description</label>
+                <label className="block text-purple-800 font-medium mb-1">Description</label>
                 <JoditEditor ref={editor} config={editorConfig} value={internhip.description}
                   onBlur={(newContent) => {
                     const updated = [...internshipExperience];

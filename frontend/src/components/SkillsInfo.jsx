@@ -102,7 +102,7 @@ const SkillsInfo = ({ nextStep, prevStep , url }) => {
           {skills.map((skill, index) => (
             <div key={index} className="border p-4 rounded-md bg-gray-50 relative animate-fade-in">
               <div className="flex justify-between items-center mb-3">
-                <label className="text-gray-700 font-medium"> Skill {index + 1} </label>
+                <label className="text-purple-800 font-medium"> Skill {index + 1} </label>
                 {skills.length > 1 && (
                   <button type="button" onClick={() => removeSkill(index)} className="text-red-600 hover:text-red-800 transition-colors duration-300" aria-label={`Remove skill ${index + 1}`} >
                     <Trash2 size={18} />
@@ -110,7 +110,7 @@ const SkillsInfo = ({ nextStep, prevStep , url }) => {
                 )}
               </div>
               <input spellCheck={true} type="text" value={skill.name} onChange={(e) => handleSkillChange(index, e)} placeholder="e.g., JavaScript" className="w-full p-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400 capitalize"/>
-              <label className="block mt-4 text-gray-700 font-semibold">Proficiency: {skill.level}% </label>
+              <label className="block mt-4 text-purple-800 font-semibold">Proficiency: {skill.level}% </label>
               <input spellCheck={true} type="range" min="0" max="100" value={skill.level} onChange={(e) => handleSkillLevelChange(index, e)} className="w-full mt-1 accent-green-500 hover:accent-green-600 transition-all cursor-pointer"/>
             </div>
           ))}

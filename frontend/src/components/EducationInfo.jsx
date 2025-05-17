@@ -129,32 +129,32 @@ const EducationInfo = ({ nextStep, prevStep , url }) => {
               {/* School & Location */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
-                  <label className="block text-gray-700 font-medium">School Name</label>
+                  <label className="block text-purple-800 font-medium">School Name</label>
                   <CreatableSelect name="school" options={schoolName()} isSearchable className="capitalize"value={schoolName().find((school) => school.value === education.school) || {label: education.school,value: education.school,}}onChange={(e) => handleEducationChange(index, {target: { name: 'school', value: e.value }, })}placeholder="Enter your School Name" isClearable/>
                 </div>
                 <div>
-                  <label className="block text-gray-700 font-medium">Location</label>
+                  <label className="block text-purple-800 font-medium">Location</label>
                   <CreatableSelect name="location" options={locationOption()} isSearchable className="capitalize" value={locationOption().find((loc) => loc.value === education.location) || {label: education.location, value: education.location,} }onChange={(e) =>handleEducationChange(index, {target: { name: 'location', value: e.value },})}placeholder="Select location" isClearable/>
                 </div>
               </div>
               {/* Degree / Field / Graduation Date */}
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-6">
                 <div>
-                  <label className="block text-gray-700 font-medium">Degree</label>
+                  <label className="block text-purple-800 font-medium">Degree</label>
                   <CreatableSelect options={degree()} className="capitalize" isSearchable placeholder="Select Degree" value={degree().find((deg) => deg.value === education.degree) || {label: education.degree,value: education.degree,}}onChange={(selectedOption) => {const event = {target: {name: 'degree',value: selectedOption?.value || '',}, };handleEducationChange(index, event);}}isClearable/>
                 </div>
                 <div>
-                  <label className="block text-gray-700 font-medium">Field of Study</label>
+                  <label className="block text-purple-800 font-medium">Field of Study</label>
                   <input spellCheck={true} type="text" name="field" className="w-full p-3 border rounded-md capitalize focus:ring-2 focus:ring-blue-400 focus:border-blue-400 transition-all" value={education.field} onChange={(e) => handleEducationChange(index, e)} placeholder="e.g. Computer Science"/>
                 </div>
                 <div>
-                  <label className="block text-gray-700 font-medium">Graduation Date</label>
+                  <label className="block text-purple-800 font-medium">Graduation Date</label>
                   <DatePicker selected={education.graduationDate ? new Date(education.graduationDate) : null}onChange={(date) =>handleEducationChange(index, {target: { name: 'graduationDate', value: date },})}dateFormat="dd/MM/yyyy"className="w-full p-3 border rounded-md focus:ring-2 focus:ring-blue-400 focus:border-blue-400 transition-all"placeholderText="Select graduation date"dropdownMode="select"showMonthDropdown showYearDropdown/>
                 </div>
               </div>
               {/* Mode of Education */}
               <div className="mt-6">
-                <label className="block text-gray-700 font-medium">Mode of Education</label>
+                <label className="block text-purple-800 font-medium">Mode of Education</label>
                 <div className="flex flex-wrap gap-6 mt-2">
                   {['Online', 'Offline', 'Hybrid'].map((mode) => (
                     <label key={mode} className="flex items-center gap-2 text-gray-700">
@@ -166,7 +166,7 @@ const EducationInfo = ({ nextStep, prevStep , url }) => {
               </div>
               {/* CGPA */}
               <div className="mt-6">
-                <label className="block text-gray-700 font-medium">CGPA / Percentage</label>
+                <label className="block text-purple-800 font-medium">CGPA / Percentage</label>
                 <input spellCheck={true} type="number" name="cgpa" min={0} className="w-full p-3 border rounded-md focus:ring-2 focus:ring-blue-400 focus:border-blue-400 transition-all" value={education.cgpa} onChange={(e) => handleEducationChange(index, e)} placeholder="Enter your score"/>
               </div>
               {/* Remove Button */}

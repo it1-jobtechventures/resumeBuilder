@@ -119,19 +119,19 @@ const ProjectSection = ({url}) => {
               </div>
               <div className="space-y-4">
                 <div>
-                  <label className="block text-gray-700 font-medium mb-1">Project Name</label>
+                  <label className="block text-purple-800 font-medium mb-1">Project Name</label>
                   <input type="text" name="name" value={project.name} placeholder="Enter project name"onChange={(e) => handleChange(index, e)}className="w-full p-3 border border-gray-300 rounded-md capitalize focus:outline-none focus:ring-2 focus:ring-blue-500"spellCheck={true}/>
                 </div>
                 <div>
-                  <label className="block text-gray-700 font-medium mb-1"> Deployed Link </label>
+                  <label className="block text-purple-800 font-medium mb-1"> Deployed Link </label>
                   <input type="url" name="deployedLink" value={project.deployedLink} placeholder="https://your-project.live" onChange={(e) => handleChange(index, e)} className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" spellCheck={true} />
                 </div>
                 <div>
-                  <label className="block text-gray-700 font-medium mb-1">GitHub Link</label>
+                  <label className="block text-purple-800 font-medium mb-1">GitHub Link</label>
                   <input type="url" name="githubLink" value={project.githubLink} placeholder="https://github.com/your-repo" onChange={(e) => handleChange(index, e)} className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" spellCheck={true} />
                 </div>
                 <div>
-                  <label className="block text-gray-700 font-medium mb-1"> Project Summary </label>
+                  <label className="block text-purple-800 font-medium mb-1"> Project Summary </label>
                   <JoditEditor config={editorConfig} value={project.summary}
                     onBlur={(newContent) => {
                       const updatedProjects = [...projects];
