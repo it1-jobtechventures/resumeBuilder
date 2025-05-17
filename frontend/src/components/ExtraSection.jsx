@@ -24,6 +24,7 @@ const ExtraSection = ({ nextStep, prevStep , url}) => {
     "Software",
     "Volunteering",
   ];
+  const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
     // Save the selected sections to localStorage whenever it changes
@@ -36,6 +37,27 @@ const ExtraSection = ({ nextStep, prevStep , url}) => {
         ? prev.filter((item) => item !== section)
         : [...prev, section]
     );
+  };
+
+  // Scroll event listener in a separate useEffect
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > 300) {
+        setIsVisible(true);
+      } else {
+        setIsVisible(false);
+      }
+    };
+    window.addEventListener("scroll", handleScroll);
+    // Cleanup event listener when component unmounts
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []); // Empty dependency array means it runs only once (on mount and unmount)
+
+  // Function to scroll the page to the top
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   return (
@@ -71,7 +93,6 @@ const ExtraSection = ({ nextStep, prevStep , url}) => {
           {selectedSections.includes("Volunteering") && <VolunteeringSection  url={url}/>}
         </div>
       )}
-
       {/* Navigation Buttons */}
       <div className="flex justify-between mt-6">
         <button type="button" onClick={prevStep} className="bg-gray-500 text-white px-4 py-2 rounded-md w-1/3 hover:bg-gray-600 transition">
@@ -81,6 +102,12 @@ const ExtraSection = ({ nextStep, prevStep , url}) => {
           Next
         </button>
       </div>
+      {/* Back to Top Button */}
+      {isVisible && (
+        <button onClick={scrollToTop} className="fixed bottom-6 h-8 w-8 right-6 bg-gradient-to-r from-green-500 to-blue-500 text-white  rounded-full shadow-lg hover:opacity-90 transition">
+          ↑
+        </button>
+      )}
     </div>
   );
 };
