@@ -264,6 +264,8 @@ import {  useResume } from '../context/FormContext';
 import { AppContext } from '../context/AppContext';
 import JoditEditor from 'jodit-react';
 import CreatableSelect from 'react-select/creatable'
+import { CKEditor } from '@ckeditor/ckeditor5-react';
+import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 
 const WorkExperience = ({ nextStep, prevStep , url}) => {
   const [industries, setIndustries] = useState([]);
@@ -272,7 +274,7 @@ const WorkExperience = ({ nextStep, prevStep , url}) => {
   const [activeResumeId, setActiveResumeId] = useState(() => localStorage.getItem("activeResumeId") || null);
   const resumeId = activeResumeId;
   const editor = useRef(null);
-
+  const [editorData, setEditorData] = useState();
   const [workExperience, setWorkExperience] = useState(() => {
     const savedData = localStorage.getItem('workExperience');
     return savedData ? JSON.parse(savedData):[
@@ -626,7 +628,11 @@ const WorkExperience = ({ nextStep, prevStep , url}) => {
                 {/* Description */}
                 <div>
                   <label className="block text-purple-800 font-medium mb-1">Job Description</label>
+<<<<<<< HEAD
                   <JoditEditor ref={editor} value={role.description} config={editorConfig} onChange={(newContent) => handleRoleChange(companyIndex, roleIndex, { target: { name: 'description', value: newContent } })} />
+=======
+                  {/* <JoditEditor ref={editor} value={role.description} config={editorConfig} onChange={(newContent) => handleRoleChange(companyIndex, roleIndex, { target: { name: 'description', value: newContent } })} /> */}
+>>>>>>> 30483feccdd3935ba025812fc3d479a87f2dd26a
                   <CKEditor editor={ ClassicEditor }
                     data={role.description}  
                     config={ {

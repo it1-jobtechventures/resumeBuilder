@@ -6,7 +6,6 @@ import {  useResume } from '../context/FormContext';
 import { AppContext } from '../context/AppContext';
 import { toast } from 'react-toastify';
 import axios from 'axios'
-import JoditEditor from 'jodit-react';
 import designationData from '../assets/designationData';
 import CreatableSelect from 'react-select/creatable'
 import { CKEditor } from '@ckeditor/ckeditor5-react';
@@ -43,7 +42,11 @@ const GeneralInfo = ({nextStep , url}) => {
   const [activeResumeId, setActiveResumeId] = useState(() => localStorage.getItem("activeResumeId") || null);
   const resumeId = activeResumeId;
   const [editorData, setEditorData] = useState(formData.summary || "");
+<<<<<<< HEAD
   
+=======
+
+>>>>>>> 30483feccdd3935ba025812fc3d479a87f2dd26a
   useEffect(() => {
     const storedData = JSON.parse(localStorage.getItem('generalInfo'));
     if (storedData) {
@@ -87,7 +90,6 @@ const GeneralInfo = ({nextStep , url}) => {
     const updatedData = { ...formData, [name]: value };
     setFormData(updatedData);
     localStorage.setItem('generalInfo', JSON.stringify(updatedData));
-  
     // Check if the updated field is either designation or experience
     if (name === 'designation' || name === 'experience') {
     }
@@ -187,6 +189,14 @@ const GeneralInfo = ({nextStep , url}) => {
 
     if (!formData.phone1 || !/^\d{7,14}$/.test(formData.phone1)) {
       toast.error('Primary number must be between 7 and 14 digits');
+<<<<<<< HEAD
+=======
+      isValid = false;
+    }
+
+    if (formData.phone2 && !/^\d{7,14}$/.test(formData.phone2)) {
+      toast.error('Secondary number must be between 7 and 14 digits');
+>>>>>>> 30483feccdd3935ba025812fc3d479a87f2dd26a
       isValid = false;
     }
 
@@ -431,6 +441,7 @@ const GeneralInfo = ({nextStep , url}) => {
             {/* 📝 Summary */}
             <section>
               <label className="block font-semibold text-purple-800 mb-1">Summary</label>
+<<<<<<< HEAD
               <CKEditor editor={ ClassicEditor }
                 data={editorData}  
                 config={ {
@@ -438,6 +449,22 @@ const GeneralInfo = ({nextStep , url}) => {
                   // plugins: [ Essentials, Paragraph, Bold, Italic, FormatPainter ],
                   toolbar: ['undo','redo','|','bold','italic','underline','|','heading','formatPainter','|','link','imageUpload','|','bulletedList','numberedList','blockQuote',],
                 }}
+=======
+              {/* <JoditEditor spellCheck={true} ref={editor} config={editorConfig} value={formData.summary}
+                onBlur={(newContent) => {
+                  const updatedData = { ...formData, summary: newContent };
+                  setFormData(updatedData);
+                  localStorage.setItem('generalInfo', JSON.stringify(updatedData));
+                }}
+              /> */}
+              <CKEditor editor={ ClassicEditor }
+              data={editorData}  
+                config={ {
+                  licenseKey:'eyJhbGciOiJFUzI1NiJ9.eyJleHAiOjE3NDkxNjc5OTksImp0aSI6ImQ0MTAzODkwLThlNjAtNDAzNi04MDgyLThhNDUyYjFlYTcxYyIsInVzYWdlRW5kcG9pbnQiOiJodHRwczovL3Byb3h5LWV2ZW50LmNrZWRpdG9yLmNvbSIsImRpc3RyaWJ1dGlvbkNoYW5uZWwiOlsiY2xvdWQiLCJkcnVwYWwiLCJzaCJdLCJ3aGl0ZUxhYmVsIjp0cnVlLCJsaWNlbnNlVHlwZSI6InRyaWFsIiwiZmVhdHVyZXMiOlsiKiJdLCJ2YyI6IjAyZGExM2I1In0.O80gcsNxnnBbi9Xpz7MW-MGD8WmuvT6q5xAayzBuYLHXvOOFPpiqZhoYE-o2UfmMkPDdusZFrE8GU5LGMKlPlA',
+                  // plugins: [ Essentials, Paragraph, Bold, Italic, FormatPainter ],
+                  toolbar: ['undo','redo','|','bold','italic','underline','|','heading','formatPainter','|','link','imageUpload','|','bulletedList','numberedList','blockQuote',],
+                }}
+>>>>>>> 30483feccdd3935ba025812fc3d479a87f2dd26a
                 onChange={(event, editor) => { const data = editor.getData(); setEditorData(data); setFormData(prev => ({ ...prev, summary: data })); localStorage.setItem('generalInfo', JSON.stringify({ ...formData, summary: data }));}}
               />
             </section>

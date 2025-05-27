@@ -310,9 +310,16 @@ import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
                   config={ {
                     licenseKey:'eyJhbGciOiJFUzI1NiJ9.eyJleHAiOjE3NDkxNjc5OTksImp0aSI6ImQ0MTAzODkwLThlNjAtNDAzNi04MDgyLThhNDUyYjFlYTcxYyIsInVzYWdlRW5kcG9pbnQiOiJodHRwczovL3Byb3h5LWV2ZW50LmNrZWRpdG9yLmNvbSIsImRpc3RyaWJ1dGlvbkNoYW5uZWwiOlsiY2xvdWQiLCJkcnVwYWwiLCJzaCJdLCJ3aGl0ZUxhYmVsIjp0cnVlLCJsaWNlbnNlVHlwZSI6InRyaWFsIiwiZmVhdHVyZXMiOlsiKiJdLCJ2YyI6IjAyZGExM2I1In0.O80gcsNxnnBbi9Xpz7MW-MGD8WmuvT6q5xAayzBuYLHXvOOFPpiqZhoYE-o2UfmMkPDdusZFrE8GU5LGMKlPlA',
                     // plugins: [ Essentials, Paragraph, Bold, Italic, FormatPainter ],
+<<<<<<< HEAD
                     toolbar: ['undo','redo','|','bold','italic','|','heading','|','link','imageUpload','|','bulletedList','numberedList','blockQuote',],
                   }}
                   onChange={(event, editor) => {const data = editor.getData(); const updated = [...internshipExperience]; updated[internshipIndex].description = data; setInternshipExperience(updated); }}
+=======
+                    toolbar: ['undo','redo','|','bold','italic','underline','|','heading','formatPainter','|','link','imageUpload','|','bulletedList','numberedList','blockQuote',],
+                  }}
+                  onChange={(event, editor) => {const data = editor.getData(); const updated = [...internshipExperience]; updated[internshipIndex].description = data; setInternshipExperience(updated); }}
+                  // onChange={(event, editor) => { const data = editor.getData(); setEditorData(data); setFormData(prev => ({ ...prev, summary: data })); localStorage.setItem('generalInfo', JSON.stringify({ ...formData, summary: data }));}}
+>>>>>>> 30483feccdd3935ba025812fc3d479a87f2dd26a
                 />
                 <button type="button" onClick={() => generateInternshipSummary(internshipIndex)} className="mt-2 text-sm bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-md transition">
                   ✨ Generate with AI
