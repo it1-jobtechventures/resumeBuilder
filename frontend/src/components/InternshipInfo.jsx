@@ -8,6 +8,8 @@ import axios from 'axios'
 import JoditEditor from 'jodit-react';
 import CreatableSelect from 'react-select/creatable'
 import location from "../assets/locationData";
+import { CKEditor } from '@ckeditor/ckeditor5-react';
+import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 
   const InternshipInfo = ({ nextStep, prevStep , url}) => {
     const [internshipExperience , setInternshipExperience] = useState(() => {
@@ -31,6 +33,7 @@ import location from "../assets/locationData";
     const [activeResumeId, setActiveResumeId] = useState(() => localStorage.getItem("activeResumeId") || null);
     const resumeId = activeResumeId;
     const editor = useRef(null);
+    const [editorData, setEditorData] = useState(internshipExperience.description || "");
 
     useEffect(() => {
       localStorage.setItem('internshipExperience', JSON.stringify(internshipExperience));
@@ -302,12 +305,15 @@ import location from "../assets/locationData";
               {/* Description */}
               <div>
                 <label className="block text-purple-800 font-medium mb-1">Description</label>
-                <JoditEditor ref={editor} config={editorConfig} value={internhip.description}
-                  onBlur={(newContent) => {
-                    const updated = [...internshipExperience];
-                    updated[internshipIndex].description = newContent;
-                    setInternshipExperience(updated);
+                <CKEditor editor={ ClassicEditor }
+                  data={internhip.description}  
+                  config={ {
+                    licenseKey:'eyJhbGciOiJFUzI1NiJ9.eyJleHAiOjE3NDkxNjc5OTksImp0aSI6ImQ0MTAzODkwLThlNjAtNDAzNi04MDgyLThhNDUyYjFlYTcxYyIsInVzYWdlRW5kcG9pbnQiOiJodHRwczovL3Byb3h5LWV2ZW50LmNrZWRpdG9yLmNvbSIsImRpc3RyaWJ1dGlvbkNoYW5uZWwiOlsiY2xvdWQiLCJkcnVwYWwiLCJzaCJdLCJ3aGl0ZUxhYmVsIjp0cnVlLCJsaWNlbnNlVHlwZSI6InRyaWFsIiwiZmVhdHVyZXMiOlsiKiJdLCJ2YyI6IjAyZGExM2I1In0.O80gcsNxnnBbi9Xpz7MW-MGD8WmuvT6q5xAayzBuYLHXvOOFPpiqZhoYE-o2UfmMkPDdusZFrE8GU5LGMKlPlA',
+                    // plugins: [ Essentials, Paragraph, Bold, Italic, FormatPainter ],
+                    toolbar: ['undo','redo','|','bold','italic','underline','|','heading','formatPainter','|','link','imageUpload','|','bulletedList','numberedList','blockQuote',],
                   }}
+                  onChange={(event, editor) => {const data = editor.getData(); const updated = [...internshipExperience]; updated[internshipIndex].description = data; setInternshipExperience(updated); }}
+                  // onChange={(event, editor) => { const data = editor.getData(); setEditorData(data); setFormData(prev => ({ ...prev, summary: data })); localStorage.setItem('generalInfo', JSON.stringify({ ...formData, summary: data }));}}
                 />
                 <button type="button" onClick={() => generateInternshipSummary(internshipIndex)} className="mt-2 text-sm bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-md transition">
                   ✨ Generate with AI
