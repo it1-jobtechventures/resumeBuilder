@@ -88,7 +88,6 @@ import React, { useState, useEffect, useContext } from 'react';
 import { Link } from 'react-router-dom';
 import { FaBars, FaTimes } from 'react-icons/fa';
 import { motion, AnimatePresence } from 'framer-motion';
-
 import GeneralInfo from '../components/GeneralInfo';
 import WorkExperience from '../components/WorkExperience';
 import SkillsInfo from '../components/SkillsInfo';
