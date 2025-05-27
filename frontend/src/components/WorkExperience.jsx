@@ -264,6 +264,8 @@ import {  useResume } from '../context/FormContext';
 import { AppContext } from '../context/AppContext';
 import JoditEditor from 'jodit-react';
 import CreatableSelect from 'react-select/creatable'
+import { CKEditor } from '@ckeditor/ckeditor5-react';
+import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 
 const WorkExperience = ({ nextStep, prevStep , url}) => {
   const [industries, setIndustries] = useState([]);
@@ -272,7 +274,7 @@ const WorkExperience = ({ nextStep, prevStep , url}) => {
   const [activeResumeId, setActiveResumeId] = useState(() => localStorage.getItem("activeResumeId") || null);
   const resumeId = activeResumeId;
   const editor = useRef(null);
-
+  const [editorData, setEditorData] = useState();
   const [workExperience, setWorkExperience] = useState(() => {
     const savedData = localStorage.getItem('workExperience');
     return savedData ? JSON.parse(savedData):[
@@ -626,7 +628,16 @@ const WorkExperience = ({ nextStep, prevStep , url}) => {
                 {/* Description */}
                 <div>
                   <label className="block text-purple-800 font-medium mb-1">Job Description</label>
-                  <JoditEditor ref={editor} value={role.description} config={editorConfig} onChange={(newContent) => handleRoleChange(companyIndex, roleIndex, { target: { name: 'description', value: newContent } })} />
+                  {/* <JoditEditor ref={editor} value={role.description} config={editorConfig} onChange={(newContent) => handleRoleChange(companyIndex, roleIndex, { target: { name: 'description', value: newContent } })} /> */}
+                  <CKEditor editor={ ClassicEditor }
+                    data={role.description}  
+                    config={ {
+                      licenseKey:'eyJhbGciOiJFUzI1NiJ9.eyJleHAiOjE3NDkxNjc5OTksImp0aSI6ImQ0MTAzODkwLThlNjAtNDAzNi04MDgyLThhNDUyYjFlYTcxYyIsInVzYWdlRW5kcG9pbnQiOiJodHRwczovL3Byb3h5LWV2ZW50LmNrZWRpdG9yLmNvbSIsImRpc3RyaWJ1dGlvbkNoYW5uZWwiOlsiY2xvdWQiLCJkcnVwYWwiLCJzaCJdLCJ3aGl0ZUxhYmVsIjp0cnVlLCJsaWNlbnNlVHlwZSI6InRyaWFsIiwiZmVhdHVyZXMiOlsiKiJdLCJ2YyI6IjAyZGExM2I1In0.O80gcsNxnnBbi9Xpz7MW-MGD8WmuvT6q5xAayzBuYLHXvOOFPpiqZhoYE-o2UfmMkPDdusZFrE8GU5LGMKlPlA',
+                      // plugins: [ Essentials, Paragraph, Bold, Italic, FormatPainter ],
+                      toolbar: ['undo','redo','|','bold','italic','underline','|','heading','formatPainter','|','link','imageUpload','|','bulletedList','numberedList','blockQuote',],
+                    }}
+                    onChange={(event , editor) => {const data = editor.getData(); handleRoleChange(companyIndex , roleIndex,{target:{name:'description', value:data}})}}
+                  />
                   <button type="button" onClick={() => generateDescription(companyIndex, roleIndex)} className="mt-2 text-sm bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-md transition">
                     ✨ Generate Job Description
                   </button>
