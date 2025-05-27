@@ -9,6 +9,8 @@ import axios from 'axios'
 import JoditEditor from 'jodit-react';
 import designationData from '../assets/designationData';
 import CreatableSelect from 'react-select/creatable'
+import { CKEditor } from '@ckeditor/ckeditor5-react';
+import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 
 const GeneralInfo = ({nextStep , url}) => {
   const [countries, setCountries] = useState([]);
@@ -40,13 +42,15 @@ const GeneralInfo = ({nextStep , url}) => {
   });
   const [activeResumeId, setActiveResumeId] = useState(() => localStorage.getItem("activeResumeId") || null);
   const resumeId = activeResumeId;
-
+  const [editorData, setEditorData] = useState(formData.summary || "");
+  
   useEffect(() => {
     const storedData = JSON.parse(localStorage.getItem('generalInfo'));
     if (storedData) {
       setFormData(storedData);
       setSelectedCountry(storedData.country || '');
       setSelectedCity(storedData.city || '');
+      setEditorData(storedData.summary || '');
     }
   },[])
 
@@ -75,6 +79,11 @@ const GeneralInfo = ({nextStep , url}) => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
+    // Limit phone1 and phone2 to digits only and max 14 characters
+    if ((name === "phone1" || name === "phone2")) {
+      // Only digits allowed, and max length 14
+      if (!/^\d*$/.test(value) || value.length > 14) return;
+    }
     const updatedData = { ...formData, [name]: value };
     setFormData(updatedData);
     localStorage.setItem('generalInfo', JSON.stringify(updatedData));
@@ -176,23 +185,42 @@ const GeneralInfo = ({nextStep , url}) => {
       isValid = false;
     }
 
-    if (!formData.phone1 || !formData.phone1.match(/^\d{10}$/)) {
-      toast.error('Phone number must be 10 digits');
+    if (!formData.phone1 || !/^\d{7,14}$/.test(formData.phone1)) {
+      toast.error('Primary number must be between 7 and 14 digits');
       isValid = false;
     }
 
+    if (formData.phone2 && !/^\d{7,14}$/.test(formData.phone2)) {
+      toast.error('Secondary number must be between 7 and 14 digits');
+      isValid = false;
+    }
+
+    // if (formData.dob) {
+    //   const selectedDate = new Date(formData.dob);
+    //   const today = new Date();
+    //   // Set both dates to midnight to ignore time differences
+    //   selectedDate.setHours(0, 0, 0, 0);
+    //   today.setHours(0, 0, 0, 0);
+    //   if (selectedDate > today) {
+    //     toast.error('Date of birth cannot be in the future');
+    //     isValid = false;
+    //   }
+    // }
     if (formData.dob) {
-      const selectedDate = new Date(formData.dob);
+      const [day, month, year] = formData.dob.split('/').map(Number);
+      const selectedDate = new Date(year, month - 1, day); // month is 0-based
       const today = new Date();
-      // Set both dates to midnight to ignore time differences
       selectedDate.setHours(0, 0, 0, 0);
       today.setHours(0, 0, 0, 0);
-      if (selectedDate > today) {
+
+      if (isNaN(selectedDate.getTime())) {
+        toast.error('Invalid date format for DOB');
+        isValid = false;
+      }else if (selectedDate > today) {
         toast.error('Date of birth cannot be in the future');
         isValid = false;
       }
     }
-
     if (formData.experience && formData.experience < 0) {
       toast.error('Experience cannot be negative');
       isValid = false;
@@ -339,8 +367,8 @@ const GeneralInfo = ({nextStep , url}) => {
               <h3 className="text-xl font-semibold text-gray-700 mb-4">Contact Numbers</h3>
               <div className="grid gap-4 md:grid-cols-2">
                 {[
-                  { name: 'phone1', label: 'Primary Number', codeKey: 'countryCode1', required: true },
-                  { name: 'phone2', label: 'Secondary Number', codeKey: 'countryCode2', required: false },
+                  { name: 'phone1', label: 'Primary Number', codeKey: 'countryCode1', required: true ,pattern:"\d{7,14}" , maxLength:14},
+                  { name: 'phone2', label: 'Secondary Number', codeKey: 'countryCode2', required: false , pattern:"\d{7,14}"},
                 ].map((field) => (
                   <div key={field.name}>
                     <label className="block font-semibold text-purple-800 mb-1">
@@ -350,7 +378,7 @@ const GeneralInfo = ({nextStep , url}) => {
                       <Select options={countryOptions()} isSearchable className="w-28" placeholder="+91" value={countryOptions().find((cc) => cc.value === formData[field.codeKey])}
                         onChange={(selectedOption) => handleChange({ target: { name: field.codeKey, value: selectedOption.value } })}
                       />
-                      <input type="number" name={field.name} value={formData[field.name]} onChange={handleChange} className="w-full p-3 border-none focus:outline-none" placeholder={field.required ? "Enter your number" : "Optional number"} required={field.required}/>
+                      <input type="text" name={field.name} value={formData[field.name]} onChange={handleChange} className="w-full p-3 border-none focus:outline-none" placeholder={field.required ? "Enter your number" : "Optional number"} required={field.required}/>
                     </div>
                   </div>
                 ))}
@@ -403,12 +431,14 @@ const GeneralInfo = ({nextStep , url}) => {
             {/* 📝 Summary */}
             <section>
               <label className="block font-semibold text-purple-800 mb-1">Summary</label>
-              <JoditEditor spellCheck={true} ref={editor} config={editorConfig} value={formData.summary}
-                onBlur={(newContent) => {
-                  const updatedData = { ...formData, summary: newContent };
-                  setFormData(updatedData);
-                  localStorage.setItem('generalInfo', JSON.stringify(updatedData));
+              <CKEditor editor={ ClassicEditor }
+                data={editorData}  
+                config={ {
+                  licenseKey:'eyJhbGciOiJFUzI1NiJ9.eyJleHAiOjE3NDkxNjc5OTksImp0aSI6ImQ0MTAzODkwLThlNjAtNDAzNi04MDgyLThhNDUyYjFlYTcxYyIsInVzYWdlRW5kcG9pbnQiOiJodHRwczovL3Byb3h5LWV2ZW50LmNrZWRpdG9yLmNvbSIsImRpc3RyaWJ1dGlvbkNoYW5uZWwiOlsiY2xvdWQiLCJkcnVwYWwiLCJzaCJdLCJ3aGl0ZUxhYmVsIjp0cnVlLCJsaWNlbnNlVHlwZSI6InRyaWFsIiwiZmVhdHVyZXMiOlsiKiJdLCJ2YyI6IjAyZGExM2I1In0.O80gcsNxnnBbi9Xpz7MW-MGD8WmuvT6q5xAayzBuYLHXvOOFPpiqZhoYE-o2UfmMkPDdusZFrE8GU5LGMKlPlA',
+                  // plugins: [ Essentials, Paragraph, Bold, Italic, FormatPainter ],
+                  toolbar: ['undo','redo','|','bold','italic','underline','|','heading','formatPainter','|','link','imageUpload','|','bulletedList','numberedList','blockQuote',],
                 }}
+                onChange={(event, editor) => { const data = editor.getData(); setEditorData(data); setFormData(prev => ({ ...prev, summary: data })); localStorage.setItem('generalInfo', JSON.stringify({ ...formData, summary: data }));}}
               />
             </section>
             {/* 🔘 Buttons */}
