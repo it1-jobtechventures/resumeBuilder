@@ -260,6 +260,7 @@ const GeneralInfo = ({nextStep , url}) => {
 
   const generateSummary = async () => {
     if (!formData.designation || !formData.experience) {
+      toast.warning("Please fill in designation, Experience before generating.");
       return; // Avoid generating summary if designation or experience is missing
     }
   
