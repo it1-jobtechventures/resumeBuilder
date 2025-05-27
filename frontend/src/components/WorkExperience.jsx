@@ -628,11 +628,6 @@ const WorkExperience = ({ nextStep, prevStep , url}) => {
                 {/* Description */}
                 <div>
                   <label className="block text-purple-800 font-medium mb-1">Job Description</label>
-<<<<<<< HEAD
-                  <JoditEditor ref={editor} value={role.description} config={editorConfig} onChange={(newContent) => handleRoleChange(companyIndex, roleIndex, { target: { name: 'description', value: newContent } })} />
-=======
-                  {/* <JoditEditor ref={editor} value={role.description} config={editorConfig} onChange={(newContent) => handleRoleChange(companyIndex, roleIndex, { target: { name: 'description', value: newContent } })} /> */}
->>>>>>> 30483feccdd3935ba025812fc3d479a87f2dd26a
                   <CKEditor editor={ ClassicEditor }
                     data={role.description}  
                     config={ {

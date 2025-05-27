@@ -135,7 +135,6 @@ const ProjectSection = ({url}) => {
                 </div>
                 <div>
                   <label className="block text-purple-800 font-medium mb-1"> Project Summary </label>
-<<<<<<< HEAD
                   <CKEditor editor={ ClassicEditor }
                     data={project.summary}  
                     config={ {
@@ -150,22 +149,6 @@ const ProjectSection = ({url}) => {
                       setProjects(updatedProjects);
                     }}
                   />
-=======
-                <CKEditor editor={ ClassicEditor }
-                  data={project.summary}  
-                  config={ {
-                    licenseKey:'eyJhbGciOiJFUzI1NiJ9.eyJleHAiOjE3NDkxNjc5OTksImp0aSI6ImQ0MTAzODkwLThlNjAtNDAzNi04MDgyLThhNDUyYjFlYTcxYyIsInVzYWdlRW5kcG9pbnQiOiJodHRwczovL3Byb3h5LWV2ZW50LmNrZWRpdG9yLmNvbSIsImRpc3RyaWJ1dGlvbkNoYW5uZWwiOlsiY2xvdWQiLCJkcnVwYWwiLCJzaCJdLCJ3aGl0ZUxhYmVsIjp0cnVlLCJsaWNlbnNlVHlwZSI6InRyaWFsIiwiZmVhdHVyZXMiOlsiKiJdLCJ2YyI6IjAyZGExM2I1In0.O80gcsNxnnBbi9Xpz7MW-MGD8WmuvT6q5xAayzBuYLHXvOOFPpiqZhoYE-o2UfmMkPDdusZFrE8GU5LGMKlPlA',
-                    // plugins: [ Essentials, Paragraph, Bold, Italic, FormatPainter ],
-                    toolbar: ['undo','redo','|','bold','italic','underline','|','heading','formatPainter','|','link','imageUpload','|','bulletedList','numberedList','blockQuote',],
-                  }}
-                  onChange={(event, editor) => {
-                    const data = editor.getData();
-                    const updatedProjects = [...projects];
-                    updatedProjects[index].summary = data;
-                    setProjects(updatedProjects);
-                  }}
-                />
->>>>>>> 30483feccdd3935ba025812fc3d479a87f2dd26a
                   <button type="button" onClick={() => generateProjectSummary(index)} className="mt-2 text-sm bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-md transition">
                     ✨ Generate with AI
                   </button>
