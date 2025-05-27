@@ -197,7 +197,7 @@ const GeneralInfo = ({nextStep , url}) => {
       toast.error('Secondary number must be between 7 and 14 digits');
       isValid = false;
     }
-    
+
     if (formData.dob) {
       const [day, month, year] = formData.dob.split('/').map(Number);
       const selectedDate = new Date(year, month - 1, day); // month is 0-based
@@ -265,6 +265,7 @@ const GeneralInfo = ({nextStep , url}) => {
   
     try {
       // Send designation and experience to your backend AI API
+      toast.info("Generating summary...");
       const response = await axios.post(`${url}/api/ai/generate-summary`, {
         designation: formData.designation,
         experience: formData.experience,
@@ -274,6 +275,11 @@ const GeneralInfo = ({nextStep , url}) => {
         // Update the formData with the generated summary
         setFormData((prevData) => ({
           ...prevData,
+          summary: response.data.summary,
+        }));
+        setEditorData(response.data.summary); // 👈 This updates the CKEditor content
+        localStorage.setItem('generalInfo', JSON.stringify({
+          ...formData,
           summary: response.data.summary,
         }));
       } else {
