@@ -3,6 +3,7 @@ import {  useResume } from '../context/FormContext';
 import { AppContext } from '../context/AppContext';
 import { toast } from 'react-toastify';
 import axios from 'axios'
+import { RxCross2 } from "react-icons/rx";
 
 const AccomplishmentsSection = ({url}) => {
   const [accomplishments, setAccomplishments] = useState(() => {
