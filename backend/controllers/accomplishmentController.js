@@ -32,7 +32,7 @@ import resumeModel from "../model/resumeModel.js";
 const saveAccomplishment = async (req, res) => {
   try {
     // const userId = req.user.id;
-    const userId = req.body.userId; // ✅ Fixed
+    // const userId = req.body.userId; // ✅ Fixed
     const { resumeId, accomplishment } = req.body;
 
     if (!accomplishment || !Array.isArray(accomplishment)) {
@@ -44,7 +44,7 @@ const saveAccomplishment = async (req, res) => {
 
     // Save new accomplishments
     const newAccomplishment = accomplishment.map((acc) => ({
-      userId,
+      
       resumeId,
       ...acc,
     }));
