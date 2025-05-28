@@ -28,7 +28,7 @@ import socialLinksModel from "../model/socialMediaLinkModel.js";
 const saveSocialMedia = async (req, res) => {
   try {
     // const userId = req.user.id;
-    const userId = req.body.userId; // ✅ Fixed
+    // const userId = req.body.userId; // ✅ Fixed
     const { resumeId, socialLinks } = req.body;
 
     if (!resumeId || !socialLinks) {
@@ -37,8 +37,8 @@ const saveSocialMedia = async (req, res) => {
 
     // Upsert (update if exists, otherwise create new)
     const updatedSocialMedia = await socialLinksModel.findOneAndUpdate(
-      { userId, resumeId },
-      { userId, resumeId, ...socialLinks },
+      {  resumeId },
+      {  resumeId, ...socialLinks },
       { new: true, upsert: true }
     );
 
