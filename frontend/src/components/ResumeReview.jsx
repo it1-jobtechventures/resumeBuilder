@@ -173,7 +173,7 @@ const handleDownloadPDF = () => {
         <div
           id="resume-content"
           contentEditable
-          className="shadow-md rounded border p-4 bg-white overflow-auto"
+          className="shadow-md rounded border  bg-white overflow-auto"
           style={{
             fontSize: templateData.fontSize || '14px',
             fontFamily: templateData.fontFamily || 'Arial',
