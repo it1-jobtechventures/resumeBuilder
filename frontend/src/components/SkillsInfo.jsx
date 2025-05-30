@@ -11,29 +11,26 @@ const SkillsInfo = ({ nextStep, prevStep , url }) => {
     return savedSkills ? JSON.parse(savedSkills) : [{ name: "", level: 0}]
   });
 
-    const { updateResumeData  } = useResume();
-    // const {activeResumeId} = useContext(AppContext)
-    const [activeResumeId, setActiveResumeId] = useState(() => localStorage.getItem("activeResumeId") || null);
-    const resumeId = activeResumeId;
+  const { updateResumeData  } = useResume();
+  // const {activeResumeId} = useContext(AppContext)
+  const [activeResumeId, setActiveResumeId] = useState(() => localStorage.getItem("activeResumeId") || null);
+  const resumeId = activeResumeId;
 
   useEffect(() => {
     localStorage.setItem('skills' , JSON.stringify(skills))
   },[skills])
-  
+
   const handleSkillChange = (index, event) => {
     const updatedSkills = [...skills];
     const value = event.target.value;
-  
     updatedSkills[index].name = value;
-  
     // Clear level if name is empty
     if (value.trim() === "") {
       updatedSkills[index].level = "";
     }
-  
     setSkills(updatedSkills);
   };
-  
+
   // Handle skill level change
   const handleSkillLevelChange = (index, event) => {
     const updatedSkills = [...skills];
@@ -60,38 +57,35 @@ const SkillsInfo = ({ nextStep, prevStep , url }) => {
     }
   },[])
 
-    const handleSave = async (e) => {
-      e.preventDefault();
-      if (!resumeId) {
-        toast.error("Resume ID is missing");
-        console.error("❌ Resume ID is undefined");
-        return;
-      }
-      // Check if there are any skills entered
-      let validSkills = skills.filter(skill => skill.name.trim() && skill.level);
-
-      if (validSkills.length === 0) {
-        validSkills.push({ name: "", level: "" });  // Now works because validSkills is declared as let
-      }
-       else {
-        console.log("📤 Sending valid skills data to backend:", { resumeId, skills: validSkills });
-      }
-    
-      try {
-        // Send the request with valid skills (empty array if skipped)
-        const data = await axios.post(`${url}/api/skills/add-skills`, {
-          userId: localStorage.getItem("temporaryUserId"),
-          resumeId,
-          skills: validSkills,
-        });
+  const handleSave = async (e) => {
+    e.preventDefault();
+    if (!resumeId) {
+      toast.error("Resume ID is missing");
+      console.error("❌ Resume ID is undefined");
+      return;
+    }
+    // Check if there are any skills entered
+    let validSkills = skills.filter(skill => skill.name.trim() && skill.level);
+    if (validSkills.length === 0) {
+      validSkills.push({ name: "", level: "" });  // Now works because validSkills is declared as let
+    }
+    else {
+    }
+    try {
+      // Send the request with valid skills (empty array if skipped)
+      const data = await axios.post(`${url}/api/skills/add-skills`, {
+        userId: localStorage.getItem("temporaryUserId"),
+        resumeId,
+        skills: validSkills,
+      });
         toast.success(data.message || 'Saved successfully');
         nextStep();
-      } catch (error) {
-        console.error("❌ Error from backend:", error.response?.data || error);
-        toast.error(error.response?.data?.error || 'Save failed');
-      }
-    };
-    
+    } catch (error) {
+      console.error("❌ Error from backend:", error.response?.data || error);
+      toast.error(error.response?.data?.error || 'Save failed');
+    }
+  };
+
   return (
     <>
       <div className="max-w-2xl mx-auto p-4 sm:p-6">
