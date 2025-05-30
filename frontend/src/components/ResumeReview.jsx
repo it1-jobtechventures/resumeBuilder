@@ -10,6 +10,7 @@ import TemplatePage from '../pages/TemplatePage';
 import Handlebars from 'handlebars';
 import DOMPurify from 'dompurify';
 import moment from 'moment';
+import he from 'he';
 
 const ResumeReview = ({ url }) => {
   const location = useLocation();
@@ -22,7 +23,13 @@ const ResumeReview = ({ url }) => {
   const [compiledHTML, setCompiledHTML] = useState('');
   const generalInfo = JSON.parse(localStorage.getItem('generalInfo'));
   const userName = generalInfo?.firstName || 'My_Resume';
+  const [refreshKey, setRefreshKey] = useState(0);
 
+  useEffect(() => {
+    // whenever resumeData changes, force recompile
+    setRefreshKey(k => k + 1);
+  }, [resumeData]);
+  
   Handlebars.registerHelper('formatDate', function (dateStr) {
     return moment(dateStr).format('MMM YYYY');
   });
@@ -95,7 +102,6 @@ const ResumeReview = ({ url }) => {
       try {
         const res = await axios.get(`${url}/api/template/singleTemplate/${templateId}`);
         setTemplateData(res.data);
-        console.log(res.data)
       } catch (err) {
         console.error('Error loading template:', err);
       }
@@ -108,14 +114,15 @@ const ResumeReview = ({ url }) => {
     if (templateData?.htmlContent && resumeData) {
       try {
         const compile = Handlebars.compile(templateData.htmlContent);
-        const rawHTML = compile(resumeData);
+        let rawHTML = compile(resumeData);
+        rawHTML = he.decode(rawHTML);
         const safeHTML = DOMPurify.sanitize(rawHTML);
         setCompiledHTML(safeHTML);
       } catch (error) {
         console.error('Handlebars compile error:', error);
       }
     }
-  }, [templateData, resumeData]);
+  }, [templateData, resumeData ,refreshKey]);
 
   // Inject JS if needed
   useEffect(() => {
@@ -163,13 +170,11 @@ const handleDownloadPDF = () => {
 
 
   return (
-    <>
     <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 p-4">
       <div className="lg:col-span-2 bg-white shadow-lg rounded-lg p-6">
         <h1 className="text-center text-2xl font-bold capitalize mb-4">
           {templateData.name}
         </h1>
-
         <div
           id="resume-content"
           contentEditable
@@ -182,36 +187,29 @@ const handleDownloadPDF = () => {
           }}
           dangerouslySetInnerHTML={{ __html: compiledHTML }}
         />
-
         {/* Template Custom CSS */}
         <style>{templateData.cssContent}</style>
-
         <div className="mt-6 flex justify-center">
           {!isLoggedIn ? (
-            <button
-              onClick={handleLoginRedirect}
-              className="bg-gradient-to-r from-green-400 to-blue-500 text-white px-6 py-2 rounded shadow hover:opacity-90"
-            >
+            <button onClick={handleLoginRedirect} className="bg-gradient-to-r from-green-400 to-blue-500 text-white px-6 py-2 rounded shadow hover:opacity-90">
               Login to Download
             </button>
           ) : (
-                      <>
-          <button onClick={handleDownloadPDF} className="btn-primary">Download PDF</button>
-          <button onClick={handleDownloadPNG} className="btn-primary">Download PNG</button>
-          <Link to="/createResume"><button className="btn-primary">Edit Resume</button></Link>
-          <Link to="/templates"><button className="btn-primary">Change Template</button></Link>
-          
-        </>
+            <>
+              <button onClick={handleDownloadPDF} className="btn-primary">Download PDF</button>
+              <button onClick={handleDownloadPNG} className="btn-primary">Download PNG</button>
+              <Link to="/createResume"><button className="btn-primary">Edit Resume</button></Link>
+              <Link to="/templates"><button className="btn-primary">Change Template</button></Link>
+            </>
           )}
         </div>
       </div>
-        {/* Template Selection (1/3 on large screens) */}
-  <div className="bg-gray-100 shadow-lg p-4 rounded-lg h-fit">
-    <h2 className="text-xl font-bold mb-4">Choose Template</h2>
-    <TemplatePage url={url} onTemplateSelect={handleTemplateChange} />
-  </div>
+      {/* Template Selection (1/3 on large screens) */}
+      <div className="bg-gray-100 shadow-lg p-4 rounded-lg h-fit">
+        <h2 className="text-xl font-bold mb-4">Choose Template</h2>
+        <TemplatePage url={url} onTemplateSelect={handleTemplateChange} />
+      </div>
     </div>
-    </>
   );
 };
 
