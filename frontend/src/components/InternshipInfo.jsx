@@ -306,8 +306,8 @@ import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
               <div>
                 <label className="block text-purple-800 font-medium mb-1">Description</label>
                 <CKEditor editor={ ClassicEditor }
-                  key={internhip.description}
-                  data={internhip.description}
+                  key={internshipIndex}  // use stable key, NOT description
+                  data={internshipExperience[internshipIndex].description}  // get current description
                   config={ {
                     licenseKey:'eyJhbGciOiJFUzI1NiJ9.eyJleHAiOjE3NDkxNjc5OTksImp0aSI6ImQ0MTAzODkwLThlNjAtNDAzNi04MDgyLThhNDUyYjFlYTcxYyIsInVzYWdlRW5kcG9pbnQiOiJodHRwczovL3Byb3h5LWV2ZW50LmNrZWRpdG9yLmNvbSIsImRpc3RyaWJ1dGlvbkNoYW5uZWwiOlsiY2xvdWQiLCJkcnVwYWwiLCJzaCJdLCJ3aGl0ZUxhYmVsIjp0cnVlLCJsaWNlbnNlVHlwZSI6InRyaWFsIiwiZmVhdHVyZXMiOlsiKiJdLCJ2YyI6IjAyZGExM2I1In0.O80gcsNxnnBbi9Xpz7MW-MGD8WmuvT6q5xAayzBuYLHXvOOFPpiqZhoYE-o2UfmMkPDdusZFrE8GU5LGMKlPlA',
                     // plugins: [ Essentials, Paragraph, Bold, Italic, FormatPainter ],
