@@ -40,7 +40,7 @@ const saveAccomplishment = async (req, res) => {
     }
 
     // Delete existing accomplishments for the user & resumeId
-    await accomplishmentModel.deleteMany({ userId, resumeId });
+    await accomplishmentModel.deleteMany({  resumeId });
 
     // Save new accomplishments
     const newAccomplishment = accomplishment.map((acc) => ({
