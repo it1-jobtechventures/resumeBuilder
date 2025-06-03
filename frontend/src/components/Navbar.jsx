@@ -30,11 +30,34 @@ import { AppContext } from '../context/AppContext'
 import {toast} from "react-toastify"
 import axios from "axios"
 
-const Navbar = () => {
+const Navbar = ({ url }) => {
 
   const navigate = useNavigate();
-  const {isLoggedIn, backendUrl, setIsLoggedIn} = useContext(AppContext);
+  const {isLoggedIn, backendUrl, setIsLoggedIn ,temporaryUserId} = useContext(AppContext);
   
+    const handleCreateResume = async () => {
+    let userId;
+    try {
+      if (isLoggedIn) {
+        const res = await axios.get(`${url}/api/auth/profile`, { withCredentials: true });
+        userId = res.data.user?._id;
+        if (!userId) return;
+      } else {
+        userId = temporaryUserId;
+      }
+
+      const response = await axios.post(`${url}/api/resume/create`, { userId, isDraft: true });
+      const resumeId = response.data._id;
+
+      localStorage.removeItem('selectedTemplateId');
+      localStorage.setItem('activeResumeId', resumeId);
+      localStorage.setItem('currentStep', 0);
+      navigate('/templates', { state: { flow: 'template-first' } });
+    } catch (error) {
+      console.error("Error creating resume:", error.response?.data || error.message);
+    }
+  };
+
   return (
     <>
       <nav className='h-24  p-2 shadow-xl fixed w-full flex justify-around items-center z-50 bg-[#f5f5f5]'>
@@ -45,7 +68,7 @@ const Navbar = () => {
           <Link to={'/templates'}><p className=' font-semibold'>TEMPLATES</p></Link>
         </section> */}
         <section className='flex gap-5'>
-          <Link to={'/createResume'}><button className='hidden md:block cursor-pointer font-bold bg-[#54df71] rounded-xl text-white p-3 text-center  h-12 hover:border hover:border-[#54df71] hover:text-[#54df71] hover:bg-transparent '>Create Your Resume</button></Link>
+          <Link onClick={handleCreateResume}><button className='hidden md:block cursor-pointer font-bold bg-[#54df71] rounded-xl text-white p-3 text-center  h-12 hover:border hover:border-[#54df71] hover:text-[#54df71] hover:bg-transparent '>Create Your Resume</button></Link>
           {!isLoggedIn ? (
             <Link to={'/login'}><button className='cursor-pointer font-bold bg-[#037cd5] text-white p-3 text-center rounded-xl h-12 hover:border hover:border-[#037cd5] hover:text-[#037cd5] hover:bg-transparent'>Sign In</button></Link>
           ) : (
