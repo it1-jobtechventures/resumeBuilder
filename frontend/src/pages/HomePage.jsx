@@ -7,7 +7,7 @@ const HomePage = ({url}) => {
   return (
     <>
       <div className='bg-white  h-auto'>
-        <Navbar/>
+        <Navbar url={url}/>
         <Home url={url}/>
         <Footer/>
       </div>
