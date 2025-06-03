@@ -136,11 +136,39 @@
 // export { saveResume, getResumeById, getAllResumes, deleteResume ,saveDraftResume, getDraftResumes, finalizeResume };
 
 
+import certificationsModel from '../model/certificationSectionModel.js';
+import educationModel from '../model/educationModel.js';
+import interestsSectionModel from '../model/interestsSectionModel.js';
+import internshipExperienceModel from '../model/internshipExperienceModel.js';
 import resumeModel from '../model/resumeModel.js'
 import userModel from '../model/userModel.js'
 import mongoose from 'mongoose';
+import volunteeringModel from '../model/volunterringModel.js';
+import workExperienceModel from '../model/workExperienceModel.js';
+import generalInfoModel from '../model/generalInfoModel.js';
+import languagesModel from '../model/languageSectionModel.js';
+import projectsModel from '../model/projectSectionModel.js';
+import skillsModel from '../model/skillsSectionModel.js';
+import accomplishmentModel from '../model/accomplishmentModel.js';
+import referenceModel from '../model/referencesSectionModel.js';
+import socialLinksModel from '../model/socialMediaLinkModel.js';
+import softwareInfoModel from '../model/softwareInfoModel.js';
+// import generalInfoModel from '../model/generalInfoModel.js'
+// import accomplishmentModel from '../model/accomplishmentModel.js'
+// import certificationSectionModel from '../model/certificationSectionModel.js'
+// import educationModel from '../model/educationModel.js'
+// import interestsSectionModel from '../model/interestsSectionModel.js'
+// import internshipExperienceModel from '../model/internshipExperienceModel.js'
+// import languageSectionModel from '../model/languageSectionModel.js'
+// import projectSectionModel from '../model/projectSectionModel.js'
+// import referencesSectionModel from '../model/referencesSectionModel.js'
+// import skillsSectionModel from '../model/skillsSectionModel.js'
+// import socialMediaLinkModel from '../model/socialMediaLinkModel.js'
+// import softwareInfoModel from '../model/softwareInfoModel.js'
+// import volunterringModel from '../model/volunterringModel.js'
+// import workExperienceModel from '../model/workExperienceModel.js'
+// import languagesModel from '../model/languageSectionModel.js';
 
-// Create new resume (Draft or Downloaded)
 const createResume = async (req, res) => {
   try {
     const { userId, templateId, isDraft } = req.body;
@@ -336,5 +364,45 @@ const getDraftResumes = async (req, res) => {
   }
 };
 
+const getFullResume = async (req, res) => {
+  const { resumeId } = req.params;
 
-export {updateResume ,getResumeById ,getUserResumes ,createResume,transferTempResumesToUser,getDraftResumes}
+  try {
+    const resume = await resumeModel.findById(resumeId);
+    if (!resume) return res.status(404).json({ message: "Resume not found" });
+
+    // Fetch all linked data
+    const [generalInfo, education, workExperience, projects,internshipExperience,skill,certification,language,socialLinks,softwareInfo,reference,accomplishment,interestsSection,volunteering] = await Promise.all([
+      accomplishmentModel.findOne({ resumeId }),
+      educationModel.find({ resumeId }),
+      workExperienceModel.find({ resumeId }),
+      projectsModel.find({ resumeId }),
+      generalInfoModel.find({ resumeId }),
+      skillsModel.find({ resumeId }),
+      referenceModel.find({ resumeId }),
+      certificationsModel.find({ resumeId }),
+      languagesModel.find({ resumeId }),
+      internshipExperienceModel.find({ resumeId }),
+      interestsSectionModel.find({ resumeId }),
+      volunteeringModel.find({ resumeId }),
+      socialLinksModel.find({resumeId}),
+      softwareInfoModel.find({resumeId})
+      // fetch other sections here if needed
+    ]);
+
+    res.status(200).json({
+      resume,
+      generalInfo,
+      education,
+      workExperience,
+      internshipExperience,
+      projects,skill,certification,language,socialLinks,softwareInfo,reference,accomplishment,interestsSection,volunteering
+      // other sections...
+    });
+  } catch (err) {
+    res.status(500).json({ message: "Error fetching resume data", error: err });
+  }
+};
+
+
+export {updateResume ,getResumeById ,getUserResumes ,createResume,transferTempResumesToUser,getDraftResumes, getFullResume}

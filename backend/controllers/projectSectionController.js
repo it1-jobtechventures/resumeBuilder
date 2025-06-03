@@ -68,7 +68,7 @@ import resumeModel from "../model/resumeModel.js";
 
 const saveProject = async (req, res) => {
   try {
-    const { userId, resumeId, projects } = req.body;
+    const {  resumeId, projects } = req.body;
 
     if (!Array.isArray(projects) || projects.length === 0) {
       return res.status(400).json({ error: "No projects provided" });
@@ -78,7 +78,7 @@ const saveProject = async (req, res) => {
 
     for (const projectData of projects) {
       const existingProject = await projectsModel.findOne({
-        userId,
+        
         resumeId,
         name: projectData.name,
       });
@@ -87,12 +87,12 @@ const saveProject = async (req, res) => {
 
       if (existingProject) {
         project = await projectsModel.findOneAndUpdate(
-          { userId, resumeId, name: projectData.name },
+          {  resumeId, name: projectData.name },
           projectData,
           { new: true }
         );
       } else {
-        project = new projectsModel({ userId, resumeId, ...projectData });
+        project = new projectsModel({  resumeId, ...projectData });
         await project.save();
       }
 

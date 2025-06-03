@@ -33,7 +33,7 @@ import resumeModel from "../model/resumeModel.js";
 const saveInterests = async (req, res) => {
   try {
     // const userId = req.user.id;
-    const userId = req.body.userId; // ✅ Fixed
+    // const userId = req.body.userId; // ✅ Fixed
     const { resumeId, interests } = req.body;
 
     if (!interests || !Array.isArray(interests)) {
@@ -41,11 +41,11 @@ const saveInterests = async (req, res) => {
     }
 
     // Delete existing interests for the user & resumeId
-    await interestsSectionModel.deleteMany({ userId, resumeId });
+    await interestsSectionModel.deleteMany({  resumeId });
 
     // Save new interests
     const newInterests = interests.map((item) => ({
-      userId,
+      
       resumeId,
       ...item,
     }));

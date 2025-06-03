@@ -31,14 +31,14 @@ import resumeModel from "../model/resumeModel.js";
 // };
 const saveEducation = async (req, res) => {
   try {
-    const userId = req.body.userId;
+    // const userId = req.body.userId;
     const { resumeId, ...educationData } = req.body;
 
-    let education = await educationModel.findOne({ userId, resumeId, school: educationData.school });
+    let education = await educationModel.findOne({  resumeId, school: educationData.school });
 
     if (education) {
       education = await educationModel.findOneAndUpdate(
-        { userId, resumeId, school: educationData.school },
+        {  resumeId, school: educationData.school },
         educationData,
         { new: true }
       );
@@ -51,7 +51,7 @@ const saveEducation = async (req, res) => {
       return res.status(200).json({ message: "Education updated", education });
     }
 
-    const newEducation = new educationModel({ userId, resumeId, ...educationData });
+    const newEducation = new educationModel({  resumeId, ...educationData });
     await newEducation.save();
 
     // Add education ID to resume

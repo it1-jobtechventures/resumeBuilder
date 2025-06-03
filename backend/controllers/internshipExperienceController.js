@@ -33,7 +33,7 @@ import resumeModel from "../model/resumeModel.js";
 const saveInternship = async (req, res) => {
   try {
     // const userId = req.user.id;
-    const userId = req.body.userId; // ✅ Fixed
+    // const userId = req.body.userId; // ✅ Fixed
     const { resumeId, internships } = req.body;
 
     if (!internships || !Array.isArray(internships)) {
@@ -41,11 +41,11 @@ const saveInternship = async (req, res) => {
     }
 
     // Delete existing internships for the user & resumeId
-    await internshipExperienceModel.deleteMany({ userId, resumeId });
+    await internshipExperienceModel.deleteMany({  resumeId });
 
     // Save new internships
     const newInternships = internships.map((internship) => ({
-      userId,
+      
       resumeId,
       ...internship,
     }));
