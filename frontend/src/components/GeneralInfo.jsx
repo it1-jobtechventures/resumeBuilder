@@ -10,6 +10,8 @@ import designationData from '../assets/designationData';
 import CreatableSelect from 'react-select/creatable'
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+import Cropper from 'react-easy-crop'
+import getCroppedImg from '../utils/CropImage';
 
 const GeneralInfo = ({nextStep , url}) => {
   const [countries, setCountries] = useState([]);
@@ -42,6 +44,11 @@ const GeneralInfo = ({nextStep , url}) => {
   const [activeResumeId, setActiveResumeId] = useState(() => localStorage.getItem("activeResumeId") || null);
   const resumeId = activeResumeId;
   const [editorData, setEditorData] = useState(formData.summary || "");
+  const [imageSrc, setImageSrc] = useState(null);
+  const [crop, setCrop] = useState({ x: 0, y: 0 });
+  const [zoom, setZoom] = useState(1);
+  const [croppedAreaPixels, setCroppedAreaPixels] = useState(null);
+  const [showCropModal, setShowCropModal] = useState(false);
 
   useEffect(() => {
     const storedData = JSON.parse(localStorage.getItem('generalInfo'));
@@ -147,21 +154,47 @@ const GeneralInfo = ({nextStep , url}) => {
     }
   }), []);
   
+  // const handleImageChange = (e) => {
+  //   const file = e.target.files[0];
+  //   if (file) {
+  //     const reader = new FileReader();
+  //     reader.onloadend = () => {
+  //       setFormData((prev) => ({
+  //         ...prev,
+  //         photo: reader.result, // base64 image string
+  //       }));
+  //       localStorage.setItem(
+  //         "generalInfo",
+  //         JSON.stringify({ ...formData, photo: reader.result })
+  //       );
+  //     };
+  //     reader.readAsDataURL(file);
+  //   }
+  // };
+
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     if (file) {
       const reader = new FileReader();
       reader.onloadend = () => {
-        setFormData((prev) => ({
-          ...prev,
-          photo: reader.result, // base64 image string
-        }));
-        localStorage.setItem(
-          "generalInfo",
-          JSON.stringify({ ...formData, photo: reader.result })
-        );
+        setImageSrc(reader.result);
+        setShowCropModal(true);
       };
       reader.readAsDataURL(file);
+    }
+  };
+
+  const handleCropSave = async () => {
+    try {
+      const croppedImage = await getCroppedImg(imageSrc, croppedAreaPixels);
+      setFormData((prev) => ({
+        ...prev,
+        photo: croppedImage,
+      }));
+      localStorage.setItem('generalInfo', JSON.stringify({ ...formData, photo: croppedImage }));
+      setShowCropModal(false);
+    } catch (e) {
+      console.error('Error cropping image', e);
     }
   };
 
@@ -304,6 +337,17 @@ const GeneralInfo = ({nextStep , url}) => {
             <section>
               <label className="block font-semibold text-purple-800 mb-2">Upload Photo</label>
               <input type="file" accept="image/*" onChange={handleImageChange} className="w-full p-2 border rounded-lg" />
+              {showCropModal && (
+                <div className="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center z-50">
+                  <div className="bg-white p-4 rounded-xl shadow-lg w-[90vw] h-[70vh] relative">
+                    <Cropper image={imageSrc} crop={crop} zoom={zoom} aspect={1} onCropChange={setCrop} onZoomChange={setZoom} onCropComplete={(_, croppedAreaPixels) => {   setCroppedAreaPixels(croppedAreaPixels); }}/>
+                    <div className="absolute bottom-4 left-0 right-0 flex justify-center gap-4">
+                      <button onClick={() => setShowCropModal(false)} className="bg-gray-500 text-white px-4 py-2 rounded-lg">Cancel</button>
+                      <button onClick={handleCropSave} className="bg-blue-600 text-white px-4 py-2 rounded-lg">Crop & Save</button>
+                    </div>
+                  </div>
+                </div>
+              )}
               {formData.photo && (
                 <div className="mt-4 flex justify-center">
                   <img src={formData.photo} alt="Preview" className="w-28 h-28 object-cover rounded-full border" />
@@ -314,7 +358,7 @@ const GeneralInfo = ({nextStep , url}) => {
             <section>
               <h3 className="text-xl font-semibold text-gray-700 mb-4">Personal Information</h3>
               <div className="grid gap-4 md:grid-cols-3">
-                {[
+                {/* {[
                   { label: 'First Name', name: 'firstName', placeholder: 'Rohit' },
                   { label: 'Middle Name', name: 'middleName', placeholder: 'Name' },
                   { label: 'Last Name', name: 'lastName', placeholder: 'Sharma' },
@@ -324,6 +368,18 @@ const GeneralInfo = ({nextStep , url}) => {
                       {field.label} <span className="text-red-600">*</span>
                     </label>
                     <input type="text" name={field.name} value={formData[field.name]} onChange={handleChange} style={{ textTransform: 'capitalize' }} className="w-full p-3 border rounded-xl shadow-sm focus:ring-2 focus:ring-blue-400" placeholder={field.placeholder} required/>
+                  </div>
+                ))} */}
+                {[
+                  { label: 'First Name', name: 'firstName', placeholder: 'Rohit', required: true },
+                  { label: 'Middle Name', name: 'middleName', placeholder: 'Name', required: false },
+                  { label: 'Last Name', name: 'lastName', placeholder: 'Sharma', required: true },
+                ].map((field) => (
+                  <div key={field.name}>
+                    <label className="block font-medium text-purple-800 mb-1">
+                      {field.label} {field.required && <span className="text-red-600">*</span>}
+                    </label>
+                    <input type="text" name={field.name} value={formData[field.name]} onChange={handleChange} style={{ textTransform: 'capitalize' }} className="w-full p-3 border rounded-xl shadow-sm focus:ring-2 focus:ring-blue-400" placeholder={field.placeholder} required={field.required}/>
                   </div>
                 ))}
               </div>
@@ -393,7 +449,7 @@ const GeneralInfo = ({nextStep , url}) => {
                 </div>
                 <div>
                   <label className="block font-semibold text-purple-800 mb-1">City</label>
-                  <Select isSearchable className="w-full" options={cities} value={cities.find((c) => c.value === selectedCity)} onChange={handleCityChange} placeholder="Select City" />
+                  <CreatableSelect isSearchable className="w-full" options={cities} value={cities.find((c) => c.value === selectedCity)} onChange={handleCityChange} placeholder="Select City" />
                 </div>
                 <div>
                   <label className="block font-semibold text-purple-800 mb-1">Pincode</label>
