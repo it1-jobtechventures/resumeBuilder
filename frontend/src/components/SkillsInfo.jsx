@@ -65,9 +65,14 @@ const SkillsInfo = ({ nextStep, prevStep , url }) => {
       return;
     }
     // Check if there are any skills entered
-    let validSkills = skills.filter(skill => skill.name.trim() && skill.level);
+    // let validSkills = skills.filter(skill => skill.name.trim() && skill.level);
+    // if (validSkills.length === 0) {
+    //   validSkills.push({ name: "", level: "" });  // Now works because validSkills is declared as let
+    // }
+    let validSkills = skills.filter(skill => skill.name.trim() !== "");
     if (validSkills.length === 0) {
-      validSkills.push({ name: "", level: "" });  // Now works because validSkills is declared as let
+      localStorage.setItem("skills" , JSON.stringify([]))
+      validSkills = []; // Explicitly send empty array if no valid skill name
     }
     else {
     }
