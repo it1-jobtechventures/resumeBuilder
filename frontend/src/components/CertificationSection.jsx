@@ -20,6 +20,14 @@ const CertificationSection = ({ nextStep, prevStep , url}) => {
     localStorage.setItem('certifications', JSON.stringify(certifications));
   }, [certifications]);
 
+  useEffect(() => {
+    if(certifications.length === 0){
+      setCertifications(
+        [{name: ''}]
+      )
+    }
+  },[])
+
   const handleAddCertification = () => {
     setCertifications([...certifications, { name: "" }]);
   };

@@ -22,6 +22,12 @@ const HobbiesSection = ({url}) => {
     localStorage.setItem('interests', JSON.stringify(interests));
   }, [interests]);
 
+  useEffect(() => {
+    if(interests.length === 0){
+      setInterests([''])
+    }
+  },[])
+
   const handleInterestChange = (index, value) => {
     const updatedInterests = [...interests];
     updatedInterests[index] = value;

@@ -23,6 +23,14 @@ const LanguagesSection = () => {
     localStorage.setItem('languages', JSON.stringify(languages));
   }, [languages]);
 
+  useEffect(() => {
+    if(languages.length === 0) {
+      setLanguages(
+        [{ language: '',   customLanguage: '', level: '' }]
+      )
+    }
+  },[])
+
   const handleChange = (index, field, value) => {
     const updatedLanguages = [...languages];
     updatedLanguages[index][field] = value;

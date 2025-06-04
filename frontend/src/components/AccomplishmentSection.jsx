@@ -22,6 +22,14 @@ const AccomplishmentsSection = ({url}) => {
     localStorage.setItem('accomplishments', JSON.stringify(accomplishments));
   }, [accomplishments]);
 
+  useEffect(() => {
+    if(accomplishments.length === 0) {
+      setAccomplishments(
+        [""]
+      )
+    }
+  },[])
+
   const handleAccomplishmentChange = (index, value) => {
     const updatedAccomplishments = [...accomplishments];
     updatedAccomplishments[index] = value;
