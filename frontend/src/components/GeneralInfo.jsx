@@ -57,6 +57,9 @@ const GeneralInfo = ({nextStep , url}) => {
       setSelectedCountry(storedData.country || '');
       setSelectedCity(storedData.city || '');
       setEditorData(storedData.summary || '');
+      if (storedData.country) {
+        fetchCitiesForCountry(storedData.country);
+      }
     }
   },[])
 
@@ -101,7 +104,10 @@ const GeneralInfo = ({nextStep , url}) => {
   const handleCountryChange = async (selectedOption) => {
     const country = selectedOption?.value || '';
     setSelectedCountry(country);
-    setFormData(prev => ({ ...prev, country }));
+    // setFormData(prev => ({ ...prev, country }));
+    const updatedFormData = { ...formData, country };
+    setFormData(updatedFormData);
+    localStorage.setItem('generalInfo', JSON.stringify(updatedFormData));
 
     if (!country) return;
     try {
@@ -118,7 +124,10 @@ const GeneralInfo = ({nextStep , url}) => {
   const handleCityChange = async (selectedOption) => {
     const city = selectedOption?.value || '';
     setSelectedCity(city);
-    setFormData(prev => ({ ...prev, city }));
+    // setFormData(prev => ({ ...prev, city }));
+    const updatedFormData = { ...formData, city };
+    setFormData(updatedFormData);
+    localStorage.setItem('generalInfo', JSON.stringify(updatedFormData));
 
     if (!selectedCountry || !city) {
       toast.error("Please select a country first.");
@@ -138,6 +147,18 @@ const GeneralInfo = ({nextStep , url}) => {
     } catch (error) {
       console.error("Error fetching pincode:", error);
       toast.error("Failed to fetch pincode. Try another city.");
+    }
+  };
+
+  const fetchCitiesForCountry = async (country) => {
+    try {
+      const { data } = await axios.post('https://countriesnow.space/api/v0.1/countries/cities', { country });
+      const cityOptions = data?.data?.map(city => ({ label: city, value: city })) || [];
+      setCities(cityOptions);
+      if (!cityOptions.length) toast.error('No cities found');
+    } catch (error) {
+      console.error('Error fetching cities:', error);
+      toast.error('Failed to load cities');
     }
   };
 
@@ -398,7 +419,9 @@ const GeneralInfo = ({nextStep , url}) => {
                       const formattedDate = date
                         ? `${String(date.getDate()).padStart(2, '0')}/${String(date.getMonth() + 1).padStart(2, '0')}/${date.getFullYear()}`
                         : '';
-                      setFormData((prev) => ({ ...prev, dob: formattedDate }));
+                      const updatedFormData = { ...formData, dob: formattedDate };
+                      setFormData(updatedFormData);
+                      localStorage.setItem('generalInfo', JSON.stringify(updatedFormData));
                     }}
                     dateFormat="dd/MM/yyyy"
                     className="w-full p-3 border rounded-xl shadow-sm focus:ring-2 focus:ring-blue-400"
@@ -516,169 +539,3 @@ const GeneralInfo = ({nextStep , url}) => {
 }
 
 export default GeneralInfo
-            // <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-            //   <div>
-            //     <label className="block text-[#4b164c] font-bold">Country<span className='text-red-700 pl-0.5'>*</span></label>
-            //     <select value={selectedCountry} onChange={handleCountryChange} className="w-full p-3 border border-gray-300 rounded-xl shadow-sm focus:ring-2 focus:ring-blue-500 focus:outline-none capitalize">
-            //       <option value="">Select Country</option>
-            //       {countries.map((country, index) => (
-            //         <option key={index} value={country}>
-            //           {country}
-            //         </option>
-            //       ))}
-            //     </select>
-            //   </div>
-            //   <div>
-            //     <label className="block text-[#4b164c] font-bold">City</label>
-            //     <select value={selectedCity} onChange={handleCityChange} className="w-full p-3 border border-gray-300 rounded-xl shadow-sm focus:ring-2 focus:ring-blue-500 focus:outline-none capitalize">
-            //       <option value="">Select City</option>
-            //       {cities.map((city, index) => (
-            //         <option key={index} value={city}>
-            //           {city}
-            //         </option>
-            //       ))}
-            //     </select>
-            //   </div>
-            // </div>
-
-
-                // <div className='flex justify-center items-center min-h-screen p-4 bg-gray-100'>
-    //   <div className="w-full max-w-3xl bg-white shadow-lg rounded-xl p-6">
-    //     <h2 className="text-2xl text-center font-bold text-white p-3 rounded-t-xl bg-[linear-gradient(90deg,_#54DF71_0%,_#037CD5_100%)]">Basic Information</h2>
-    //     <div className='flex  justify-center'>
-    //       <form className="grid gap-6 sm:gap-8">
-    //         {/* 📸 Upload Photo + Name Fields */}
-    //                       <div>
-    //             <label className="block text-[#4b164c] font-bold">Upload Photo</label>
-    //             <input  spellCheck={true} type="file"accept="image/*" onChange={handleImageChange}className="w-full p-2 border border-gray-300 rounded-lg" />
-    //             {formData.photo && (
-    //               <div className="mt-4 flex justify-center">
-    //                 <img src={formData.photo} alt="Profile Preview" className="w-24 h-24 sm:w-28 sm:h-28 md:w-32 md:h-32 object-cover rounded-full border border-gray-400"/>
-    //               </div>
-    //             )}
-    //           </div>
-    //         <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-
-    //           <div className="grid grid-cols-3 gap-4">
-    //             <div>
-    //               <label className="block text-[#4b164c] font-semibold">First Name<span className="text-red-700 pl-0.5">*</span></label>
-    //               <input spellCheck={true} type="text" name="firstName" style={{ textTransform: 'capitalize' }} value={formData.firstName} onChange={handleChange} className="w-full p-3 border border-gray-300 rounded-xl shadow-sm focus:ring-2 focus:ring-blue-500 focus:outline-none" placeholder="Rohit" required/>
-    //             </div>
-    //             <div>
-    //               <label className="block text-[#4b164c] font-bold">Middle Name<span className="text-red-700 pl-0.5">*</span></label>
-    //               <input spellCheck={true} type="text" name="middleName" style={{ textTransform: 'capitalize' }} value={formData.middleName} onChange={handleChange} className="w-full p-3 border border-gray-300 rounded-xl shadow-sm focus:ring-2 focus:ring-blue-500 focus:outline-none" placeholder="Name" required />
-    //             </div>
-    //             <div>
-    //               <label className="block text-[#4b164c] font-bold">Last Name<span className="text-red-700 pl-0.5">*</span></label>
-    //               <input spellCheck={true} type="text" name="lastName" style={{ textTransform: 'capitalize' }} value={formData.lastName} onChange={handleChange} className="w-full p-3 border border-gray-300 rounded-xl shadow-sm focus:ring-2 focus:ring-blue-500 focus:outline-none" placeholder="Sharma" required />
-    //             </div>
-    //           </div>
-    //         </div>
-    //                       <div>
-    //             <label className="block text-[#4b164c] font-bold">Email<span className="text-red-700 pl-0.5">*</span></label>
-    //             <input spellCheck={true} type="email" name="email" value={formData.email} onChange={handleChange} className="w-full p-3 border border-gray-300 rounded-xl shadow-sm focus:ring-2 focus:ring-blue-500 focus:outline-none" placeholder="rohit@gmail.com" required/>
-    //           </div>
-    //         {/* 📧 Email + DOB */}
-    //         <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-
-    //           <div>
-    //             <label className="block text-[#4b164c] font-bold">DOB</label>
-    //             <DatePicker selected={formData.dob ? new Date(formData.dob.split('/').reverse().join('-')) : null }
-    //               onChange={(date) => { const formattedDate = date
-    //                 ? `${String(date.getDate()).padStart(2, '0')}/${String(date.getMonth() + 1).padStart(2, '0')}/${date.getFullYear()}`
-    //                 : '';
-    //                 setFormData((prev) => ({ ...prev, dob: formattedDate }));
-    //               }}
-    //               dateFormat="dd/MM/yyyy"
-    //               className="w-full p-3 border border-gray-300 rounded-xl shadow-sm focus:ring-2 focus:ring-blue-500 focus:outline-none"
-    //               placeholderText="Enter your DOB"
-    //               showMonthDropdown
-    //               showYearDropdown
-    //               dropdownMode="select"
-    //               maxDate={new Date()}
-    //             />
-    //           </div>
-    //                      {/* 🎯 Designation */}
-    //         <div>
-    //           <label className="block text-[#4b164c] font-bold">Designation<span className='text-red-700 pl-0.5'>*</span></label>
-    //           <CreatableSelect name="designation" options={designationOption()} isSearchable value={designationOption().find((des) => des.value === formData.designation) || {label: formData.designation,value: formData.designation, }}onChange={(e) =>handleChange({ target: { name: 'designation', value: e?.value } })} className="w-full" placeholder="Enter your Designation" isClearable/>
-    //         </div>
-    //         </div>
- 
-    //          {/* 📞 Phone Inputs */}
-    //         <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-    //           <div>
-    //             <label className="block text-[#4b164c] font-bold">Primary Number<span className="text-red-700 pl-0.5">*</span></label>
-    //             <div className="flex items-center border border-gray-300 rounded-lg">
-    //               <Select options={countryOptions()}isSearchable value={countryOptions().find((cc) => cc.value === formData.countryCode1)} onChange={(selectedOption) =>handleChange({ target: { name: 'countryCode1', value: selectedOption.value }, }) } className="w-28" placeholder="+91"/>
-    //               <input spellCheck={true} type="number" min={0} name="phone1" value={formData.phone1} onChange={handleChange} className="w-full p-3 border-none focus:outline-none" placeholder="Enter your phone number" required/>
-    //             </div>
-    //           </div>
-    //           <div>
-    //             <label className="block text-[#4b164c] font-bold">Secondary Number</label>
-    //             <div className="flex items-center border border-gray-300 rounded-lg">
-    //               <Select options={countryOptions()} isSearchable value={countryOptions().find((cc) => cc.value === formData.countryCode2)} onChange={(selectedOption) => handleChange({target: { name: 'countryCode2', value: selectedOption.value }, }) }className="w-28" placeholder="+91"/>
-    //               <input spellCheck={true} type="number" name="phone2" value={formData.phone2} onChange={handleChange} className="w-full p-3 border-none focus:outline-none" placeholder="Optional number"/>
-    //             </div>
-    //           </div>
-    //         </div>
-    //         {/* 🌍 Location */}
-    //         <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
-    //           <div>
-    //             <label className="block text-[#4b164c] font-bold">Country<span className='text-red-700 pl-0.5'>*</span></label>
-    //             <Select  isSearchable options={countries} value={countries.find((c) => c.value === selectedCountry)} onChange={handleCountryChange} className="w-full" placeholder="Select Country"/>
-    //           </div>
-    //           <div>
-    //             <label className="block text-[#4b164c] font-bold">City</label>
-    //             <Select isSearchable options={cities} value={cities.find((c) => c.value === selectedCity)} onChange={handleCityChange} className="w-full" placeholder="Select City"/>
-    //           </div>
-    //                         <div>
-    //             <label className="block text-[#4b164c] font-bold">Pincode</label>
-    //             <input spellCheck={true} type="number" name="pincode" min={0} value={formData.pincode} onChange={handleChange} className="w-full p-3 border border-gray-300 rounded-xl shadow-sm focus:ring-2 focus:ring-blue-500 focus:outline-none" placeholder="Enter your Pincode"/>
-    //           </div>
-    //         </div>
-
-    //         {/* 🧳 Experience + Notice Period */}
-    //         <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-    //           <div>
-    //             <label className="block text-[#4b164c] font-bold">Total Experience</label>
-    //             <input spellCheck={true} type="number" min={0} name="experience" value={formData.experience} onChange={handleChange} className="w-full p-3 border border-gray-300 rounded-xl shadow-sm focus:ring-2 focus:ring-blue-500 focus:outline-none" placeholder="Enter your Total Experience"/>
-    //           </div>
-    //           <div>
-    //             <label className="block text-[#4b164c] font-bold">Notice Period</label>
-    //             <select name="noticePeriod" value={formData.noticePeriod} onChange={handleChange} className="w-full p-3 border border-gray-300 rounded-xl shadow-sm focus:ring-2 focus:ring-blue-500 focus:outline-none" >
-    //               <option disabled value=""> Choose your notice period </option>
-    //               <option value="Immediately Join">Immediately Join</option>
-    //               <option value="Less Than 15 Days">Less than 15 days</option>
-    //               <option value="One Month">1 month</option>
-    //               <option value="3 Months">3 Months</option>
-    //               <option value="More Than 3 Months">More than 3 months</option>
-    //             </select>
-    //           </div>
-    //         </div>
-    //                     {/* 📫 Address + Pincode */}
-    //         <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-
-    //           <div>
-    //             <label className="block text-[#4b164c] font-bold">Address</label>
-    //             <textarea spellCheck={true} name="address" value={formData.address} style={{ textTransform: 'capitalize' }} onChange={handleChange} className="w-full p-3 border border-gray-300 rounded-xl shadow-sm focus:ring-2 focus:ring-blue-500 focus:outline-none" placeholder="Enter your full address" rows={4}/>
-    //           </div>
-    //         </div>
-    //         {/* ✍️ Summary Editor */}
-    //         <div>
-    //           <label className="block text-[#4b164c] font-bold">Summary</label>
-    //           <JoditEditor spellCheck={true} ref={editor} config={editorConfig} Value={formData.summary} onBlur={(newContent) => {const updatedData = { ...formData, summary: newContent };setFormData(updatedData);localStorage.setItem('generalInfo', JSON.stringify(updatedData));}}/>
-    //         </div>
-    //         <button type="button" onClick={generateSummary} className="w-full sm:w-auto bg-gradient-to-r from-yellow-400 to-orange-500 text-white px-6 py-3 rounded-lg shadow-md hover:scale-105 transition-transform duration-200">
-    //           Generate summary using ai
-    //         </button>
-    //         {/* 🟢 Next Button */}
-    //         <div className="flex justify-center sm:justify-end">
-    //           <button type="submit" onClick={handleSave} className="w-full sm:w-auto bg-gradient-to-r from-green-400 to-blue-500 text-white px-6 py-3 rounded-lg shadow-md hover:scale-105 transition-transform duration-200">
-    //             Next
-    //           </button>
-    //         </div>
-    //       </form>
-    //     </div>
-    //   </div>
-    // </div>
