@@ -48,12 +48,19 @@ const SocialMediaSection = ({url}) => {
       return;
     }
 
-    const isEmpty = socialLinks.every(sl => 
-      !sl.instagram && !sl.facebook && !sl.whatsapp && !sl.twitter && !sl.pinterest && !sl.linkedin && !sl.portfolio && !sl.github
-    )
+    const isEmpty = Array.isArray(socialLinks) && socialLinks.every(sl => 
+      !sl.instagram &&
+      !sl.facebook &&
+      !sl.whatsapp &&
+      !sl.twitter &&
+      !sl.pinterest &&
+      !sl.linkedin &&
+      !sl.portfolio &&
+      !sl.github
+    );
 
     if (isEmpty) {
-      localStorage.setItem('socialLinks' ,JSON.stringify([]))
+      localStorage.setItem('socialLinks', JSON.stringify([]));
       toast.info("No social Links added. Skipping...");
       return;
     }
