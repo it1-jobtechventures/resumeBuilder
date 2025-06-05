@@ -7,10 +7,16 @@ import { FaStar } from 'react-icons/fa';
 import { RxCross2 } from "react-icons/rx";
 
 const SoftwareSection = ({url}) => {
+  // const [softwareList, setSoftwareList] = useState(() => {
+  //   const savedSoftware = localStorage.getItem('softwareInfo');
+  //   return savedSoftware ? JSON.parse(savedSoftware):[{ name: '', rating: 0 }];
+  // });
+
   const [softwareList, setSoftwareList] = useState(() => {
-    const savedSoftware = localStorage.getItem('softwareInfo');
-    return savedSoftware ? JSON.parse(savedSoftware):[{ name: '', rating: 0 }];
+    const stored = JSON.parse(localStorage.getItem("softwareInfo") || "[]");
+    return (stored.length === 1 && stored[0] === "") || stored.length === 0 ? [{ name: '', rating: 0 }] : stored;
   });
+
   const { updateResumeData  } = useResume();
   // const {activeResumeId} = useContext(AppContext)
   const [activeResumeId, setActiveResumeId] = useState(() => localStorage.getItem("activeResumeId") || null);
@@ -21,14 +27,18 @@ const SoftwareSection = ({url}) => {
     localStorage.setItem('softwareInfo' , JSON.stringify(softwareList))
   },[softwareList])
 
-  useEffect(() => {
-    if(softwareList.length === 0) {
-      setSoftwareList(
-        [{ name: '', rating: 0 }]
-      )
-    }
-  },[])
+  // useEffect(() => {
+  //   if(softwareList.length === 0) {
+  //     setSoftwareList(
+  //       [{ name: '', rating: 0 }]
+  //     )
+  //   }
+  // },[])
 
+  useEffect(() => {
+    const isEmpty = softwareList.every((acc) => acc.name.trim() === "");
+    localStorage.setItem("softwareInfo", JSON.stringify(isEmpty ? [] : softwareList));
+  }, [softwareList]);
 
   const handleSoftwareChange = (index, value) => {
     const updatedSoftware = [...softwareList];
