@@ -6,9 +6,14 @@ import axios from 'axios'
 import { RxCross2 } from "react-icons/rx";
 
 const VolunteeringSection = ({url}) => {
+  // const [volunteering, setVolunteering] = useState(() => {
+  //   const savedVolunteering = localStorage.getItem('volunteering');
+  //   return savedVolunteering ? JSON.parse(savedVolunteering) : [''];
+  // });
+
   const [volunteering, setVolunteering] = useState(() => {
-    const savedVolunteering = localStorage.getItem('volunteering');
-    return savedVolunteering ? JSON.parse(savedVolunteering) : [''];
+    const stored = JSON.parse(localStorage.getItem("volunteering") || "[]");
+    return (stored.length === 1 && stored[0] === "") || stored.length === 0 ? [''] : stored;
   });
   const { updateResumeData  } = useResume();
   // const {activeResumeId} = useContext(AppContext)
@@ -20,13 +25,19 @@ const VolunteeringSection = ({url}) => {
     localStorage.setItem('volunteering', JSON.stringify(volunteering));
   }, [volunteering]);
 
+  // useEffect(() => {
+  //   if(volunteering.length === 0) {
+  //     setVolunteering(
+  //       [""]
+  //     )
+  //   }
+  // },[])
+
+  // Save to localStorage whenever accomplishments change
   useEffect(() => {
-    if(volunteering.length === 0) {
-      setVolunteering(
-        [""]
-      )
-    }
-  },[])
+    const isEmpty = volunteering.every((acc) => acc.trim() === "");
+    localStorage.setItem("volunteering", JSON.stringify(isEmpty ? [] : volunteering));
+  }, [volunteering]);
 
   const handleVolunteeringChange = (index, value) => {
     const updatedVolunteering = [...volunteering];
