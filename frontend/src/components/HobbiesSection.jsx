@@ -50,6 +50,13 @@ const HobbiesSection = ({url}) => {
       console.error("❌ Resume ID is undefined");
       return;
     }
+
+    const isEMpty = interests.every(inter => !inter)
+    if(isEMpty){
+      localStorage.setItem("interests",JSON.stringify([]))
+      toast.info("No interests added. Skipping...");
+    }
+    
     const formattedInterests = interests
     .filter((item) => item.trim() !== "")
     .map((item) => ({ name: item }));

@@ -58,6 +58,17 @@ const LanguagesSection = () => {
       console.error("❌ Resume ID is undefined");
       return;
     }
+
+    const isEmpty = languages.every(lagn => 
+      !lagn.language && !lagn.customLanguage && !lagn.level 
+    )
+
+    if (isEmpty) {
+      localStorage.setItem('languages' ,JSON.stringify([]))
+      toast.info("No languages added. Skipping...");
+      return;
+    }
+
     try {
       const data = await axios.post('http://localhost:5000/api/language/add-language', {
         userId: localStorage.getItem("temporaryUserId"),

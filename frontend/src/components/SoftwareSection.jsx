@@ -58,6 +58,17 @@ const SoftwareSection = ({url}) => {
       console.error("❌ Resume ID is undefined");
       return;
     }
+
+    const isEmpty = softwareList.every(sl => 
+      !sl.name && !sl.rating
+    )
+
+    if (isEmpty) {
+      localStorage.setItem('softwareInfo' ,JSON.stringify([]))
+      toast.info("No software Info added. Skipping...");
+      return;
+    }
+
     try {
       const data = await axios.post(`${url}/api/softwareInfo/add-software`, {
         userId: localStorage.getItem("temporaryUserId"),

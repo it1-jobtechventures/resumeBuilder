@@ -92,6 +92,16 @@ const ProjectSection = ({url}) => {
       console.error("❌ Resume ID is undefined");
       return;
     }
+
+    const isEmpty = projects.every(pro => 
+      !pro.name && !pro.deployedLink && !pro.summary&& !pro.githubLink
+    )
+
+    if (isEmpty) {
+      localStorage.setItem('projects' ,JSON.stringify([]))
+      toast.info("No Projects added. Skipping...");
+    }
+    
     try {
       const data = await axios.post(`${url}/api/project/add-project`, {
         userId: localStorage.getItem("temporaryUserId"),

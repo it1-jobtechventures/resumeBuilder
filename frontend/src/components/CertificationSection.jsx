@@ -50,6 +50,14 @@ const CertificationSection = ({ nextStep, prevStep , url}) => {
       console.error("❌ Resume ID is undefined");
       return;
     }
+
+    const isEMpty = certifications.every(certi => !certi.name?.trim())
+    if(isEMpty){
+      localStorage.setItem("certifications",JSON.stringify([]))
+      toast.info("No certificates added. Skipping...");
+      return;
+    }
+
     try {
       const data = await axios.post(`${url}/api/certificate/add-certificate`, {
         userId: localStorage.getItem("temporaryUserId"),

@@ -49,6 +49,14 @@ const VolunteeringSection = ({url}) => {
       console.error("❌ Resume ID is undefined");
       return;
     }
+
+    const isEMpty = volunteering.every(vol => !vol)
+    if(isEMpty){
+      localStorage.setItem("volunteering",JSON.stringify([]))
+      toast.info("No volunteering added. Skipping...");
+      return;
+    }
+
     try {
       const data = await axios.post(`${url}/api/volunteering/add-volunteering`, {
         userId: localStorage.getItem("temporaryUserId"),

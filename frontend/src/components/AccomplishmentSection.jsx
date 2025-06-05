@@ -52,6 +52,13 @@ const AccomplishmentsSection = ({url}) => {
       console.error("❌ Resume ID is undefined");
       return;
     }
+
+    const isEMpty = accomplishments.every(acc => !acc)
+    if(isEMpty){
+      localStorage.setItem("accomplishments",JSON.stringify([]))
+      toast.info("No accomplishments added. Skipping...");
+      return;
+    }
     try {
       const data = await axios.post(`${url}/api/accomplishment/add-accomplishment`, {
         userId: localStorage.getItem("temporaryUserId"),
