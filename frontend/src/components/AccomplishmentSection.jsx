@@ -6,10 +6,15 @@ import axios from 'axios'
 import { RxCross2 } from "react-icons/rx";
 
 const AccomplishmentsSection = ({url}) => {
+  // const [accomplishments, setAccomplishments] = useState(() => {
+  //   // Retrieve from local storage or initialize with a single empty entry
+  //   const savedAccomplishments =JSON.parse(localStorage.getItem('accomplishments') || "[]");
+  //   return (savedAccomplishments.length === 1 && savedAccomplishments[0] === "") ||  savedAccomplishments.length === 0 ? [''] : savedAccomplishments;
+  // });
+
   const [accomplishments, setAccomplishments] = useState(() => {
-    // Retrieve from local storage or initialize with a single empty entry
-    const savedAccomplishments = localStorage.getItem('accomplishments');
-    return savedAccomplishments ? JSON.parse(savedAccomplishments) : [''];
+    const stored = JSON.parse(localStorage.getItem("accomplishments") || "[]");
+    return (stored.length === 1 && stored[0] === "") || stored.length === 0 ? [''] : stored;
   });
 
   const { updateResumeData  } = useResume();
@@ -22,13 +27,20 @@ const AccomplishmentsSection = ({url}) => {
     localStorage.setItem('accomplishments', JSON.stringify(accomplishments));
   }, [accomplishments]);
 
+  // useEffect(() => {
+  //   if(accomplishments.length === 0) {
+  //     setAccomplishments(
+  //       [""]
+  //     )
+  //   }
+  // },[])
+
+  
+  // Save to localStorage whenever accomplishments change
   useEffect(() => {
-    if(accomplishments.length === 0) {
-      setAccomplishments(
-        [""]
-      )
-    }
-  },[])
+    const isEmpty = accomplishments.every((acc) => acc.trim() === "");
+    localStorage.setItem("accomplishments", JSON.stringify(isEmpty ? [] : accomplishments));
+  }, [accomplishments]);
 
   const handleAccomplishmentChange = (index, value) => {
     const updatedAccomplishments = [...accomplishments];
@@ -53,12 +65,16 @@ const AccomplishmentsSection = ({url}) => {
       return;
     }
 
-    const isEMpty = accomplishments.every(acc => !acc)
-    if(isEMpty){
-      localStorage.setItem("accomplishments",JSON.stringify([]))
+    const validAccomplishments = accomplishments
+      .filter((item) => item.trim() !== "")
+      .map((item) => ({ name: item.trim() }));
+
+    if (validAccomplishments.length === 0) {
+      localStorage.setItem("accomplishments", JSON.stringify([]));
       toast.info("No accomplishments added. Skipping...");
       return;
     }
+
     try {
       const data = await axios.post(`${url}/api/accomplishment/add-accomplishment`, {
         userId: localStorage.getItem("temporaryUserId"),
