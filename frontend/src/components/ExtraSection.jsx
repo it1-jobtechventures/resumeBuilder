@@ -34,8 +34,8 @@ const ExtraSection = ({ nextStep, prevStep , url}) => {
     if (localStorage.getItem("certifications") === 0) {
       localStorage.setItem("certifications", JSON.stringify([]))
     }
-    if (localStorage.getItem("skills") === 0) {
-      localStorage.setItem("skills", JSON.stringify([]))
+    if (localStorage.getItem("accomplishments") === 0) {
+      localStorage.setItem("accomplishments", JSON.stringify([]))
     }
     if (localStorage.getItem("softwareInfo") === 0) {
       localStorage.setItem("softwareInfo", JSON.stringify([]))
