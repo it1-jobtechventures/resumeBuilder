@@ -71,39 +71,19 @@ const HobbiesSection = ({ url }) => {
       <form className="space-y-6">
         {interests.map((interest, index) => (
           <div key={index} className="flex items-center gap-4 border border-gray-300 p-4 rounded-md bg-gray-50 shadow-sm">
-            <input
-              type="text"
-              spellCheck={true}
-              placeholder="Enter an interest or hobby"
-              value={interest}
-              onChange={(e) => handleInterestChange(index, e.target.value)}
-              className="w-full p-3 border border-gray-300 rounded-md capitalize focus:outline-none focus:ring-2 focus:ring-blue-500"
-            />
+            <input type="text" spellCheck={true} placeholder="Enter an interest or hobby" value={interest} onChange={(e) => handleInterestChange(index, e.target.value)} className="w-full p-3 border border-gray-300 rounded-md capitalize focus:outline-none focus:ring-2 focus:ring-blue-500"/>
             {interests.length > 1 && (
-              <button
-                type="button"
-                onClick={() => removeInterest(index)}
-                className="text-red-600 hover:text-red-800 text-xl"
-                title="Remove"
-              >
+              <button type="button" onClick={() => removeInterest(index)} className="text-red-600 hover:text-red-800 text-xl" title="Remove">
                 <RxCross2 />
               </button>
             )}
           </div>
         ))}
         <div className="flex flex-col sm:flex-row justify-between items-center gap-4">
-          <button
-            type="button"
-            onClick={addInterest}
-            className="w-full sm:w-auto bg-gradient-to-r from-green-500 to-blue-500 text-white px-6 py-2 rounded-md hover:from-blue-500 hover:to-green-500 transition"
-          >
+          <button type="button" onClick={addInterest} className="w-full sm:w-auto bg-gradient-to-r from-green-500 to-blue-500 text-white px-6 py-2 rounded-md hover:from-blue-500 hover:to-green-500 transition">
             + Add Another Interest/Hobby
           </button>
-          <button
-            type="button"
-            onClick={handleSave}
-            className="w-full sm:w-auto bg-gray-700 text-white px-6 py-2 rounded-md hover:bg-gray-800 transition"
-          >
+          <button type="button" onClick={handleSave} className="w-full sm:w-auto bg-gray-700 text-white px-6 py-2 rounded-md hover:bg-gray-800 transition">
             Save Interests
           </button>
         </div>
