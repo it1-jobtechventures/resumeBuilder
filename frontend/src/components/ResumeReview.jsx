@@ -17,13 +17,43 @@ const ResumeReview = ({ url }) => {
   const navigate = useNavigate();
   const { isLoggedIn } = useContext(AppContext);
   const { resumeData } = useResume();
-
   const [templateData, setTemplateData] = useState(null);
   const [templateId, setTemplateId] = useState(location.state?.templateId || localStorage.getItem('selectedTemplateId'));
   const [compiledHTML, setCompiledHTML] = useState('');
   const generalInfo = JSON.parse(localStorage.getItem('generalInfo'));
   const userName = generalInfo?.firstName || 'My_Resume';
   const [refreshKey, setRefreshKey] = useState(0);
+
+  const check = () => {
+    const keys = ["projects","interests", "certifications", "skills", "softwareInfo","languages","socialLinks","volunteering"];
+
+    keys.forEach((key) => {
+      const raw = localStorage.getItem(key);
+
+      let data;
+      try {
+        data = JSON.parse(raw);
+      } catch {
+        data = null;
+      }
+
+      const isEmptyArray = Array.isArray(data) && data.length === 0;
+      const isArrayWithEmptyObject =
+        Array.isArray(data) &&
+        data.length === 1 &&
+        typeof data[0] === "object" &&
+        data[0] !== null &&
+        Object.values(data[0]).every((v) => v === "");
+
+      if (!data || isEmptyArray || isArrayWithEmptyObject) {
+        localStorage.setItem(key, JSON.stringify([]));
+      }
+    });
+  };
+
+  useEffect(() => {
+    check();
+  }, []);
 
   useEffect(() => {
     // whenever resumeData changes, force recompile
