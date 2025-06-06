@@ -219,17 +219,17 @@ const handleDownloadPDF = () => {
         />
         {/* Template Custom CSS */}
         <style>{templateData.cssContent}</style>
-        <div className="mt-6 flex justify-center">
+        <div className="mt-6 flex justify-center space-x-4">
           {!isLoggedIn ? (
             <button onClick={handleLoginRedirect} className="bg-gradient-to-r from-green-400 to-blue-500 text-white px-6 py-2 rounded shadow hover:opacity-90">
               Login to Download
             </button>
           ) : (
             <>
-              <button onClick={handleDownloadPDF} className="btn-primary">Download PDF</button>
-              <button onClick={handleDownloadPNG} className="btn-primary">Download PNG</button>
-              <Link to="/createResume"><button className="btn-primary">Edit Resume</button></Link>
-              <Link to="/templates"><button className="btn-primary">Change Template</button></Link>
+              <button onClick={handleDownloadPDF} className="btn-primary bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded">Download PDF</button>
+              <button onClick={handleDownloadPNG} className="btn-primary bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded">Download PNG</button>
+              <Link to="/createResume"><button className="btn-primary bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-2 px-4 rounded">Edit Resume</button></Link>
+              <Link to="/templates"><button className="btn-primary bg-purple-500 hover:bg-purple-600 text-white font-bold py-2 px-4 rounded">Change Template</button></Link>
             </>
           )}
         </div>
