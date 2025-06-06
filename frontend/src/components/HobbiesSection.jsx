@@ -49,6 +49,7 @@ const HobbiesSection = ({ url }) => {
     if (validInterests.length === 0) {
       localStorage.setItem("interests", JSON.stringify([]));
       toast.info("No interests added. Skipping...");
+      return;
     }
 
     try {
