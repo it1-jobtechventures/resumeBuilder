@@ -1,0 +1,279 @@
+<section class="temp">
+    <div class="resume">
+        <div class="general-info-section">
+            {{#if generalInfo.photo}}
+                <div><img src="{{generalInfo.photo}}" alt="Photo" width="100" /></div>
+            {{/if}}
+            {{#if generalInfo.address}}<h1>{{generalInfo.address}}</h1>{{/if}}
+            {{#if generalInfo.country}}<h1>{{generalInfo.country}}</h1>{{/if}}
+            {{#if generalInfo.firstName}}<h1>{{generalInfo.firstName}}</h1>{{/if}}
+            {{#if generalInfo.lastName}}<h1>{{generalInfo.lastName}}</h1>{{/if}}
+            {{#if generalInfo.countryCode1}}<h1>{{generalInfo.countryCode1}}</h1>{{/if}}
+            {{#if generalInfo.designation}}<h1>{{generalInfo.designation}}</h1>{{/if}}
+            {{#if generalInfo.email}}<h1>{{generalInfo.email}}</h1>{{/if}}
+            {{#if generalInfo.experience}}<h1>{{generalInfo.experience}}</h1>{{/if}}
+            {{#if generalInfo.middleName}}<h1>{{generalInfo.middleName}}</h1>{{/if}}
+            {{#if generalInfo.noticePeriod}}<h1>{{generalInfo.noticePeriod}}</h1>{{/if}}
+            {{#if generalInfo.phone1}}<h1>{{generalInfo.phone1}}</h1>{{/if}}
+            {{#if generalInfo.pincode}}<h1>{{generalInfo.pincode}}</h1>{{/if}}
+            {{#if generalInfo.summary}}<h1>{{generalInfo.summary}}</h1>{{/if}}
+        </div>
+
+        {{#if workExperience.length}}
+            <div class="section">
+                <h2>Work Experience</h2>
+                {{#each workExperience}}
+                    {{#if company}}
+                        <div class="item">
+                            <strong>{{company}}</strong>
+                            {{#if location}}, {{location}}{{/if}}
+                            <br />
+
+                            {{#each roles}}
+                                {{#if title}}
+                                    <div class="role-entry"> 
+                                        <strong>{{title}}</strong><br />
+
+                                        {{#if startDate}}From: {{formatDate startDate}}{{/if}}
+
+                                        {{#if currentlyWorking}}
+                                            – Present
+                                        {{else}}
+                                            {{#if endDate}} – {{formatDate startDate}}{{/if}}
+                                        {{/if}}
+
+                                        {{#if description}}<p>{{description}}</p>{{/if}}
+
+                                        {{#if ctc}}
+                                            {{#unless (eq ctc "0")}}CTC: {{ctc}} |{{/unless}}
+                                        {{/if}}
+
+                                        {{#if teamSize}}Team Size: {{teamSize}} |{{/if}}
+                                        {{#if jobType}}Job Type: {{jobType}} |{{/if}}
+                                        {{#if jobMode}}Mode: {{jobMode}}{{/if}}
+                                    </div>
+                                {{/if}}
+                            {{/each}}
+                        </div>
+                    {{/if}}
+                {{/each}}
+            </div>
+        {{/if}}
+
+        {{#if internshipExperience.length}}
+            <div class="section">
+                <h2>Internships</h2>
+                {{#each internshipExperience}}
+                    {{#if company}}
+                        <div class="item">
+                            {{#if title}}<strong>{{title}}</strong> at{{/if}}  {{company}}<br />
+
+                            {{#if location}}{{location}}<br />{{/if}}
+
+                            {{#if startDate}}
+                                From {{formatDate startDate}}
+                                {{#unless currentlyWorking}}
+                                    {{#if endDate}} - {{formatDate endDate}}{{/if}}
+                                {{/unless}}
+                                {{#if currentlyWorking}} - present{{/if}}
+                                <br />
+                            {{#if ctc}}
+                                {{#unless (eq ctc "0")}}CTC: {{ctc}}<br />{{/unless}}
+                            {{/if}}
+
+                            {{#if description}}<p>{{description}}</p>{{/if}}
+                        </div>
+                    {{/if}}
+                {{/each}}
+            </div>
+        {{/if}}
+
+
+        {{#if education.length}}
+            <div class="section">
+                <h2>Education</h2>
+                {{#each education}}
+                    <div class="item">
+                        {{#if degree}}<strong>{{degree}}</strong>{{/if}}{{#if field}} - {{field}}{{/if}}<br />
+
+                        {{#if school}}{{school}}{{#if location}}, {{location}}{{else}}{{/if}}
+                        {{else}}{{#if location}}{{location}}{{/if}}{{/if}}<br />
+
+                        {{#if graduationDate}}Graduated: {{formatDate graduationDate}}<br />{{/if}}
+
+                        {{#if cgpa}}
+                            CGPA: {{cgpa}} | Mode: {{educationMode}}
+                        {{else}}
+                            {{#if educationMode}}Mode: {{educationMode}}{{/if}}
+                        {{/if}}
+                    </div>
+                {{/each}}
+            </div>
+        {{/if}}
+
+        {{#if skills.length}}
+            <div class="section">
+                <h2>Skills</h2>
+                <ul>
+                    {{#each skills}}
+                        {{#if name}}
+                            <li>
+                                {{name}}
+                                {{#if level}}
+                                    {{#unless (eq level "0")}} (Level: {{level}}){{/unless}}
+                                {{/if}}
+                            </li>
+                        {{/if}}
+                    {{/each}}
+                </ul>
+            </div>
+        {{/if}}
+
+        {{#if projects.length}}
+            <div class="section">
+                <h2>Projects</h2>
+                {{#each projects}}
+                    {{#if name}}
+                        <div class="item">
+                            <strong>{{name}}</strong><br />
+
+                            {{#if deployedLink}}
+                                Live: <a href="{{deployedLink}}" target="_blank" rel="noopener noreferrer">{{deployedLink}}</a><br />
+                            {{/if}}
+
+                            {{#if githubLink}}
+                                GitHub: <a href="{{githubLink}}" target="_blank" rel="noopener noreferrer">{{githubLink}}</a><br />
+                            {{/if}}
+
+                            {{#if summary}}<p>{{summary}}</p>{{/if}}
+                        </div>
+                    {{/if}}
+                {{/each}}
+            </div>
+        {{/if}}
+
+
+        {{#if certifications.length}}
+            <div class="section">
+                <h2>Certifications</h2>
+                <ul>
+                    {{#each certifications}}
+                        {{#if name}}<li>{{name}}</li>{{/if}}
+                    {{/each}}
+                </ul>
+            </div>
+        {{/if}}
+
+        {{#if languages.length}}
+            <div class="section">
+                <h2>Languages</h2>
+                <ul>
+                    {{#each languages}}
+                        {{#if language}}
+                            <li>
+                                {{language}}{{#if level}} - {{level}}{{/if}}
+                            </li>
+                        {{/if}}
+                    {{/each}}
+                </ul>
+            </div>
+        {{/if}}
+
+        {{#if softwareInfo.length}}
+            <div class="section">
+                <h2>Software Proficiency</h2>
+                <ul>
+                    {{#each softwareInfo}}
+                        {{#if (and name (gt rating 0))}}
+                            <li>
+                                {{name}}:
+                                {{!-- Render stars from 1 to 5 --}}
+                                {{#each (range 1 5)}}
+                                    {{#if (lte this ../rating)}}
+                                        <span style="color: gold;">&#9733;</span>
+                                    {{else}}
+                                        <span style="color: lightgray;">&#9733;</span>
+                                    {{/if}}
+                                {{/each}}
+                            </li>
+                        {{/if}}
+                    {{/each}}
+                </ul>
+            </div>
+        {{/if}}
+
+
+        {{#if volunteering.length}}
+            <div class="section">
+                <h2>Volunteering</h2>
+                <ul>
+                    {{#each volunteering}}
+                        {{#if this}}<li>{{this}}</li>{{/if}}
+                    {{/each}}
+                </ul>
+            </div>
+        {{/if}}
+
+        {{#if accomplishments.length}}
+            <div class="section">
+                <h2>Accomplishments</h2>
+                <ul>
+                    {{#each accomplishments}}
+                        {{#if this}}<li>{{this}}</li>{{/if}}
+                    {{/each}}
+                </ul>
+            </div>
+        {{/if}}
+
+
+        {{#if socialLinks}}
+            <div class="section">
+                <h2>Social Links</h2>
+                <ul>
+                    {{#each socialLinks}}
+                        {{#if this}}
+                            <li>
+                                <a href="{{this}}" target="_blank" rel="noopener noreferrer">
+                                    {{capitalize @key}} -
+                                    {{#if (eq @key "linkedin")}}<i class="fab fa-linkedin"></i>{{/if}}
+                                    {{#if (eq @key "github")}}<i class="fab fa-github"></i>{{/if}}
+                                    {{#if (eq @key "twitter")}}<i class="fab fa-twitter"></i>{{/if}}
+                                    {{#if (eq @key "facebook")}}<i class="fab fa-facebook"></i>{{/if}}
+                                    {{#if (eq @key "instagram")}}<i class="fab fa-instagram"></i>{{/if}}
+                                    {{#if (eq @key "whatsapp")}}<i class="fab fa-whatsapp"></i>{{/if}}
+                                    {{#if (eq @key "pinterest")}}<i class="fab fa-pinterest"></i>{{/if}}
+                                    {{#if (eq @key "portfolio")}}<i class="fas fa-globe"></i>{{/if}}
+                                    &nbsp;{{this}}
+                                </a>
+                            </li>
+                        {{/if}}
+                    {{/each}}
+                </ul>
+            </div>
+        {{/if}}
+
+        {{#if interests.length}}
+            <div class="section">
+                <h2>Interests</h2>
+                <ul>
+                    {{#each interests}}
+                        <li>{{this}}</li>
+                    {{/each}}
+                </ul>
+            </div>
+        {{/if}}
+
+        {{#if reference}}
+            {{#if reference.name}}
+                <div class="section">
+                    <h2>Reference</h2>
+                    <p>
+                        {{reference.name}} - {{reference.company}}
+                        {{#if reference.contact}}<br/>Contact: {{reference.contact}}{{/if}}
+                    </p>
+                </div>
+            {{/if}}
+        {{/if}}
+
+    </div>
+</section>

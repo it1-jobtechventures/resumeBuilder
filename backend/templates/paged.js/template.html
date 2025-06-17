@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Full functional</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" integrity="sha512-wJQ8HfsMUVtTHFDKQ+0nEk8B7CLobLZmc9IElspv7tz1Ymty1bpJ+a1LwF3rWzL7+LG3UzTzL5frLvuD5Pf5eg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-/6.5.0/css/all.min.css">
+  <script src="https://unpkg.com/pagedjs/dist/paged.polyfill.js"></script>
+</head>
+<section class="temp">
+    <script src="https://unpkg.com/pagedjs/dist/paged.polyfill.js"></script>
+
+        <style>
+          .temp{background-color: #4CAF50; font-family: Arial; color: #333; line-height: 1.6; padding: 2%;}
+
+  .section { margin-bottom: 20px; }
+  .section h2 { font-size: 18px; margin-bottom: 10px; border-bottom: 1px solid #ccc; }
+  .item { margin-left: 10px; }
+
+    .software-list {
+    list-style: none;
+    padding: 0;
+  }
+
+  .software-name {
+    display: inline-block;
+    width: 150px;
+    font-weight: bold;
+  }
+
+  .progress-container {
+    display: inline-block;
+    width: 50%;
+    background-color: #eee;
+    border-radius: 5px;
+    height: 10px;
+    vertical-align: middle;
+    margin-left: 10px;
+  }
+
+  .progress-bar {
+    height: 10px;
+    background-color: #4CAF50;
+    border-radius: 5px;
+  }
+</style>
+
+<div class="resume">
+    <!--general info-->
+      {{#if generalInfo.photo}}
+    <div><img src="{{generalInfo.photo}}" alt="Photo" width="100" /></div>
+  {{/if}}
+
+  {{#if generalInfo.address}}<h1>{{generalInfo.address}}</h1>{{/if}}
+ {{#if generalInfo.country}}<h1>{{generalInfo.country}}</h1>{{/if}} 
+ {{#if generalInfo.firstName}}<h1>{{generalInfo.firstName}}</h1>{{/if}}
+ {{#if generalInfo.lastName}}<h1>{{generalInfo.lastName}}</h1>{{/if}}
+ {{#if generalInfo.countryCode1}}<h1>{{generalInfo.countryCode1}}</h1>{{/if}}
+ {{#if generalInfo.designation}}<h1>{{generalInfo.designation}}</h1>{{/if}}
+ {{#if generalInfo.email}}<h1>{{generalInfo.email}}</h1>{{/if}}
+ {{#if generalInfo.experience}}<h1>{{generalInfo.experience}}</h1>{{/if}}
+ {{#if generalInfo.middleName}}<h1>{{generalInfo.middleName}}</h1>{{/if}}
+ {{#if generalInfo.noticePeriod}}<h1>{{generalInfo.noticePeriod}}</h1>{{/if}}
+ {{#if generalInfo.phone1}}<h1>{{generalInfo.phone1}}</h1>{{/if}}
+ {{#if generalInfo.pincode}}<h1>{{generalInfo.pincode}}</h1>{{/if}}
+
+ {{#if generalInfo.summary}}<h1>{{generalInfo.summary}}</h1>{{/if}}
+
+   <!-- Work Experience -->
+{{#if workExperience.length}}
+  <div class="section">
+    <h2>Work Experience</h2>
+    {{#each workExperience}}
+      {{#if company}}
+        <div class="item">
+          <strong>{{company}}</strong>
+          {{#if location}}, {{location}}{{/if}}
+          <br />
+
+          {{#each roles}}
+            {{#if title}}
+              <div style="margin-left:15px;">
+                <strong>{{title}}</strong><br />
+
+{{#if startDate}}From: {{formatDate startDate}}{{/if}}
+
+{{#if currentlyWorking}}
+  – Present
+{{else}}
+  {{#if endDate}} – {{formatDate startDate}}{{/if}}
+{{/if}}
+
+
+                {{#if description}}<p>{{description}}</p>{{/if}}
+
+                {{#if ctc}}
+                  {{#unless (eq ctc "0")}}CTC: {{ctc}} |{{/unless}}
+                {{/if}}
+
+                {{#if teamSize}}Team Size: {{teamSize}} |{{/if}}
+                {{#if jobType}}Job Type: {{jobType}} |{{/if}}
+                {{#if jobMode}}Mode: {{jobMode}}{{/if}}
+              </div>
+            {{/if}}
+          {{/each}}
+        </div>
+      {{/if}}
+    {{/each}}
+  </div>
+{{/if}}
+
+<!-- Internships -->
+{{#if internshipExperience.length}}
+  <div class="section">
+    <h2>Internships</h2>
+    {{#each internshipExperience}}
+      {{#if company}}
+        <div class="item">
+          {{#if title}}<strong>{{title}}</strong> at{{/if}}  {{company}}<br />
+
+          {{#if location}}{{location}}<br />{{/if}}
+
+          {{#if startDate}}
+            From {{formatDate startDate}}
+            {{#unless currentlyWorking}}
+              {{#if endDate}} - {{formatDate endDate}}{{/if}}
+            {{/unless}}
+            {{#if currentlyWorking}} - present{{/if}}
+            <br />
+          {{/if}}
+
+          {{#if ctc}}
+            {{#unless (eq ctc "0")}}CTC: {{ctc}}<br />{{/unless}}
+          {{/if}}
+
+          {{#if description}}<p>{{description}}</p>{{/if}}
+        </div>
+      {{/if}}
+    {{/each}}
+  </div>
+{{/if}}
+
+
+<!-- Education -->
+{{#if education.length}}
+  <div class="section">
+    <h2>Education</h2>
+    {{#each education}}
+      <div class="item">
+        {{#if degree}}<strong>{{degree}}</strong>{{/if}}{{#if field}} - {{field}}{{/if}}<br />
+
+        {{#if school}}{{school}}{{#if location}}, {{location}}{{else}}{{/if}}
+        {{else}}{{#if location}}{{location}}{{/if}}{{/if}}<br />
+
+        {{#if graduationDate}}Graduated: {{formatDate graduationDate}}<br />{{/if}}
+
+        {{#if cgpa}}
+          CGPA: {{cgpa}} | Mode: {{educationMode}}
+        {{else}}
+          {{#if educationMode}}Mode: {{educationMode}}{{/if}}
+        {{/if}}
+      </div>
+    {{/each}}
+  </div>
+{{/if}}
+
+<!-- Skills -->
+{{#if skills.length}}
+  <div class="section">
+    <h2>Skills</h2>
+    <ul>
+      {{#each skills}}
+        {{#if name}}
+          <li>
+            {{name}}
+            {{#if level}}
+              {{#unless (eq level "0")}} (Level: {{level}}){{/unless}}
+            {{/if}}
+          </li>
+        {{/if}}
+      {{/each}}
+    </ul>
+  </div>
+{{/if}}
+
+<!-- Projects -->
+{{#if projects.length}}
+  <div class="section">
+    <h2>Projects</h2>
+    {{#each projects}}
+      {{#if name}}
+        <div class="item">
+          <strong>{{name}}</strong><br />
+
+          {{#if deployedLink}}
+            Live: <a href="{{deployedLink}}" target="_blank" rel="noopener noreferrer">{{deployedLink}}</a><br />
+          {{/if}}
+
+          {{#if githubLink}}
+            GitHub: <a href="{{githubLink}}" target="_blank" rel="noopener noreferrer">{{githubLink}}</a><br />
+          {{/if}}
+
+          {{#if summary}}<p>{{summary}}</p>{{/if}}
+        </div>
+      {{/if}}
+    {{/each}}
+  </div>
+{{/if}}
+
+
+  <!-- Certifications -->
+  {{#if certifications.length}}
+    <div class="section">
+      <h2>Certifications</h2>
+      <ul>
+        {{#each certifications}}
+          {{#if name}}<li>{{name}}</li>{{/if}}
+        {{/each}}
+      </ul>
+    </div>
+  {{/if}}
+
+    <!-- Languages -->
+{{#if languages.length}}
+  <div class="section">
+    <h2>Languages</h2>
+    <ul>
+      {{#each languages}}
+        {{#if language}}
+          <li>
+            {{language}}{{#if level}} - {{level}}{{/if}}
+          </li>
+        {{/if}}
+      {{/each}}
+    </ul>
+  </div>
+{{/if}}
+
+<!-- Software Tools -->
+{{#if softwareInfo.length}}
+  <div class="section">
+    <h2>Software Proficiency star</h2>
+    <ul>
+      {{#each softwareInfo}}
+        {{#if (and name (gt rating 0))}}
+          <li>
+            {{name}}:
+            {{!-- Render stars from 1 to 5 --}}
+            {{#each (range 1 5)}}
+              {{#if (lte this ../rating)}}
+                <span style="color: gold;">&#9733;</span>
+              {{else}}
+                <span style="color: lightgray;">&#9733;</span>
+              {{/if}}
+            {{/each}}
+          </li>
+        {{/if}}
+      {{/each}}
+    </ul>
+  </div>
+{{/if}}
+
+
+  <!-- Volunteering -->
+  {{#if volunteering.length}}
+    <div class="section">
+      <h2>Volunteering</h2>
+      <ul>
+        {{#each volunteering}}
+          {{#if this}}<li>{{this}}</li>{{/if}}
+        {{/each}}
+      </ul>
+    </div>
+  {{/if}}
+
+  <!-- Accomplishments -->
+  {{#if accomplishments.length}}
+    <div class="section">
+      <h2>Accomplishments</h2>
+      <ul>
+        {{#each accomplishments}}
+          {{#if this}}<li>{{this}}</li>{{/if}}
+        {{/each}}
+      </ul>
+    </div>
+  {{/if}}
+
+
+  <!-- Social Links (With Icons) -->
+{{#if socialLinks}}
+  <div class="section">
+    <h2>Social Links hdsg hsdf g bhai</h2>
+    <ul>
+      {{#each socialLinks}}
+        {{#if this}}
+          <li>
+            <a href="{{this}}" target="_blank" rel="noopener noreferrer">
+              {{capitalize @key}} -
+              {{#if (eq @key "linkedin")}}<i class="fab fa-linkedin"></i>{{/if}}
+              {{#if (eq @key "github")}}<i class="fab fa-github"></i>{{/if}}
+              {{#if (eq @key "twitter")}}<i class="fab fa-twitter"></i>{{/if}}
+              {{#if (eq @key "facebook")}}<i class="fab fa-facebook"></i>{{/if}}
+              {{#if (eq @key "instagram")}}<i class="fab fa-instagram"></i>{{/if}}
+              {{#if (eq @key "whatsapp")}}<i class="fab fa-whatsapp"></i>{{/if}}
+              {{#if (eq @key "pinterest")}}<i class="fab fa-pinterest"></i>{{/if}}
+              {{#if (eq @key "portfolio")}}<i class="fas fa-globe"></i>{{/if}}
+              &nbsp;{{this}}
+            </a>
+          </li>
+        {{/if}}
+      {{/each}}
+    </ul>
+  </div>
+{{/if}}
+
+<!-- Interests -->
+{{#if interests.length}}
+  <div class="section">
+    <h2>Interests</h2>
+    <ul>
+      {{#each interests}}
+        <li>{{this}}</li>
+      {{/each}}
+    </ul>
+  </div>
+{{/if}}
+
+<!--reference-->
+{{#if reference}}
+  {{#if reference.name}}
+    <div class="section">
+      <h2>Reference</h2>
+      <p>
+        {{reference.name}} - {{reference.company}}
+        {{#if reference.contact}}<br/>Contact: {{reference.contact}}{{/if}}
+      </p>
+    </div>
+  {{/if}}
+{{/if}}
+
+</div>
+</section>
+</html>

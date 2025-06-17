@@ -1,0 +1,170 @@
+<div class="resume">
+
+  {{#if generalInfo.photo}}
+    <div><img src="{{generalInfo.photo}}" alt="Photo" width="100" /></div>
+  {{/if}}
+
+  {{#if generalInfo.firstName}}<h1>{{generalInfo.firstName}}</h1>{{/if}}
+  {{#if generalInfo.lastName}}<h1>{{generalInfo.lastName}}</h1>{{/if}}
+  {{#if generalInfo.designation}}<h2>{{generalInfo.designation}}</h2>{{/if}}
+  {{#if generalInfo.email}}<p>Email: {{generalInfo.email}}</p>{{/if}}
+  {{#if generalInfo.phone1}}<p>Phone: {{generalInfo.phone1}}</p>{{/if}}
+  {{#if generalInfo.summary}}<p>{{generalInfo.summary}}</p>{{/if}}
+
+  <!-- Work Experience -->
+  {{#if workExperience.length}}
+    <div class="section">
+      <h2>Work Experience</h2>
+      {{#each workExperience}}
+        {{#if company}}
+          <div class="item">
+            <strong>{{company}}</strong>
+            {{#if location}}, {{location}}{{/if}}
+            <br />
+            {{#each roles}}
+              {{#if title}}
+                <div class="role">
+                  <strong>{{title}}</strong><br />
+                  {{#if startDate}}From: {{formatDate startDate}}{{/if}}
+                  {{#if currentlyWorking}} – Present
+                  {{else}}{{#if endDate}} – {{formatDate endDate}}{{/if}}{{/if}}
+                  {{#if description}}<p>{{description}}</p>{{/if}}
+                </div>
+              {{/if}}
+            {{/each}}
+          </div>
+        {{/if}}
+      {{/each}}
+    </div>
+  {{/if}}
+
+  <!-- Education -->
+  {{#if education.length}}
+    <div class="section">
+      <h2>Education</h2>
+      {{#each education}}
+        <div class="item">
+          {{#if degree}}<strong>{{degree}}</strong>{{/if}} {{#if field}}- {{field}}{{/if}}<br />
+          {{#if school}}{{school}}{{#if location}}, {{location}}{{/if}}{{/if}}<br />
+          {{#if graduationDate}}Graduated: {{formatDate graduationDate}}{{/if}}
+        </div>
+      {{/each}}
+    </div>
+  {{/if}}
+
+  <!-- Skills -->
+  {{#if skills.length}}
+    <div class="section">
+      <h2>Skills</h2>
+      <ul>
+        {{#each skills}}
+          {{#if name}}
+            <li>{{name}}{{#if level}} (Level: {{level}}){{/if}}</li>
+          {{/if}}
+        {{/each}}
+      </ul>
+    </div>
+  {{/if}}
+
+  <!-- Projects -->
+  {{#if projects.length}}
+    <div class="section">
+      <h2>Projects</h2>
+      {{#each projects}}
+        {{#if name}}
+          <div class="item">
+            <strong>{{name}}</strong><br />
+            {{#if deployedLink}}Live: <a href="{{deployedLink}}">{{deployedLink}}</a><br />{{/if}}
+            {{#if githubLink}}GitHub: <a href="{{githubLink}}">{{githubLink}}</a><br />{{/if}}
+            {{#if summary}}<p>{{summary}}</p>{{/if}}
+          </div>
+        {{/if}}
+      {{/each}}
+    </div>
+  {{/if}}
+
+  <!-- Certifications -->
+  {{#if certifications.length}}
+    <div class="section">
+      <h2>Certifications</h2>
+      <ul>
+        {{#each certifications}}
+          {{#if name}}<li>{{name}}</li>{{/if}}
+        {{/each}}
+      </ul>
+    </div>
+  {{/if}}
+
+  <!-- Languages -->
+  {{#if languages.length}}
+    <div class="section">
+      <h2>Languages</h2>
+      <ul>
+        {{#each languages}}
+          {{#if language}}<li>{{language}}{{#if level}} - {{level}}{{/if}}</li>{{/if}}
+        {{/each}}
+      </ul>
+    </div>
+  {{/if}}
+
+  <!-- Software Tools -->
+  {{#if softwareInfo.length}}
+    <div class="section">
+      <h2>Software Tools</h2>
+      <ul>
+        {{#each softwareInfo}}
+          {{#if (and name (gt rating 0))}}
+            <li>
+              {{name}}:
+              {{#each (range 1 5)}}
+                {{#if (lte this ../rating)}}
+                  <span style="color: gold;">&#9733;</span>
+                {{else}}
+                  <span style="color: lightgray;">&#9733;</span>
+                {{/if}}
+              {{/each}}
+            </li>
+          {{/if}}
+        {{/each}}
+      </ul>
+    </div>
+  {{/if}}
+
+  <!-- Social Links -->
+  {{#if socialLinks}}
+    <div class="section">
+      <h2>Social Links</h2>
+      <ul>
+        {{#each socialLinks}}
+          {{#if this}}
+            <li>
+              <a href="{{this}}" target="_blank">
+                {{capitalize @key}} - {{this}}
+              </a>
+            </li>
+          {{/if}}
+        {{/each}}
+      </ul>
+    </div>
+  {{/if}}
+
+  <!-- Interests -->
+  {{#if interests.length}}
+    <div class="section">
+      <h2>Interests</h2>
+      <ul>
+        {{#each interests}}<li>{{this}}</li>{{/each}}
+      </ul>
+    </div>
+  {{/if}}
+
+  <!-- Reference -->
+  {{#if reference.name}}
+    <div class="section">
+      <h2>Reference</h2>
+      <p>{{reference.name}} - {{reference.company}}<br />
+      {{#if reference.contact}}Contact: {{reference.contact}}{{/if}}</p>
+    </div>
+  {{/if}}
+
+</div>

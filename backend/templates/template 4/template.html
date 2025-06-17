@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Resume with Proper Page Breaks</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        /* General styles */
+        h1, h2 {
+            margin: 0.3em 0;
+        }
+        p {
+            margin: 0.2em 0;
+        }
+        .section {
+            margin-bottom: 1.5em;
+            /* Avoid breaking section title and first item */
+            page-break-inside: avoid;
+            break-inside: avoid;
+        }
+        .item {
+            margin-left: 15px;
+            margin-bottom: 0.8em;
+            /* Avoid breaking single item across pages */
+            page-break-inside: avoid;
+            break-inside: avoid;
+        }
+        /* Add page break before main sections if you want them to start on a new page */
+        .page-break {
+            page-break-before: always;
+            break-before: page;
+        }
+        /* Smaller photo */
+        .photo img {
+            width: 100px;
+            height: auto;
+            border-radius: 8px;
+            margin-bottom: 10px;
+        }
+    </style>
+    <script src="https://unpkg.com/pagedjs/dist/paged.polyfill.js"></script>
+</head>
+<body>
+    <div style="width: 100%;">
+        <div class="photo">
+            {{#if generalInfo.photo}}
+                <img src="{{generalInfo.photo}}" alt="Photo" />
+            {{/if}}
+        </div>
+
+        <h1>
+            {{#if generalInfo.firstName}}{{generalInfo.firstName}}{{/if}}
+            {{#if generalInfo.middleName}} {{generalInfo.middleName}}{{/if}}
+            {{#if generalInfo.lastName}} {{generalInfo.lastName}}{{/if}}
+        </h1>
+
+        {{#if generalInfo.designation}}<h2>{{generalInfo.designation}}</h2>{{/if}}
+
+        <p>
+            {{#if generalInfo.email}}Email: {{generalInfo.email}} | {{/if}}
+            {{#if generalInfo.phone1}}Phone: {{generalInfo.phone1}}{{/if}}
+        </p>
+        <p>
+            {{#if generalInfo.address}}{{generalInfo.address}}, {{/if}}
+            {{#if generalInfo.pincode}}{{generalInfo.pincode}}, {{/if}}
+            {{#if generalInfo.country}}{{generalInfo.country}}{{/if}}
+        </p>
+
+        {{#if generalInfo.summary}}<p>{{generalInfo.summary}}</p>{{/if}}
+    </div>
+
+    {{#if workExperience.length}}
+    <div class="section page-break">
+        <h2>Work Experience</h2>
+        {{#each workExperience}}
+            {{#if company}}
+            <div class="item">
+                <strong>{{company}}</strong>{{#if location}}, {{location}}{{/if}}<br />
+
+                {{#each roles}}
+                    {{#if title}}
+                    <div style="margin-left: 15px;">
+                        <strong>{{title}}</strong><br />
+                        {{#if startDate}}From: {{formatDate startDate}}{{/if}}
+                        {{#if currentlyWorking}} – Present
+                        {{else}}{{#if endDate}} – {{formatDate endDate}}{{/if}}{{/if}}<br />
+
+                        {{#if description}}<p>{{description}}</p>{{/if}}
+
+                        {{#if ctc}}
+                            {{#unless (eq ctc "0")}}CTC: {{ctc}} | {{/unless}}
+                        {{/if}}
+                        {{#if teamSize}}Team Size: {{teamSize}} | {{/if}}
+                        {{#if jobType}}Job Type: {{jobType}} | {{/if}}
+                        {{#if jobMode}}Mode: {{jobMode}}{{/if}}
+                    </div>
+                    {{/if}}
+                {{/each}}
+            </div>
+            {{/if}}
+        {{/each}}
+    </div>
+    {{/if}}
+
+    {{#if internshipExperience.length}}
+    <div class="section page-break">
+        <h2>Internships</h2>
+        {{#each internshipExperience}}
+            {{#if company}}
+            <div class="item">
+                {{#if title}}<strong>{{title}}</strong> at {{/if}}{{company}}<br />
+                {{#if location}}{{location}}<br />{{/if}}
+
+                {{#if startDate}}
+                    From {{formatDate startDate}}
+                    {{#unless currentlyWorking}}
+                        {{#if endDate}} - {{formatDate endDate}}{{/if}}
+                    {{/unless}}
+                    {{#if currentlyWorking}} - Present{{/if}}<br />
+                {{/if}}
+
+                {{#if ctc}}
+                    {{#unless (eq ctc "0")}}CTC: {{ctc}}<br />{{/unless}}
+                {{/if}}
+
+                {{#if description}}<p>{{description}}</p>{{/if}}
+            </div>
+            {{/if}}
+        {{/each}}
+    </div>
+    {{/if}}
+
+    {{#if education.length}}
+    <div class="section page-break">
+        <h2>Education</h2>
+        {{#each education}}
+        <div class="item">
+            {{#if degree}}<strong>{{degree}}</strong>{{/if}}{{#if field}} - {{field}}{{/if}}<br />
+            {{#if school}}{{school}}{{#if location}}, {{location}}{{/if}}{{else}}{{#if location}}{{location}}{{/if}}{{/if}}<br />
+            {{#if graduationDate}}Graduated: {{formatDate graduationDate}}<br />{{/if}}
+            {{#if cgpa}}CGPA: {{cgpa}} | Mode: {{educationMode}}
+            {{else}}{{#if educationMode}}Mode: {{educationMode}}{{/if}}{{/if}}
+        </div>
+        {{/each}}
+    </div>
+    {{/if}}
+
+    {{#if projects.length}}
+    <div class="section page-break">
+        <h2>Projects</h2>
+        {{#each projects}}
+            {{#if name}}
+            <div class="item">
+                <strong>{{name}}</strong><br />
+                {{#if deployedLink}}
+                    Live: <a href="{{deployedLink}}" target="_blank" rel="noopener noreferrer">{{deployedLink}}</a><br />
+                {{/if}}
+                {{#if githubLink}}
+                    GitHub: <a href="{{githubLink}}" target="_blank" rel="noopener noreferrer">{{githubLink}}</a><br />
+                {{/if}}
+                {{#if summary}}<p>{{summary}}</p>{{/if}}
+            </div>
+            {{/if}}
+        {{/each}}
+    </div>
+    {{/if}}
+
+    <script src="https://unpkg.com/pagedjs/dist/paged.polyfill.js"></script>
+</body>
+</html>

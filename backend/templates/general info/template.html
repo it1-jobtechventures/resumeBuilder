@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Page Breaking</title>
+</head>
+<body style="width: 1010px; font-family: 'Times New Roman'; font-size: 20px; margin: 5px">
+    <div style="width: 100%; height: 500px; background-color: aliceblue; border: 2px solid gray; text-align: center">
+        <div style="width: 100%; height: 200px"></div>
+            {{#if generalInfo.photo}}
+                <div><img src="{{generalInfo.photo}}" alt="Photo" width="100" /></div>
+            {{/if}}
+        <br />
+        {{#if generalInfo.address}}<h1>{{generalInfo.address}}</h1>{{/if}}
+        {{#if generalInfo.country}}<h1>{{generalInfo.country}}</h1>{{/if}} 
+        {{#if generalInfo.firstName}}<h1>{{generalInfo.firstName}}</h1>{{/if}}
+        {{#if generalInfo.lastName}}<h1>{{generalInfo.lastName}}</h1>{{/if}}
+        {{#if generalInfo.countryCode1}}<h1>{{generalInfo.countryCode1}}</h1>{{/if}}
+        {{#if generalInfo.designation}}<h1>{{generalInfo.designation}}</h1>{{/if}}
+        {{#if generalInfo.email}}<h1>{{generalInfo.email}}</h1>{{/if}}
+        {{#if generalInfo.experience}}<h1>{{generalInfo.experience}}</h1>{{/if}}
+        {{#if generalInfo.middleName}}<h1>{{generalInfo.middleName}}</h1>{{/if}}
+        {{#if generalInfo.noticePeriod}}<h1>{{generalInfo.noticePeriod}}</h1>{{/if}}
+        {{#if generalInfo.phone1}}<h1>{{generalInfo.phone1}}</h1>{{/if}}
+        {{#if generalInfo.pincode}}<h1>{{generalInfo.pincode}}</h1>{{/if}}
+        {{#if generalInfo.summary}}<h1>{{generalInfo.summary}}</h1>{{/if}}
+    </div>
+    <div style="page-break-before: always; page-break-after: always; width: 100%; height: 500px; background-color: gainsboro; border: 2px solid gray; text-align: center">
+        <div style="width: 100%; height: 200px"></div>
+        A block with <b>page-break-before : always</b> and <b>page-break-after : always</b> styles<br />
+        <br />
+        <b>This block will be always rendered alone in a PDF page</b><br />
+        <br />
+        [ Follows a block with <i>page-break-after : always</i> style ]
+    </div>
+    <div style="page-break-after: always; width: 100%; height: 500px; background-color: beige; border: 2px solid gray; text-align: center">
+        <div style="width: 100%; height: 200px"></div>
+        A block with <b>page-break-after : always</b> style<br />
+        <br />
+        <b>Nothing will be rendered after this block in PDF page</b>
+        <br />
+        <br />
+        [ Follows a block <i>without any page break</i> style ]
+    </div>
+    <div style="width: 100%; height: 500px; background-color: aliceblue; border: 2px solid gray; text-align: center">
+        <div style="width: 100%; height: 200px"></div>
+        A block <b>without any page break</b> style<br />
+        <br />
+        [ Follows a block with <i>page-break-before : always</i> style ]
+    </div>
+    <div style="page-break-before: always; width: 100%; height: 500px; background-color: lightgray; border: 2px solid gray; text-align: center">
+        <div style="width: 100%; height: 200px"></div>
+        A block with <b>page-break-before : always</b> style<br />
+        <br />
+        <b>This block will always be rendered at the top of a PDF page</b>
+    </div>
+</body>

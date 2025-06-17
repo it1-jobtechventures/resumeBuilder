@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Insert Page Breaks Before and After HTML Elements Using CSS</title>
+</head>
+<body >
+    <div style="width: 100%;">
+        <div ></div>
+        {{#if generalInfo.photo}}
+            <div><img src="{{generalInfo.photo}}" alt="Photo" width="100" /></div>
+        {{/if}}
+
+        {{#if generalInfo.address}}<h1>{{generalInfo.address}}</h1>{{/if}}
+        {{#if generalInfo.country}}<h1>{{generalInfo.country}}</h1>{{/if}} 
+        {{#if generalInfo.firstName}}<h1>{{generalInfo.firstName}}</h1>{{/if}}
+        {{#if generalInfo.lastName}}<h1>{{generalInfo.lastName}}</h1>{{/if}}
+        {{#if generalInfo.countryCode1}}<h1>{{generalInfo.countryCode1}}</h1>{{/if}}
+        {{#if generalInfo.designation}}<h1>{{generalInfo.designation}}</h1>{{/if}}
+        {{#if generalInfo.email}}<h1>{{generalInfo.email}}</h1>{{/if}}
+        {{#if generalInfo.experience}}<h1>{{generalInfo.experience}}</h1>{{/if}}
+        {{#if generalInfo.middleName}}<h1>{{generalInfo.middleName}}</h1>{{/if}}
+        {{#if generalInfo.noticePeriod}}<h1>{{generalInfo.noticePeriod}}</h1>{{/if}}
+        {{#if generalInfo.phone1}}<h1>{{generalInfo.phone1}}</h1>{{/if}}
+        {{#if generalInfo.pincode}}<h1>{{generalInfo.pincode}}</h1>{{/if}}
+
+        {{#if generalInfo.summary}}<h1>{{generalInfo.summary}}</h1>{{/if}}
+    </div>
+    <div style="page-break-before: always; page-break-after: always;">
+        <div ></div>
+        {{#if workExperience.length}}
+        <div class="section">
+            <h2>Work Experience</h2>
+            {{#each workExperience}}
+            {{#if company}}
+                <div class="item">
+                <strong>{{company}}</strong>
+                {{#if location}}, {{location}}{{/if}}
+                <br />
+
+                {{#each roles}}
+                    {{#if title}}
+                    <div style="margin-left:15px;">
+                        <strong>{{title}}</strong><br />
+
+        {{#if startDate}}From: {{formatDate startDate}}{{/if}}
+
+        {{#if currentlyWorking}}
+        – Present
+        {{else}}
+        {{#if endDate}} – {{formatDate startDate}}{{/if}}
+        {{/if}}
+
+
+                        {{#if description}}<p>{{description}}</p>{{/if}}
+
+                        {{#if ctc}}
+                        {{#unless (eq ctc "0")}}CTC: {{ctc}} |{{/unless}}
+                        {{/if}}
+
+                        {{#if teamSize}}Team Size: {{teamSize}} |{{/if}}
+                        {{#if jobType}}Job Type: {{jobType}} |{{/if}}
+                        {{#if jobMode}}Mode: {{jobMode}}{{/if}}
+                    </div>
+                    {{/if}}
+                {{/each}}
+                </div>
+            {{/if}}
+            {{/each}}
+        </div>
+        {{/if}}
+    </div>
+    <div style="page-break-after: always; width: 100%; ">
+        <div ></div>
+        {{#if internshipExperience.length}}
+        <div class="section">
+            <h2>Internships</h2>
+            {{#each internshipExperience}}
+            {{#if company}}
+                <div class="item">
+                {{#if title}}<strong>{{title}}</strong> at{{/if}}  {{company}}<br />
+
+                {{#if location}}{{location}}<br />{{/if}}
+
+                {{#if startDate}}
+                    From {{formatDate startDate}}
+                    {{#unless currentlyWorking}}
+                    {{#if endDate}} - {{formatDate endDate}}{{/if}}
+                    {{/unless}}
+                    {{#if currentlyWorking}} - present{{/if}}
+                    <br />
+                {{/if}}
+
+                {{#if ctc}}
+                    {{#unless (eq ctc "0")}}CTC: {{ctc}}<br />{{/unless}}
+                {{/if}}
+
+                {{#if description}}<p>{{description}}</p>{{/if}}
+                </div>
+            {{/if}}
+            {{/each}}
+        </div>
+        {{/if}}
+
+    </div>
+    <div style="width: 100%;  ">
+        <div style="width: 100%; "></div>
+            {{#if education.length}}
+            <div class="section">
+                <h2>Education</h2>
+                {{#each education}}
+                <div class="item">
+                    {{#if degree}}<strong>{{degree}}</strong>{{/if}}{{#if field}} - {{field}}{{/if}}<br />
+
+                    {{#if school}}{{school}}{{#if location}}, {{location}}{{else}}{{/if}}
+                    {{else}}{{#if location}}{{location}}{{/if}}{{/if}}<br />
+
+                    {{#if graduationDate}}Graduated: {{formatDate graduationDate}}<br />{{/if}}
+
+                    {{#if cgpa}}
+                    CGPA: {{cgpa}} | Mode: {{educationMode}}
+                    {{else}}
+                    {{#if educationMode}}Mode: {{educationMode}}{{/if}}
+                    {{/if}}
+                </div>
+                {{/each}}
+            </div>
+            {{/if}}
+    </div>
+    <div style="page-break-before: always; width: 100%;  ">
+        <div style="width: 100%"; ></div>
+            {{#if projects.length}}
+            <div class="section">
+                <h2>Projects</h2>
+                {{#each projects}}
+                {{#if name}}
+                    <div class="item">
+                    <strong>{{name}}</strong><br />
+
+                    {{#if deployedLink}}
+                        Live: <a href="{{deployedLink}}" target="_blank" rel="noopener noreferrer">{{deployedLink}}</a><br />
+                    {{/if}}
+
+                    {{#if githubLink}}
+                        GitHub: <a href="{{githubLink}}" target="_blank" rel="noopener noreferrer">{{githubLink}}</a><br />
+                    {{/if}}
+
+                    {{#if summary}}<p>{{summary}}</p>{{/if}}
+                    </div>
+                {{/if}}
+                {{/each}}
+            </div>
+            {{/if}}
+    </div>
+</body>
+</html>
